@@ -550,10 +550,7 @@ test('Grid responsive values follow core through the existing Vue public export'
     manifest.types.ResponsiveValue?.modulePath,
     'packages/web-core/src/_utils/responsive.ts',
   );
-  assert.equal(
-    manifest.types.ColProps?.modulePath,
-    'packages/web-vue/components/grid/interface.ts',
-  );
+  assert.equal(manifest.types.ColProps?.modulePath, 'packages/web-core/src/grid/types.ts');
 });
 
 test('Sender portable slot/action types follow core while render and component contracts stay in Vue', async () => {

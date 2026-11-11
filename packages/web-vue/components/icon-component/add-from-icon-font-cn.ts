@@ -1,40 +1,21 @@
+import type {
+  IconFontOptions as CoreIconFontOptions,
+  IconFontProps as CoreIconFontProps,
+} from '@sdata/web-core/icon/types';
+
 import { h, type FunctionalComponent } from 'vue';
 
-import { isServerRendering } from '../_utils/dom';
+import { loadIconFontScript } from '@sdata/web-core/icon/foundation';
+
 import IconFont from './icon-font.vue';
 
-const scriptUrlCache: string[] = [];
-
-export interface IconFontOptions {
-  src?: string;
-  extraProps?: { [key: string]: unknown };
-}
-
-export interface IconFontProps {
-  type?: string;
-  size?: number | string;
-  rotate?: number;
-  spin?: boolean;
-}
+export interface IconFontOptions extends CoreIconFontOptions {}
+export interface IconFontProps extends CoreIconFontProps {}
 
 export const addFromIconFontCn = (options: IconFontOptions) => {
   const { src, extraProps = {} } = options;
 
-  if (!isServerRendering && src?.length && !scriptUrlCache.includes(src)) {
-    const script = document.createElement('script');
-    script.setAttribute('src', src);
-    script.setAttribute('data-namespace', src);
-    script.addEventListener(
-      'error',
-      () => {
-        scriptUrlCache.splice(scriptUrlCache.indexOf(src), 1);
-        script.remove();
-      },
-      { once: true },
-    );
-    scriptUrlCache.push(src);
-    document.body.appendChild(script);
-  }
+  loadIconFontScript(src);
 
   const IconFontWithOptions: FunctionalComponent<IconFontProps> = (props, { slots }) =>
     h(IconFont, { ...props, extraProps }, slots);

@@ -31,7 +31,8 @@ describe('文档示例编辑器样式', () => {
         })
         .focus()
         .should('have.css', 'outline-style', 'solid');
-      cy.get('.demo-editor__panel').should('not.exist');
+      cy.get('.demo-editor__panel').should('not.be.visible');
+      cy.get('.monaco-editor').should('not.exist');
     });
   }
 

@@ -1,4 +1,4 @@
-interface IconCategory {
+export interface IconCategory {
   title: string;
   type: string;
   list: { name: string; componentName: string; path: string }[];
@@ -16,6 +16,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { optimize } from 'svgo';
 
+import { generateReactIcons } from './gen-react-icons.ts';
 import { toKebabCase, toPascalCase } from './utils/convert-case.ts';
 import paths from './utils/paths.ts';
 
@@ -60,11 +61,10 @@ const getIconVue = ({ name, componentName, svgHtml }: IconData) => `<template>
 </template>
 
 <script setup lang="ts">
-  import type { CSSProperties } from 'vue';
+  import { getIconStyle } from '@sdata/web-core/icon/foundation';
   import { computed } from 'vue';
 
   import { getPrefixCls } from '../../_utils/global-config';
-  import { isNumber } from '../../_utils/is';
 
   defineOptions({ name: '${componentName}' });
 
@@ -135,19 +135,7 @@ const getIconVue = ({ name, componentName, svgHtml }: IconData) => `<template>
     'stroke-linejoin': strokeLinejoin,
   }));
 
-  const innerStyle = computed(() => {
-    const styles: CSSProperties = {};
-    if (size !== undefined) {
-      styles.fontSize = isNumber(size) ? \`\${size}px\` : size;
-    }
-    if (rotate) {
-      // transform 供无 spin 场景直接生效；--icon-rotate 供 spin 动画以
-      // 自定义属性为基准合成旋转，避免动画 transform 覆盖静态 rotate
-      styles.transform = \`rotate(\${rotate}deg)\`;
-      styles['--icon-rotate'] = \`\${rotate}deg\`;
-    }
-    return styles;
-  });
+  const innerStyle = computed(() => getIconStyle({ size, rotate }));
 
   const onClick = (ev: MouseEvent) => {
     emit('click', ev);
@@ -248,6 +236,11 @@ function getSvgData() {
 }
 
 async function ensureCleanIconDir() {
+  if (
+    path.resolve(paths.iconComponents) !== path.resolve(import.meta.dirname, '../components/icon')
+  ) {
+    throw new Error('Run icon generation from the web-vue package directory.');
+  }
   // __test__ 目录受版本控制（含组件测试）；生成时逐项删除目录内容而保留 __test__
   const entries = await readdir(paths.iconComponents).catch(() => []);
   for (const entry of entries) {
@@ -325,9 +318,12 @@ async function buildIndex(data: IconCategory[]) {
 
 export default async function generateIcons() {
   const data = getSvgData();
-  await ensureCleanIconDir();
-  await buildIconComponent(data);
-  await buildIndex(data);
+  if (!process.argv.includes('--react-only')) {
+    await ensureCleanIconDir();
+    await buildIconComponent(data);
+    await buildIndex(data);
+  }
+  await generateReactIcons(data, svgoConfig);
   console.log('Generated icon components.');
 }
 

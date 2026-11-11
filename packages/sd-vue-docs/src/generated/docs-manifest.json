@@ -1,0 +1,1324 @@
+[
+  {
+    "source": "404.mdx",
+    "slug": "404",
+    "demos": []
+  },
+  {
+    "source": "components/affix/index.mdx",
+    "slug": "components/affix",
+    "demos": ["affix/basic", "affix/bottom", "affix/container", "affix/fix-change", "affix/top"]
+  },
+  {
+    "source": "components/alert/index.mdx",
+    "slug": "components/alert",
+    "demos": [
+      "alert/action",
+      "alert/banner",
+      "alert/basic",
+      "alert/closable",
+      "alert/close-element",
+      "alert/icon",
+      "alert/title",
+      "alert/type"
+    ]
+  },
+  {
+    "source": "components/anchor/index.mdx",
+    "slug": "components/anchor",
+    "demos": ["anchor/affix", "anchor/basic", "anchor/boundary", "anchor/hash", "anchor/line-less"]
+  },
+  {
+    "source": "components/auto-complete/index.mdx",
+    "slug": "components/auto-complete",
+    "demos": [
+      "auto-complete/basic",
+      "auto-complete/prefix",
+      "auto-complete/footer",
+      "auto-complete/scroll",
+      "auto-complete/strict",
+      "auto-complete/virtual-list"
+    ]
+  },
+  {
+    "source": "components/avatar/index.mdx",
+    "slug": "components/avatar",
+    "demos": [
+      "avatar/basic",
+      "avatar/fit",
+      "avatar/group",
+      "avatar/icon",
+      "avatar/image-url",
+      "avatar/size"
+    ]
+  },
+  {
+    "source": "components/back-top/index.mdx",
+    "slug": "components/back-top",
+    "demos": ["back-top/basic", "back-top/custom"]
+  },
+  {
+    "source": "components/badge/index.mdx",
+    "slug": "components/badge",
+    "demos": [
+      "badge/alone",
+      "badge/basic",
+      "badge/color",
+      "badge/dot",
+      "badge/max",
+      "badge/status",
+      "badge/text"
+    ]
+  },
+  {
+    "source": "components/basic-crud-table/index.mdx",
+    "slug": "components/basic-crud-table",
+    "demos": [
+      "basic-crud-table/basic",
+      "basic-crud-table/full-height",
+      "basic-crud-table/toolbar",
+      "basic-crud-table/crud",
+      "basic-crud-table/state",
+      "basic-crud-table/action",
+      "basic-crud-table/modal"
+    ]
+  },
+  {
+    "source": "components/bloom-menu/index.mdx",
+    "slug": "components/bloom-menu",
+    "demos": [
+      "bloom-menu/basic",
+      "bloom-menu/columns",
+      "bloom-menu/controlled",
+      "bloom-menu/custom"
+    ]
+  },
+  {
+    "source": "components/border-beam/index.mdx",
+    "slug": "components/border-beam",
+    "demos": [
+      "border-beam/basic",
+      "border-beam/size",
+      "border-beam/color",
+      "border-beam/theme",
+      "border-beam/active",
+      "border-beam/flow",
+      "border-beam/custom"
+    ]
+  },
+  {
+    "source": "components/breadcrumb/index.mdx",
+    "slug": "components/breadcrumb",
+    "demos": [
+      "breadcrumb/basic",
+      "breadcrumb/dropdown",
+      "breadcrumb/ellipsis",
+      "breadcrumb/icon",
+      "breadcrumb/routes",
+      "breadcrumb/separator",
+      "breadcrumb/size"
+    ]
+  },
+  {
+    "source": "components/button/index.mdx",
+    "slug": "components/button",
+    "demos": [
+      "button/basic",
+      "button/disabled",
+      "button/group",
+      "button/icon",
+      "button/loading",
+      "button/long",
+      "button/shape",
+      "button/size",
+      "button/status",
+      "button/ellipsis",
+      "button/tooltip"
+    ]
+  },
+  {
+    "source": "components/calendar/index.mdx",
+    "slug": "components/calendar",
+    "demos": [
+      "calendar/basic",
+      "calendar/views",
+      "calendar/view-layout",
+      "calendar/date-time",
+      "calendar/events-display",
+      "calendar/stack-events",
+      "calendar/events-interactions",
+      "calendar/customization",
+      "calendar/custom-event",
+      "calendar/dom-events",
+      "calendar/date-picker",
+      "calendar/schedules-demo",
+      "calendar/schedules"
+    ]
+  },
+  {
+    "source": "components/card/index.mdx",
+    "slug": "components/card",
+    "demos": [
+      "card/actions",
+      "card/basic",
+      "card/bordered",
+      "card/content",
+      "card/full-height",
+      "card/grid",
+      "card/hoverable",
+      "card/inner",
+      "card/meta",
+      "card/row"
+    ]
+  },
+  {
+    "source": "components/carousel/index.mdx",
+    "slug": "components/carousel",
+    "demos": [
+      "carousel/auto",
+      "carousel/basic",
+      "carousel/card",
+      "carousel/direction",
+      "carousel/fade",
+      "carousel/indicator"
+    ]
+  },
+  {
+    "source": "components/cascader/index.mdx",
+    "slug": "components/cascader",
+    "demos": [
+      "cascader/basic",
+      "cascader/trigger-element",
+      "cascader/check-strictly",
+      "cascader/clear",
+      "cascader/disabled",
+      "cascader/expand",
+      "cascader/fallback",
+      "cascader/field-names",
+      "cascader/format",
+      "cascader/display",
+      "cascader/lazy-load",
+      "cascader/loading",
+      "cascader/multiple",
+      "cascader/panel",
+      "cascader/path",
+      "cascader/search",
+      "cascader/ellipsis",
+      "cascader/virtual"
+    ]
+  },
+  {
+    "source": "components/checkbox/index.mdx",
+    "slug": "components/checkbox",
+    "demos": [
+      "checkbox/all",
+      "checkbox/basic",
+      "checkbox/control",
+      "checkbox/custom",
+      "checkbox/disabled",
+      "checkbox/group",
+      "checkbox/layout",
+      "checkbox/limit",
+      "checkbox/options"
+    ]
+  },
+  {
+    "source": "components/clamp/index.mdx",
+    "slug": "components/clamp",
+    "demos": ["clamp/line", "clamp/inline", "clamp/expand", "clamp/rich-wrap"]
+  },
+  {
+    "source": "components/collapse/index.mdx",
+    "slug": "components/collapse",
+    "demos": [
+      "collapse/accordion",
+      "collapse/basic",
+      "collapse/border-less",
+      "collapse/custom",
+      "collapse/destroy",
+      "collapse/expand-icon",
+      "collapse/extra",
+      "collapse/icon-position",
+      "collapse/nested"
+    ]
+  },
+  {
+    "source": "components/color-picker/index.mdx",
+    "slug": "components/color-picker",
+    "demos": [
+      "color-picker/basic",
+      "color-picker/gradient",
+      "color-picker/colors",
+      "color-picker/disabled",
+      "color-picker/format",
+      "color-picker/only-panel",
+      "color-picker/size",
+      "color-picker/trigger-element",
+      "color-picker/trigger"
+    ]
+  },
+  {
+    "source": "components/comment/index.mdx",
+    "slug": "components/comment",
+    "demos": ["comment/align", "comment/basic", "comment/editor", "comment/nest"]
+  },
+  {
+    "source": "components/config-provider/index.mdx",
+    "slug": "components/config-provider",
+    "demos": [
+      "config-provider/basic",
+      "config-provider/empty",
+      "config-provider/rtl",
+      "config-provider/allow-clear",
+      "config-provider/allow-search",
+      "config-provider/virtual-list-props",
+      "config-provider/theme-mode",
+      "config-provider/deduplicate",
+      "config-provider/modal-drawer-defaults",
+      "config-provider/date-picker-defaults",
+      "config-provider/pagination-defaults",
+      "config-provider/spin-props"
+    ]
+  },
+  {
+    "source": "components/copy/index.mdx",
+    "slug": "components/copy",
+    "demos": ["copy/basic", "copy/button", "copy/tooltip", "copy/icon"]
+  },
+  {
+    "source": "components/cropper/index.mdx",
+    "slug": "components/cropper",
+    "demos": ["cropper/basic", "cropper/aspect-ratio", "cropper/controlled", "cropper/cover-mode"]
+  },
+  {
+    "source": "components/date-picker/index.mdx",
+    "slug": "components/date-picker",
+    "demos": [
+      "date-picker/basic",
+      "date-picker/control",
+      "date-picker/date-render",
+      "date-picker/default-value",
+      "date-picker/disabled-date-advance",
+      "date-picker/disabled-date",
+      "date-picker/disabled",
+      "date-picker/extra",
+      "date-picker/month",
+      "date-picker/panel-only",
+      "date-picker/panel-render",
+      "date-picker/prefix",
+      "date-picker/quarter",
+      "date-picker/range",
+      "date-picker/shortcuts-position",
+      "date-picker/shortcuts",
+      "config-provider/date-picker-defaults",
+      "date-picker/showtime",
+      "date-picker/size",
+      "date-picker/trigger-element",
+      "date-picker/week",
+      "date-picker/year"
+    ]
+  },
+  {
+    "source": "components/descriptions/index.mdx",
+    "slug": "components/descriptions",
+    "demos": [
+      "descriptions/align",
+      "descriptions/basic",
+      "descriptions/bordered",
+      "descriptions/example",
+      "descriptions/layout",
+      "descriptions/single"
+    ]
+  },
+  {
+    "source": "components/divider/index.mdx",
+    "slug": "components/divider",
+    "demos": ["divider/basic", "divider/vertical", "divider/with-text"]
+  },
+  {
+    "source": "components/drawer/index.mdx",
+    "slug": "components/drawer",
+    "demos": [
+      "drawer/async",
+      "drawer/basic",
+      "drawer/custom",
+      "drawer/function",
+      "drawer/nested",
+      "drawer/long-title",
+      "drawer/popup-container",
+      "drawer/position"
+    ]
+  },
+  {
+    "source": "components/dropdown/index.mdx",
+    "slug": "components/dropdown",
+    "demos": [
+      "dropdown/basic",
+      "dropdown/slots",
+      "dropdown/button",
+      "dropdown/context-menu",
+      "dropdown/nested-context-menu",
+      "dropdown/group",
+      "dropdown/icon",
+      "dropdown/position",
+      "dropdown/submenu",
+      "dropdown/trigger"
+    ]
+  },
+  {
+    "source": "components/ellipsis/index.mdx",
+    "slug": "components/ellipsis",
+    "demos": [
+      "ellipsis/basic",
+      "ellipsis/line-clamp",
+      "ellipsis/expand-trigger",
+      "ellipsis/custom-tooltip",
+      "ellipsis/performant-ellipsis"
+    ]
+  },
+  {
+    "source": "components/empty/index.mdx",
+    "slug": "components/empty",
+    "demos": ["empty/basic", "empty/custom"]
+  },
+  {
+    "source": "components/file-previewer/index.mdx",
+    "slug": "components/file-previewer",
+    "demos": [
+      "file-previewer/basic",
+      "file-previewer/media",
+      "file-previewer/inline",
+      "file-previewer/custom-content",
+      "file-previewer/pdf-slot",
+      "file-previewer/controlled",
+      "file-previewer/custom-title"
+    ]
+  },
+  {
+    "source": "components/form/index.mdx",
+    "slug": "components/form",
+    "demos": [
+      "form/async",
+      "form/auto-width",
+      "form/basic",
+      "form/custom",
+      "form/disabled",
+      "form/dynamic",
+      "form/extra",
+      "form/grid",
+      "form/layout",
+      "form/nest",
+      "form/scroll",
+      "form/status",
+      "form/validation",
+      "form/validation2"
+    ]
+  },
+  {
+    "source": "components/grid/index.mdx",
+    "slug": "components/grid",
+    "demos": [
+      "grid/adaptation-object",
+      "grid/adaptation",
+      "grid/basic",
+      "grid/flex-align",
+      "grid/flex-justify",
+      "grid/flex",
+      "grid/grid-responsive",
+      "grid/grid",
+      "grid/gutter",
+      "grid/offset",
+      "grid/order"
+    ]
+  },
+  {
+    "source": "components/icon-component/index.mdx",
+    "slug": "components/icon-component",
+    "demos": ["icon-component/basic"]
+  },
+  {
+    "source": "components/icon/index.mdx",
+    "slug": "components/icon",
+    "demos": ["icon/catalog"]
+  },
+  {
+    "source": "components/image/index.mdx",
+    "slug": "components/image",
+    "demos": [
+      "image/basic",
+      "image/caption",
+      "image/component-preview-group",
+      "image/component-preview",
+      "image/custom-preview-actions",
+      "image/error",
+      "image/extra",
+      "image/loader",
+      "image/preview-group",
+      "image/preview-popup-container",
+      "image/progressive-loader"
+    ]
+  },
+  {
+    "source": "components/index.mdx",
+    "slug": "components",
+    "demos": []
+  },
+  {
+    "source": "components/input-mask/index.mdx",
+    "slug": "components/input-mask",
+    "demos": [
+      "input-mask/basic",
+      "input-mask/multilingual",
+      "input-mask/presets",
+      "input-mask/controlled",
+      "input-mask/slots"
+    ]
+  },
+  {
+    "source": "components/input-number/index.mdx",
+    "slug": "components/input-number",
+    "demos": [
+      "input-number/basic",
+      "input-number/format",
+      "input-number/mode",
+      "input-number/model",
+      "input-number/string-model",
+      "input-number/precision",
+      "input-number/prefix",
+      "input-number/size",
+      "input-number/step-icon"
+    ]
+  },
+  {
+    "source": "components/input-tag/index.mdx",
+    "slug": "components/input-tag",
+    "demos": ["input-tag/basic", "input-tag/max", "input-tag/size", "input-tag/status"]
+  },
+  {
+    "source": "components/input/index.mdx",
+    "slug": "components/input",
+    "demos": [
+      "input/basic",
+      "input/group",
+      "input/password",
+      "input/prefix",
+      "input/prepend",
+      "input/search-button",
+      "input/search-loading",
+      "input/search",
+      "input/size",
+      "input/status",
+      "input/word-limit",
+      "input/fit-width"
+    ]
+  },
+  {
+    "source": "components/json-form/index.mdx",
+    "slug": "components/json-form",
+    "demos": ["json-form/basic", "json-form/a2ui-0-9-1", "json-form/custom-component"]
+  },
+  {
+    "source": "components/kv-list/index.mdx",
+    "slug": "components/kv-list",
+    "demos": ["kv-list/basic", "kv-list/types", "kv-list/field-props", "kv-list/slots"]
+  },
+  {
+    "source": "components/layout/index.mdx",
+    "slug": "components/layout",
+    "demos": [
+      "layout/basic",
+      "layout/top",
+      "layout/side",
+      "layout/custom-trigger",
+      "layout/responsive",
+      "layout/temporary",
+      "layout/rail",
+      "layout/fixed"
+    ]
+  },
+  {
+    "source": "components/link/index.mdx",
+    "slug": "components/link",
+    "demos": [
+      "link/basic",
+      "link/hoverable",
+      "link/icon",
+      "link/icon-tooltip",
+      "link/ellipsis",
+      "link/loading",
+      "link/status"
+    ]
+  },
+  {
+    "source": "components/liquid-glass-logo/index.mdx",
+    "slug": "components/liquid-glass-logo",
+    "demos": [
+      "liquid-glass-logo/basic",
+      "liquid-glass-logo/wordmark",
+      "liquid-glass-logo/interactive",
+      "liquid-glass-logo/composition",
+      "liquid-glass-logo/large",
+      "liquid-glass-logo/playground"
+    ]
+  },
+  {
+    "source": "components/list/index.mdx",
+    "slug": "components/list",
+    "demos": [
+      "list/actions-layout",
+      "list/actions",
+      "list/basic",
+      "list/grid",
+      "list/meta",
+      "list/responsive-grid",
+      "list/scroll",
+      "list/size",
+      "list/virtual-list"
+    ]
+  },
+  {
+    "source": "components/markdown-render/index.mdx",
+    "slug": "components/markdown-render",
+    "demos": [
+      "markdown-render/basic",
+      "markdown-render/streaming",
+      "markdown-render/long-document",
+      "markdown-render/custom",
+      "markdown-render/html",
+      "markdown-render/code",
+      "markdown-render/theme",
+      "markdown-render/upstream"
+    ]
+  },
+  {
+    "source": "components/mention/index.mdx",
+    "slug": "components/mention",
+    "demos": ["mention/basic", "mention/prefix"]
+  },
+  {
+    "source": "components/menu/index.mdx",
+    "slug": "components/menu",
+    "demos": [
+      "menu/breakpoint",
+      "menu/collapse-control",
+      "menu/dark-horizontal",
+      "menu/horizontal",
+      "menu/ellipsis",
+      "menu/pop-button",
+      "menu/pop",
+      "menu/size",
+      "menu/sub-menu"
+    ]
+  },
+  {
+    "source": "components/message/index.mdx",
+    "slug": "components/message",
+    "demos": [
+      "message/basic",
+      "message/closeable",
+      "message/icon",
+      "message/position",
+      "message/type",
+      "message/update"
+    ]
+  },
+  {
+    "source": "components/modal/index.mdx",
+    "slug": "components/modal",
+    "demos": [
+      "modal/async",
+      "modal/basic",
+      "modal/confirm",
+      "modal/custom",
+      "modal/draggable",
+      "modal/form",
+      "modal/fullscreen",
+      "modal/function",
+      "modal/long-title",
+      "modal/notice",
+      "modal/width"
+    ]
+  },
+  {
+    "source": "components/model-selector/index.mdx",
+    "slug": "components/model-selector",
+    "demos": [
+      "model-selector/basic",
+      "model-selector/search",
+      "model-selector/controlled",
+      "model-selector/custom"
+    ]
+  },
+  {
+    "source": "components/notification/index.mdx",
+    "slug": "components/notification",
+    "demos": [
+      "notification/basic",
+      "notification/btn",
+      "notification/custom-close",
+      "notification/position",
+      "notification/style",
+      "notification/type",
+      "notification/update-duration",
+      "notification/update-notification"
+    ]
+  },
+  {
+    "source": "components/number-flow/index.mdx",
+    "slug": "components/number-flow",
+    "demos": [
+      "number-flow/basic",
+      "number-flow/format",
+      "number-flow/interactive",
+      "number-flow/custom"
+    ]
+  },
+  {
+    "source": "components/page-header/index.mdx",
+    "slug": "components/page-header",
+    "demos": [
+      "page-header/basic",
+      "page-header/breadcrumb",
+      "page-header/content",
+      "page-header/transparent"
+    ]
+  },
+  {
+    "source": "components/pagination/index.mdx",
+    "slug": "components/pagination",
+    "demos": [
+      "pagination/all",
+      "pagination/basic",
+      "pagination/custom",
+      "pagination/ellipsis",
+      "pagination/jumper",
+      "pagination/page-size",
+      "pagination/simple",
+      "pagination/size",
+      "pagination/total"
+    ]
+  },
+  {
+    "source": "components/panel-group/index.mdx",
+    "slug": "components/panel-group",
+    "demos": [
+      "panel-group/basic",
+      "panel-group/horizontal",
+      "panel-group/controls",
+      "panel-group/separator",
+      "panel-group/both-edges",
+      "panel-group/vertical",
+      "panel-group/fold",
+      "panel-group/pin",
+      "panel-group/nested",
+      "panel-group/deep-nested"
+    ]
+  },
+  {
+    "source": "components/popconfirm/index.mdx",
+    "slug": "components/popconfirm",
+    "demos": [
+      "popconfirm/async",
+      "popconfirm/basic",
+      "popconfirm/custom",
+      "popconfirm/position",
+      "popconfirm/type"
+    ]
+  },
+  {
+    "source": "components/popover/index.mdx",
+    "slug": "components/popover",
+    "demos": ["popover/basic", "popover/position", "popover/trigger"]
+  },
+  {
+    "source": "components/progress/index.mdx",
+    "slug": "components/progress",
+    "demos": [
+      "progress/basic",
+      "progress/circle",
+      "progress/linear",
+      "progress/mini",
+      "progress/size",
+      "progress/status",
+      "progress/steps",
+      "progress/trackcolor"
+    ]
+  },
+  {
+    "source": "components/qr-code/index.mdx",
+    "slug": "components/qr-code",
+    "demos": [
+      "qr-code/basic",
+      "qr-code/type",
+      "qr-code/icon",
+      "qr-code/status",
+      "qr-code/custom-status"
+    ]
+  },
+  {
+    "source": "components/radio/index.mdx",
+    "slug": "components/radio",
+    "demos": [
+      "radio/basic",
+      "radio/button",
+      "radio/control",
+      "radio/custom",
+      "radio/direction",
+      "radio/group",
+      "radio/layout",
+      "radio/options",
+      "radio/size"
+    ]
+  },
+  {
+    "source": "components/rate/index.mdx",
+    "slug": "components/rate",
+    "demos": [
+      "rate/basic",
+      "rate/character",
+      "rate/clear",
+      "rate/color",
+      "rate/count",
+      "rate/grading",
+      "rate/half",
+      "rate/readonly"
+    ]
+  },
+  {
+    "source": "components/regex-vis/index.mdx",
+    "slug": "components/regex-vis",
+    "demos": ["regex-vis/basic", "regex-vis/branches", "regex-vis/controlled", "regex-vis/custom"]
+  },
+  {
+    "source": "components/result/index.mdx",
+    "slug": "components/result",
+    "demos": [
+      "result/403",
+      "result/404",
+      "result/500",
+      "result/all",
+      "result/basic",
+      "result/custom",
+      "result/error",
+      "result/success",
+      "result/warning"
+    ]
+  },
+  {
+    "source": "components/rich-text-editor/index.mdx",
+    "slug": "components/rich-text-editor",
+    "demos": [
+      "rich-text-editor/basic",
+      "rich-text-editor/toolbar",
+      "rich-text-editor/components",
+      "rich-text-editor/json-form-nodes",
+      "rich-text-editor/custom-node",
+      "rich-text-editor/serialization",
+      "rich-text-editor/lexical-api",
+      "rich-text-editor/streaming-correction-stress"
+    ]
+  },
+  {
+    "source": "components/scrollbar/index.mdx",
+    "slug": "components/scrollbar",
+    "demos": ["scrollbar/basic", "scrollbar/type", "scrollbar/overlay-options", "scrollbar/methods"]
+  },
+  {
+    "source": "components/secret/index.mdx",
+    "slug": "components/secret",
+    "demos": ["secret/basic", "secret/placeholder", "secret/controlled", "secret/no-copy"]
+  },
+  {
+    "source": "components/select/index.mdx",
+    "slug": "components/select",
+    "demos": [
+      "select/basic",
+      "select/trigger-element",
+      "select/border",
+      "select/clear",
+      "select/create",
+      "select/fallback",
+      "select/field-names",
+      "select/footer",
+      "select/group",
+      "select/header",
+      "select/label",
+      "select/linkage",
+      "select/loading",
+      "select/multiple",
+      "select/remote",
+      "select/scroll",
+      "select/search",
+      "select/ellipsis",
+      "select/size",
+      "select/virtual-list"
+    ]
+  },
+  {
+    "source": "components/selectable-card/index.mdx",
+    "slug": "components/selectable-card",
+    "demos": [
+      "selectable-card/basic",
+      "selectable-card/variants",
+      "selectable-card/disabled",
+      "selectable-card/custom"
+    ]
+  },
+  {
+    "source": "components/sender/index.mdx",
+    "slug": "components/sender",
+    "demos": [
+      "sender/basic",
+      "sender/header",
+      "sender/slots",
+      "sender/custom-actions",
+      "sender/switch",
+      "sender/speech",
+      "sender/agent",
+      "sender/methods",
+      "sender/submit-type",
+      "sender/states",
+      "sender/paste-file"
+    ]
+  },
+  {
+    "source": "components/skeleton-reveal/index.mdx",
+    "slug": "components/skeleton-reveal",
+    "demos": [
+      "skeleton-reveal/basic",
+      "skeleton-reveal/duration",
+      "skeleton-reveal/interactive",
+      "skeleton-reveal/composition"
+    ]
+  },
+  {
+    "source": "components/skeleton/index.mdx",
+    "slug": "components/skeleton",
+    "demos": ["skeleton/animation", "skeleton/basic", "skeleton/type"]
+  },
+  {
+    "source": "components/slider/index.mdx",
+    "slug": "components/slider",
+    "demos": [
+      "slider/basic",
+      "slider/disabled",
+      "slider/input",
+      "slider/marks",
+      "slider/range",
+      "slider/step",
+      "slider/tooltip",
+      "slider/vertical"
+    ]
+  },
+  {
+    "source": "components/space/index.mdx",
+    "slug": "components/space",
+    "demos": [
+      "space/align",
+      "space/basic",
+      "space/size",
+      "space/split",
+      "space/vertical",
+      "space/wrap"
+    ]
+  },
+  {
+    "source": "components/spin/index.mdx",
+    "slug": "components/spin",
+    "demos": [
+      "spin/basic",
+      "spin/container",
+      "spin/delay",
+      "spin/dot",
+      "spin/icon",
+      "spin/size",
+      "spin/tip"
+    ]
+  },
+  {
+    "source": "components/statistic/index.mdx",
+    "slug": "components/statistic",
+    "demos": ["statistic/animation", "statistic/basic", "statistic/countdown", "statistic/prefix"]
+  },
+  {
+    "source": "components/steps/index.mdx",
+    "slug": "components/steps",
+    "demos": [
+      "steps/arrow",
+      "steps/basic",
+      "steps/changeable",
+      "steps/custom-node",
+      "steps/description",
+      "steps/dot",
+      "steps/error",
+      "steps/icon",
+      "steps/label-placement",
+      "steps/line-less",
+      "steps/navigation",
+      "steps/small-arrow",
+      "steps/small",
+      "steps/vertical"
+    ]
+  },
+  {
+    "source": "components/switch/index.mdx",
+    "slug": "components/switch",
+    "demos": [
+      "switch/basic",
+      "switch/change-intercept",
+      "switch/auto-loading",
+      "switch/color",
+      "switch/disabled",
+      "switch/icon",
+      "switch/loading",
+      "switch/size",
+      "switch/text",
+      "switch/type",
+      "switch/value"
+    ]
+  },
+  {
+    "source": "components/table/index.mdx",
+    "slug": "components/table",
+    "demos": [
+      "table/basic",
+      "table/append",
+      "table/custom-dom",
+      "table/custom",
+      "table/drag-handle",
+      "table/virtual-drag",
+      "table/editable",
+      "table/ellipsis",
+      "table/expand",
+      "table/filter",
+      "table/fixed-group",
+      "table/fixed",
+      "table/group",
+      "table/lazy-load",
+      "table/props",
+      "table/radio",
+      "table/row-key-function",
+      "table/resize",
+      "table/row-selection",
+      "table/scroll",
+      "table/sort",
+      "table/span",
+      "table/sticky",
+      "table/subtree",
+      "table/summary",
+      "table/virtual-list"
+    ]
+  },
+  {
+    "source": "components/tabs/index.mdx",
+    "slug": "components/tabs",
+    "demos": [
+      "tabs/basic",
+      "tabs/editable",
+      "tabs/extra",
+      "tabs/full-height",
+      "tabs/icon",
+      "tabs/lazy",
+      "tabs/position",
+      "tabs/scroll",
+      "tabs/trigger",
+      "tabs/type",
+      "tabs/async"
+    ]
+  },
+  {
+    "source": "components/tag-group/index.mdx",
+    "slug": "components/tag-group",
+    "demos": [
+      "tag-group/basic",
+      "tag-group/max-count",
+      "tag-group/responsive",
+      "tag-group/custom-item",
+      "tag-group/counter"
+    ]
+  },
+  {
+    "source": "components/tag/index.mdx",
+    "slug": "components/tag",
+    "demos": [
+      "tag/basic",
+      "tag/bordered",
+      "tag/checkable",
+      "tag/closeable",
+      "tag/color",
+      "tag/custom-color",
+      "tag/dynamically",
+      "tag/ellipsis",
+      "tag/icon",
+      "tag/loading",
+      "tag/size"
+    ]
+  },
+  {
+    "source": "components/textarea/index.mdx",
+    "slug": "components/textarea",
+    "demos": ["textarea/auto-size", "textarea/basic", "textarea/status", "textarea/word-limit"]
+  },
+  {
+    "source": "components/theme-provider/index.mdx",
+    "slug": "components/theme-provider",
+    "demos": ["theme-provider/basic"]
+  },
+  {
+    "source": "components/thinking-orb/index.mdx",
+    "slug": "components/thinking-orb",
+    "demos": [
+      "thinking-orb/basic",
+      "thinking-orb/states",
+      "thinking-orb/control",
+      "thinking-orb/theme"
+    ]
+  },
+  {
+    "source": "components/time-picker/index.mdx",
+    "slug": "components/time-picker",
+    "demos": [
+      "time-picker/basic",
+      "time-picker/trigger-element",
+      "time-picker/control",
+      "time-picker/default-value",
+      "time-picker/disable-confirm",
+      "time-picker/disabled-time",
+      "time-picker/disabled",
+      "time-picker/extra",
+      "time-picker/format",
+      "time-picker/prefix",
+      "time-picker/rangepicker",
+      "time-picker/size",
+      "time-picker/step",
+      "time-picker/use-12-hours"
+    ]
+  },
+  {
+    "source": "components/timeline/index.mdx",
+    "slug": "components/timeline",
+    "demos": [
+      "timeline/basic",
+      "timeline/custom",
+      "timeline/direction",
+      "timeline/dot",
+      "timeline/icon",
+      "timeline/label",
+      "timeline/mode",
+      "timeline/pending",
+      "timeline/type",
+      "timeline/vertical"
+    ]
+  },
+  {
+    "source": "components/toolbar/index.mdx",
+    "slug": "components/toolbar",
+    "demos": ["toolbar/basic", "toolbar/slot", "toolbar/expand", "toolbar/actions"]
+  },
+  {
+    "source": "components/tooltip/index.mdx",
+    "slug": "components/tooltip",
+    "demos": [
+      "tooltip/basic",
+      "tooltip/mouse-through",
+      "tooltip/overflow",
+      "tooltip/color",
+      "tooltip/mini",
+      "tooltip/position"
+    ]
+  },
+  {
+    "source": "components/tour/index.mdx",
+    "slug": "components/tour",
+    "demos": ["tour/basic", "tour/controlled", "tour/buttons", "tour/non-modal"]
+  },
+  {
+    "source": "components/transfer/index.mdx",
+    "slug": "components/transfer",
+    "demos": [
+      "transfer/basic",
+      "transfer/custom-header",
+      "transfer/custom",
+      "transfer/one-way",
+      "transfer/pagination",
+      "transfer/search",
+      "transfer/simple",
+      "transfer/tree"
+    ]
+  },
+  {
+    "source": "components/tree-select/index.mdx",
+    "slug": "components/tree-select",
+    "demos": [
+      "tree-select/basic",
+      "tree-select/checkable",
+      "tree-select/checked-strategy",
+      "tree-select/control",
+      "tree-select/dropdown-slots",
+      "tree-select/fallback",
+      "tree-select/field-names",
+      "tree-select/label-in-value",
+      "tree-select/load-more",
+      "tree-select/multiple",
+      "tree-select/popup-visible",
+      "tree-select/search-remote",
+      "tree-select/search",
+      "tree-select/size",
+      "tree-select/trigger-element",
+      "tree-select/ellipsis",
+      "tree-select/virtual"
+    ]
+  },
+  {
+    "source": "components/tree/index.mdx",
+    "slug": "components/tree",
+    "demos": [
+      "tree/basic",
+      "tree/block-node",
+      "tree/checkable",
+      "tree/checked-strategy",
+      "tree/control",
+      "tree/draggable",
+      "tree/field-names",
+      "tree/ellipsis",
+      "tree/icons",
+      "tree/load-more",
+      "tree/multiple",
+      "tree/node-icon",
+      "tree/node-events",
+      "tree/render-extra",
+      "tree/search",
+      "tree/show-line",
+      "tree/size",
+      "tree/virtual"
+    ]
+  },
+  {
+    "source": "components/trigger/index.mdx",
+    "slug": "components/trigger",
+    "demos": [
+      "trigger/align-point",
+      "trigger/arrow",
+      "trigger/basic",
+      "trigger/nest",
+      "trigger/scroll",
+      "trigger/translate",
+      "trigger/triggers"
+    ]
+  },
+  {
+    "source": "components/typography/index.mdx",
+    "slug": "components/typography",
+    "demos": [
+      "typography/basic",
+      "typography/ellipsis",
+      "typography/operations",
+      "typography/paragraph",
+      "typography/text",
+      "typography/title"
+    ]
+  },
+  {
+    "source": "components/upload/index.mdx",
+    "slug": "components/upload",
+    "demos": [
+      "upload/avatar",
+      "upload/basic",
+      "upload/before-remove",
+      "upload/before-upload",
+      "upload/custom-button",
+      "upload/custom-icon",
+      "upload/directory",
+      "upload/draggable",
+      "upload/limit",
+      "upload/lock",
+      "upload/picture-card",
+      "upload/picture-list",
+      "upload/request",
+      "upload/submit",
+      "upload/upload-list"
+    ]
+  },
+  {
+    "source": "components/verification-code/index.mdx",
+    "slug": "components/verification-code",
+    "demos": [
+      "verification-code/basic",
+      "verification-code/form",
+      "verification-code/formatter",
+      "verification-code/masked",
+      "verification-code/separator",
+      "verification-code/status"
+    ]
+  },
+  {
+    "source": "components/voice-glow/index.mdx",
+    "slug": "components/voice-glow",
+    "demos": [
+      "voice-glow/basic",
+      "voice-glow/variants",
+      "voice-glow/interactive",
+      "voice-glow/composition"
+    ]
+  },
+  {
+    "source": "components/watermark/index.mdx",
+    "slug": "components/watermark",
+    "demos": ["watermark/basic", "watermark/custom", "watermark/image", "watermark/multiline"]
+  },
+  {
+    "source": "guides/architecture.mdx",
+    "slug": "guides/architecture",
+    "demos": []
+  },
+  {
+    "source": "guides/dark.mdx",
+    "slug": "guides/dark",
+    "demos": []
+  },
+  {
+    "source": "guides/faq.mdx",
+    "slug": "guides/faq",
+    "demos": []
+  },
+  {
+    "source": "guides/floating-ui.mdx",
+    "slug": "guides/floating-ui",
+    "demos": []
+  },
+  {
+    "source": "guides/start.mdx",
+    "slug": "guides/start",
+    "demos": []
+  },
+  {
+    "source": "guides/tailwind.mdx",
+    "slug": "guides/tailwind",
+    "demos": []
+  },
+  {
+    "source": "guides/theme-editor.mdx",
+    "slug": "guides/theme-editor",
+    "demos": []
+  },
+  {
+    "source": "guides/theme.mdx",
+    "slug": "guides/theme",
+    "demos": []
+  },
+  {
+    "source": "index.mdx",
+    "slug": "",
+    "demos": []
+  },
+  {
+    "source": "llms_txt.mdx",
+    "slug": "llms_txt",
+    "demos": []
+  },
+  {
+    "source": "mcp.mdx",
+    "slug": "mcp",
+    "demos": []
+  }
+]

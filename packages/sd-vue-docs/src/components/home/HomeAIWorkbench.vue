@@ -129,7 +129,8 @@
                   ><Doption value="Ask">提问</Doption></Dgroup
                 >
                 <Dgroup title="构建方式"
-                  ><Doption>Vue 3</Doption><Doption disabled>React · 即将到来</Doption></Dgroup
+                  ><Doption><a href="/">Vue 3</a></Doption
+                  ><Doption><a href="/react/">React</a></Doption></Dgroup
                 >
               </template>
             </Dropdown>
@@ -161,21 +162,4 @@
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
-  .home-workbench {
-    min-width: 0;
-    text-align: left;
-  }
-
-  .home-workbench__file {
-    display: none;
-  }
-
-  .home-workbench__below {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: 8px;
-  }
-</style>
+<style lang="scss" src="./HomeAIWorkbench.scss"></style>

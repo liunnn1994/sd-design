@@ -86,6 +86,20 @@ function keyboard(key: string) {
   return { event, prevented: () => prevented };
 }
 
+test('shared tag styles leave built-in colors to SCSS and honor explicit border alpha', () => {
+  assert.equal(fixture({ color: 'blue' }).foundation.getStyle(), undefined);
+  const { foundation, state } = fixture({ color: '#123456', textColor: '#ffffff' });
+  const opaque = foundation.getStyle()!;
+  assert.equal(opaque['--sd-tag-color'], '#ffffff');
+  assert.equal(opaque['--sd-tag-border-color'], undefined);
+  assert.equal(opaque['--sd-tag-bg-color'], 'rgb(18 52 86)');
+  state.props.bordered = false;
+  state.props.backgroundAlpha = 0;
+  const transparent = foundation.getStyle()!;
+  assert.equal(transparent['--sd-tag-border-color'], '#123456');
+  assert.equal(transparent['--sd-tag-bg-color'], 'rgb(18 52 86 / 0)');
+});
+
 test('controlled close records fallback before update then close and releases without reopening', () => {
   const { state, foundation, events } = fixture({ visible: true });
   const event = {} as MouseEvent;

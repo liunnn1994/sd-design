@@ -6,7 +6,7 @@ import { resolve } from 'node:path';
 const README_PATH = resolve(process.cwd(), 'README.md');
 const DOCS_START_PATH = resolve(
   process.cwd(),
-  'packages/sd-vue-docs/src/content/docs/guides/start.mdx',
+  'packages/sd-vue-docs/src/content/shared/guides/start.mdx',
 );
 const SECTION_TITLE_PATTERN = /^## .*浏览器兼容性$/m;
 // 注释的开头和结尾，md 和 mdx 不一样

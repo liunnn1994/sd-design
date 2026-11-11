@@ -1,0 +1,195 @@
+---
+title: 下拉菜单 Dropdown
+description: 页面上的命令过多时，可将备选命令收纳到向下展开的浮层容器中。
+---
+
+### 基本用法
+
+下拉菜单的基本用法。下拉菜单开启后会为触发元素添加 `sd-dropdown-open` 类名。
+
+<Demo id="dropdown/basic" />
+
+### 页眉与页脚
+
+使用 `header`、`content` 和 `footer` 插槽自定义菜单内容，三者从上到下依次排列。
+
+<Demo id="dropdown/slots" />
+
+### 按钮下拉框
+
+可以使用 `<dropdown-button>` 组件用来展示右边是额外相关功能菜单的按钮。 `2.16.0` 版本添加支持。
+
+<Demo id="dropdown/button" />
+
+### 右键菜单
+
+移入区域后，可点击鼠标右键触发。
+
+<Demo id="dropdown/context-menu" />
+### 嵌套右键菜单
+
+当右键菜单嵌套在另一个右键菜单触发区域内时，新的菜单打开会关闭外层菜单；点击回触发区域空白处也会关闭节点菜单。
+
+<Demo id="dropdown/nested-context-menu" />
+
+### 分组选项
+
+通过 `<dgroup>` 组件使用分组选项。
+
+<Demo id="dropdown/group" />
+
+### 带图标的选项
+
+通过 `icon` 插槽在选项前添加图标。
+
+<Demo id="dropdown/icon" />
+
+### 弹出方向
+
+通过 `position` 支持指定 6 种弹出方位，分别是：top: 向上, tl: 左上, tr: 右上, bottom: 下方(默认), bl: 左下, br: 右下。
+
+<Demo id="dropdown/position" />
+
+### 多级菜单
+
+带有多级菜单的下拉框。
+
+<Demo id="dropdown/submenu" />
+
+### 触发方式
+
+通过 `trigger` 指定触发方式。
+
+<Demo id="dropdown/trigger" />
+
+`<dropdown>` 组件继承 `<trigger>` 组件的全部属性
+
+## API
+
+### `<dropdown>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| popup-visible **(v-model)** | 弹出框是否可见 | `boolean` | `-` |  |
+| default-popup-visible | 弹出框默认是否可见（非受控模式） | `boolean` | `false` |  |
+| trigger | 触发方式 | `'hover' \| 'click' \| 'focus' \| 'contextMenu'` | `'click'` |  |
+| position | 弹出位置 | `'top' \| 'tl' \| 'tr' \| 'bottom' \| 'bl' \| 'br'` | `'bottom'` |  |
+| popup-container | 弹出框的挂载容器 | `string \| HTMLElement` | `-` |  |
+| popup-max-height | 弹出框最大高度 | `boolean\|number` | `true` | 2.29.0 |
+| hide-on-select | 是否在用户选择后隐藏弹出框 | `boolean` | `true` | 2.43.0 |
+
+### `<dropdown>` 事件
+
+| 事件名 | 描述 | 参数 |
+| --- | --- | --- |
+| popup-visible-change | 下拉框显示状态发生改变时触发 | visible: `boolean` |
+| select | 用户选择时触发 | value: `string \| number \| Record<string, any> \| undefined `<br />ev: `Event` |
+
+### `<dropdown>` 插槽
+
+| 插槽名  | 描述 | 参数 | 版本   |
+| ------- | :--: | ---- | :----- |
+| header  | 页眉 | -    |        |
+| content | 内容 | -    |        |
+| footer  | 页脚 | -    | 2.10.0 |
+
+### `<doption>` 属性
+
+| 参数名   | 描述     | 类型                     | 默认值  |
+| -------- | -------- | ------------------------ | :-----: |
+| value    | 选项值   | `string\|number\|object` |   `-`   |
+| disabled | 是否禁用 | `boolean`                | `false` |
+
+### `<doption>` 事件
+
+| 事件名 | 描述           | 参数             |
+| ------ | -------------- | ---------------- |
+| click  | 点击按钮时触发 | ev: `MouseEvent` |
+
+### `<doption>` 插槽
+
+| 插槽名 | 描述 | 参数 |
+| ------ | :--: | ---- |
+| icon   | 图标 | -    |
+
+### `<dgroup>` 属性
+
+| 参数名 | 描述     | 类型     | 默认值 |
+| ------ | -------- | -------- | :----: |
+| title  | 分组标题 | `string` |  `-`   |
+
+### `<dgroup>` 插槽
+
+| 插槽名 |   描述   | 参数 | 版本   |
+| ------ | :------: | ---- | :----- |
+| title  | 分组标题 | -    | 2.10.0 |
+
+### `<dsubmenu>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| value | 选项值（2.16.0 版本后暂无用处） | `string\|number` | `-` |  |
+| disabled | 是否禁用 | `boolean` | `false` | 2.10.0 |
+| trigger | 触发方式 | `'hover' \| 'click'` | `'click'` | 2.10.0 |
+| position | 弹出位置 | `'rt' \| 'lt'` | `'rt'` | 2.10.0 |
+| popup-visible **(v-model)** | 弹出框是否可见 | `boolean` | `-` |  |
+| default-popup-visible | 弹出框默认是否可见（非受控模式） | `boolean` | `false` |  |
+| option-props | 自定义选项属性 | `object` | `-` | 2.29.0 |
+
+### `<dsubmenu>` 事件
+
+| 事件名               | 描述                         | 参数               |
+| -------------------- | ---------------------------- | ------------------ |
+| popup-visible-change | 下拉框显示状态发生改变时触发 | visible: `boolean` |
+
+### `<dsubmenu>` 插槽
+
+| 插槽名  |    描述    | 参数 | 版本   |
+| ------- | :--------: | ---- | :----- |
+| icon    |    图标    | -    | 2.29.0 |
+| content | 子菜单内容 | -    |        |
+| footer  |    页脚    | -    | 2.10.0 |
+
+### `<dropdown-button>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| popup-visible **(v-model)** | 弹出框是否可见 | `boolean` | `-` |
+| default-popup-visible | 弹出框默认是否可见（非受控模式） | `boolean` | `false` |
+| trigger | 触发方式 | `'hover' \| 'click' \| 'focus' \| 'contextMenu'` | `'click'` |
+| position | 弹出位置 | `'top' \| 'tl' \| 'tr' \| 'bottom' \| 'bl' \| 'br'` | `'br'` |
+| popup-container | 弹出框的挂载容器 | `string \| HTMLElement` | `-` |
+| disabled | 是否禁用 | `boolean` | `false` |
+| type | 按钮类型 | `string` | `-` |
+| size | 按钮大小 | `string` | `-` |
+| button-props | 按钮属性 | `ButtonProps` | `-` |
+| hide-on-select | 是否在用户选择后隐藏弹出框 | `boolean` | `true` |
+
+### `<dropdown-button>` 事件
+
+| 事件名 | 描述 | 参数 |
+| --- | --- | --- |
+| popup-visible-change | 下拉框显示状态发生改变时触发 | visible: `boolean` |
+| click | 点击按钮时触发 | ev: `MouseEvent` |
+| select | 用户选择时触发 | value: `string \| number \| Record<string, any> \| undefined`<br />ev: `Event` |
+
+### `<dropdown-button>` 插槽
+
+| 插槽名  |   描述   | 参数                    |
+| ------- | :------: | ----------------------- |
+| icon    | 按钮图标 | popupVisible: `boolean` |
+| content |   内容   | -                       |
+
+## 无框架规则
+
+<Framework only="vue">
+
+选择通知、选后关闭与选项回调由 `@sdata/web-core/dropdown/foundation` 提供。`dropdown/panel` 通过列表、焦点及动画帧端口处理菜单导航、初始焦点重试、滚动通知和高度规则。Vue 保留 Trigger、注入、Ref、computed、nextTick 和生命周期注册；hover 打开不自动抢焦点。
+
+</Framework>
+
+<Framework only="react">
+
+选择通知、选后关闭与选项回调由 `@sdata/web-core/dropdown/foundation` 提供。`dropdown/panel` 通过列表、焦点及动画帧端口处理菜单导航、初始焦点重试、滚动通知和高度规则。React 适配器连接状态、Context、DOM 引用、内容渲染与生命周期。
+
+</Framework>

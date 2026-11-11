@@ -461,6 +461,49 @@ test('plain first click replays expansion after readiness', async (t) => {
   await Promise.resolve();
   assert.equal(events.at(-1), 'toggle');
 });
+test('a click during hover activation takes precedence over hover replay', async (t) => {
+  const { controller, events, root, measurement, reachMeasurement } = performant(t);
+  const pending = controller.activate('hover');
+  controller.handleClick({ target: root, currentTarget: root } as unknown as MouseEvent);
+  await reachMeasurement();
+  measurement.resolve();
+  await pending;
+  assert.equal(events.filter((event) => event === 'toggle').length, 1);
+  assert.deepEqual(root.events, []);
+});
+
+test('adapter hover replay replaces native event dispatch', (t) => {
+  const { controller, state, root } = performant(t);
+  const targets: HTMLElement[] = [];
+  state.replayHover = (element) => targets.push(element);
+  controller.replayInteraction('hover');
+  assert.deepEqual(targets, [root.element]);
+  assert.deepEqual(root.events, []);
+});
+
+test('adapter focus dispatch preserves cancellation while activation is pending', async (t) => {
+  const { controller, state, root, measurement, reachMeasurement, renderGates } = performant(t);
+  const focusEvents: [HTMLElement, boolean][] = [];
+  state.dispatchFocus = (element, focused) => focusEvents.push([element, focused]);
+  const pending = controller.setFocused(true);
+  await reachMeasurement();
+  await controller.setFocused(false);
+  measurement.resolve();
+  while (renderGates.length < 3) await Promise.resolve();
+  renderGates[2].resolve();
+  await pending;
+  assert.deepEqual(focusEvents, [[root.element, false]]);
+  const focus = controller.setFocused(true);
+  while (renderGates.length < 4) await Promise.resolve();
+  renderGates[3].resolve();
+  await focus;
+  assert.deepEqual(focusEvents, [
+    [root.element, false],
+    [root.element, true],
+  ]);
+  assert.deepEqual(root.events, []);
+});
+
 test('SSR construction and inert measurement need no native globals', (t) => {
   globalValue(t, 'window', undefined);
   globalValue(t, 'document', undefined);

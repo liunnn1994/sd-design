@@ -110,6 +110,9 @@ export function createQrCode(adapter: {
   };
 
   return {
+    dispose() {
+      renderGeneration++;
+    },
     async render() {
       const generation = ++renderGeneration;
       if (!adapter.value) {

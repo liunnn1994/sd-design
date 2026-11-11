@@ -1,0 +1,65 @@
+---
+title: 图标 Icon
+description: 基于同一批 SVG 源文件生成的完整图标目录。
+---
+
+## 图标目录
+
+图标库与两个框架共用 SVG 源文件和生成器。可以搜索全部图标并点击查看导入名称。
+
+<Demo id="icon/catalog" />
+
+## 使用图标
+
+<Framework only="vue">
+
+```vue
+<script setup lang="ts">
+  import { IconPlus, IconArrowRight } from '@sdata/web-vue/es/icon/index.js';
+  import '@sdata/web-vue/dist/sd.css';
+</script>
+<template>
+  <IconPlus :size="24" :stroke-width="3" aria-label="新增" />
+  <IconArrowRight :rotate="90" spin />
+</template>
+```
+
+图标从独立图标入口导入，也可以安装图标插件进行全局注册。
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { IconPlus, IconArrowRight } from '@sdata/web-react/icon';
+import '@sdata/web-react/styles/icon.scss';
+
+<IconPlus size={24} strokeWidth={3} aria-label="新增" />;
+<IconArrowRight rotate={90} spin />;
+```
+
+图标通过独立 `@sdata/web-react/icon` 入口导出，不会由组件主入口自动引入整个图标库。也可从 `@sdata/web-react/icon/icon-plus` 默认导入单个图标。默认导出是完整图标组件集合，`iconCatalog` 提供 name、componentName、category 和分类 title。React 使用组件导入，不需要全局 install 插件。
+
+</Framework>
+
+## API
+
+| 属性           | 默认值       | 说明                                                |
+| -------------- | ------------ | --------------------------------------------------- |
+| size           | 继承字体大小 | 数字转为 px；字符串直接作为 font-size，0 保留为 0px |
+| strokeWidth    | 4            | 描边宽度                                            |
+| strokeLinecap  | butt         | butt、round 或 square                               |
+| strokeLinejoin | miter        | arcs、bevel、miter、miter-clip 或 round             |
+| rotate         | 0            | 旋转角度；与 spin 组合时以该角度为旋转基准          |
+| spin           | false        | 添加图标旋转动画类                                  |
+| class / style  | —            | SVG 根元素的附加类和样式                            |
+| 原生事件       | —            | SVG 事件                                            |
+| ref            | —            | 原生 SVGSVGElement 引用                             |
+
+图标继承文本颜色，支持 SVG 原生属性，例如 aria-label、aria-hidden、viewBox 和 fill。装饰性图标可设置 aria-hidden，作为独立信息时应提供有意义的标签。ConfigProvider 的 prefixCls 会同步到图标类名。
+
+图形内容由 SVG 源文件生成；需要自定义 SVG 子内容或字体 symbol 时使用 [通用 Icon / IconFont](/components/icon-component/)。React 的 GeneratedIconProps、GeneratedIconInstance 类型从图标入口导出。
+
+## 维护图标
+
+SVG 源文件位于 web-vue 的 icon/\_svgs。运行现有 icongen 任务会同时生成 Vue 图标、Core 图形数据、React 单图标模块、具名导出和分类目录。生成物不应手工修改；两端共用 Core 尺寸与旋转规则以及基础图标 SCSS。

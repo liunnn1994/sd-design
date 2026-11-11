@@ -1,6 +1,30 @@
 import Result from '../index';
 
 describe('Result', () => {
+  it('isolates shared illustration references between repeated instances', () => {
+    cy.mount({
+      components: { Result },
+      template: '<div><Result status="500"/><Result status="500"/><Result status="403"/></div>',
+    });
+    cy.get('.sd-result svg').should(($svgs) => {
+      const ids = Array.from($svgs).flatMap((svg) =>
+        Array.from(svg.querySelectorAll('[id]')).map((node) => node.id),
+      );
+      expect(ids.length).to.be.greaterThan(0);
+      expect(new Set(ids).size).to.equal(ids.length);
+      for (const svg of Array.from($svgs)) {
+        for (const node of Array.from(svg.querySelectorAll('[href]'))) {
+          const href = node.getAttribute('href')!;
+          if (href.startsWith('#'))
+            expect(
+              Array.from(svg.querySelectorAll('[id]')).some(
+                (target) => target.id === href.slice(1),
+              ),
+            ).to.equal(true);
+        }
+      }
+    });
+  });
   const STATUS_ICONS = [
     ['info', 'sd-icon-info'],
     ['success', 'sd-icon-check'],

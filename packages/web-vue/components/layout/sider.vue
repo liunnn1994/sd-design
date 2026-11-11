@@ -126,7 +126,12 @@
     type PropType,
   } from 'vue';
 
-  import { createSiderFoundation, toSiderWidth } from '@sdata/web-core/layout/sider';
+  import {
+    createSiderFoundation,
+    toSiderWidth,
+    getSiderStyle,
+    getSiderOverlayStyle,
+  } from '@sdata/web-core/layout/sider';
 
   import type { SiderBreakpoint } from '../_utils/responsive-observe';
   import type { CollapseType, SiderTemporaryDrawerProps } from './interface';
@@ -431,42 +436,12 @@
   const useNativeScrollbar = computed(() => props.scrollbar === false);
 
   // ============================ Style ============================
-  const divStyle = computed(() => {
-    // temporary 模式下 aside 退化为触发器宿主，不占据 in-flow 宽度。
-    if (props.temporary) {
-      return { flex: '0 0 auto', width: 'auto' };
-    }
-    // rail 模式下 aside 流内占位恒为 railWidth，不随 hover 变化 → 右侧内容零重排。
-    // 悬停展开交给内部 overlay 容器（railOverlayStyle），aside 自身不切定位/不变宽。
-    if (props.rail) {
-      return {
-        flex: `0 0 ${railReservedWidth.value}`,
-        maxWidth: railReservedWidth.value,
-        minWidth: railReservedWidth.value,
-        width: railReservedWidth.value,
-      };
-    }
-    return {
-      flex: `0 0 ${siderWidth.value}`,
-      maxWidth: siderWidth.value,
-      minWidth: siderWidth.value,
-      width: siderWidth.value,
-    };
-  });
-
-  // rail 内部 overlay 容器：始终保持绝对定位（脱离文档流，不推动右侧内容），
-  // 仅在 railWidth（常驻）与全宽（hover 展开）之间过渡 width → 平滑展开/收回且零重排。
-  // 之所以始终 absolute：position 不可动画，若常驻用 static 会在收回过渡中（width 仍宽时）
-  // 溢出到内容流；始终 absolute 则过渡期间始终浮于上方，只是覆盖范围渐变。
-  const railOverlayStyle = computed<CSSProperties>(() => {
-    const base: CSSProperties = {
-      position: 'absolute',
-      inset: '0',
-      width: isRailExpanded.value ? siderWidth.value : railReservedWidth.value,
-    };
-    return isRailExpanded.value ? { ...base, zIndex: 20 } : base;
-  });
-
+  const divStyle = computed(() =>
+    getSiderStyle(props.temporary, props.rail, siderWidth.value, railReservedWidth.value),
+  );
+  const railOverlayStyle = computed<CSSProperties>(() =>
+    getSiderOverlayStyle(isRailExpanded.value, siderWidth.value, railReservedWidth.value),
+  );
   const railOverlayCls = computed(() => [
     `${prefixCls}-rail-overlay`,
     {

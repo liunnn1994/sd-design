@@ -109,12 +109,11 @@
 </template>
 
 <script lang="ts" setup>
-  import type { Middleware } from '@floating-ui/vue';
-  import type { TriggerStyleSnapshot } from '@sdata/web-core/bloom-menu/types';
+  import type { BloomMenuProps, TriggerStyleSnapshot } from '@sdata/web-core/bloom-menu/types';
   import type { Transition } from 'motion-v';
   import type { Merge, UnknownRecord } from 'type-fest';
 
-  import type { CSSProperties, HTMLAttributes, VNode } from 'vue';
+  import type { Component, CSSProperties, HTMLAttributes, VNode } from 'vue';
   import {
     computed,
     nextTick,
@@ -126,7 +125,6 @@
     watch,
   } from 'vue';
 
-  import { shift } from '@floating-ui/vue';
   import {
     createBloomMenuFoundation,
     getBloomMenuInitialState,
@@ -135,7 +133,7 @@
 
   import type { FloatingOptions } from '../_utils/floating';
   import type { ButtonInstance } from '../button';
-  import type { BloomMenuItem, BloomMenuOffset } from './types';
+  import type { BloomMenuItem } from './types';
 
   import { getPrefixCls } from '../_utils/global-config';
   import Button from '../button';
@@ -157,53 +155,7 @@
     triggerText = 'Create',
     buttonProps,
     offset,
-  } = defineProps<{
-    /**
-     * @zh 菜单项
-     * @en Menu items
-     */
-    items: readonly BloomMenuItem[];
-    /**
-     * @zh 是否展开
-     * @en Whether the menu is open
-     */
-    modelValue?: boolean;
-    /**
-     * @zh 非受控模式下的初始展开状态
-     * @en Initial open state in uncontrolled mode
-     */
-    defaultOpen?: boolean;
-    /**
-     * @zh 每行列数
-     * @en Number of columns per row
-     */
-    columns?: number;
-    /**
-     * @zh 面板标题
-     * @en Panel title
-     */
-    title?: string;
-    /**
-     * @zh 默认触发器文本
-     * @en Default trigger text
-     */
-    triggerText?: string;
-    /**
-     * @zh 触发按钮属性
-     * @en Trigger button props
-     */
-    buttonProps?: BloomMenuButtonProps;
-    /**
-     * @zh 浮层中心相对触发按钮中心的偏移
-     * @en Popup center offset relative to the trigger center
-     */
-    offset?: BloomMenuOffset;
-    /**
-     * @zh 关闭按钮的无障碍标签,默认取国际化文案
-     * @en Accessible label for the close button, defaults to the locale text
-     */
-    closeAriaLabel?: string;
-  }>();
+  } = defineProps<BloomMenuProps<BloomMenuButtonProps, Component>>();
 
   const emit = defineEmits<{
     /**
@@ -297,21 +249,6 @@
         get reducedMotion() {
           return reducedMotion.value;
         },
-        get normalizedColumns() {
-          return normalizedColumns.value;
-        },
-        get rowCount() {
-          return rowCount.value;
-        },
-        get isOpen() {
-          return isOpen.value;
-        },
-        get panelCollapsed() {
-          return panelCollapsed.value;
-        },
-        get panelAnimate() {
-          return panelAnimate.value;
-        },
         get internalOpen() {
           return internalOpen.value;
         },
@@ -356,16 +293,9 @@
   } = foundation;
 
   const normalizedColumns = computed(foundation.getNormalizedColumns);
-  const rowCount = computed(foundation.getRowCount);
   const isOpen = computed(foundation.getIsOpen);
   const rootClasses = computed(() => [prefixCls, { [`${prefixCls}-open`]: isOpen.value }]);
-  const centerMiddleware = computed<Middleware>(foundation.getCenterMiddleware);
-  const floatingOptions = computed<FloatingOptions>(() => ({
-    placement: 'top',
-    // shift 在中心定位之后执行,把面板收回视口内(修复原版会溢出屏幕的缺陷);
-    // crossAxis 覆盖水平方向,主轴覆盖垂直方向
-    middleware: [centerMiddleware.value, shift({ crossAxis: true })],
-  }));
+  const floatingOptions = computed<FloatingOptions>(foundation.getFloatingOptions);
   const popupContentStyle = computed<CSSProperties>(() => ({
     pointerEvents: isOpen.value ? undefined : 'none',
   }));
@@ -382,9 +312,7 @@
         '--bloom-menu-source-color': triggerStyle.value.color,
       }) as CSSProperties,
   );
-  const panelCollapsed = computed(foundation.getPanelCollapsed);
   const panelInitial = computed(foundation.getPanelInitial);
-  const panelAnimate = computed(foundation.getPanelAnimate);
   const panelTarget = computed(foundation.getPanelTarget);
   const morphTransition = computed<Transition>(foundation.getMorphTransition);
   const contentTransition = computed<Transition>(foundation.getContentTransition);

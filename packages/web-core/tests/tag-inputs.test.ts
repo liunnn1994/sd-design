@@ -11,7 +11,7 @@ import {
   getVisibleTagCount,
   getRetainedTagInput,
 } from '../dist/input-tag/foundation.js';
-import { getValueData } from '../dist/input-tag/utils.js';
+import { DEFAULT_INPUT_TAG_FIELD_NAMES, getValueData } from '../dist/input-tag/utils.js';
 import { createMention, getEmptyMeasureInfo, getMentionValue } from '../dist/mention/foundation.js';
 import {
   getLastMeasureIndex,
@@ -20,7 +20,7 @@ import {
 } from '../dist/mention/utils.js';
 import { createReadonlyTip, isReadonlyModificationKey } from '../dist/text-input/readonly.js';
 
-const fields = { value: 'value', label: 'label', closable: 'closable', tagProps: 'tagProps' };
+const fields = DEFAULT_INPUT_TAG_FIELD_NAMES;
 const key = (value: string) => ({ key: value, preventDefault() {} }) as KeyboardEvent;
 
 function tags() {

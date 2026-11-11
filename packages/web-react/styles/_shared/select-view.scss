@@ -1,0 +1,4 @@
+@use '../input-tag.scss';
+@use '../ellipsis.scss';
+@forward '@sdata/web-core/styles/_components/input-label/style/index.scss';
+@forward '@sdata/web-core/styles/_components/select-view/style/index.scss';

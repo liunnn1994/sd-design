@@ -15,6 +15,7 @@ export default defineConfig({
       'cypress/e2e/corner-shape.cy.ts',
       'cypress/e2e/liquid-glass-logo-docs.cy.ts',
       'cypress/e2e/docs-localization.cy.ts',
+      'cypress/e2e/framework-switch.cy.ts',
       'cypress/e2e/home.cy.ts',
       'cypress/e2e/home-local-chat.cy.ts',
       'cypress/e2e/home-workbench.cy.ts',

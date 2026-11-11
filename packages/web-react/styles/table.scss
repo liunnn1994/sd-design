@@ -1,0 +1,11 @@
+@use '@sdata/web-core/styles/style/index.scss' as base;
+@use './button.scss';
+@use './checkbox.scss';
+@use './radio.scss';
+@use './ellipsis.scss';
+@use './trigger.scss';
+@use './spin.scss';
+@use './scrollbar.scss';
+@use './empty.scss';
+@use './pagination.scss';
+@forward '@sdata/web-core/styles/table/style/index.scss';

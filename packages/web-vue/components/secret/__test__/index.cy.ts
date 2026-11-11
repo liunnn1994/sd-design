@@ -19,6 +19,12 @@ describe('Secret', () => {
     });
     cy.get('.sd-secret-placeholder').should('not.exist');
     cy.contains('db-password-prod-2026').should('exist');
+    cy.get('.sd-secret-trigger').should('have.attr', 'aria-pressed', 'true').click();
+    cy.get('.sd-secret-placeholder').should('exist');
+    cy.get('.sd-secret-trigger').should('have.attr', 'aria-pressed', 'false');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:visible')).to.deep.equal([[true], [false]]);
+    });
   });
 
   it('respects visible and showCopy props', () => {

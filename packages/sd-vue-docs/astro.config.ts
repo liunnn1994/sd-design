@@ -1,12 +1,15 @@
 import mdx from '@astrojs/mdx';
+import react from '@astrojs/react';
 import starlight from '@astrojs/starlight';
 import vue from '@astrojs/vue';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
-import { docsSidebar } from './src/generated/docs-sidebar';
+import { docsSidebar } from './src/generated/docs-sidebar.ts';
+import { frameworkDocs } from './src/integrations/framework-docs.ts';
 import { sdDocsLlmsIntegration } from './src/integrations/llms/index.ts';
+import { reactSourcePattern, scopedReactRefresh } from './src/integrations/scoped-react-refresh.ts';
 
 // dayjs 默认内置英文；此处仅需显式注册项目使用的非默认语言。
 const dayjsLocaleDependencies = ['dayjs/locale/zh-cn'];
@@ -130,9 +133,10 @@ export default defineConfig({
         '@sdata/web-vue > @videojs/html/video/neutral-skin',
       ],
     },
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), scopedReactRefresh()],
   },
   integrations: [
+    frameworkDocs(),
     sdDocsLlmsIntegration(),
     starlight({
       title: 'SD Design',
@@ -154,7 +158,10 @@ export default defineConfig({
         },
       ],
       sidebar: docsSidebar,
+      routeMiddleware: './src/framework-route-data.ts',
       components: {
+        Sidebar: './src/components/starlight/Sidebar.astro',
+        Search: './src/components/starlight/Search.astro',
         MarkdownContent: './src/components/starlight/MarkdownContent.astro',
       },
       customCss: [
@@ -209,7 +216,8 @@ export default defineConfig({
       credits: false,
     }),
     mdx(),
-    // Match the component library JSX transform for imported TSX render helpers.
-    vue({ appEntrypoint: '/src/pages/_app.ts', jsx: true }),
+    // Vue uses SFCs; keep TSX exclusively on the React transform and dependency scanner.
+    vue({ appEntrypoint: '/src/pages/_app.ts' }),
+    react({ include: reactSourcePattern }),
   ],
 });

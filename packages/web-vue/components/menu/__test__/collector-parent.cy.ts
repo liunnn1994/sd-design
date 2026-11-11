@@ -5,6 +5,54 @@ import useMenuDataCollector, {
 } from '../hooks/use-menu-data-collector';
 
 describe('Menu nested popup data collection', () => {
+  it('registers initially mounted popups once and reports late submenu replacements', () => {
+    const Late = defineComponent({
+      setup() {
+        useMenuDataCollector({ type: 'subMenu', key: 'late' });
+        return () => h('span', 'Late');
+      },
+    });
+    const Popup = defineComponent({
+      setup() {
+        useMenuDataCollector({ type: 'popupMenu' });
+        const late = ref(false);
+        return () => [
+          h(
+            'button',
+            {
+              onClick: () => {
+                late.value = !late.value;
+              },
+            },
+            'Toggle late',
+          ),
+          late.value ? h(Late) : null,
+        ];
+      },
+    });
+    const Branch = defineComponent({
+      setup() {
+        useMenuDataCollector({ type: 'subMenu', key: 'branch' });
+        return () => h(Popup);
+      },
+    });
+    cy.mount(
+      defineComponent({
+        setup() {
+          const { menuData } = useMenuDataCollector({ type: 'menu' });
+          return () => [h(Branch), h('output', JSON.stringify(menuData.value))];
+        },
+      }),
+    );
+    cy.get('output').should('have.text', '[{"key":"branch","children":[]}]');
+    cy.contains('button', 'Toggle late').click();
+    cy.get('output').should(
+      'have.text',
+      '[{"key":"branch","children":[{"key":"late","children":[]}]}]',
+    );
+    cy.contains('button', 'Toggle late').click();
+    cy.get('output').should('have.text', '[{"key":"branch","children":[]}]');
+  });
   it('reports nested popup data under the owning parent key', () => {
     const Leaf = defineComponent({
       setup() {

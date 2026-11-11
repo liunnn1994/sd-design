@@ -1,0 +1,44 @@
+/** @jsxImportSource react */
+
+import { Button, Tag, Timeline, TimelineItem } from '@sdata/web-react';
+import { useState } from 'react';
+
+import '../../home/HomeContentExample.scss';
+
+export default function HomeContentExample() {
+  const [published, setPublished] = useState(false);
+  return (
+    <div className="home-content-example">
+      <div className="home-content-example__heading">
+        <strong>发布进度</strong>
+        <Tag size="small" color={published ? 'green' : 'blue'}>
+          {published ? '已发布' : '进行中'}
+        </Tag>
+      </div>
+      <Timeline>
+        <TimelineItem label="09:30" dotColor="rgb(var(--sd-success-6))">
+          <strong>整理更新亮点</strong>
+          <p>让每一次改进，都被看见。</p>
+        </TimelineItem>
+        <TimelineItem label="10:00" dotColor="rgb(var(--sd-success-6))">
+          <strong>准备发布内容</strong>
+          <p>文案、截图与版本说明。</p>
+        </TimelineItem>
+        <TimelineItem
+          label={published ? '10:30' : '下一步'}
+          dotColor={published ? 'rgb(var(--sd-success-6))' : 'rgb(var(--sd-primary-6))'}
+        >
+          <strong>{published ? '版本已发布' : '发布新版本'}</strong>
+          <p>{published ? '新的体验，已经上线。' : '一切就绪，等待出发。'}</p>
+        </TimelineItem>
+      </Timeline>
+      <Button
+        size="small"
+        type={published ? 'secondary' : 'primary'}
+        onClick={() => setPublished((value) => !value)}
+      >
+        {published ? '重新演示' : '发布版本'}
+      </Button>
+    </div>
+  );
+}

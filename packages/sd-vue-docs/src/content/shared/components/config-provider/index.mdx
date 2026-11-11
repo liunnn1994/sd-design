@@ -1,0 +1,231 @@
+---
+title: 全局配置 ConfigProvider
+description: 在应用的最外层进行配置，一次设置，全局生效。一般用于设置国际化语言等功能。
+---
+
+### 基本用法
+
+设置国际化语言的基本用法。
+
+<Demo id="config-provider/basic" />
+
+### 自定义空状态元素
+
+通过 `empty` 插槽可以全局自定义空状态元素。
+
+<Demo id="config-provider/empty" />
+
+### RTL 视图
+
+设置组件为从右向左阅读的视图。
+
+<Demo id="config-provider/rtl" />
+
+### 默认开启 allowClear
+
+设置 `allow-clear` 后，支持清空按钮的组件会默认继承这个配置；如果组件自己显式传入了 `allow-clear` 或 `allowClear`，则以组件 props 为准。
+
+<Demo id="config-provider/allow-clear" />
+
+### 默认开启 allowSearch
+
+设置 `allow-search` 后，支持搜索的组件会默认继承这个配置；如果组件自己显式传入了 `allow-search` 或 `allowSearch`，则以组件 props 为准。
+
+<Demo id="config-provider/allow-search" />
+
+### 默认下拉虚拟滚动参数
+
+设置 `virtual-list-props` 后，Select、AutoComplete、Cascader、TreeSelect 这类下拉组件会默认继承这组虚拟滚动参数；如果组件自己显式传入了 `virtual-list-props`，则以组件 props 为准。
+
+<Demo id="config-provider/virtual-list-props" />
+
+### 局部主题模式
+
+`ConfigProvider` 现在可以作为局部 ThemeProvider 使用。设置 `theme-mode` 后，组件库会在当前子树上挂载真正的局部 `sd-theme` 容器，而不是只依赖 `body`。
+
+<Demo id="config-provider/theme-mode" />
+
+### Message / Notification 去重
+
+<Framework only="vue">
+
+分别设置 `message` 和 `notification` 的 `deduplicate`，默认关闭。函数式调用需要开启 `global`，并通过对应应用的 `$message` / `$notification` 调用，或为导入的 Message / Notification 传入 AppContext（也可设置 `_context`）。
+
+</Framework>
+
+<Framework only="react">
+
+分别设置 `message` 和 `notification` 的 `deduplicate`，默认关闭。使用 `useMessage()` / `useNotification()` 并把返回的 holder 放在 ConfigProvider 内，函数式调用才能读取所在子树的配置。
+
+</Framework>
+
+<Framework only="vue">
+
+```vue
+<sd-config-provider global :message="{ deduplicate: true }" :notification="{ deduplicate: true }">
+  <App />
+</sd-config-provider>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { ConfigProvider } from '@sdata/web-react';
+
+<ConfigProvider global message={{ deduplicate: true }} notification={{ deduplicate: true }}>
+  <App />
+</ConfigProvider>;
+```
+
+</Framework>
+
+`deduplicateByType` 默认为 `true`，仅相同类型与内容会合并；Notification 还会比较标题。设置 `message` / `notification` 的 `deduplicateByType: false` 可忽略类型；单次调用可覆盖此设置，合并后保留已有提示的类型。重复调用重新开始关闭计时，关闭后移出池。单次传入 `deduplicate: false` 可继续弹出相同消息。
+
+<Demo id="config-provider/deduplicate" />
+
+### Modal / Drawer 默认配置
+
+设置 `modal` 与 `drawer` 后，Modal / Drawer 会默认继承对应配置；如果组件自己显式传入了同名 props（例如 `closable`、`ok-text`、`width`），则以组件 props 为准。
+
+<Demo id="config-provider/modal-drawer-defaults" />
+
+### DatePicker 默认配置
+
+设置 `date-picker` 后，DatePicker / RangePicker 会默认继承对应配置；如果组件自己显式传入了同名 props（例如 `show-confirm-btn`、`abbreviation`、`shortcuts`），则以组件 props 为准。
+
+<Demo id="config-provider/date-picker-defaults" />
+
+### Pagination 默认配置
+
+设置 `pagination` 后，Pagination 会默认继承对应配置；如果组件自己显式传入了同名 props，则以组件 props 为准。下面第二个分页组件通过局部 props 关闭了页容量选择器，并单独开启了跳转输入框。
+
+<Demo id="config-provider/pagination-defaults" />
+
+### Spin 与 Table 加载参数
+
+`spin-props` 统一设置所有 Spin 的默认属性；`table-spin-props`、`list-spin-props` 等组件级配置只设置对应组件内部的 Spin，并覆盖同名的通用配置。组件局部传入的 `spin-props` 优先级最高。
+
+<Demo id="config-provider/spin-props" />
+
+## API
+
+### `<config-provider>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| prefix-cls | 组件类名前缀 | `string` | `'sd'` |  |
+| locale | 配置语言包 | `SdLang` | `-` |  |
+| size | 大小 | `Size` | `-` | 2.14.0 |
+| allow-clear | 是否默认开启清除按钮 | `boolean` | `false` |  |
+| allow-search | 是否默认开启搜索 | `boolean` | `false` |  |
+| virtual-list-props | 下拉类组件默认虚拟滚动参数 | `VirtualListProps` | `-` |  |
+| global | 是否全局生效 | `boolean` | `false` | 2.25.0 |
+| update-at-scroll | 是否在容器滚动时更新弹出框的位置 | `boolean` | `false` | 2.25.0 |
+| scroll-to-close | 是否在滚动时关闭弹出框 | `boolean` | `false` | 2.46.0 |
+| exchange-time | 是否交换时间 | `boolean` | `true` | 2.48.0 |
+| rtl | 视图的表现形式是从右开始向左结束 | `boolean` | `false` |  |
+| date-picker | DatePicker 组件默认配置 | `ConfigProviderDatePicker` | `-` |  |
+| message | Message 默认配置 | `ConfigProviderMessage` | - |  |
+| notification | Notification 默认配置 | `ConfigProviderNotification` | - |  |
+| modal | Modal 组件默认配置 | `ConfigProviderModal` | `-` |  |
+| drawer | Drawer 组件默认配置 | `ConfigProviderDrawer` | `-` |  |
+| pagination | Pagination 组件默认配置 | `ConfigProviderPagination` | `-` |  |
+| table | Table 组件默认配置 | `ConfigProviderTable` | `-` |  |
+| color-picker | ColorPicker 组件默认配置 | `ConfigProviderColorPicker` | `-` |  |
+| spin-props | Spin 组件默认属性 | `SpinProps` | `-` |  |
+| basic-crud-table-spin-props | BasicCrudTable 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| card-spin-props | Card 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| cascader-spin-props | Cascader 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| list-spin-props | List 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| qr-code-spin-props | QrCode 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| select-spin-props | Select 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| table-spin-props | Table 内部 Spin 的默认属性，优先于 `spin-props` | `SpinProps` | `-` |  |
+| timeline-spin-props | Timeline 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| toolbar-spin-props | Toolbar 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| tree-select-spin-props | TreeSelect 内部 Spin 的默认属性 | `SpinProps` | `-` |  |
+| json-form | JsonForm 组件默认配置 | `JsonFormProviderConfig` | `-` |  |
+| theme | 运行时主题对象 | `SdThemeConfig` | `-` |  |
+| theme-mode | 当前 ConfigProvider 子树的主题模式 | `'light' \| 'dark'` | `-` |  |
+
+### `<config-provider>` 插槽
+
+| 插槽名  |       描述       | 参数                | 版本   |
+| ------- | :--------------: | ------------------- | :----- |
+| loading | 自定义加载中元素 | -                   | 2.28.0 |
+| empty   | 自定义空状态元素 | component: `string` | 2.28.0 |
+
+## 常见问题
+
+### 全局配置
+
+<Framework only="vue">
+
+`global` 属性设置为 `true` 时，会将配置内容注入到 Vue AppContext 中，一般用于解决使用 Modal、Message 组件的函数式调用方法时，配置内容无法生效的问题。
+
+</Framework>
+
+<Framework only="react">
+
+ConfigProvider 通过 React Context 为子树提供配置。`useModal()`、`useMessage()` 和 `useNotification()` 返回的 holder 必须渲染在该子树内。`global` 控制全局主题，不会把业务 Context 注入独立的静态调用。
+
+</Framework>
+
+`allow-clear` 只会给未显式传入 `allowClear` 或 `allow-clear` 的组件提供默认值，不会覆盖组件自己已经声明的 props。
+
+`allow-search` 也只会给未显式传入 `allowSearch` 或 `allow-search` 的组件提供默认值；像 `filterable` 这类兼容别名如果已经显式传入，同样会优先于全局配置。
+
+`virtual-list-props` 目前只对下拉类组件生效，例如 Select、AutoComplete、Cascader、TreeSelect；Table、List 等非下拉组件不会读取这个全局默认值。
+
+`modal` 支持以下全局默认字段：`mask`、`maskClosable`、`maskStyle`、`alignCenter`、`escToClose`、`draggable`、`closable`、`titleAlign`、`titleEllipsisTooltip`、`top`、`footer`、`hideCancel`、`okText`、`cancelText`、`okButtonProps`、`cancelButtonProps`、`width`。
+
+`date-picker` 支持以下全局默认字段：`shortcuts`、`shortcutsPosition`、`previewShortcut`、`showConfirmBtn`、`showNowBtn`、`dayStartOfWeek`、`abbreviation`。
+
+`drawer` 支持以下全局默认字段：`placement`、`mask`、`maskClosable`、`escToClose`、`closable`、`header`、`footer`、`titleEllipsisTooltip`、`hideCancel`、`okText`、`cancelText`、`okButtonProps`、`cancelButtonProps`、`width`、`height`。
+
+`pagination` 支持以下全局默认字段：`pageSizeOptions`、`defaultPageSize`、`showTotal`、`showMore`、`showJumper`、`showPageSize`、`autoAdjust`、`baseSize`、`bufferSize`、`pageSizeProps`。
+
+`table` 支持 `bordered`、`hoverable`、`stripe`、`tableLayoutFixed`、`pagination`、`pagePosition`、`indentSize`、`showHeader`、`filterIconAlignLeft`、`hideExpandButtonOnEmpty`、`columnResizable`、`summaryText`、`stickyHeader`、`scrollbar`、`showEmptyTree`。例如，一次开启当前 ConfigProvider 子树内所有 Table 的列宽调整：
+
+<Framework only="vue">
+
+```vue
+<ConfigProvider :table="{ columnResizable: true }">
+  <Table :columns="columns" :data="data" />
+</ConfigProvider>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { ConfigProvider, Table } from '@sdata/web-react';
+
+<ConfigProvider table={{ columnResizable: true }}>
+  <Table columns={columns} data={data} />
+</ConfigProvider>;
+```
+
+</Framework>
+
+`table.pagination` 控制 Table 是否显示分页或传入 Table 的分页参数；顶层 `pagination` 配置的是 Pagination 组件自身的默认属性。Table 显式传入的同名 prop 优先于 `table` 默认值。
+
+`color-picker` 支持通过 `swatchColors` 配置 ColorPicker 的默认系统色板。组件显式传入 `swatch-colors` 时优先使用组件配置；两处均未配置时系统色板为空。
+
+`json-form` 支持给 `JsonForm` 提供默认 `adapter`，以及注入业务自定义字段组件注册表 `components`。当多个页面共享同一批业务字段组件时，优先通过 `ConfigProvider` 统一配置。
+
+这些字段遵循“组件显式传参优先”原则：只有当组件未显式声明对应 prop 时，才会回退到 ConfigProvider 的默认值。
+
+### 局部主题模式
+
+`theme-mode` 会让 `ConfigProvider` 在当前子树中创建一个局部 ThemeProvider。和直接操作 `body` 不同，这种方式适合在同一页面上并存多个不同主题的组件区域。
+
+当只传 `theme`、不传 `theme-mode` 时，当前子树会继承上层主题模式，仅对传入的 token 做局部增量覆盖。
+
+如果你只需要局部主题切换，不需要 locale、rtl、size 等其他配置，也可以直接使用 `ThemeProvider` 组件。
+
+### 自定义空状态展示
+
+可以在 `#empty` 中自定义组件库全局的空状态展示，如果在插槽中使用到了 `Empty` 组件，需要开启 `inConfigProvider` 属性。

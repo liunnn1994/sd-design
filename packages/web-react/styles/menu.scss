@@ -1,0 +1,4 @@
+@use './trigger.scss';
+@use './tooltip.scss';
+@use './ellipsis.scss';
+@forward '@sdata/web-core/styles/menu/style/index.scss';

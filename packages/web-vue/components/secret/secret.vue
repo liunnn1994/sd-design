@@ -27,6 +27,8 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import { createSecretFoundation } from '@sdata/web-core/secret/foundation';
+
   import type { SecretProps } from './interface';
 
   import { getPrefixCls } from '../_utils/global-config';
@@ -50,12 +52,16 @@
   const { t } = useI18n();
 
   const prefixCls = getPrefixCls('secret');
-  const toggleAriaLabel = computed(() =>
-    visibleValue.value ? t('a11y.secretHide') : t('a11y.secretShow'),
-  );
+  const foundation = createSecretFoundation({
+    get visible() {
+      return visibleValue.value;
+    },
+    set visible(value) {
+      visibleValue.value = value;
+    },
+  });
+  const toggleAriaLabel = computed(() => t(foundation.labelKey));
   const toggleTooltip = toggleAriaLabel;
 
-  function handleToggleVisible() {
-    visibleValue.value = !visibleValue.value;
-  }
+  const handleToggleVisible = foundation.toggle;
 </script>

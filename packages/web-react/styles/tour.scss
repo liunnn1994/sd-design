@@ -1,0 +1,3 @@
+@use '@sdata/web-core/styles/style/index.scss' as base;
+@use '@sdata/web-core/styles/tour/style/vendor.scss';
+@forward '@sdata/web-core/styles/tour/style/index.scss';

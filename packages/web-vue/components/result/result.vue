@@ -44,6 +44,8 @@
 <script setup lang="ts">
   import { PropType, computed } from 'vue';
 
+  import { resolveResultStatus } from '@sdata/web-core/result/utils';
+
   import { getPrefixCls } from '../_utils/global-config';
   import IconCheck from '../icon/icon-check';
   import IconClose from '../icon/icon-close';
@@ -112,7 +114,5 @@
   const prefixCls = getPrefixCls('result');
 
   // 非法 status 回退到默认的 info 分支，避免渲染空的 icon 块
-  const mergedStatus = computed(() =>
-    RESULT_STATUS.includes(props.status) ? props.status : 'info',
-  );
+  const mergedStatus = computed(() => resolveResultStatus(props.status));
 </script>

@@ -1,0 +1,9 @@
+@use './table.scss';
+@use './toolbar.scss';
+@use './json-form.scss';
+@use './modal.scss';
+@use './popconfirm.scss';
+@use './space.scss';
+@use './link.scss';
+@use './spin.scss';
+@forward '@sdata/web-core/styles/basic-crud-table/style/index.scss';

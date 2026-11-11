@@ -11,6 +11,7 @@ export function createNoticeQueue<Config extends NoticeConfig, Item extends Noti
     create(config: Config & { id: NoticeId }): Item;
     destroy(): void;
     onDestroy(): void;
+    changed?(): void;
   },
 ) {
   const pool = new Set<Item>();
@@ -23,6 +24,7 @@ export function createNoticeQueue<Config extends NoticeConfig, Item extends Noti
         adapter.items.splice(i, 1);
         ids.delete(id);
         pool.delete(item);
+        adapter.changed?.();
         if (isFunction(item.onClose)) item.onClose(id);
         break;
       }
@@ -40,6 +42,7 @@ export function createNoticeQueue<Config extends NoticeConfig, Item extends Noti
         const updated = adapter.items[i];
         if (config.deduplicate) pool.add(updated);
         else pool.delete(updated);
+        adapter.changed?.();
         break;
       }
     }
@@ -56,6 +59,7 @@ export function createNoticeQueue<Config extends NoticeConfig, Item extends Noti
     adapter.items.push(item);
     if (config.deduplicate) pool.add(item);
     ids.add(id);
+    adapter.changed?.();
     return { close: () => remove(id) };
   }
   function reuse(config: Config) {
@@ -67,6 +71,7 @@ export function createNoticeQueue<Config extends NoticeConfig, Item extends Noti
       ) {
         if (!isUndefined(config.duration)) item.duration = config.duration;
         item.timerVersion = (item.timerVersion ?? 0) + 1;
+        adapter.changed?.();
         return { close: () => remove(item.id) };
       }
     }
@@ -75,6 +80,7 @@ export function createNoticeQueue<Config extends NoticeConfig, Item extends Noti
     adapter.items.splice(0);
     ids.clear();
     pool.clear();
+    adapter.changed?.();
   }
   function destroy() {
     if (adapter.items.length === 0 && adapter.alive) {

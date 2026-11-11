@@ -18,6 +18,18 @@ test('shared Sass compiles without a framework package or source aliases', async
     name.endsWith('.scss'),
   )) {
     const source = await readFile(new URL(file.replaceAll('\\', '/'), styles), 'utf8');
+    if (file.replaceAll('\\', '/') === 'tour/style/vendor.scss') {
+      assert.equal(source.trim(), "@use 'driver.js/dist/driver.css';");
+      const vendor = await sass.compileAsync(
+        fileURLToPath(new URL(file.replaceAll('\\', '/'), styles)),
+        {
+          loadPaths: [fileURLToPath(new URL('../node_modules/', import.meta.url))],
+        },
+      );
+      assert.match(vendor.css, /\.driver-overlay/);
+      assert.match(vendor.css, /\.driver-popover/);
+      continue;
+    }
     assert.doesNotMatch(
       source,
       /@(?:use|forward|import)\s*['"](?:@style\/|@components\/|.*web-vue|driver\.js\/)/,

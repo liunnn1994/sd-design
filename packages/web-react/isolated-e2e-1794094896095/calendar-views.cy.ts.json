@@ -1,0 +1,10 @@
+{
+  "spec": "calendar-views.cy.ts",
+  "status": "failed",
+  "tests": 0,
+  "passed": 0,
+  "failed": 4294967295,
+  "pending": 0,
+  "skipped": 0,
+  "error": "Could not find Cypress test run results"
+}

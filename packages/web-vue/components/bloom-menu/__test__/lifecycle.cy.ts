@@ -102,3 +102,20 @@ describe('BloomMenu lifecycle', () => {
     cy.get('[data-bloom-menu-panel]').should('have.css', '--bloom-menu-columns', '1');
   });
 });
+
+it('removes the popup during opening without delayed focus stealing after unmount', () => {
+  cy.mount(BloomMenu, { props: { items, defaultOpen: true } });
+  cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
+  cy.document().then((document) => {
+    const target = document.createElement('button');
+    target.id = 'bloom-after-unmount';
+    target.textContent = 'Continue';
+    document.body.append(target);
+    target.focus();
+  });
+  cy.get('[data-bloom-menu-panel]').should('not.exist');
+  cy.wait(500);
+  cy.get('#bloom-after-unmount')
+    .should('have.focus')
+    .then(($button) => $button.remove());
+});

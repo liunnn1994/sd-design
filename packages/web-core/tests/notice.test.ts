@@ -259,3 +259,26 @@ test('hover reset cancels while entered, restarts a full duration on leave and r
   t.f.clear();
   assert.deepEqual(t.cancelled, [1, 2]);
 });
+
+test('notice queue publishes add, update, reuse, handle close and clear mutations', () => {
+  const items: NoticeItem[] = [];
+  const snapshots: unknown[] = [];
+  const f = createNoticeQueue<NoticeConfig, NoticeItem>('message', {
+    items,
+    alive: true,
+    connected: true,
+    create: (item) => item,
+    destroy() {},
+    onDestroy() {},
+    changed() {
+      snapshots.push(items.map((item) => [item.content, item.timerVersion ?? 0]));
+    },
+  });
+  const handle = f.add({ id: 'x', content: 'one', deduplicate: true });
+  f.add({ id: 'x', content: 'two', deduplicate: true });
+  f.reuse({ content: 'two' });
+  handle.close();
+  f.add({ content: 'three' });
+  f.clear();
+  assert.deepEqual(snapshots, [[['one', 0]], [['two', 0]], [['two', 1]], [], [['three', 0]], []]);
+});

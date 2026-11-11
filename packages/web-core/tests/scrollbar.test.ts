@@ -77,6 +77,7 @@ function fixture() {
     props: values,
     outer: {} as HTMLElement | undefined,
     container: { scrollHeight: 200, scrollWidth: 300 } as HTMLElement | undefined,
+    viewport: undefined as HTMLElement | undefined,
     get normalizedStyle() {
       return normalizeScrollbarStyle(this.props.outerStyle);
     },
@@ -112,6 +113,17 @@ function fixture() {
     },
   };
 }
+
+test('scrollbar preserves an adapter-owned viewport when initializing the engine', () => {
+  const setup = fixture();
+  const viewport = {} as HTMLElement;
+  setup.adapter.viewport = viewport;
+  setup.controller.mount();
+  assert.deepEqual(setup.calls.find(([name]) => name === 'create')?.[1], {
+    target: setup.adapter.container,
+    elements: { viewport },
+  });
+});
 
 test('scrollbar options keep component precedence, private axis guards and user scrollbar overrides', () => {
   const value = props();

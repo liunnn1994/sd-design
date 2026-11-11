@@ -9,3 +9,7 @@ export const RESULT_STATUS = [
   null,
 ] as const;
 export type ResultStatus = (typeof RESULT_STATUS)[number];
+
+export function resolveResultStatus(status: unknown): ResultStatus {
+  return RESULT_STATUS.includes(status as ResultStatus) ? (status as ResultStatus) : 'info';
+}

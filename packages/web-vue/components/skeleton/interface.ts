@@ -3,12 +3,7 @@ export interface SkeletonProps {
   animation?: boolean;
 }
 
-export interface SkeletonLineProps {
-  rows?: number;
-  widths?: Array<number | string>;
-  lineHeight?: number;
-  lineSpacing?: number;
-}
+export type { SkeletonLineProps } from '@sdata/web-core/skeleton/foundation';
 
 export interface SkeletonShapeProps {
   shape?: 'square' | 'circle';

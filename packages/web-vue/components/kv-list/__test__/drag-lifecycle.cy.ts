@@ -188,3 +188,26 @@ describe('KvList drag lifecycle', () => {
       .should('have.value', 'first');
   });
 });
+
+it('removes the fallback image when the list unmounts during an active drag', () => {
+  const visible = ref(true);
+  cy.mount(
+    defineComponent({
+      components: { KvList },
+      setup: () => ({
+        visible,
+        items: [
+          { key: 'one', value: '1' },
+          { key: 'two', value: '2' },
+        ],
+      }),
+      template: '<KvList v-if="visible" :json="items" />',
+    }),
+  );
+  startDrag('.sd-kv-list-drag-handle');
+  cy.then(() => {
+    visible.value = false;
+  });
+  cy.get('.sd-kv-list').should('not.exist');
+  cy.get('.sortable-fallback').should('not.exist');
+});

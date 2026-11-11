@@ -1,0 +1,75 @@
+---
+title: 键值列表 KvList
+description: 编辑、排序键值对，并在结构化数组与 Bulk 文本之间保持同步。
+---
+
+KvList 用于编辑有序键值对，同时提供 JSON 数组和 Bulk 文本两个模型。它适合请求 Header、密钥配置和通用配置项等场景。
+
+### 基本用法
+
+不传 `type` 时，键和值都使用 Input。修改任意模型都会同步另一侧；条目顺序和重复键会被保留。
+
+<Demo id="kv-list/basic" />
+
+### 编辑器类型
+
+`http-header` 使用 AutoComplete 编辑键，并内置常用 HTTP Header；`secret` 使用 InputPassword 编辑值，并默认隐藏 Bulk 编辑入口，避免在界面中明文展示密钥。
+
+<Demo id="kv-list/types" />
+
+### 字段属性
+
+`keyProps` 和 `valueProps` 会直接透传给对应字段组件。KvList 始终接管 `modelValue` 和 `update:modelValue`，其他属性可以按需覆盖，包括 placeholder、readonly、allowClear 和 maxLength。
+
+<Demo id="kv-list/field-props" />
+
+### 自定义字段
+
+使用 `key` 和 `value` 作用域插槽替换内置字段。插槽提供 `value`、`item`、`index`、合并后的 `props` 与 `update`；调用 `update` 才会同步两个模型。
+
+<Demo id="kv-list/slots" />
+
+## API
+
+### 双向绑定
+
+| 参数         | 描述                        | 类型           | 默认值 |
+| ------------ | --------------------------- | -------------- | ------ |
+| v-model:json | 有序键值对数组，支持重复键  | `KvListItem[]` | `[]`   |
+| v-model:bulk | `Key: Value` 格式的多行文本 | `string`       | `''`   |
+
+当两个模型首次传入的内容冲突时，非空的 `json` 优先。空键不会写入模型；Bulk 模式忽略空行，并以每行第一个冒号分隔键和值。
+
+### 属性
+
+| 参数 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| type | 内置字段类型 | `'http-header' \| 'secret'` | `undefined` |
+| keyProps | 透传给键字段的属性 | `KvListKeyProps` | - |
+| valueProps | 透传给值字段的属性 | `KvListValueProps` | - |
+| disabled | 禁用字段编辑、排序、增删、清空和 Bulk 编辑 | `boolean` | `false` |
+| bulkEditable | 是否显示 Bulk 编辑入口；`secret` 默认关闭，其他类型默认开启 | `boolean` | 根据 `type` 自动判断 |
+
+插槽优先于 `type`。`keyProps/valueProps` 中的 `modelValue`、`defaultValue` 和 `onUpdate:modelValue` 不属于可透传 API。
+
+### KvListItem
+
+| 字段  | 描述 | 类型     |
+| ----- | ---- | -------- |
+| key   | 键   | `string` |
+| value | 值   | `string` |
+
+### 插槽
+
+| 插槽          | 描述                     | 参数                                            |
+| ------------- | ------------------------ | ----------------------------------------------- |
+| key           | 自定义键字段             | `{ value, item, index, props, update }`         |
+| value         | 自定义值字段             | `{ value, item, index, props, update }`         |
+| toolbar-extra | 工具栏尾部的扩展操作     | -                                               |
+| row-actions   | 每行删除按钮前的扩展操作 | `{ item: Readonly<KvListItem>, index: number }` |
+
+## 无框架规则
+
+`@sdata/web-core/kv-list/utils` 提供 `normalizeKvList`、`parseBulkKvList`、`stringifyKvList` 和 `isSameKvList`。`@sdata/web-core/kv-list/foundation` 的 `createKvListFoundation` 接收 `rows`、`json`、`bulk` 的读写端口和 `disabled` 读取端口；创建时不读取状态，调用 `initialize()` 后由适配器转发 `syncJson`、`syncBulk` 和编辑动作。
+
+输入组件、内容渲染、状态更新与拖拽生命周期由对应框架的适配器管理。

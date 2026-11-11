@@ -4,11 +4,68 @@ import ModelSelector, {
   ModelSelectorContent,
   ModelSelectorDialog,
   ModelSelectorInput,
+  ModelSelectorGroup,
   ModelSelectorItem,
   ModelSelectorTrigger,
 } from '../index';
 
 describe('ModelSelector robustness', () => {
+  it('does not reference a missing heading on unnamed groups', () => {
+    cy.mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            ModelSelector,
+            { defaultExpanded: false },
+            {
+              default: () =>
+                h(
+                  ModelSelectorGroup,
+                  {},
+                  { default: () => h(ModelSelectorItem, { value: 'alpha' }, () => 'Alpha') },
+                ),
+            },
+          ),
+      }),
+    );
+    cy.get('[role="group"]').should('not.have.attr', 'aria-labelledby');
+    cy.get('.sd-model-selector-group-content').should('not.have.attr', 'inert');
+  });
+  it('ignores composition shortcuts and does not repeat a handled Enter selection', () => {
+    const onSelect = cy.spy().as('select');
+    cy.mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            ModelSelector,
+            { defaultVisible: true, closeOnSelect: false, onSelect },
+            {
+              default: () =>
+                h(
+                  ModelSelectorContent,
+                  { renderToBody: false },
+                  {
+                    default: () => [
+                      h(ModelSelectorInput),
+                      h(ModelSelectorItem, { value: 'alpha', shortcut: 'Enter' }, () => 'Alpha'),
+                      h(ModelSelectorItem, { value: 'beta' }, () => 'Beta'),
+                    ],
+                  },
+                ),
+            },
+          ),
+      }),
+    );
+    cy.get('input').type('{downarrow}').trigger('keydown', {
+      key: 'Enter',
+      code: 'Enter',
+      isComposing: true,
+      eventConstructor: 'KeyboardEvent',
+    });
+    cy.get('@select').should('not.have.been.called');
+    cy.get('input').type('{downarrow}{enter}');
+    cy.get('@select').should('have.been.calledOnce').and('have.been.calledWith', 'beta');
+  });
   for (const Component of [ModelSelector, ModelSelectorDialog]) {
     it(`accepts a visible prop added after ${Component.name} mounts`, () => {
       const controlled = ref(false);

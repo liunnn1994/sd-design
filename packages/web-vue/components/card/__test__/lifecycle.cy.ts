@@ -3,6 +3,23 @@ import { defineComponent, ref } from 'vue';
 import Card, { CardMeta, CardGrid } from '../index';
 
 describe('Card child lifecycle', () => {
+  it('unregisters and restores nested Meta while loading changes', () => {
+    cy.mount(
+      defineComponent({
+        components: { Card, CardMeta },
+        setup: () => ({ loading: ref(false) }),
+        template:
+          '<button @click="loading = !loading">Load</button><Card :loading="loading"><div><CardMeta title="Meta"/></div><template #actions><button>Action</button></template></Card>',
+      }),
+    );
+    cy.get('.sd-card-meta-footer .sd-card-actions').should('exist');
+    cy.contains('button', 'Load').click();
+    cy.get('.sd-card-meta').should('not.exist');
+    cy.get('.sd-card-body > .sd-card-actions').should('exist');
+    cy.contains('button', 'Load').click();
+    cy.get('.sd-card-meta-footer .sd-card-actions').should('exist');
+    cy.get('.sd-card-actions').should('have.length', 1);
+  });
   it('updates Meta when title and description slots change', () => {
     cy.mount(
       defineComponent({

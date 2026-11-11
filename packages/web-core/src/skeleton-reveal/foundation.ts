@@ -119,7 +119,10 @@ export function createSkeletonRevealFoundation(adapter: SkeletonRevealAdapter) {
       size = { width: next.width, height: next.height };
     });
     resizeObserver.observe(root);
-    const observer = new view.IntersectionObserver(([entry]) => {
+    const observer = new view.IntersectionObserver((entries) => {
+      // Initial observation and an immediate scroll can share one delivery batch.
+      const entry = entries.at(-1);
+      if (!entry) return;
       if (
         entry.isIntersecting &&
         !started &&

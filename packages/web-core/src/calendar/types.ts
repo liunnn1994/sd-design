@@ -72,6 +72,45 @@ export interface CalendarEventInput {
   allDay?: boolean;
   _?: CalendarEventMeta;
 }
+export interface CalendarDragData extends Partial<
+  Pick<CalendarEvent, 'id' | 'title' | 'schedule' | 'allDay'>
+> {
+  start?: Date;
+  end?: Date;
+  duration?: number;
+  _?: Partial<CalendarEventMeta>;
+  [key: string]: unknown;
+}
+export interface CalendarEventInteraction<E extends Event = Event> {
+  e: E;
+  event: CalendarEvent;
+}
+export interface CalendarEventDragEnd extends CalendarEventInteraction<DragEvent> {
+  external: boolean;
+}
+export interface CalendarEventResize extends CalendarEventInteraction<MouseEvent | TouchEvent> {
+  overlaps: CalendarEvent[];
+}
+export interface CalendarEventResizeEnd extends CalendarEventResize {
+  original: CalendarEvent | null;
+}
+export interface CalendarEventDrop {
+  e: DragEvent;
+  event: CalendarDragData &
+    CalendarRange & {
+      getOverlappingEvents: CalendarEvent['getOverlappingEvents'];
+    };
+  overlaps: CalendarEvent[];
+  cell: CalendarCell;
+  external: boolean;
+}
+export interface CalendarEventDropped {
+  e: DragEvent;
+  event: CalendarEvent | CalendarEventDrop['event'] | undefined;
+  originalEvent: CalendarDragData;
+  cell: CalendarCell;
+  external: boolean;
+}
 export interface CalendarCell extends CalendarRange {
   highlighted?: boolean;
   highlightedSchedule?: CalendarId | null;

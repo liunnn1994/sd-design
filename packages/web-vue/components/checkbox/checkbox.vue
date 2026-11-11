@@ -25,9 +25,9 @@
       :class="`${prefixCls}-icon-hover`"
       :disabled="mergedDisabled || computedChecked"
     >
-      <div :class="`${prefixCls}-icon`">
+      <span :class="`${prefixCls}-icon`">
         <IconCheck v-if="computedChecked" :class="`${prefixCls}-icon-check`" />
-      </div>
+      </span>
     </IconHover>
     <span v-if="$slots.default" :class="`${prefixCls}-label`">
       <slot />

@@ -36,6 +36,11 @@
   import type { VNode, VNodeChild } from 'vue';
   import { cloneVNode, computed, inject, shallowRef, toRef, onBeforeUpdate, watch } from 'vue';
 
+  import {
+    getSpinDelay,
+    isSpinRequested,
+    scheduleSpinLoading,
+  } from '@sdata/web-core/spin/foundation';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { SpinProps } from './interface';
@@ -106,9 +111,7 @@
     propNames: ['hideIcon', 'hide-icon'],
     getGlobalValue: (ctx) => ctx?.spinProps?.hideIcon,
   });
-  const delayTime = computed(() =>
-    mergedDelay.value === true ? 400 : Math.max(0, Number(mergedDelay.value) || 0),
-  );
+  const delayTime = computed(() => getSpinDelay(mergedDelay.value));
   const hasDefaultSlot = shallowRef(Boolean(slots.default));
   const iconSlot = shallowRef(slots.icon);
   onBeforeUpdate(() => {
@@ -116,20 +119,18 @@
     iconSlot.value = slots.icon;
   });
   const requestedLoading = computed(() =>
-    hasDefaultSlot.value ? Boolean(mergedLoading.value) : true,
+    isSpinRequested(hasDefaultSlot.value, mergedLoading.value),
   );
   const delayedLoading = shallowRef(false);
 
   watch(
     [requestedLoading, delayTime],
     ([loading, delay], _, onCleanup) => {
-      delayedLoading.value = loading && delay === 0;
-      if (loading && delay > 0) {
-        const timer = setTimeout(() => {
-          delayedLoading.value = true;
-        }, delay);
-        onCleanup(() => clearTimeout(timer));
-      }
+      onCleanup(
+        scheduleSpinLoading(loading, delay, (value) => {
+          delayedLoading.value = value;
+        }),
+      );
     },
     { immediate: true },
   );

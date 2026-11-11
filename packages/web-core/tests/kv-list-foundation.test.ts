@@ -176,3 +176,23 @@ test('instances do not share ids or pending echoes', () => {
   first.api.addItem();
   assert.equal(second.state.rows.length, 1);
 });
+
+test('row edits publish new arrays without changing unaffected row identities', () => {
+  const { state, api } = subject([{ key: 'first', value: '1' }]);
+  api.initialize();
+  const initial = state.rows;
+  api.addItem();
+  assert.notEqual(state.rows, initial);
+  assert.equal(initial.length, 1);
+  assert.equal(state.rows[0], initial[0]);
+  const added = state.rows;
+  api.updateItem(1, { ...added[1], key: 'second', value: '2' });
+  assert.notEqual(state.rows, added);
+  assert.equal(added[1].key, '');
+  assert.equal(state.rows[1].id, added[1].id);
+  const edited = state.rows;
+  api.removeItem(0);
+  assert.notEqual(state.rows, edited);
+  assert.equal(edited.length, 2);
+  assert.equal(state.rows[0], edited[1]);
+});

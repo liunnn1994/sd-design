@@ -200,3 +200,25 @@ describe('SkeletonReveal hydration outline', () => {
     cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'complete');
   });
 });
+
+describe('SkeletonReveal batched visibility', () => {
+  it('starts autoplay from the latest record in a native observation batch', () => {
+    cy.window().then((win) => {
+      const Native = win.IntersectionObserver;
+      cy.stub(win, 'IntersectionObserver').callsFake(
+        (callback: IntersectionObserverCallback, options?: IntersectionObserverInit) =>
+          new Native((entries, observer) => {
+            const latest = entries.at(-1);
+            callback(
+              latest ? [{ isIntersecting: false } as IntersectionObserverEntry, latest] : [],
+              observer,
+            );
+          }, options),
+      );
+    });
+    mount({ autoplay: true, duration: 600 });
+    cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'drawing');
+    cy.get('.sd-skeleton-reveal').should('have.attr', 'data-state', 'complete');
+    cy.get('.sd-skeleton-reveal-overlay').should('not.exist');
+  });
+});

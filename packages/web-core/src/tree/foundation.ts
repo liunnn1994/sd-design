@@ -51,6 +51,7 @@ export interface TreeAdapter<T, N extends TreeStateNode<T>, E> {
   setExpandingKeys: (keys: TreeNodeKey[]) => void;
   setLoadingKeys: (keys: TreeNodeKey[]) => void;
   onLoadError: (error: unknown) => void;
+  afterLoad?: () => Promise<void>;
   events: {
     updateSelected: (keys: TreeNodeKey[]) => void;
     select: (keys: TreeNodeKey[], data: SelectState<T, E>) => void;
@@ -66,6 +67,11 @@ export interface TreeAdapter<T, N extends TreeStateNode<T>, E> {
 export function createTreeFoundation<T, N extends TreeStateNode<T>, E = unknown>(
   adapter: TreeAdapter<T, N, E>,
 ) {
+  const pendingLoads = new Map<TreeNodeKey, { node: T }>();
+  function cancelPendingLoads() {
+    pendingLoads.clear();
+    adapter.setLoadingKeys([]);
+  }
   function nodes(keys: TreeNodeKey[]): T[] {
     return keys
       .map((key) => adapter.getNodes().get(key)?.treeNodeData || undefined)
@@ -253,18 +259,30 @@ export function createTreeFoundation<T, N extends TreeStateNode<T>, E = unknown>
     emitExpand({ targetKey: key, targetExpanded: expanded, newExpandedKeys: nextKeys, event });
   }
   async function loadMore(key: TreeNodeKey) {
-    if (typeof adapter.getLoadMore() !== 'function' || adapter.getLoadingKeys().includes(key))
-      return;
     const node = adapter.getNodes().get(key);
-    if (!node) return;
+    const loader = adapter.getLoadMore();
+    if (!node || !loader || pendingLoads.get(key)?.node === node.treeNodeData) return;
+    const request = { node: node.treeNodeData };
+    pendingLoads.set(key, request);
+    const current = () => pendingLoads.get(key) === request;
+    const finish = () => {
+      pendingLoads.delete(key);
+      adapter.setLoadingKeys(adapter.getLoadingKeys().filter((value) => value !== key));
+    };
     adapter.setLoadingKeys([...new Set([...adapter.getLoadingKeys(), key])]);
     try {
-      await adapter.getLoadMore()!(node.treeNodeData);
-      adapter.setLoadingKeys(adapter.getLoadingKeys().filter((value) => value !== key));
+      await loader(node.treeNodeData);
+      if (!current()) return;
+      await adapter.afterLoad?.();
+      if (!current()) return;
+      finish();
+      if (adapter.getNodes().get(key)?.treeNodeData !== node.treeNodeData) return;
       expand(true, key);
       if (adapter.getCheckedKeys().includes(key)) check(true, key);
     } catch (error) {
-      adapter.setLoadingKeys(adapter.getLoadingKeys().filter((value) => value !== key));
+      if (!current()) return;
+      finish();
+      if (adapter.getNodes().get(key)?.treeNodeData !== node.treeNodeData) return;
       adapter.onLoadError(error);
     }
   }
@@ -323,6 +341,7 @@ export function createTreeFoundation<T, N extends TreeStateNode<T>, E = unknown>
     if (node && isNodeCheckable(node)) check(checked, key, event);
   }
   return {
+    cancelPendingLoads,
     nodes,
     publicCheckedKeys,
     setCheckedKeys,

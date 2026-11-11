@@ -4,6 +4,28 @@ import { defineComponent, ref } from 'vue';
 import Calendar from '../index';
 
 describe('Calendar drag boundaries', () => {
+  it('clears drag visuals when dragging ends before the next timer', () => {
+    cy.mount(Calendar, {
+      props: {
+        view: 'day',
+        viewDate: '2025-01-08',
+        editableEvents: true,
+        events: [{ start: '2025-01-08 10:00', end: '2025-01-08 11:00', title: 'Drag me' }],
+      },
+    });
+    cy.clock();
+    cy.get('.sd-calendar__event').then(($event) => {
+      const element = $event[0];
+      const transfer = new DataTransfer();
+      element.dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: transfer }));
+      element.dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: transfer }));
+    });
+    cy.tick(1);
+    cy.get('.sd-calendar__event')
+      .should('not.have.class', 'sd-calendar__event--dragging-original')
+      .and('not.have.class', 'sd-calendar__event--dragging-ghost');
+  });
+
   for (const constraint of [
     { disableDays: ['2025-01-09'] },
     { minDate: '2025-01-10' },

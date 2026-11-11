@@ -1,0 +1,161 @@
+---
+title: 列表 List
+description: 最基础的列表展示，可承载文字、列表、图片、段落，常用于后台数据展示页面。
+---
+
+### 竖排列表样式
+
+这是一个包括分页、右侧内容、下方列表操作的示例。
+
+<Demo id="list/actions-layout" />
+
+### 增加操作项
+
+通过 `actions` 来为列表添加操作项。
+
+<Demo id="list/actions" />
+
+### 基本使用
+
+列表的基本使用方法。可用于承载文字、列表、图片和段落。
+
+<Demo id="list/basic" />
+
+### 格栅列表
+
+通过 `grid` 属性来配置格栅列表。
+
+<Demo id="list/grid" />
+
+### 列表元素
+
+使用 `list-item-meta` 组件可快速指定头像、标题、文字。
+
+<Demo id="list/meta" />
+
+### 响应式栅格
+
+通过 `grid.sm` 等响应式参数动态设置每个单项横跨的列数，注意此时不要设置 `grid.span`。
+
+<Demo id="list/responsive-grid" />
+
+### 滚动
+
+通过设置 `max-height` 属性限制列表的最大高度。通过 `reach-bottom` 事件可以监听列表触底的事件。
+
+<Demo id="list/scroll" />
+
+### 不同尺寸
+
+列表组件提供了三种大小 `small, medium, large` ，可根据业务需求自行选择。
+
+<Demo id="list/size" />
+
+### 无限长列表
+
+当前示例可以直接切换动态行高和固定行高两种模式：动态模式更适合承载长文案、头像和操作区，固定模式则适合卡片高度完全一致的内容流。建议优先按内容特征选模式，而不是只按数据量决定。
+
+通过指定 `virtualListProps` 来开启虚拟列表，在大量数据时获得高性能表现。`List` 默认更偏向动态内容容器：如果你只传 `height`，组件会按动态高度模式处理；当每一行高度稳定一致时，建议显式传 `itemSize`，避免不必要的动态测量。完整参数可参考 [LLMs.txt](/llms_txt/)。
+
+<Demo id="list/virtual-list" />
+
+## API
+
+### `<list>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| data | 列表数据，需要和 `item` 插槽同时使用 | `any[]` | `-` |  |
+| size | 列表大小 | `'small' \| 'medium' \| 'large'` | `'medium'` |  |
+| bordered | 是否显示边框 | `boolean` | `true` |  |
+| split | 是否显示分割线 | `boolean` | `true` |  |
+| loading | 是否为加载中状态 | `boolean` | `false` |  |
+| spin-props | 传递给加载中 Spin 的属性 | `SpinProps` | `-` |  |
+| hoverable | 是否显示选中样式 | `boolean` | `false` |  |
+| pagination-props | 列表分页配置 | `PaginationProps` | `-` |  |
+| grid-props | 列表栅格配置 | `object` | `-` |  |
+| max-height | 列表的最大高度 | `string \| number` | `0` |  |
+| bottom-offset | 触发到达底部的距离阈值 | `number` | `0` |  |
+| virtual-list-props | 传递虚拟列表属性，传入此参数以开启虚拟滚动 | `VirtualListProps` | `-` |  |
+| scrollbar | 是否开启虚拟滚动条 | `boolean \| ScrollbarProps` | `true` | 2.38.0 |
+
+### `<list>` 事件
+
+| 事件名           | 描述                           | 参数               |
+| ---------------- | ------------------------------ | ------------------ |
+| scroll           | 列表滚动时触发                 | -                  |
+| reach-bottom     | 当列表到达底部时触发           | -                  |
+| page-change      | 表格分页发生改变时触发         | page: `number`     |
+| page-size-change | 表格每页数据数量发生改变时触发 | pageSize: `number` |
+
+### `<list>` 方法
+
+| 方法名 | 描述 | 参数 | 返回值 |
+| --- | --- | --- | --- |
+| scrollIntoView | 虚拟滚动到某个元素 | options: `{ index?: number; key?: number \| string; align: 'auto' \| 'top' \| 'bottom'}` | - |
+
+### `<list>` 插槽
+
+| 插槽名         |               描述               | 参数                             | 版本   |
+| -------------- | :------------------------------: | -------------------------------- | :----- |
+| scroll-loading | 滚动加载状态时，滚动到底部的提示 | -                                | 2.20.0 |
+| item           |              列表项              | index: `number`<br />item: `any` |        |
+| empty          |             空白展示             | -                                |        |
+| footer         |             底部信息             | -                                |        |
+| header         |             头部信息             | -                                |        |
+
+### `<list-item>` 属性
+
+| 参数名        | 描述           | 类型        |     默认值     |
+| ------------- | -------------- | ----------- | :------------: |
+| action-layout | 操作组排列方向 | `Direction` | `'horizontal'` |
+
+### `<list-item>` 插槽
+
+| 插槽名  |   描述   | 参数 |
+| ------- | :------: | ---- |
+| meta    | meta信息 | -    |
+| extra   | 额外内容 | -    |
+| actions |  操作组  | -    |
+
+### `<list-item-meta>` 属性
+
+| 参数名      | 描述     | 类型     | 默认值 |
+| ----------- | -------- | -------- | :----: |
+| title       | 标题     | `string` |  `-`   |
+| description | 描述内容 | `string` |  `-`   |
+
+### `<list-item-meta>` 插槽
+
+| 插槽名      |   描述   | 参数 |
+| ----------- | :------: | ---- |
+| avatar      |   头像   | -    |
+| title       |   标题   | -    |
+| description | 描述内容 | -    |
+
+### VirtualListProps
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| items | 列表数据 | `unknown[]` | `[]` |  |
+| keyField | 用于提取每项唯一键，支持字段名或函数 | `string \| ((item, index) => string \| number)` | `'key'` |  |
+| height | 可视区域高度 | `number \| string` | `-` |  |
+| itemSize | 固定高度模式的 item 高度，传入后作为初始尺寸提示 | `number \| string \| ((item, index) => number)` | `-` |  |
+| minItemSize | 动态高度模式的最小 item 高度；未传 `itemSize` 时用于初始估算 | `number \| string` | `32` |  |
+| buffer | 额外渲染缓冲区（像素） | `number` | `200` |  |
+
+其余参数与暴露方法可参考 [LLMs.txt](/llms_txt/)。
+
+## 无框架规则
+
+<Framework only="vue">
+
+`@sdata/web-core/list/foundation` 提供分页切片、网格分组、方向敏感触底通知和首次视口触底判断。Vue 保留分页 Ref、插槽/VNode、滚动视口查找和虚拟列表生命周期；scroll/reachBottom 仍不带事件载荷。
+
+</Framework>
+
+<Framework only="react">
+
+`@sdata/web-core/list/foundation` 提供分页切片、网格分组、方向敏感触底通知和首次视口触底判断。React 适配器连接状态、Context、DOM 引用、内容渲染与生命周期。
+
+</Framework>

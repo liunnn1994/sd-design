@@ -1,0 +1,203 @@
+---
+title: 对话输入框 Sender
+description: 用于聊天与 AI 对话场景的复合输入框，支持提交、加载取消、recorder-core 录音、头部面板、结构化词槽和功能开关。
+---
+
+`Sender` 对齐 Ant Design X 的输入框结构与交互：输入区默认在 Enter 时提交，加载态切换为停止操作，并提供头部、前缀、后缀和底部扩展区域。普通文本模式使用 `Textarea`；结构化词槽模式直接使用 `RichTextEditor`，选区、输入法、粘贴、组件节点和光标操作不再由 Sender 单独实现。
+
+## 何时使用
+
+- 构建聊天、智能助手或提示词输入区域。
+- 输入框需要发送、停止生成、语音输入或粘贴文件等操作。
+- 需要把参数、标签和可编辑内容组合为结构化词槽。
+
+### 基本用法
+
+通过 `v-model` 绑定内容，按 Enter 或点击发送按钮触发 `submit`。Shift + Enter 保留为换行。
+
+<Demo id="sender/basic" />
+
+### 展开面板
+
+把 `SenderHeader` 放入 `header` 插槽，可展示引用、附件或上下文信息。展开与收起动画沿用 Ant Design X 的高度和边框过渡。
+
+<Demo id="sender/header" />
+
+### 结构化词槽
+
+设置 `slot-config` 后进入词槽模式。Sender 会把配置转换为 `RichTextEditor` 的文本和组件节点：`input`、`select`、`tag` 直接使用其内置节点，`content` 复用输入节点，`custom` 使用 `node-senderCustom` 动态插槽。`formatResult` 只改变最终拼接结果，不改变控件中显示的原始值。词槽模式请从 `change`、`submit` 或 `getValue()` 读取结果。
+
+<Demo id="sender/slots" />
+
+### 自定义操作区
+
+<Framework only="vue">
+
+`prefix`、`suffix`、`footer` 用于定制内容。`suffix` 插槽会替换默认操作按钮，并提供与默认行为一致的 `actions`。默认情况下 suffix 位于输入区右侧；设置 `suffix-placement="footer"` 后，suffix 会移动到 `.sd-sender-footer` 右侧，footer 插槽只负责左侧内容。
+
+</Framework>
+
+<Framework only="react">
+
+通过 `slots.prefix`、`slots.suffix` 和 `slots.footer` 定制内容。`slots.suffix` 替换默认操作按钮，并接收与默认行为一致的 `actions`。默认 suffix 位于输入区右侧；设置 `suffixPlacement="footer"` 后，suffix 移至页脚右侧，footer 负责左侧内容。
+
+</Framework>
+
+<Demo id="sender/custom-actions" />
+
+### 功能开关
+
+`SenderSwitch` 用于展示与输入框关联的功能开关。
+
+<Demo id="sender/switch" />
+
+### recorder-core 语音录制
+
+`allow-speech` 设为 `true` 后使用 recorder-core 默认配置；传入对象时，配置会交给 `Recorder(config)`。Sender 会包装 `onProcess` 以读取音量，并以原始参数和调用上下文继续调用传入的回调。实时 PCM、编码分片、采样率、音频约束和自定义媒体流等能力分别使用 recorder-core 原生的 `onProcess`、`takeoffEncodeChunk`、`sampleRate`、`audioTrackSet` 和 `sourceStream` 配置，不再经过 Sender 自定义事件转换。
+
+启用语音后，`VoiceGlow` 默认在检测到说话时才激活；静音时不播放呼吸光效，短暂的字词停顿会平滑衔接。默认说话门限是录音功率的 4%，可通过 `voice-glow.threshold` 调整。`voice-glow` 传入 `false` 可隐藏，传入 `true` 使用上述默认行为；传入 `VoiceGlowProps` 对象可设置 `colorVariant`、`type`、`processing` 等参数。显式设置 `active` 可覆盖自动激活。默认音量来自同一次录音的 `onProcess`，不会再次申请麦克风权限；对象中的 `level`、`stream`、`theme` 可覆盖默认输入。传入的 `onProcess` 回调仍会收到原始参数。
+
+<Demo id="sender/speech" />
+
+通过组件实例可以访问完整的 recorder-core：
+
+```ts
+const sender = useTemplateRef<SenderRef>('sender');
+
+sender.value?.Recorder.SampleData(...);
+sender.value?.Recorder.WaveView(...);
+sender.value?.recorder?.pause();
+sender.value?.recorder?.resume();
+sender.value?.recorder?.stop(onSuccess, onFail, true);
+```
+
+Sender 已注册 recorder-core 包内提供的全部格式编码器和扩展，包括 mp3、wav、pcm、g711a/g711u、ogg、amr、webm、WaveView、WaveSurferView、FrequencyHistogramView、BufferStreamPlayer、Sonic、DTMF 和阿里云 ASR。具体配置、回调参数、静态方法和实例方法以 [recorder-core 官方文档](https://github.com/xiangyuecn/Recorder#open_book%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8) 为准。
+
+### Agent 工作流
+
+根据当前 Agent 切换 `skill` 和 `slot-config`，并组合 `SenderSwitch`、自适应高度、加载与停止操作，构成完整的 AI 输入工作流。
+
+<Demo id="sender/agent" />
+
+### 实例方法
+
+通过组件实例调用 `insert()`、`focus()`、`clear()` 和 `getValue()`。插入操作支持开头、末尾和当前光标位置。
+
+<Demo id="sender/methods" />
+
+### 提交快捷键
+
+默认使用 Enter 发送、Shift + Enter 换行；设置 `submit-type="shiftEnter"` 后两者行为互换。
+
+<Demo id="sender/submit-type" />
+
+### 自适应高度与状态
+
+`auto-size` 可限制自适应输入区的最小和最大行数。只读状态保留内容查看能力，hover、点击或尝试修改时都会显示 Tooltip；`readonly` 传入字符串可自定义提示文案。禁用状态同时关闭输入和操作。
+
+<Demo id="sender/states" />
+
+### 粘贴文件
+
+剪贴板只包含文件时触发 `paste-file`，可配合 `SenderHeader` 展示待发送文件；普通文本粘贴仍写入输入框。
+
+<Demo id="sender/paste-file" />
+
+## API
+
+### `<sender>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| v-model | 输入内容；词槽模式下不作为结构化内容的状态源 | `string` | - |
+| default-value | 非受控模式默认内容 | `string` | `''` |
+| loading | 加载中，默认发送按钮切换为停止按钮 | `boolean` | `false` |
+| readonly | 是否只读；传入字符串时作为只读提示文案 | `boolean \| string` | `false` |
+| disabled | 是否禁用 | `boolean` | `false` |
+| submit-type | 提交快捷键模式 | `'enter' \| 'shiftEnter'` | `'enter'` |
+| slot-config | 结构化词槽配置 | `SenderSlotConfig[]` | - |
+| skill | 技能标签配置 | `SenderSkill` | - |
+| allow-speech | 是否显示录音入口；对象值为 recorder-core 原生 `Recorder(config)` 配置 | `boolean \| RecorderCoreOptions` | `false` |
+| voice-glow | 声控光效；默认只在检测到说话时激活，对象值可覆盖 VoiceGlow 参数 | `boolean \| VoiceGlowProps` | `true` |
+| auto-size | 输入区自适应高度 | `boolean \| { minRows?: number; maxRows?: number }` | `{ maxRows: 8 }` |
+| placeholder | 占位文本 | `string` | - |
+| show-actions | 是否显示后缀操作区 | `boolean` | `true` |
+| suffix-placement | 后缀操作区位置；`footer` 时位于 footer 右侧 | `'content' \| 'footer'` | `'content'` |
+| components | 替换内部输入组件 | `{ input?: Component }` | - |
+| class-names | 语义化节点类名 | `Partial<Record<SenderSemanticType, string>>` | - |
+| styles | 语义化节点样式 | `Partial<Record<SenderSemanticType, CSSProperties>>` | - |
+
+### `<sender>` 事件
+
+| 事件名             | 描述                     | 参数                              |
+| ------------------ | ------------------------ | --------------------------------- |
+| update:model-value | 输入内容变化             | `value: string`                   |
+| change             | 普通输入或结构化词槽变化 | `value, event, slotConfig, skill` |
+| submit             | 点击发送或使用提交快捷键 | `value, slotConfig, skill`        |
+| cancel             | 加载态点击停止按钮       | -                                 |
+| paste              | 粘贴内容                 | `event: ClipboardEvent`           |
+| paste-file         | 剪贴板仅包含文件时       | `files: FileList`                 |
+| focus              | 输入区获取焦点           | `event: FocusEvent`               |
+| blur               | 输入区失去焦点           | `event: FocusEvent`               |
+
+### `<sender>` 插槽
+
+| 插槽名 | 描述 | 参数 |
+| --- | --- | --- |
+| header | 输入区上方的头部面板 | `{ actions }` |
+| prefix | 输入区左侧内容 | `{ actions }` |
+| suffix | 输入区右侧操作区；使用后替换默认操作 | `{ actions }` |
+| footer | Footer 左侧内容；不再独立控制整个 footer 是否显示 | `{ actions }` |
+| skill-title | 自定义技能标题 | `{ skill }` |
+| skill-close-icon | 自定义技能关闭图标 | `{ skill }` |
+| slot-_key_ | 自定义 `custom` 词槽 | `{ value, item, disabled, readonly, onChange }` |
+
+`actions` 包含 `send`、`clear`、`cancel`、`speech` 以及对应的禁用状态、`recording` 和 `loading`。
+
+### `<sender>` 方法
+
+| 方法名 | 描述 |
+| --- | --- |
+| focus(options?) | 聚焦输入区，可指定 `start`、`end`、`all` 或 `slot` |
+| blur() | 取消焦点 |
+| insert(value, position?, replaceCharacters?, preventScroll?) | 在开头、结尾或光标处插入文本/词槽 |
+| clear() | 清空输入；保留传入的 skill 配置 |
+| getValue() | 返回 `{ value, slotConfig, skill }` |
+| Recorder | recorder-core 构造器及全部静态方法、编码器和扩展 |
+| recorder | 当前 recorder-core 实例，可访问全部原生属性与方法 |
+| recording | Sender 当前是否处于录音状态 |
+
+### `SenderSlotConfig`
+
+| type    | 关键配置                                         | 说明                         |
+| ------- | ------------------------------------------------ | ---------------------------- |
+| text    | `value`                                          | RichTextEditor 文本节点      |
+| input   | `key`、`props.defaultValue`、`props.placeholder` | 内联输入框                   |
+| select  | `key`、`props.options`、`props.defaultValue`     | 内联选择器                   |
+| tag     | `key`、`props.label`、`props.value`              | 不可编辑标签                 |
+| content | `key`、`props.defaultValue`、`props.placeholder` | 复用 RichTextEditor 输入节点 |
+| custom  | `key`、`customRender` 或 `slot-key`              | 自定义控件                   |
+
+所有非 `text` 词槽都需要唯一 `key`；所有类型都可以通过 `formatResult(value)` 格式化最终结果。词槽配置是 Sender 的兼容适配层，编辑状态与 DOM 行为以 `RichTextEditor` 为唯一实现。
+
+### `<sender-header>` Props / 事件
+
+| 参数名       | 描述                   | 类型         | 默认值  |
+| ------------ | ---------------------- | ------------ | :-----: |
+| v-model:open | 是否展开               | `boolean`    | `false` |
+| title        | 标题                   | `VNodeChild` |    -    |
+| closable     | 是否显示关闭按钮       | `boolean`    | `true`  |
+| force-render | 关闭后是否保留内容 DOM | `boolean`    | `false` |
+
+关闭按钮触发 `update:open` 和 `open-change`。
+
+### `<sender-switch>` Props / Events / 插槽
+
+| 参数名        | 描述         | 类型      | 默认值  |
+| ------------- | ------------ | --------- | :-----: |
+| v-model       | 是否选中     | `boolean` |    -    |
+| default-value | 非受控默认值 | `boolean` | `false` |
+| disabled      | 是否禁用     | `boolean` | `false` |
+| loading       | 是否加载中   | `boolean` | `false` |
+
+状态变化触发 `change(checked)`；`checked`、`unchecked`、`icon` 和默认插槽可定制内容。

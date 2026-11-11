@@ -16,6 +16,8 @@
     toRefs,
   } from 'vue';
 
+  import { getGridItemStyle } from '@sdata/web-core/grid/layout';
+
   import { useIndex } from '../_hooks/use-index';
   import { getPrefixCls } from '../_utils/global-config';
   import { GridContextInjectionKey, GridDataCollectorInjectionKey } from './context';
@@ -84,38 +86,11 @@
   );
 
   const classNames = computed(() => [prefixCls]);
-  const offsetStyle = computed(() => {
-    const { offset, span } = itemData.value;
-    const { colGap } = gridContext;
-    if (offset > 0) {
-      const oneSpan = `(100% - ${colGap * (span - 1)}px) / ${span}`;
-      return {
-        'margin-left': `calc((${oneSpan} * ${offset}) + ${colGap * offset}px)`,
-      };
-    }
-    return {};
-  });
-  const columnStart = computed(() => {
-    const { suffix, span } = itemData.value;
-    const { cols } = gridContext;
-    if (suffix) {
-      return `${cols - span + 1}`;
-    }
-    return `span ${span}`;
-  });
-  const style = computed(() => {
-    const { span } = itemData.value;
-    if (domRef.value) {
-      return [
-        {
-          'grid-column': `${columnStart.value} / span ${span}`,
-        },
-        offsetStyle.value,
-        !visible.value || span === 0 ? { display: 'none' } : {},
-      ];
-    }
-    return [];
-  });
+  const style = computed(() =>
+    domRef.value
+      ? getGridItemStyle(gridContext.cols, gridContext.colGap, itemData.value, visible.value)
+      : {},
+  );
 
   const overflow = computed(() => gridContext.overflow);
 

@@ -344,12 +344,6 @@ export function createDateRangeFoundation<S>(adapter: DateRangeAdapter<S>) {
   function onInputChange(targetValue: string) {
     setPanelVisible(true);
 
-    // TODO: Null value should be restored to the current value, invalid when deleted as a whole
-    if (!targetValue) {
-      adapter.setInputValue(undefined);
-      return;
-    }
-
     const formattedPanelValue = getFormattedValue(adapter.panelValue, adapter.format) as Array<
       string | undefined
     >;

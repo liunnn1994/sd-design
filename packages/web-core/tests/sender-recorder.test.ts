@@ -94,6 +94,21 @@ function setup(config: SenderRecorderState['config'] = true, callbacks: UseRecor
   };
 }
 
+test('Sender recorder can mount again after disposal without accepting stale sessions', () => {
+  const fixture = setup();
+  fixture.controller.mount();
+  fixture.controller.trigger();
+  const old = fixture.sessions[0];
+  fixture.controller.dispose();
+  fixture.controller.mount();
+  fixture.controller.trigger();
+  old.opened();
+  assert.equal(fixture.state.recording, false);
+  fixture.sessions[1].opened();
+  assert.equal(fixture.state.recording, true);
+  fixture.controller.dispose();
+});
+
 test('Sender recorder checks support lazily after mount, only once across configuration toggles', () => {
   const fixture = setup(false),
     { controller, state } = fixture;

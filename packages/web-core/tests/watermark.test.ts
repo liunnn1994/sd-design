@@ -164,6 +164,16 @@ test('watermark placement retains negative offsets, repeat policy and replaces i
   assert.notEqual(f.children[0], first);
 });
 
+test('watermark disposal removes owned layers and permits a clean lifecycle replay', (t) => {
+  const f = fixture(t);
+  f.controller.render();
+  assert.equal(f.children.length, 1);
+  f.controller.dispose();
+  assert.equal(f.children.length, 0);
+  f.controller.render();
+  assert.equal(f.children.length, 1);
+});
+
 test('watermark image version rejects stale loads and disposal rejects the final callback', (t) => {
   const f = fixture(t);
   f.props.image = 'first';

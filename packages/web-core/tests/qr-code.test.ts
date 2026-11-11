@@ -240,3 +240,39 @@ test('QrCode encodes a real SVG through the default engine without DOM globals',
   assert.match(svg, /width="160"/);
   assert.match(svg, /#0b0b0a/);
 });
+
+test('QrCode disposal invalidates pending SVG success, failure and canvas work', async () => {
+  for (const type of ['svg', 'canvas'] as const) {
+    for (const rejected of [false, true]) {
+      const state = fixture();
+      state.adapter.type = type;
+      const render = state.foundation.render();
+      await Promise.resolve();
+      state.foundation.dispose();
+      if (type === 'svg') {
+        if (rejected) state.svgRequests[0].reject(new Error('late failure'));
+        else state.svgRequests[0].resolve('<svg>late</svg>');
+      } else if (rejected) state.canvasRequests[0].reject(new Error('late failure'));
+      else state.canvasRequests[0].resolve();
+      await render;
+      assert.equal(state.svg, 'previous');
+      assert.equal(state.draws.length, 0);
+    }
+  }
+});
+test('QrCode disposal before next render skips encoding and allows a later mount', async () => {
+  const state = fixture();
+  const tick = deferred<void>();
+  state.adapter.nextRender = () => tick.promise;
+  const pending = state.foundation.render();
+  state.foundation.dispose();
+  tick.resolve();
+  await pending;
+  assert.equal(state.svgRequests.length, 0);
+  state.adapter.nextRender = async () => {};
+  const mounted = state.foundation.render();
+  await Promise.resolve();
+  state.svgRequests[0].resolve('<svg>new mount</svg>');
+  await mounted;
+  assert.equal(state.svg, '<svg>new mount</svg>');
+});

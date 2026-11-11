@@ -1,0 +1,444 @@
+[
+  {
+    "spec": "bloom-menu.cy.ts",
+    "status": "finished",
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "border-beam.cy.ts",
+    "status": "finished",
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "calendar-events.cy.ts",
+    "status": "finished",
+    "tests": 22,
+    "passed": 22,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "calendar-lifecycle.cy.ts",
+    "status": "finished",
+    "tests": 34,
+    "passed": 34,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "calendar-views.cy.ts",
+    "status": "failed",
+    "tests": 0,
+    "passed": 0,
+    "failed": 4294967295,
+    "pending": 0,
+    "skipped": 0,
+    "error": "Could not find Cypress test run results"
+  },
+  {
+    "spec": "cascader-interaction.cy.ts",
+    "status": "finished",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cascader-keyboard.cy.ts",
+    "status": "finished",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cascader-option.cy.ts",
+    "status": "finished",
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cascader-options.cy.ts",
+    "status": "finished",
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cascader-panel.cy.ts",
+    "status": "finished",
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cascader-panels.cy.ts",
+    "status": "finished",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cascader-selection.cy.ts",
+    "status": "finished",
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cascader-state.cy.ts",
+    "status": "finished",
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "color-picker.cy.ts",
+    "status": "finished",
+    "tests": 42,
+    "passed": 41,
+    "failed": 1,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-01.cy.ts",
+    "status": "finished",
+    "tests": 41,
+    "passed": 41,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-02.cy.ts",
+    "status": "finished",
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-03.cy.ts",
+    "status": "finished",
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-04.cy.ts",
+    "status": "finished",
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-05.cy.ts",
+    "status": "finished",
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-06.cy.ts",
+    "status": "finished",
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-07.cy.ts",
+    "status": "finished",
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-08.cy.ts",
+    "status": "finished",
+    "tests": 14,
+    "passed": 14,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-docs-01.cy.ts",
+    "status": "finished",
+    "tests": 40,
+    "passed": 40,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "components-docs-02.cy.ts",
+    "status": "finished",
+    "tests": 18,
+    "passed": 18,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cropper-docs.cy.ts",
+    "status": "finished",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "cropper.cy.ts",
+    "status": "finished",
+    "tests": 17,
+    "passed": 17,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "date-picker-docs.cy.ts",
+    "status": "finished",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "date-picker-primitives.cy.ts",
+    "status": "finished",
+    "tests": 24,
+    "passed": 24,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "date-picker.cy.ts",
+    "status": "finished",
+    "tests": 105,
+    "passed": 105,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "icon.cy.ts",
+    "status": "finished",
+    "tests": 10,
+    "passed": 10,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "image.cy.ts",
+    "status": "finished",
+    "tests": 16,
+    "passed": 16,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "json-form-control.cy.ts",
+    "status": "finished",
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "json-form-item.cy.ts",
+    "status": "finished",
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "json-form-state.cy.ts",
+    "status": "finished",
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "kv-list.cy.ts",
+    "status": "finished",
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "liquid-glass-logo.cy.ts",
+    "status": "finished",
+    "tests": 13,
+    "passed": 13,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "panel-group.cy.ts",
+    "status": "finished",
+    "tests": 19,
+    "passed": 19,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "regex-vis.cy.ts",
+    "status": "finished",
+    "tests": 21,
+    "passed": 21,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "skeleton-reveal.cy.ts",
+    "status": "finished",
+    "tests": 10,
+    "passed": 10,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "theme-provider-docs.cy.ts",
+    "status": "finished",
+    "tests": 3,
+    "passed": 3,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "theme-provider.cy.ts",
+    "status": "finished",
+    "tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "thinking-orb.cy.ts",
+    "status": "finished",
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "time-picker-docs.cy.ts",
+    "status": "finished",
+    "tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "time-picker.cy.ts",
+    "status": "finished",
+    "tests": 34,
+    "passed": 33,
+    "failed": 1,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "toolbar-state.cy.ts",
+    "status": "finished",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "tour.cy.ts",
+    "status": "finished",
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "transfer.cy.ts",
+    "status": "finished",
+    "tests": 13,
+    "passed": 13,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "typography.cy.ts",
+    "status": "finished",
+    "tests": 10,
+    "passed": 10,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  },
+  {
+    "spec": "voice-glow.cy.ts",
+    "status": "finished",
+    "tests": 15,
+    "passed": 15,
+    "failed": 0,
+    "pending": 0,
+    "skipped": 0
+  }
+]

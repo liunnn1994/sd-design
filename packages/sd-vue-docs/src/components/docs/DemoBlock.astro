@@ -1,16 +1,20 @@
 ---
 import DemoEditor from "./DemoEditor.vue";
+import type { DocsFramework } from '../../utils/framework-navigation';
 import "../../styles/demo.css";
 
 interface Props {
+  id?: string;
+  framework?: DocsFramework;
   source: string;
   mainFile: string;
+  files?: Record<string, string>;
 }
 
-const { source, mainFile } = Astro.props;
+const { id, framework = 'vue', source, mainFile, files } = Astro.props;
 ---
 
-<div class="demo-block not-content" data-deferred>
+<div class="demo-block not-content" data-example={id} data-framework={framework} data-deferred>
   <div class="demo-block__preview">
     <div class="demo-block__preview-skeleton" aria-hidden="true">
       <span
@@ -25,7 +29,7 @@ const { source, mainFile } = Astro.props;
     </div>
     <div class="demo-block__preview-content"></div>
   </div>
-  <DemoEditor client:only="vue" source={source} mainFile={mainFile} />
+  <DemoEditor client:only="vue" framework={framework} source={source} mainFile={mainFile} files={files} />
   <template class="demo-block__deferred-island">
     <slot />
   </template>

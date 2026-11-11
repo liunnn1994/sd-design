@@ -1,0 +1,90 @@
+---
+title: 自定义图标 IconFont
+description: 内联 SVG、动态 symbol 与图标字体脚本加载。
+---
+
+## 自定义 SVG 与 symbol
+
+<Demo id="icon-component/basic" />
+
+<Framework only="vue">
+
+```vue
+<script setup lang="ts">
+  import { Icon } from '@sdata/web-vue';
+</script>
+<template>
+  <Icon :size="24" viewBox="0 0 20 20" aria-label="圆形">
+    <circle :cx="10" :cy="10" :r="8" />
+  </Icon>
+</template>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { Icon } from '@sdata/web-react';
+import '@sdata/web-react/styles/icon-component.scss';
+
+<Icon size={24} viewBox="0 0 20 20" aria-label="圆形">
+  <circle cx={10} cy={10} r={8} />
+</Icon>;
+```
+
+也支持 `@sdata/web-react/icon-component` 的默认和具名 Icon 导出。
+
+</Framework>
+
+通用 Icon 默认使用 currentColor 填充，SVG 子内容由默认内容提供；`type` 是附加类名，不会自动查找内置图标组件。
+
+## API
+
+| 属性                | 默认值       | 说明                                          |
+| ------------------- | ------------ | --------------------------------------------- |
+| type                | —            | 额外 CSS 类；IconFont 中同时指定 symbol id    |
+| size                | 继承字体大小 | 数字为 px，字符串直接作为 font-size，支持 0   |
+| rotate              | 0            | 旋转角度，与 spin 动画组合                    |
+| spin                | false        | 使用通用 Icon 的 loading 旋转类               |
+| 默认内容            | —            | SVG 子内容；IconFont 提供 type 时忽略默认内容 |
+| class / style / ref | —            | 原生 SVG 的类、样式和引用                     |
+| 其他 SVG 属性与事件 | —            | 例如 viewBox、aria-label、click               |
+
+## 图标字体
+
+<Framework only="vue">
+
+```vue
+<script setup lang="ts">
+  import { Icon } from '@sdata/web-vue';
+  const ProjectIcon = Icon.addFromIconFontCn({
+    src: '/assets/project-icons.js',
+    extraProps: { size: 24, class: 'project-icon' },
+  });
+</script>
+<template><ProjectIcon type="icon-project" aria-label="项目" /></template>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { Icon } from '@sdata/web-react';
+
+const ProjectIcon = Icon.addFromIconFontCn({
+  src: '/assets/project-icons.js',
+  extraProps: { size: 24, className: 'project-icon' },
+});
+
+<ProjectIcon type="icon-project" aria-label="项目" />;
+```
+
+</Framework>
+
+addFromIconFontCn 可从组件主入口具名导入，返回对应框架的组件。src 可省略，用于页面已经存在的 SVG symbol；提供 src 时按当前 document 去重加载脚本。失败脚本会移除并释放缓存，再次调用工厂可重试；SSR 不创建脚本。
+
+返回组件使用原始 type 渲染 `use` 的 xlink:href；type 为空时显示默认内容（React 为 children）。extraProps 覆盖 size、rotate、spin、type 等图标属性；调用方原生属性优先，类名和 style 合并，双方提供的原生事件处理器依次执行。extraProps.type 改变的是 Icon 类名，symbol 引用仍由调用方 type 决定。
+
+IconProps、IconFontProps、IconFontOptions、IconInstance 类型均可导入。内置 SVG 图标请使用独立的 [图标库入口](/components/icon/)。

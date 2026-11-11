@@ -118,3 +118,74 @@ export interface ThemeColors {
    */
   hairlineOpacity?: number;
 }
+
+export interface BorderBeamProps {
+  /**
+   * @zh 尺寸/类型预设
+   * @en Size/type preset
+   * @default 'md'
+   */
+  size?: BorderBeamSize;
+  /**
+   * @zh 颜色变体
+   * @en Color variant
+   * @default 'colorful'
+   */
+  colorVariant?: BorderBeamColorVariant;
+  /**
+   * @zh 主题模式
+   * @en Theme mode
+   * @default 'dark'
+   */
+  theme?: BorderBeamTheme;
+  /**
+   * @zh 禁用色相偏移动画
+   * @en Disable hue-shift animation
+   * @default false
+   */
+  staticColors?: boolean;
+  /**
+   * @zh 旋转/移动持续时间（秒）Rotation/travel
+   * @en duration in seconds
+   */
+  duration?: number;
+  /**
+   * @zh 动画是否激活
+   * @en Whether the animation is active
+   * @default true
+   */
+  active?: boolean;
+  /**
+   * @zh 自定义边框圆角（像素），省略时自动检测
+   * @en Custom border radius in pixels
+   */
+  borderRadius?: number;
+  /**
+   * @zh 亮度倍率，默认使用预设值
+   * @en Brightness multiplier
+   */
+  brightness?: number;
+  /**
+   * @zh 饱和度倍率，默认使用预设值
+   * @en Saturation multiplier
+   */
+  saturation?: number;
+  /**
+   * @zh 色相旋转范围（度）
+   * @en Hue rotation range in degrees
+   * @default 30
+   */
+  hueRange?: number;
+  /**
+   * @zh 整体效果强度
+   * @en 0–1 Overall strength/opacity
+   * @default 1
+   */
+  strength?: number;
+  /**
+   * @zh 渐变尺寸倍率
+   * @en Gradient size multiplier
+   * @default 1
+   */
+  density?: number;
+}

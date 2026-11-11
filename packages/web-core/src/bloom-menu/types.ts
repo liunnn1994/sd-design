@@ -55,3 +55,51 @@ export interface BloomMenuCenterState {
     floating: { width: number; height: number };
   };
 }
+
+export interface BloomMenuProps<ButtonProps = unknown, Icon = unknown> {
+  /**
+   * @zh 菜单项
+   * @en Menu items
+   */
+  items: readonly BloomMenuItem<Icon>[];
+  /**
+   * @zh 是否展开
+   * @en Whether the menu is open
+   */
+  modelValue?: boolean;
+  /**
+   * @zh 非受控模式下的初始展开状态
+   * @en Initial open state in uncontrolled mode
+   */
+  defaultOpen?: boolean;
+  /**
+   * @zh 每行列数
+   * @en Number of columns per row
+   */
+  columns?: number;
+  /**
+   * @zh 面板标题
+   * @en Panel title
+   */
+  title?: string;
+  /**
+   * @zh 默认触发器文本
+   * @en Default trigger text
+   */
+  triggerText?: string;
+  /**
+   * @zh 触发按钮属性
+   * @en Trigger button props
+   */
+  buttonProps?: ButtonProps;
+  /**
+   * @zh 浮层中心相对触发按钮中心的偏移
+   * @en Popup center offset relative to the trigger center
+   */
+  offset?: BloomMenuOffset;
+  /**
+   * @zh 关闭按钮的无障碍标签,默认取国际化文案
+   * @en Accessible label for the close button, defaults to the locale text
+   */
+  closeAriaLabel?: string;
+}

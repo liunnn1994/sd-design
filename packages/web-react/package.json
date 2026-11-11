@@ -1,0 +1,494 @@
+{
+  "name": "@sdata/web-react",
+  "version": "7.8.1",
+  "description": "SD Design React adapters",
+  "license": "AGPL-3.0-only",
+  "files": [
+    "dist",
+    "styles",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "./styles/**",
+    "./src/markdown-render/performance-monitor.ts",
+    "./dist/markdown-render/performance-monitor.js"
+  ],
+  "exports": {
+    "./sender": {
+      "types": "./dist/sender/index.d.ts",
+      "import": "./dist/sender/index.js"
+    },
+    "./rich-text-editor": {
+      "types": "./dist/rich-text-editor/index.d.ts",
+      "import": "./dist/rich-text-editor/index.js"
+    },
+    "./model-selector": {
+      "types": "./dist/model-selector/index.d.ts",
+      "import": "./dist/model-selector/index.js"
+    },
+    "./basic-crud-table": {
+      "types": "./dist/basic-crud-table/index.d.ts",
+      "import": "./dist/basic-crud-table/index.js"
+    },
+    "./toolbar": {
+      "types": "./dist/toolbar/index.d.ts",
+      "import": "./dist/toolbar/index.js"
+    },
+    "./json-form": {
+      "types": "./dist/json-form/index.d.ts",
+      "import": "./dist/json-form/index.js"
+    },
+    "./table": {
+      "types": "./dist/table/index.d.ts",
+      "import": "./dist/table/index.js"
+    },
+    "./file-previewer": {
+      "types": "./dist/file-previewer/index.d.ts",
+      "import": "./dist/file-previewer/index.js"
+    },
+    "./upload": {
+      "types": "./dist/upload/index.d.ts",
+      "import": "./dist/upload/index.js"
+    },
+    "./tree-select": {
+      "types": "./dist/tree-select/index.d.ts",
+      "import": "./dist/tree-select/index.js"
+    },
+    "./tree": {
+      "types": "./dist/tree/index.d.ts",
+      "import": "./dist/tree/index.js"
+    },
+    "./cascader": {
+      "types": "./dist/cascader/index.d.ts",
+      "import": "./dist/cascader/index.js"
+    },
+    "./theme-provider": {
+      "types": "./dist/theme-provider/index.d.ts",
+      "import": "./dist/theme-provider/index.js"
+    },
+    "./cropper": {
+      "types": "./dist/cropper/index.d.ts",
+      "import": "./dist/cropper/index.js"
+    },
+    "./date-picker": {
+      "types": "./dist/date-picker/index.d.ts",
+      "import": "./dist/date-picker/index.js"
+    },
+    "./time-picker": {
+      "types": "./dist/time-picker/index.d.ts",
+      "import": "./dist/time-picker/index.js"
+    },
+    "./color-picker": {
+      "types": "./dist/color-picker/index.d.ts",
+      "import": "./dist/color-picker/index.js"
+    },
+    "./regex-vis": {
+      "types": "./dist/regex-vis/index.d.ts",
+      "import": "./dist/regex-vis/index.js"
+    },
+    "./calendar": {
+      "types": "./dist/calendar/index.d.ts",
+      "import": "./dist/calendar/index.js"
+    },
+    "./tour": {
+      "types": "./dist/tour/index.d.ts",
+      "import": "./dist/tour/index.js"
+    },
+    "./transfer": {
+      "types": "./dist/transfer/index.d.ts",
+      "import": "./dist/transfer/index.js"
+    },
+    "./image": {
+      "types": "./dist/image/index.d.ts",
+      "import": "./dist/image/index.js"
+    },
+    "./icon": {
+      "types": "./dist/icon/index.d.ts",
+      "import": "./dist/icon/index.js"
+    },
+    "./icon/*": {
+      "types": "./dist/icon/*.d.ts",
+      "import": "./dist/icon/*.js"
+    },
+    "./icon-component": {
+      "types": "./dist/icon-component/index.d.ts",
+      "import": "./dist/icon-component/index.js"
+    },
+    "./panel-group": {
+      "types": "./dist/panel-group/index.d.ts",
+      "import": "./dist/panel-group/index.js"
+    },
+    "./kv-list": {
+      "types": "./dist/kv-list/index.d.ts",
+      "import": "./dist/kv-list/index.js"
+    },
+    "./bloom-menu": {
+      "types": "./dist/bloom-menu/index.d.ts",
+      "import": "./dist/bloom-menu/index.js"
+    },
+    "./voice-glow": {
+      "types": "./dist/voice-glow/index.d.ts",
+      "import": "./dist/voice-glow/index.js"
+    },
+    "./border-beam": {
+      "types": "./dist/border-beam/index.d.ts",
+      "import": "./dist/border-beam/index.js"
+    },
+    "./liquid-glass-logo": {
+      "types": "./dist/liquid-glass-logo/index.d.ts",
+      "import": "./dist/liquid-glass-logo/index.js"
+    },
+    "./thinking-orb": {
+      "types": "./dist/thinking-orb/index.d.ts",
+      "import": "./dist/thinking-orb/index.js"
+    },
+    "./skeleton-reveal": {
+      "types": "./dist/skeleton-reveal/index.d.ts",
+      "import": "./dist/skeleton-reveal/index.js"
+    },
+    "./typography": {
+      "types": "./dist/typography/index.d.ts",
+      "import": "./dist/typography/index.js"
+    },
+    "./qr-code": {
+      "types": "./dist/qr-code/index.d.ts",
+      "import": "./dist/qr-code/index.js"
+    },
+    "./selectable-card": {
+      "types": "./dist/selectable-card/index.d.ts",
+      "import": "./dist/selectable-card/index.js"
+    },
+    "./mention": {
+      "types": "./dist/mention/index.d.ts",
+      "import": "./dist/mention/index.js"
+    },
+    "./carousel": {
+      "types": "./dist/carousel/index.d.ts",
+      "import": "./dist/carousel/index.js"
+    },
+    "./list": {
+      "types": "./dist/list/index.d.ts",
+      "import": "./dist/list/index.js"
+    },
+    "./modal": {
+      "types": "./dist/modal/index.d.ts",
+      "import": "./dist/modal/index.js"
+    },
+    "./auto-complete": {
+      "types": "./dist/auto-complete/index.d.ts",
+      "import": "./dist/auto-complete/index.js"
+    },
+    "./pagination": {
+      "types": "./dist/pagination/index.d.ts",
+      "import": "./dist/pagination/index.js"
+    },
+    "./select": {
+      "types": "./dist/select/index.d.ts",
+      "import": "./dist/select/index.js"
+    },
+    "./input-tag": {
+      "types": "./dist/input-tag/index.d.ts",
+      "import": "./dist/input-tag/index.js"
+    },
+    "./copy": {
+      "types": "./dist/copy/index.d.ts",
+      "import": "./dist/copy/index.js"
+    },
+    "./secret": {
+      "types": "./dist/secret/index.d.ts",
+      "import": "./dist/secret/index.js"
+    },
+    "./message": {
+      "types": "./dist/message/index.d.ts",
+      "import": "./dist/message/index.js"
+    },
+    "./notification": {
+      "types": "./dist/notification/index.d.ts",
+      "import": "./dist/notification/index.js"
+    },
+    "./input-mask": {
+      "types": "./dist/input-mask/index.d.ts",
+      "import": "./dist/input-mask/index.js"
+    },
+    "./verification-code": {
+      "types": "./dist/verification-code/index.d.ts",
+      "import": "./dist/verification-code/index.js"
+    },
+    "./slider": {
+      "types": "./dist/slider/index.d.ts",
+      "import": "./dist/slider/index.js"
+    },
+    "./rate": {
+      "types": "./dist/rate/index.d.ts",
+      "import": "./dist/rate/index.js"
+    },
+    "./radio": {
+      "types": "./dist/radio/index.d.ts",
+      "import": "./dist/radio/index.js"
+    },
+    "./checkbox": {
+      "types": "./dist/checkbox/index.d.ts",
+      "import": "./dist/checkbox/index.js"
+    },
+    "./input-number": {
+      "types": "./dist/input-number/index.d.ts",
+      "import": "./dist/input-number/index.js"
+    },
+    "./textarea": {
+      "types": "./dist/textarea/index.d.ts",
+      "import": "./dist/textarea/index.js"
+    },
+    "./input": {
+      "types": "./dist/input/index.d.ts",
+      "import": "./dist/input/index.js"
+    },
+    "./form": {
+      "types": "./dist/form/index.d.ts",
+      "import": "./dist/form/index.js"
+    },
+    "./watermark": {
+      "types": "./dist/watermark/index.d.ts",
+      "import": "./dist/watermark/index.js"
+    },
+    "./tag-group": {
+      "types": "./dist/tag-group/index.d.ts",
+      "import": "./dist/tag-group/index.js"
+    },
+    "./progress": {
+      "types": "./dist/progress/index.d.ts",
+      "import": "./dist/progress/index.js"
+    },
+    "./statistic": {
+      "types": "./dist/statistic/index.d.ts",
+      "import": "./dist/statistic/index.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs/index.d.ts",
+      "import": "./dist/tabs/index.js"
+    },
+    "./anchor": {
+      "types": "./dist/anchor/index.d.ts",
+      "import": "./dist/anchor/index.js"
+    },
+    "./back-top": {
+      "types": "./dist/back-top/index.d.ts",
+      "import": "./dist/back-top/index.js"
+    },
+    "./affix": {
+      "types": "./dist/affix/index.d.ts",
+      "import": "./dist/affix/index.js"
+    },
+    "./menu": {
+      "types": "./dist/menu/index.d.ts",
+      "import": "./dist/menu/index.js"
+    },
+    "./collapse": {
+      "types": "./dist/collapse/index.d.ts",
+      "import": "./dist/collapse/index.js"
+    },
+    "./timeline": {
+      "types": "./dist/timeline/index.d.ts",
+      "import": "./dist/timeline/index.js"
+    },
+    "./steps": {
+      "types": "./dist/steps/index.d.ts",
+      "import": "./dist/steps/index.js"
+    },
+    "./breadcrumb": {
+      "types": "./dist/breadcrumb/index.d.ts",
+      "import": "./dist/breadcrumb/index.js"
+    },
+    "./dropdown": {
+      "types": "./dist/dropdown/index.d.ts",
+      "import": "./dist/dropdown/index.js"
+    },
+    "./layout": {
+      "types": "./dist/layout/index.d.ts",
+      "import": "./dist/layout/index.js"
+    },
+    "./drawer": {
+      "types": "./dist/drawer/index.d.ts",
+      "import": "./dist/drawer/index.js"
+    },
+    "./grid": {
+      "types": "./dist/grid/index.d.ts",
+      "import": "./dist/grid/index.js"
+    },
+    "./descriptions": {
+      "types": "./dist/descriptions/index.d.ts",
+      "import": "./dist/descriptions/index.js"
+    },
+    "./page-header": {
+      "types": "./dist/page-header/index.d.ts",
+      "import": "./dist/page-header/index.js"
+    },
+    "./result": {
+      "types": "./dist/result/index.d.ts",
+      "import": "./dist/result/index.js"
+    },
+    "./skeleton": {
+      "types": "./dist/skeleton/index.d.ts",
+      "import": "./dist/skeleton/index.js"
+    },
+    "./card": {
+      "types": "./dist/card/index.d.ts",
+      "import": "./dist/card/index.js"
+    },
+    "./alert": {
+      "types": "./dist/alert/index.d.ts",
+      "import": "./dist/alert/index.js"
+    },
+    "./popconfirm": {
+      "types": "./dist/popconfirm/index.d.ts",
+      "import": "./dist/popconfirm/index.js"
+    },
+    "./popover": {
+      "types": "./dist/popover/index.d.ts",
+      "import": "./dist/popover/index.js"
+    },
+    "./link": {
+      "types": "./dist/link/index.d.ts",
+      "import": "./dist/link/index.js"
+    },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./config-provider": {
+      "types": "./dist/config-provider/index.d.ts",
+      "import": "./dist/config-provider/index.js"
+    },
+    "./spin": {
+      "types": "./dist/spin/index.d.ts",
+      "import": "./dist/spin/index.js"
+    },
+    "./tag": {
+      "types": "./dist/tag/index.d.ts",
+      "import": "./dist/tag/index.js"
+    },
+    "./avatar": {
+      "types": "./dist/avatar/index.d.ts",
+      "import": "./dist/avatar/index.js"
+    },
+    "./number-flow": {
+      "types": "./dist/number-flow/index.d.ts",
+      "import": "./dist/number-flow/index.js"
+    },
+    "./badge": {
+      "types": "./dist/badge/index.d.ts",
+      "import": "./dist/badge/index.js"
+    },
+    "./trigger": {
+      "types": "./dist/trigger/index.d.ts",
+      "import": "./dist/trigger/index.js"
+    },
+    "./scrollbar": {
+      "types": "./dist/scrollbar/index.d.ts",
+      "import": "./dist/scrollbar/index.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip/index.d.ts",
+      "import": "./dist/tooltip/index.js"
+    },
+    "./clamp": {
+      "types": "./dist/clamp/index.d.ts",
+      "import": "./dist/clamp/index.js"
+    },
+    "./ellipsis": {
+      "types": "./dist/ellipsis/index.d.ts",
+      "import": "./dist/ellipsis/index.js"
+    },
+    "./empty": {
+      "types": "./dist/empty/index.d.ts",
+      "import": "./dist/empty/index.js"
+    },
+    "./locale": {
+      "types": "./dist/locale/index.d.ts",
+      "import": "./dist/locale/index.js"
+    },
+    "./locale/lang/*": {
+      "types": "./dist/locale/lang/*.d.ts",
+      "import": "./dist/locale/lang/*.js"
+    },
+    "./button": {
+      "types": "./dist/button/index.d.ts",
+      "import": "./dist/button/index.js"
+    },
+    "./switch": {
+      "types": "./dist/switch/index.d.ts",
+      "import": "./dist/switch/index.js"
+    },
+    "./space": {
+      "types": "./dist/space/index.d.ts",
+      "import": "./dist/space/index.js"
+    },
+    "./comment": {
+      "types": "./dist/comment/index.d.ts",
+      "import": "./dist/comment/index.js"
+    },
+    "./divider": {
+      "types": "./dist/divider/index.d.ts",
+      "import": "./dist/divider/index.js"
+    },
+    "./styles/*": "./styles/*",
+    "./package.json": "./package.json",
+    "./markdown-render": {
+      "types": "./dist/markdown-render/index.d.ts",
+      "import": "./dist/markdown-render/index.js"
+    }
+  },
+  "scripts": {
+    "dev:test": "vite tests/browser --host 127.0.0.1 --port 5187 --strictPort",
+    "serve:e2e": "vite tests/browser --config vite.e2e.config.ts --host 127.0.0.1 --port 5190 --strictPort",
+    "test:e2e": "cypress run --browser chrome",
+    "build": "tsc -p tsconfig.json",
+    "prepack": "pnpm run build",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc -p tests/browser/tsconfig.check.json && tsc -p tests/markdown-types/tsconfig.json && tsc -p tests/sender-types/tsconfig.json",
+    "test": "pnpm run build && node --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "@sdata/web-core": "workspace:*",
+    "css-tree": "3.2.1",
+    "framer-motion": "14.0.0",
+    "markstream-react": "2.0.18",
+    "virtua": "0.53.4"
+  },
+  "devDependencies": {
+    "@types/css-tree": "3.2.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "cypress": "16.1.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sass": "1.105.1",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  },
+  "peerDependencies": {
+    "@antv/infographic": "^0.2.3",
+    "@terrastruct/d2": ">=0.1.33",
+    "katex": ">=0.16.22",
+    "mermaid": ">=11",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "stream-diffs": ">=0.0.2"
+  },
+  "peerDependenciesMeta": {
+    "@antv/infographic": {
+      "optional": true
+    },
+    "@terrastruct/d2": {
+      "optional": true
+    },
+    "katex": {
+      "optional": true
+    },
+    "mermaid": {
+      "optional": true
+    },
+    "stream-diffs": {
+      "optional": true
+    }
+  }
+}

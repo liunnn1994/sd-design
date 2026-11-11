@@ -1,0 +1,247 @@
+---
+title: 级联选择 Cascader
+description: 使用多级路径组织选项，适合层级化数据的单选、多选与搜索场景。
+---
+
+### 基本使用
+
+最常见的级联选择场景。默认按叶子节点提交值，也支持通过 `expand-trigger="hover"` 调整子级展开方式。
+
+<Demo id="cascader/basic" />
+
+### 自定义触发元素
+
+使用 `#trigger` 插槽替换默认输入框。自定义按钮仍由 Cascader 的 Trigger 负责打开和定位下拉面板。插槽直接提供 `value`、`displayValue`、`inputValue`、`selectedOptions`、完整的 `selectedPaths`、`popupVisible`、`disabled`、`loading` 和 `multiple`。
+
+<Demo id="cascader/trigger-element" />
+
+### 严格选择模式
+
+开启 `check-strictly` 后，父节点也可以直接选中；多选时会同时解除父子联动。
+
+<Demo id="cascader/check-strictly" />
+
+### 允许清除
+
+通过 `allow-clear` 显示清除按钮，兼容 `clearable` 别名。
+
+<Demo id="cascader/clear" />
+
+### 禁用选项
+
+在节点上设置 `disabled` 后，该项不会参与选择和回填。
+
+<Demo id="cascader/disabled" />
+
+### 展开子菜单
+
+设置 `expand-child` 后，进入一个分支时会自动展开它的第一个子菜单。
+
+<Demo id="cascader/expand" />
+
+### 回退选项
+
+当回填值在当前选项树中不存在时，可以通过 `fallback` 控制展示文本，或关闭回退展示。
+
+<Demo id="cascader/fallback" />
+
+### 自定义字段名
+
+通过 `field-names` 映射不同的数据结构。
+
+<Demo id="cascader/field-names" />
+
+### 自定义展示值
+
+使用 `format-label` 统一格式化已选路径的展示内容。
+
+<Demo id="cascader/format" />
+
+### 路径展示与响应式标签
+
+通过 `show-path` 和 `separator` 控制回填文案；多选时可用 `max-tag-count="responsive"` 让标签在窄宽度下自动折叠，和 Select / TreeSelect 复用同一套标签压缩逻辑。
+
+<Demo id="cascader/display" />
+
+### 子选项懒加载
+
+传入 `load-more` 后，未标记 `isLeaf: true` 且没有 `children` 的节点会走懒加载分支。
+
+<Demo id="cascader/lazy-load" />
+
+### 加载中
+
+选择框和下拉面板都可以显示加载态。
+
+<Demo id="cascader/loading" />
+
+### 多选模式
+
+设置 `multiple` 后使用复选框交互，并复用当前组件库的标签回填逻辑。
+
+<Demo id="cascader/multiple" />
+
+### 级联面板
+
+`CascaderPanel` 可以单独作为路径面板使用，适合详情页或组合式表单布局。
+
+<Demo id="cascader/panel" />
+
+### 路径模式
+
+开启 `path-mode` 后，值会以完整路径数组的形式回传。
+
+<Demo id="cascader/path" />
+
+### 搜索
+
+设置 `allow-search` 启用搜索，兼容 `filterable` 别名；搜索面板默认展示整条路径，也可通过 `search-option-only-label` 只展示末级标签。
+
+<Demo id="cascader/search" />
+
+### 选项文本省略
+
+默认情况下，每一级选项都会左对齐并使用 `Ellipsis` 处理溢出文本。大数据量或虚拟滚动场景可以设置 `ellipsis="performant-ellipsis"`；设置 `:ellipsis="false"` 可关闭内置省略。使用 `#option` 插槽后，选项内容完全由插槽控制。
+
+<Demo id="cascader/ellipsis" />
+
+### 虚拟列表
+
+当前示例会在大体量子选项列里对比默认固定模式和显式 `itemSize` 写法，更适合验证级联面板在真实大数据量下的滚动表现。对于典型的多列菜单，默认固定高度通常就是最稳的配置。
+
+通过 `virtual-list-props` 在大数据量场景下减少渲染开销。`Cascader` 当前菜单项默认按固定高度处理：如果你没有显式传 `itemSize` 或 `minItemSize`，组件会按 `36px` 菜单项高度补齐固定模式；如果要手动指定固定高度，请传 `itemSize`；只有显式传 `minItemSize` 时，才会切到动态高度模式。完整参数可参考 [LLMs.txt](/llms_txt/)。
+
+<Demo id="cascader/virtual" />
+
+## API
+
+### `<cascader>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| path-mode | 绑定值是否为路径 | `boolean` | `false` |  |
+| multiple | 是否为多选状态 | `boolean` | `false` |  |
+| model-value **(v-model)** | 绑定值 | `CascaderModelValue` | `-` |  |
+| default-value | 默认值（非受控状态） | `CascaderModelValue` | `'' \| undefined \| []` |  |
+| options | 级联选择器的选项 | `CascaderOption[]` | `[]` |  |
+| disabled | 是否禁用 | `boolean` | `false` |  |
+| error | 是否为错误状态 | `boolean` | `false` |  |
+| size | 选择框的大小 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |  |
+| ellipsis | 是否使用 Ellipsis 渲染默认选项；`performant-ellipsis` 使用高性能实现，`false` 关闭 | `boolean \| 'performant-ellipsis'` | `true` |  |
+| allow-search | 是否允许搜索，兼容 `filterable` 别名 | `boolean` | `false (single) \| true (multiple)` |  |
+| filterable | `allow-search` 的兼容别名 | `boolean` | `-` |  |
+| allow-clear | 是否允许清除，兼容 `clearable` 别名 | `boolean` | `false` |  |
+| clearable | `allow-clear` 的兼容别名 | `boolean` | `-` |  |
+| input-value **(v-model)** | 输入框的值 | `string` | `-` |  |
+| default-input-value | 输入框默认值 | `string` | `''` |  |
+| popup-visible **(v-model)** | 是否显示下拉框 | `boolean` | `-` |  |
+| show **(v-model:show)** | `popup-visible` 的兼容别名 | `boolean` | `-` |  |
+| default-popup-visible | 默认是否显示下拉框 | `boolean` | `false` |  |
+| default-show | `default-popup-visible` 的兼容别名 | `boolean` | `-` |  |
+| expand-trigger | 展开下一级的触发方式 | `'click' \| 'hover'` | `'click'` |  |
+| placeholder | 占位符 | `string` | `-` |  |
+| fit-width | 宽度是否适应文字内容 | `boolean` | `false` |  |
+| max-w-full | 最大宽度是否限制为父容器宽度 | `boolean` | `true` |  |
+| filter-option | 自定义选项过滤方法 | `(inputValue: string, option: CascaderOption) => boolean` | `-` |  |
+| popup-container | 弹出框挂载容器 | `string \| HTMLElement` | `-` |  |
+| max-tag-count | 多选模式最多显示的标签数量，`0` 表示不限制，`responsive` 表示按容器宽度自动折叠 | `number \| 'responsive'` | `0` |  |
+| show-path | 回填时是否展示完整路径 | `boolean` | `true` |  |
+| separator | 回填路径使用的分隔符 | `string` | `' / '` |  |
+| format-label | 自定义已选路径的展示内容 | `(options: CascaderOption[]) => string` | `-` |  |
+| trigger-props | 下拉菜单触发器属性 | `TriggerProps` | `-` |  |
+| check-strictly | 是否开启严格选择模式 | `boolean` | `false` |  |
+| load-more | 数据懒加载函数 | `(option: CascaderOption, done: (children?: CascaderOption[]) => void) => void` | `-` | 2.13.0 |
+| loading | 是否为加载中状态 | `boolean` | `false` | 2.15.0 |
+| spin-props | 传递给加载中 Spin 的属性 | `SpinProps` | `-` |  |
+| search-option-only-label | 搜索面板是否只展示末级标签 | `boolean` | `false` | 2.18.0 |
+| search-delay | 触发搜索事件的延迟时间 | `number` | `500` | 2.18.0 |
+| field-names | 自定义字段映射 | `CascaderFieldNames` | `-` | 2.22.0 |
+| value-key | 对象值用于确定 key 的字段 | `string` | `'value'` | 2.29.0 |
+| fallback | 自定义不存在选项值的展示 | `boolean \| ((value: CascaderOptionValue \| CascaderOptionValue[]) => string)` | `true` | 2.29.0 |
+| expand-child | 是否展开子菜单 | `boolean` | `false` | 2.29.0 |
+| virtual-list-props | 虚拟列表配置 | `VirtualListProps` | `-` | 2.49.0 |
+| tag-nowrap | 标签内容不换行 | `boolean` | `false` | 2.56.1 |
+
+### `<cascader>` 事件
+
+| 事件名               | 描述                      | 参数                        |
+| -------------------- | ------------------------- | --------------------------- |
+| update:modelValue    | `v-model` 更新事件        | value: `CascaderModelValue` |
+| change               | 选中值改变时触发          | value: `CascaderModelValue` |
+| input-value-change   | 输入值改变时触发          | value: `string`             |
+| clear                | 点击清除按钮时触发        | -                           |
+| search               | 用户搜索时触发            | value: `string`             |
+| update:popup-visible | 弹层显隐更新事件          | visible: `boolean`          |
+| popup-visible-change | 弹层显隐变化时触发        | visible: `boolean`          |
+| update:show          | `show` 兼容别名的更新事件 | visible: `boolean`          |
+| showChange           | `show` 兼容别名的变化事件 | visible: `boolean`          |
+| focus                | 获得焦点时触发            | ev: `FocusEvent`            |
+| blur                 | 失去焦点时触发            | ev: `FocusEvent`            |
+
+### `<cascader>` 插槽
+
+| 插槽名       | 描述                 | 参数                       | 版本   |
+| ------------ | -------------------- | -------------------------- | :----- |
+| trigger      | 自定义触发元素       | `CascaderTriggerSlotProps` |        |
+| label        | 选择框的显示内容     | data: `CascaderOption`     | 2.18.0 |
+| option       | 自定义选项内容       | data: `CascaderOption`     | 2.18.0 |
+| prefix       | 前缀元素             | -                          | 2.23.0 |
+| arrow-icon   | 选择框箭头图标       | -                          | 2.16.0 |
+| loading-icon | 选择框加载图标       | -                          | 2.16.0 |
+| search-icon  | 选择框搜索图标       | -                          | 2.16.0 |
+| empty        | 选项为空时的显示内容 | -                          | 2.23.0 |
+
+### `<cascader-panel>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| path-mode | 绑定值是否为路径 | `boolean` | `false` |  |
+| multiple | 是否为多选状态 | `boolean` | `false` |  |
+| model-value **(v-model)** | 绑定值 | `CascaderModelValue` | `-` |  |
+| default-value | 默认值（非受控状态） | `CascaderModelValue` | `'' \| undefined \| []` |  |
+| options | 级联选择器的选项 | `CascaderOption[]` | `[]` |  |
+| ellipsis | 是否使用 Ellipsis 渲染默认选项；`performant-ellipsis` 使用高性能实现，`false` 关闭 | `boolean \| 'performant-ellipsis'` | `true` |  |
+| expand-trigger | 展开下一级的触发方式 | `'click' \| 'hover'` | `'click'` |  |
+| check-strictly | 是否开启严格选择模式 | `boolean` | `false` |  |
+| load-more | 数据懒加载函数 | `(option: CascaderOption, done: (children?: CascaderOption[]) => void) => void` | `-` | 2.13.0 |
+| field-names | 自定义字段映射 | `CascaderFieldNames` | `-` | 2.22.0 |
+| value-key | 对象值用于确定 key 的字段 | `string` | `'value'` | 2.29.0 |
+| expand-child | 是否展开子菜单 | `boolean` | `false` | 2.29.0 |
+
+### `<cascader-panel>` 事件
+
+| 事件名            | 描述               | 参数                        |
+| ----------------- | ------------------ | --------------------------- |
+| update:modelValue | `v-model` 更新事件 | value: `CascaderModelValue` |
+| change            | 选中值改变时触发   | value: `CascaderModelValue` |
+
+### `<cascader-panel>` 插槽
+
+| 插槽名 | 描述                 | 参数 | 版本   |
+| ------ | -------------------- | ---- | :----- |
+| empty  | 选项为空时的显示内容 | -    | 2.23.0 |
+
+### `CascaderOption`
+
+| 参数名   | 描述               | 类型                                          | 默认值  | 版本  |
+| -------- | ------------------ | --------------------------------------------- | :-----: | :---- |
+| value    | 选项值，支持对象值 | `string \| number \| Record<string, unknown>` |   `-`   |       |
+| label    | 选项文本           | `string`                                      |   `-`   |       |
+| disabled | 是否禁用           | `boolean`                                     | `false` |       |
+| tagProps | 多选标签透传属性   | `TagProps`                                    |   `-`   | 2.8.0 |
+| children | 下一级选项         | `CascaderOption[]`                            |   `-`   |       |
+| isLeaf   | 是否为叶子节点     | `boolean`                                     | `false` |       |
+
+## 选项交互规则
+
+<Framework only="vue">
+
+`@sdata/web-core/cascader/option` 的 `createCascaderOptionFoundation` 提供选项加载状态、严格/层级勾选、路径标签及鼠标/checkbox/radio 交互规则。适配器提供实时选项、模式、checked 状态和可选上下文回调；加载在路径更新前调用，checkbox 在路径更新后读取当前勾选值。Vue 保留 option Ref、computed 缓存、控件、插槽与原组件 API。
+
+</Framework>
+
+<Framework only="react">
+
+`@sdata/web-core/cascader/option` 的 `createCascaderOptionFoundation` 提供选项加载状态、严格/层级勾选、路径标签及鼠标/checkbox/radio 交互规则。适配器提供实时选项、模式、checked 状态和可选上下文回调；加载在路径更新前调用，checkbox 在路径更新后读取当前勾选值。React 适配器连接状态、Context、DOM 引用、内容渲染与生命周期。
+
+</Framework>

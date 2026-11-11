@@ -32,6 +32,16 @@ export interface UploadAdapter {
   onFormChange(): void;
 }
 
+export function normalizeUploadFile(file: FileItem, index: number): FileItem {
+  const status = file.status ?? 'done';
+  return {
+    ...file,
+    uid: file.uid ?? `${Date.now()}${index}`,
+    status,
+    percent: file.percent ?? (['error', 'init'].includes(status) ? 0 : 1),
+  };
+}
+
 export function createUploadFoundation(adapter: UploadAdapter) {
   let uidCounter = 0;
   const fileMap = new Map<string, FileItem>();
@@ -70,13 +80,7 @@ export function createUploadFoundation(adapter: UploadAdapter) {
   const checkFileList = (fileList?: FileItem[]) => {
     fileMap.clear();
     const nextFileList = fileList?.map((data, index) => {
-      const status = data.status ?? 'done';
-      const fileItem = adapter.createFileItem({
-        ...data,
-        uid: data.uid ?? `${Date.now()}${index}`,
-        status,
-        percent: data.percent ?? (['error', 'init'].includes(status) ? 0 : 1),
-      });
+      const fileItem = adapter.createFileItem(normalizeUploadFile(data, index));
       fileMap.set(fileItem.uid, fileItem);
       return fileItem;
     });

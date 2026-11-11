@@ -1,0 +1,18 @@
+import { MotionValue as CoreMotionValue } from '@sdata/web-core/panel-group/motion';
+import { animate } from 'framer-motion';
+
+export class MotionValue extends CoreMotionValue {
+  constructor(initial = 0) {
+    super(initial, (from, target, transition, update, complete) => {
+      const { duration, easing, ...options } = transition;
+      const animation = animate(from, target, {
+        ...options,
+        duration: duration / 1000,
+        ease: easing,
+        onUpdate: update,
+        onComplete: complete,
+      });
+      return () => animation.stop();
+    });
+  }
+}

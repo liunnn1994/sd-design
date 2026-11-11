@@ -1,0 +1,6 @@
+@use '@sdata/web-core/styles/style/index.scss' as base;
+@use './button.scss';
+@use './progress.scss';
+@use './tooltip.scss';
+@use './image.scss';
+@forward '@sdata/web-core/styles/upload/style/index.scss';

@@ -49,21 +49,6 @@ function fixture(modelValue: boolean | undefined = undefined, defaultOpen = fals
     get reducedMotion() {
       return env.reduced;
     },
-    get normalizedColumns() {
-      return controller.getNormalizedColumns();
-    },
-    get rowCount() {
-      return controller.getRowCount();
-    },
-    get isOpen() {
-      return controller.getIsOpen();
-    },
-    get panelCollapsed() {
-      return controller.getPanelCollapsed();
-    },
-    get panelAnimate() {
-      return controller.getPanelAnimate();
-    },
     ...initial,
   };
   controller = createBloomMenuFoundation(state, {
@@ -209,7 +194,7 @@ test('uncontrolled open updates fallback before notifications and watcher mounts
     const f = fixture();
     connect(f, b);
     f.controller.open();
-    assert.equal(f.state.isOpen, true);
+    assert.equal(f.controller.getIsOpen(), true);
     assert.equal(f.state.popupVisible, false);
     assert.deepEqual(f.events, [['update', true, true], ['open']]);
     f.controller.syncOpen(true);
@@ -225,11 +210,11 @@ test('controlled rejected opening leaves fallback and popup closed', () =>
     connect(f, b);
     f.controller.handlePopupVisibleChange(true);
     assert.equal(f.state.internalOpen, false);
-    assert.equal(f.state.isOpen, false);
+    assert.equal(f.controller.getIsOpen(), false);
     assert.equal(f.state.popupVisible, false);
     assert.deepEqual(f.events, [['update', true, false], ['open']]);
     f.props.modelValue = undefined;
-    assert.equal(f.state.isOpen, false);
+    assert.equal(f.controller.getIsOpen(), false);
   }));
 test('forced controlled close resets Trigger state and reopening repairs it without duplicate events', () =>
   browser((b) => {
@@ -238,7 +223,7 @@ test('forced controlled close resets Trigger state and reopening repairs it with
     b.document.activeElement = b.item;
     f.controller.handlePopupVisibleChange(false);
     assert.equal(b.button.focuses, 1);
-    assert.equal(f.state.isOpen, true);
+    assert.equal(f.controller.getIsOpen(), true);
     assert.equal(f.state.popupVisible, false);
     assert.deepEqual(f.events, [['update', false, false], ['close']]);
     f.controller.handlePopupVisibleChange(true);
@@ -390,8 +375,8 @@ test('grid dimensions and native border flags preserve fractional and zero colum
     { value: 3, label: 'Three', disabled: true },
   ];
   f.props.columns = 2.9;
-  assert.equal(f.state.normalizedColumns, 2);
-  assert.equal(f.state.rowCount, 2);
+  assert.equal(f.controller.getNormalizedColumns(), 2);
+  assert.equal(f.controller.getRowCount(), 2);
   assert.deepEqual(f.controller.getItemLayout(f.props.items[0], 0), {
     borderRight: true,
     borderBottom: true,
@@ -404,8 +389,8 @@ test('grid dimensions and native border flags preserve fractional and zero colum
   });
   f.props.items = [];
   f.props.columns = 0;
-  assert.equal(f.state.normalizedColumns, 1);
-  assert.equal(f.state.rowCount, 1);
+  assert.equal(f.controller.getNormalizedColumns(), 1);
+  assert.equal(f.controller.getRowCount(), 1);
 });
 test('shared motion targets retain reduced-motion branches, spring values and distance staggering', () => {
   const f = fixture();
@@ -446,4 +431,30 @@ test('normal popup opening leaves one focus schedule to the open watcher', () =>
     assert.equal(f.render.length, 1);
     f.flush();
     assert.equal(b.item.focuses, 1);
+  }));
+
+test('dispose invalidates queued focus and retries while allowing a new connection', () =>
+  browser((b) => {
+    const f = fixture(undefined, true);
+    connect(f, b);
+    f.controller.focusPanel();
+    f.controller.dispose();
+    f.flush();
+    assert.equal(b.item.focuses, 0);
+    b.item.visibility = 'hidden';
+    f.controller.syncOpen(true);
+    f.flush();
+    assert.equal(f.frames.length, 1);
+    f.controller.dispose();
+    f.frames.shift()!();
+    assert.equal(f.render.length, 0);
+    assert.equal(f.frames.length, 0);
+    b.item.visibility = 'visible';
+    f.controller.syncOpen(true);
+    f.flush();
+    assert.equal(b.item.focuses, 1);
+    f.controller.close(true);
+    f.controller.dispose();
+    f.flush();
+    assert.equal(b.button.focuses, 0);
   }));

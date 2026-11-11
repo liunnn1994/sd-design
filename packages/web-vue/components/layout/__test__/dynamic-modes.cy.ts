@@ -51,10 +51,13 @@ describe('LayoutSider dynamic modes', () => {
     );
     cy.get('.sd-layout-sider').trigger('mouseenter', { force: true });
     cy.get('.sd-layout-sider-rail-overlay').should('have.class', 'sd-layout-sider-rail-expand');
+    cy.get('.sd-layout-sider').should('have.css', 'width', '72px');
+    cy.get('.sd-layout-sider-rail-overlay').should('have.css', 'width', '200px');
     cy.contains('button', 'Toggle hover').click();
     cy.get('.sd-layout-sider').trigger('mouseleave', { force: true });
     cy.contains('button', 'Toggle hover').click();
     cy.get('.sd-layout-sider-rail-overlay').should('not.have.class', 'sd-layout-sider-rail-expand');
+    cy.get('.sd-layout-sider-rail-overlay').should('have.css', 'width', '72px');
     cy.get('.sd-layout-sider').trigger('mouseenter', { force: true });
     cy.get('.sd-layout-sider-rail-overlay').should('have.class', 'sd-layout-sider-rail-expand');
   });

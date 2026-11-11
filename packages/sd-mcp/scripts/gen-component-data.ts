@@ -184,7 +184,7 @@ const collectSidebarComponents = (sidebar: SidebarGroup[]) => {
 const readFrontmatter = async (name: string) => {
   try {
     const text = await readFile(
-      path.join(DOCS, 'src/content/docs/components', name, 'index.mdx'),
+      path.join(DOCS, 'src/content/shared/components', name, 'index.mdx'),
       'utf8',
     );
     const match = text.match(/^---\n([\s\S]*?)\n---/u);

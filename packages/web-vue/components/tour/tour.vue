@@ -2,7 +2,7 @@
   import type { Config, Driver as TourController } from 'driver.js';
 
   import type { VNodeChild } from 'vue';
-  import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
+  import { computed, onBeforeUnmount, onMounted, onUpdated, shallowRef, watch } from 'vue';
 
   import { driver } from '@sdata/web-core/tour/engine';
   import {
@@ -61,6 +61,7 @@
     },
   });
   onMounted(foundation.connect);
+  onUpdated(foundation.syncSlots);
   useResizeObserver(() => popover.value?.wrapper, foundation.scheduleRefresh);
   onBeforeUnmount(foundation.dispose);
 

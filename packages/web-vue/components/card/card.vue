@@ -41,6 +41,12 @@
   import type { CSSProperties, VNode } from 'vue';
   import { computed, inject, onBeforeUpdate, provide, reactive, toRef } from 'vue';
 
+  import {
+    createCardFoundation,
+    getCardSize,
+    getCardScrollMode,
+  } from '@sdata/web-core/card/foundation';
+
   import type { ScrollbarProps } from '../scrollbar';
   import type { SpinProps } from '../spin';
   import type { CardContext } from './context';
@@ -159,22 +165,15 @@
   }));
   const prefixCls = getPrefixCls('card');
   const { mergedSize: resolvedSize } = useSize(toRef(props, 'size'));
-  const mergedSize = computed(() =>
-    resolvedSize.value === 'small' || resolvedSize.value === 'mini' ? 'small' : 'medium',
-  );
+  const mergedSize = computed(() => getCardSize(resolvedSize.value));
   const { scrollbarProps } = useScrollbar(toRef(props, 'scrollbar'));
-  const scrollEnabled = computed(() => props.fullHeight && props.scrollbar !== false);
-  const cardContext: CardContext = reactive({
-    metaCount: 0,
-    gridCount: 0,
-    get hasMeta() {
-      return this.metaCount > 0;
-    },
-    get hasGrid() {
-      return this.gridCount > 0;
-    },
-    slots: { ...slots },
-  });
+  const scrollMode = computed(() => getCardScrollMode(props.fullHeight, props.scrollbar));
+  const scrollEnabled = computed(() => scrollMode.value === 'custom');
+  const cardContext: CardContext = reactive(
+    Object.assign(createCardFoundation(reactive({ metaCount: 0, gridCount: 0 })), {
+      slots: { ...slots },
+    }),
+  );
 
   onBeforeUpdate(() => {
     cardContext.slots = { ...slots };
@@ -199,7 +198,7 @@
     `${prefixCls}-body`,
     {
       [`${prefixCls}-body-scroll`]: scrollEnabled.value,
-      [`${prefixCls}-body-native`]: props.fullHeight && props.scrollbar === false,
+      [`${prefixCls}-body-native`]: scrollMode.value === 'native',
     },
   ]);
 </script>

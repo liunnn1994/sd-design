@@ -9,6 +9,13 @@ import type { useView } from './core/view';
 import type { useDragAndDrop } from './modules/drag-and-drop';
 import type { createDateUtils } from './utils/date';
 export type {
+  CalendarDragData,
+  CalendarEventInteraction,
+  CalendarEventDragEnd,
+  CalendarEventResize,
+  CalendarEventResizeEnd,
+  CalendarEventDrop,
+  CalendarEventDropped,
   CalendarId,
   CalendarRange,
   SpecialHoursRange,

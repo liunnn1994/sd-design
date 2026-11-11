@@ -3,6 +3,7 @@
 
   import SDVue from '@sdata/web-vue';
 
+  import { getDocsFramework } from '../../utils/framework-navigation';
   import TypeReferenceToken from './TypeReferenceToken.vue';
 
   interface TypeReferenceEntry {
@@ -21,11 +22,14 @@
   const skipTagNames = new Set(['BUTTON', 'INPUT', 'OPTION', 'SCRIPT', 'STYLE', 'TEXTAREA']);
   const mountedApps = new Map<HTMLElement, ReturnType<typeof createApp>>();
   let manifestPromise: Promise<TypeReferenceManifest> | null = null;
+  let manifestFramework = '';
   let matcher: RegExp | null = null;
   let pageLoadHandler: (() => void) | null = null;
 
   async function fetchManifest() {
-    const response = await fetch('/vendor/sd-web-vue/deps/type-reference-manifest.json');
+    const response = await fetch(
+      `${import.meta.env.BASE_URL}vendor/sd-web-${getDocsFramework(location.pathname)}/${getDocsFramework(location.pathname) === 'vue' ? 'deps/' : ''}type-reference-manifest.json`,
+    );
 
     if (!response.ok) {
       throw new Error(`Type reference manifest load failed: ${response.status}`);
@@ -35,6 +39,12 @@
   }
 
   function loadManifest() {
+    const framework = getDocsFramework(location.pathname);
+    if (manifestFramework !== framework) {
+      manifestPromise = null;
+      matcher = null;
+      manifestFramework = framework;
+    }
     if (manifestPromise) {
       return manifestPromise;
     }

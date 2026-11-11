@@ -13,6 +13,17 @@ export function sdDocsLlmsIntegration(): AstroIntegration {
     name: 'sd-design-llms',
     hooks: {
       'astro:config:setup': ({ injectRoute }) => {
+        for (const [pattern, file] of [
+          ['/react/llms/llms.txt', 'react-llms-index'],
+          ['/react/llms/llms-full.txt', 'react-llms-full'],
+          ['/react/llms/components/[slug].md', 'react-llms-component'],
+        ]) {
+          injectRoute({
+            entrypoint: fileURLToPath(new URL('./routes/' + file + '.ts', import.meta.url)),
+            pattern,
+            prerender: true,
+          });
+        }
         injectRoute({
           entrypoint: llmsIndexEntrypoint,
           pattern: '/llms/llms.txt',

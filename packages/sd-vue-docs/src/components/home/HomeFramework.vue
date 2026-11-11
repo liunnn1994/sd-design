@@ -45,12 +45,12 @@
         >
           <strong>{{ frameworks[index] }}</strong
           ><Tag size="small" :color="index === 0 ? 'green' : 'orange'">{{
-            index === 0 ? '现在可用' : '即将到来'
+            index === 0 ? '现在可用' : 'Alpha'
           }}</Tag>
         </motion.span>
       </AnimatePresence>
     </span>
-    <span class="sr-only">Vue 现在可用，React 即将到来。</span>
+    <span class="sr-only">Vue 现在可用，React 处于 Alpha 阶段。</span>
   </div>
 </template>
 <style lang="scss" scoped>

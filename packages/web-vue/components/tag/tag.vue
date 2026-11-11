@@ -61,11 +61,10 @@
 </template>
 
 <script setup lang="ts">
-  import type { CSSProperties, PropType } from 'vue';
+  import type { PropType } from 'vue';
   import { computed, inject, onBeforeUpdate, ref, useSlots } from 'vue';
 
   import { createTagFoundation } from '@sdata/web-core/tag/foundation';
-  import { isNil } from 'es-toolkit/compat';
 
   import type { EllipsisTooltipProps } from '../ellipsis';
 
@@ -431,25 +430,5 @@
   ]);
 
   // ---- Inline style（自定义颜色时通过 CSS 变量传递） ----
-  const style = computed(() => {
-    if (isCustomColor.value && resolvedColor.value) {
-      const styleObj: CSSProperties = {};
-
-      // 文字颜色
-      if (finalTextColor.value) {
-        styleObj['--sd-tag-color'] = finalTextColor.value;
-      }
-
-      // 背景颜色（带透明度）
-      styleObj['--sd-tag-bg-color'] = foundation.getBackgroundColor();
-
-      // 边框颜色
-      if (!isNil(props.bordered)) {
-        styleObj['--sd-tag-border-color'] = resolvedBackgroundColor.value;
-      }
-
-      return styleObj;
-    }
-    return undefined;
-  });
+  const style = computed(foundation.getStyle);
 </script>

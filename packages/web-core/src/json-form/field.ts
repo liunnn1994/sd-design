@@ -125,5 +125,6 @@ export function filterJsonFormSlots(
   return names.filter((name) => !reserved.includes(name) && !schemaSlots.has(name));
 }
 export function resolveJsonFormComponent<T>(components: Record<string, T>, type?: string) {
-  return components[type ?? JSON_FORM_COMPONENT_TYPES.input] ?? components.input;
+  const name = type ?? JSON_FORM_COMPONENT_TYPES.input;
+  return (Object.hasOwn(components, name) ? components[name] : undefined) ?? components.input;
 }

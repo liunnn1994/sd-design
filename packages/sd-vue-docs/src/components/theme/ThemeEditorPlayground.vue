@@ -3,6 +3,7 @@
 
   import { useElementSize } from '@vueuse/core';
 
+  import { getDocsFramework } from '../../utils/framework-navigation';
   import { demoComponents } from './demo-registry';
   import { componentLabel, themeCatalog } from './editor-model';
   import ThemeDemoPreview from './ThemeDemoPreview.vue';
@@ -11,7 +12,7 @@
   import ThemePresetPanel from './ThemePresetPanel.vue';
   import ThemeSeedPanel from './ThemeSeedPanel.vue';
   import { useThemeEditor } from './useThemeEditor';
-
+  const framework = typeof location === 'undefined' ? 'vue' : getDocsFramework(location.pathname);
   const editor = useThemeEditor();
   const { theme, preset, status, error, json, showJson, baseline, canUndo, canRedo } = editor;
   const step = shallowRef(0);
@@ -162,8 +163,15 @@
           v-if="preview === 'components'"
           :theme="previewTheme"
           :component="component"
+          :framework="framework"
         />
-        <ThemePagePreview v-else :theme="previewTheme" :theme-mode="mode" :mobile="narrow" />
+        <ThemePagePreview
+          :framework="framework"
+          v-else
+          :theme="previewTheme"
+          :theme-mode="mode"
+          :mobile="narrow"
+        />
       </section>
       <aside class="editor-controls" aria-label="品牌调整">
         <ThemePresetPanel v-if="step === 0" :preset="preset" @select="editor.applyPreset" />

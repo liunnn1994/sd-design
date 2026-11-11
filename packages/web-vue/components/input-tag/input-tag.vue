@@ -150,6 +150,7 @@
     getVisibleTagCount,
     getDisplayTags,
   } from '@sdata/web-core/input-tag/foundation';
+  import { DEFAULT_INPUT_TAG_FIELD_NAMES } from '@sdata/web-core/input-tag/utils';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { InputTagFieldNames, TagData, TagDataInfo } from './interface';
@@ -171,13 +172,6 @@
   import Tag from '../tag';
   import Tooltip from '../tooltip';
   import { getValueData } from './utils';
-
-  const DEFAULT_FIELD_NAMES = {
-    value: 'value',
-    label: 'label',
-    closable: 'closable',
-    tagProps: 'tagProps',
-  };
 
   defineOptions({ name: 'InputTag', inheritAttrs: false });
 
@@ -379,7 +373,10 @@
     mergedDisabled,
   );
   const readonlyTipText = useReadonlyTipText(toRef(props, 'readonly'));
-  const mergedFieldNames = computed(() => ({ ...DEFAULT_FIELD_NAMES, ...props.fieldNames }));
+  const mergedFieldNames = computed(() => ({
+    ...DEFAULT_INPUT_TAG_FIELD_NAMES,
+    ...props.fieldNames,
+  }));
   const innerFocused = ref(false);
   const innerValue = ref(props.defaultValue);
   const innerInputValue = ref(props.defaultInputValue);

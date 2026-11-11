@@ -128,3 +128,73 @@ test('数值限幅并恢复非有限值，避免无效渲染尺寸', () => {
   assert.equal(resolved.loopDelay, 1.6);
   assert.equal(resolved.depth, 0);
 });
+
+test('theme fallback prioritizes library, page and a single color scheme before browser preference', async (t) => {
+  const { getLiquidGlassLogoFallbackTheme: resolve } =
+    await import('../dist/liquid-glass-logo/theme.js');
+  let page: string | null = null;
+  let scheme = 'normal';
+  const original = Object.getOwnPropertyDescriptor(globalThis, 'getComputedStyle');
+  Object.defineProperty(globalThis, 'getComputedStyle', {
+    configurable: true,
+    value: () => ({ colorScheme: scheme }),
+  });
+  t.after(() => {
+    if (original) Object.defineProperty(globalThis, 'getComputedStyle', original);
+    else Reflect.deleteProperty(globalThis, 'getComputedStyle');
+  });
+  const element = {
+    closest: () => (page ? { getAttribute: () => page } : null),
+  } as unknown as HTMLElement;
+  assert.equal(resolve(null, undefined, false), 'light');
+  assert.equal(resolve(element, undefined, true), 'dark');
+  scheme = 'light';
+  assert.equal(resolve(element, undefined, true), 'light');
+  scheme = 'light dark';
+  assert.equal(resolve(element, undefined, true), 'dark');
+  page = 'light';
+  assert.equal(resolve(element, undefined, true), 'light');
+  assert.equal(resolve(element, 'dark', false), 'dark');
+});
+
+test('controller reports unavailable WebGL, prevents context-loss default and removes its listener', async (t) => {
+  const { createLiquidGlassLogoController } =
+    await import('../dist/liquid-glass-logo/controller.js');
+  const original = Object.getOwnPropertyDescriptor(globalThis, 'cancelAnimationFrame');
+  Object.defineProperty(globalThis, 'cancelAnimationFrame', {
+    configurable: true,
+    value: () => {},
+  });
+  t.after(() => {
+    if (original) Object.defineProperty(globalThis, 'cancelAnimationFrame', original);
+    else Reflect.deleteProperty(globalThis, 'cancelAnimationFrame');
+  });
+  const canvas = Object.assign(new EventTarget(), { getContext: () => null });
+  const errors: string[] = [];
+  const controller = createLiquidGlassLogoController({
+    getElement: () => null,
+    getCanvas: () => canvas as unknown as HTMLCanvasElement,
+    getTuning: () => resolveLiquidGlassLogo({}),
+    isAutoWidth: () => false,
+    onWidth() {},
+    onReady() {
+      assert.fail('unavailable renderer cannot become ready');
+    },
+    onError: (error) => errors.push(error.message),
+  });
+  controller.connect();
+  assert.deepEqual(errors, ['WebGL2 is unavailable.']);
+  const event = new Event('webglcontextlost', { cancelable: true });
+  canvas.dispatchEvent(event);
+  assert.equal(event.defaultPrevented, true);
+  assert.equal(errors.at(-1), 'WebGL context lost.');
+  controller.dispose();
+  const after = new Event('webglcontextlost', { cancelable: true });
+  canvas.dispatchEvent(after);
+  assert.equal(after.defaultPrevented, false);
+  assert.equal(errors.length, 2);
+  controller.replay();
+  controller.seek(1);
+  controller.play();
+  controller.pause();
+});

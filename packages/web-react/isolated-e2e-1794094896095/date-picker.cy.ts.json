@@ -1,0 +1,9 @@
+{
+  "spec": "date-picker.cy.ts",
+  "status": "finished",
+  "tests": 105,
+  "passed": 105,
+  "failed": 0,
+  "pending": 0,
+  "skipped": 0
+}

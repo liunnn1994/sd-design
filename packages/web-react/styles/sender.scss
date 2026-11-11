@@ -1,0 +1,6 @@
+@use './rich-text-editor.scss';
+@use './textarea.scss';
+@use './button.scss';
+@use './tooltip.scss';
+@use './voice-glow.scss';
+@forward '@sdata/web-core/styles/sender/style/index.scss';

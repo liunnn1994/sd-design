@@ -1,5 +1,6 @@
 import { h, ref } from 'vue';
 
+import ConfigProvider from '../../config-provider';
 import { PerformantEllipsis } from '../../ellipsis';
 import IconPlus from '../../icon/icon-plus';
 import Button from '../index';
@@ -7,6 +8,23 @@ import Button from '../index';
 const text = '这是一段很长的按钮文字，需要在宽度不足时省略并显示完整提示';
 
 describe('Button ellipsis', () => {
+  it('ignores hidden measurement text when updating Chinese spacing', () => {
+    const version = ref(0);
+    cy.mount(() =>
+      h(ConfigProvider, { autoInsertSpaceInButton: true }, () =>
+        h(Button, { title: String(version.value) }, () => '确认'),
+      ),
+    );
+    cy.get('.sd-btn').focus();
+    cy.get('[data-ellipsis-measure]').should('exist');
+    cy.then(() => {
+      version.value += 1;
+    });
+    cy.get('.sd-btn')
+      .should('have.attr', 'title', '1')
+      .and('have.class', 'sd-btn-two-chinese-chars');
+  });
+
   for (const href of [undefined, '#']) {
     it(`keeps rich ${href ? 'anchor' : 'native'} content in one centered row before and after activation`, () => {
       cy.mount(Button, {

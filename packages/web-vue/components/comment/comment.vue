@@ -41,8 +41,9 @@
   import type { PropType } from 'vue';
   import { computed } from 'vue';
 
+  import { resolveCommentAlign } from '@sdata/web-core/comment/foundation';
+
   import { getPrefixCls } from '../_utils/global-config';
-  import { isString } from '../_utils/is';
 
   defineOptions({ name: 'Comment' });
 
@@ -116,17 +117,5 @@
 
   const prefixCls = getPrefixCls('comment');
 
-  const computedAlign = computed(() => {
-    const { align } = props;
-    if (isString(align)) {
-      return {
-        datetime: align,
-        actions: align,
-      };
-    }
-    return {
-      datetime: align?.datetime ?? 'left',
-      actions: align?.actions ?? 'left',
-    };
-  });
+  const computedAlign = computed(() => resolveCommentAlign(props.align));
 </script>

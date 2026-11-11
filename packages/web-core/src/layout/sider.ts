@@ -21,6 +21,21 @@ const isNumeric = (val: unknown): boolean =>
 export const toSiderWidth = (val: number | string): string =>
   isNumeric(val) ? `${val}px` : String(val);
 
+export function getSiderStyle(temporary: boolean, rail: boolean, width: string, railWidth: string) {
+  if (temporary) return { flex: '0 0 auto', width: 'auto' };
+  const reserved = rail ? railWidth : width;
+  return { flex: `0 0 ${reserved}`, width: reserved, minWidth: reserved, maxWidth: reserved };
+}
+
+export function getSiderOverlayStyle(expanded: boolean, width: string, railWidth: string) {
+  return {
+    position: 'absolute' as const,
+    inset: '0',
+    width: expanded ? width : railWidth,
+    ...(expanded ? { zIndex: 20 } : {}),
+  };
+}
+
 export interface SiderState {
   readonly props: {
     collapsed?: boolean | undefined;

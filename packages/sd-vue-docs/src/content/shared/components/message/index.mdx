@@ -1,0 +1,160 @@
+---
+title: 全局提示 Message
+description: 由用户的操作触发的轻量级全局反馈。
+---
+
+### 基本用法
+
+全局提示的基本用法。
+
+<Demo id="message/basic" />
+
+### 可关闭
+
+设置 `closable` 来显示关闭按钮。
+
+<Demo id="message/closeable" />
+
+### 自定义图标
+
+设置 `icon` 来自定义图标。
+
+<Demo id="message/icon" />
+
+### 全局提示的位置
+
+全局提示有 2 种不同的弹出位置，分别为顶部和底部。
+
+<Demo id="message/position" />
+
+### 消息类型
+
+全局提示有 6 种不同的类型，分别为：`info`, `success`, `warning`, `error`, `loading`。2.41.0 版本增加 `normal` 类型，此类型下默认没有图标。
+
+<Demo id="message/type" />
+
+### 更新内容
+
+更新消息内容，通过设置 `duration` 属性可以重置定时器。
+
+<Demo id="message/update" />
+
+### `Message` 全局方法
+
+<Framework only="vue">
+
+Message提供的全局方法，可以通过以下三种方法使用：
+
+1. 通过this.$message调用
+2. 在Composition API中，通过getCurrentInstance().appContext.config.globalProperties.$message调用
+3. 导入Message，通过Message本身调用
+
+当通过 import 方式使用时，组件没有办法获取当前的 Vue Context，如 i18n 或 route 等注入在 AppContext 上的内容无法在内部使用，需要在调用时手动传入 AppContext，或者为组件全局指定 AppContext
+
+```ts
+import { createApp } from 'vue';
+import { Message } from '@sdata/web-vue';
+
+const app = createApp(App);
+Message._context = app._context;
+```
+
+</Framework>
+
+<Framework only="react">
+
+React 中可直接导入 `Message` 调用静态方法。需要读取当前 ConfigProvider 的配置或业务 Context 时，使用 `useMessage()`，并将返回的 holder 渲染在对应 Provider 内；静态调用创建独立的 React 根，不会自动继承调用处的 Context。
+
+```tsx
+import { Button, useMessage } from '@sdata/web-react';
+
+function Example() {
+  const [api, holder] = useMessage();
+  return (
+    <>
+      {holder}
+      <Button
+        onClick={() => {
+          api.success('保存成功');
+        }}
+      >
+        显示提示
+      </Button>
+    </>
+  );
+}
+```
+
+</Framework>
+
+### 消息去重
+
+<Framework only="vue">
+
+在 `ConfigProvider` 上设置 `:message="{ deduplicate: true }"` 并开启 `global`，可为全局调用启用去重，默认关闭。相同类型、相同内容的重复调用会保留已有提示的位置，并重新开始关闭计时；关闭或清空后即可再次弹出。内容为渲染函数或 VNode 时按引用比较。Message 与 Notification 分别维护独立的池。
+
+</Framework>
+
+<Framework only="react">
+
+在 `ConfigProvider` 上设置 `message={{ deduplicate: true }}` ，配合 Hook API 与 holder，可为全局调用启用去重，默认关闭。相同类型、相同内容的重复调用会保留已有提示的位置，并重新开始关闭计时；关闭或清空后即可再次弹出。内容为渲染函数或 VNode 时按引用比较。Message 与 Notification 分别维护独立的池。
+
+</Framework>
+
+```ts
+Message.success({ content: '保存成功' });
+// 本次允许重复弹出
+Message.success({ content: '保存成功', deduplicate: false });
+// 本次单独启用去重
+Message.success({ content: '保存成功', deduplicate: true });
+```
+
+`deduplicateByType` 默认为 `true`，类型参与去重比较。设置为 `false` 后可合并不同类型的相同内容；Notification 仍比较标题。可在 ConfigProvider 对应配置中设置，也可单次传入覆盖；合并时保留已有提示的类型。
+
+<Framework only="vue">
+
+导入调用时仍需按上文设置 `_context` 或传入 AppContext，才能读取 ConfigProvider 默认值。
+
+</Framework>
+
+<Framework only="react">
+
+使用上文的 Hook API 与 holder 读取所在 ConfigProvider 的默认配置。
+
+</Framework>
+
+显式 `id` 的调用不参与跨位置去重：在指定位置新增消息，或更新该位置的相同 ID。不同位置的相同 ID 保持独立，并可通过返回的 `close()` 独立关闭。未指定 ID 的调用仍可跨位置复用已有消息。
+
+### MessageMethod
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| info | 显示信息提示 | `(    config: string \| MessageConfig,    appContext?: AppContext  ) => MessageReturn` | `-` |  |
+| success | 显示成功提示 | `(    config: string \| MessageConfig,    appContext?: AppContext  ) => MessageReturn` | `-` |  |
+| warning | 显示警告提示 | `(    config: string \| MessageConfig,    appContext?: AppContext  ) => MessageReturn` | `-` |  |
+| error | 显示错误提示 | `(    config: string \| MessageConfig,    appContext?: AppContext  ) => MessageReturn` | `-` |  |
+| loading | 显示加载中提示 | `(    config: string \| MessageConfig,    appContext?: AppContext  ) => MessageReturn` | `-` |  |
+| normal | 显示提示 | `(    config: string \| MessageConfig,    appContext?: AppContext  ) => MessageReturn` | `-` | 2.41.0 |
+| clear | 清空全部提示 | `(position?: MessagePosition) => void` | `-` |  |
+
+### MessageConfig
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| deduplicateByType | 类型是否参与去重，单次调用优先于全局配置 | `boolean` | `true` |  |
+| deduplicate | 是否去重，单次调用优先于全局配置 | `boolean` | - |  |
+| content | 内容 | `RenderContent` | `-` |  |
+| id | 唯一id | `string` | `-` |  |
+| icon | 消息的图标 | `RenderFunction` | `-` |  |
+| position | 消息的位置 | `'top'\|'bottom'` | `-` |  |
+| showIcon | 是否显示图标 | `boolean` | `false` |  |
+| closable | 是否显示关闭按钮 | `boolean` | `false` |  |
+| duration | 消息显示的持续时间 | `number` | `-` |  |
+| onClose | 关闭时的回调函数 | `(id: number \| string) => void` | `-` |  |
+| resetOnHover | 设置鼠标移入后不会自动关闭 | `boolean` | `true` | 2.39.0 |
+
+### MessageReturn
+
+| 参数名 | 描述         | 类型         | 默认值 |
+| ------ | ------------ | ------------ | :----: |
+| close  | 关闭当前消息 | `() => void` |  `-`   |

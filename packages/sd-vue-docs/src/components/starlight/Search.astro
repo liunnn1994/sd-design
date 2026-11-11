@@ -1,0 +1,32 @@
+---
+import DefaultSearch from '@astrojs/starlight/components/Search.astro';
+---
+
+<DefaultSearch {...Astro.props} />
+
+<script>
+  import { frameworkHref, getDocsFramework } from '../../utils/framework-navigation';
+
+  let observer: MutationObserver | undefined;
+  function start() {
+    observer?.disconnect();
+    const host = document.querySelector('site-search');
+    if (!host) return;
+    const update = () => {
+      const framework = getDocsFramework(location.pathname);
+      const base = import.meta.env.BASE_URL;
+      for (const link of host.querySelectorAll<HTMLAnchorElement>('.pagefind-ui__result a[href]')) {
+        const url = new URL(link.href);
+        if (url.origin !== location.origin) continue;
+        const path = url.pathname.startsWith(base) ? url.pathname.slice(base.length) : url.pathname;
+        link.href = frameworkHref(path + url.search + url.hash, framework, base);
+      }
+    };
+    observer = new MutationObserver(update);
+    observer.observe(host, { childList: true, subtree: true });
+    update();
+  }
+  start();
+  document.addEventListener('astro:page-load', start);
+  document.addEventListener('astro:before-swap', () => observer?.disconnect());
+</script>

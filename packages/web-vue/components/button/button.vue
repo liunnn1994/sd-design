@@ -92,7 +92,7 @@
     useSlots,
   } from 'vue';
 
-  import { createButtonTextFoundation } from '@sdata/web-core/button/text';
+  import { createButtonTextFoundation, getButtonText } from '@sdata/web-core/button/text';
   import { createPressableFoundation } from '@sdata/web-core/interaction/pressable';
 
   import type { EllipsisTooltipProps } from '../ellipsis';
@@ -318,7 +318,7 @@
         isTwoCNChar.value = value;
       },
     },
-    () => buttonRef.value?.textContent,
+    () => getButtonText(buttonRef.value),
   );
 
   onMounted(updateIsTwoCNChar);

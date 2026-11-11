@@ -40,42 +40,6 @@ function fixture(active = false) {
     flowBox: { width: 1, height: 1 },
     flowSeed: 1,
     systemTheme: 'dark',
-    get resolvedTheme() {
-      return foundation.getResolvedTheme();
-    },
-    get themeConfig() {
-      return foundation.getThemeConfig();
-    },
-    get sizeConfig() {
-      return foundation.getSizeConfig();
-    },
-    get isPulse() {
-      return foundation.getIsPulse();
-    },
-    get finalBorderRadius() {
-      return foundation.getFinalBorderRadius();
-    },
-    get finalDuration() {
-      return foundation.getFinalDuration();
-    },
-    get finalSaturation() {
-      return foundation.getFinalSaturation();
-    },
-    get finalBrightness() {
-      return foundation.getFinalBrightness();
-    },
-    get finalHueRange() {
-      return foundation.getFinalHueRange();
-    },
-    get finalStaticColors() {
-      return foundation.getFinalStaticColors();
-    },
-    get cssStyles() {
-      return foundation.getCssStyles();
-    },
-    get driverConfig() {
-      return foundation.getDriverConfig();
-    },
   };
   foundation = createBorderBeamFoundation(state, {
     afterRender(task) {
@@ -136,9 +100,9 @@ const rect = { width: 100, height: 50 };
 test('BorderBeam constructs and derives CSS without DOM; initializes active from props', () => {
   const { state, foundation } = fixture(true);
   assert.equal(state.isActive, true);
-  assert.equal(state.finalDuration, 1.96);
-  assert.equal(state.finalBorderRadius, 16);
-  assert.match(state.cssStyles, /bb-contract/);
+  assert.equal(foundation.getFinalDuration(), 1.96);
+  assert.equal(foundation.getFinalBorderRadius(), 16);
+  assert.match(foundation.getCssStyles(), /bb-contract/);
   foundation.flowFrom();
   assert.equal(state.flowKey, 0);
   foundation.disposeFlow();
@@ -147,16 +111,16 @@ test('BorderBeam constructs and derives CSS without DOM; initializes active from
   foundation.disposeStyle();
   foundation.disposePulse();
   state.props.size = 'line';
-  assert.equal(state.finalDuration, 3.1);
-  assert.equal(state.finalHueRange, 13);
+  assert.equal(foundation.getFinalDuration(), 3.1);
+  assert.equal(foundation.getFinalHueRange(), 13);
   state.props.colorVariant = 'mono';
-  assert.equal(state.finalStaticColors, true);
+  assert.equal(foundation.getFinalStaticColors(), true);
   state.props.size = 'pulse-inner';
-  assert.equal(state.finalDuration, 2.3);
+  assert.equal(foundation.getFinalDuration(), 2.3);
   state.props.duration = 0;
-  assert.equal(state.finalDuration, 0);
+  assert.equal(foundation.getFinalDuration(), 0);
   state.props.borderRadius = 0;
-  assert.equal(state.finalBorderRadius, 0);
+  assert.equal(foundation.getFinalBorderRadius(), 0);
 });
 
 test('BorderBeam flow preserves local coordinates, farthest corner radius, seed and timer reconciliation', () => {

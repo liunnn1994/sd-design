@@ -22,12 +22,12 @@
 
 <script setup lang="ts">
   import { computed } from 'vue';
-  import type { CSSProperties } from 'vue';
+
+  import { getDividerStyle } from '@sdata/web-core/divider/foundation';
 
   import type { Direction } from '../_utils/constant';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber, isUndefined } from '../_utils/is';
 
   defineOptions({
     name: 'Divider',
@@ -72,32 +72,5 @@
   }>();
 
   const prefixCls = getPrefixCls('divider');
-  const isHorizontal = computed(() => direction === 'horizontal');
-
-  const mergedStyles = computed<CSSProperties>(() => {
-    const styles: CSSProperties = {};
-
-    if (!isUndefined(size)) {
-      if (isHorizontal.value) {
-        styles.borderBottomWidth = `${size}px`;
-      } else {
-        styles.borderLeftWidth = `${size}px`;
-      }
-    }
-
-    if (type) {
-      if (isHorizontal.value) {
-        styles.borderBottomStyle = type;
-      } else {
-        styles.borderLeftStyle = type;
-      }
-    }
-
-    if (!isUndefined(margin)) {
-      const mergedMargin = isNumber(margin) ? `${margin}px` : margin;
-      styles.margin = isHorizontal.value ? `${mergedMargin} 0` : `0 ${mergedMargin}`;
-    }
-
-    return styles;
-  });
+  const mergedStyles = computed(() => getDividerStyle({ direction, type, size, margin }));
 </script>

@@ -1,8 +1,8 @@
 import type { Direction } from '../_utils/constant.js';
 import type { DotType, LabelPositionType, LineType, ModeType } from './types.js';
 
-export interface TimelineState {
-  items: number[];
+export interface TimelineState<Key = number> {
+  items: Key[];
   direction: Direction;
   reverse: boolean;
   labelPosition: LabelPositionType;
@@ -24,10 +24,10 @@ export function getTimelinePosition(
   return positions.indexOf(result) > -1 ? result : positions[0];
 }
 
-export function getTimelineItemState(
+export function getTimelineItemState<Key = number>(
   pending: boolean,
-  id: number,
-  context: Partial<TimelineState>,
+  id: Key,
+  context: Partial<TimelineState<Key>>,
   position?: string,
 ) {
   const { items = [], reverse, mode = 'left' } = context;

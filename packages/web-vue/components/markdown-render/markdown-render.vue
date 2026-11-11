@@ -18,8 +18,10 @@
   />
 </template>
 <script setup lang="ts">
-  import { computed, inject, provide, ref } from 'vue';
+  import { computed, inject, provide, ref, watch } from 'vue';
 
+  import { getMarkdownCodeVisualOptions } from '@sdata/web-core/markdown/code-height';
+  import { scheduleMarkdownPreDiffRefresh } from '@sdata/web-core/markdown/pre-diff';
   import { MarkdownRender as UpstreamMarkdownRender } from 'markstream-vue';
 
   import type {
@@ -70,6 +72,19 @@
       : null,
   );
   const themeMode = useThemeMode(element);
+  // A capped pre can keep its size after font changes, so native ResizeObserver will not remeasure.
+  watch(
+    () =>
+      [
+        element.value,
+        props.renderCodeBlocksAsPre,
+        getMarkdownCodeVisualOptions(props.codeBlockOptions),
+      ] as const,
+    ([root, pre], _previous, onCleanup) => {
+      if (root && pre) onCleanup(scheduleMarkdownPreDiffRefresh(root));
+    },
+    { flush: 'post' },
+  );
   const inheritedTheme = inject(inheritedThemeInjectionKey, undefined);
   const resolvedDark = computed(
     () => props.isDark ?? (inheritedTheme?.mode.value ?? themeMode.value) === 'dark',

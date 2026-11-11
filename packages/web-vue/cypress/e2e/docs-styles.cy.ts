@@ -68,7 +68,7 @@ describe('文档站与 SD Design 样式一致性', () => {
     cy.visit('/components/input/');
     cy.contains('h3', '内容自适应宽度').scrollIntoView();
     cy.get('.fit-width-demo', { timeout: 60000 }).should('exist');
-    for (const name of ['InputSearch', 'AutoComplete', 'Mention']) {
+    for (const name of ['搜索输入框', '自动补全', '提及']) {
       cy.contains('.fit-width-demo label', name)
         .next()
         .find('input')
@@ -170,7 +170,7 @@ describe('文档站与 SD Design 样式一致性', () => {
           style.getPropertyValue('--sd-color-bg-2').trim(),
         );
       });
-      cy.get('.sidebar-content a[aria-current="page"]').should(($link) => {
+      cy.get('.sidebar-content a[aria-current="page"]:not(.framework-switch a)').should(($link) => {
         const style = getComputedStyle($link[0]);
         expect(style.color).to.equal(
           `rgb(${style
@@ -216,7 +216,7 @@ describe('文档站与 SD Design 样式一致性', () => {
           cy.get('.demo-editor__button').should('have.css', 'min-height', '32px').click();
           cy.get('.demo-editor__panel').should('be.visible');
           cy.get('.demo-editor__button').click();
-          cy.get('.demo-editor__panel').should('not.exist');
+          cy.get('.demo-editor__panel').should('not.be.visible');
         });
       cy.scrollTo('top');
       cy.screenshot(`docs-style-${mode}`, { capture: 'viewport' });

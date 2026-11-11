@@ -33,7 +33,12 @@ export function createListSort(root: HTMLElement, adapter: ListSortAdapter) {
       sortable.option('disabled', disabled);
     },
     destroy() {
+      // Sortable clears these references on destroy without removing fallback DOM.
+      const ghost = Sortable.active === sortable ? Sortable.ghost : null;
+      const clone = Sortable.active === sortable ? Sortable.clone : null;
       sortable.destroy();
+      ghost?.remove();
+      clone?.remove();
     },
   };
 }

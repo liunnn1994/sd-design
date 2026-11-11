@@ -34,6 +34,7 @@
   import {
     createMenuFoundation,
     getMenuFocusTarget,
+    getMenuFocusItems,
     isMenuNavigationKey,
   } from '@sdata/web-core/menu/foundation';
 
@@ -428,10 +429,7 @@
   const onMenuKeydown = (e: KeyboardEvent) => {
     if (!isMenuNavigationKey(mode.value, e.key)) return;
     const container = e.currentTarget as HTMLElement;
-    const items = Array.from(container.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
-      (el) =>
-        el.tabIndex === 0 && el.offsetParent !== null && el.getAttribute('aria-hidden') !== 'true',
-    );
+    const items = getMenuFocusItems(container);
     if (!items.length) return;
     const current = e.target as HTMLElement;
     const idx = items.indexOf(current);

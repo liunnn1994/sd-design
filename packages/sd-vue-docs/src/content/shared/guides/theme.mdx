@@ -1,0 +1,211 @@
+---
+title: 定制主题
+description: 使用 ConfigProvider 的 theme 对象在运行时覆盖 CSS variables，并统一输出可分享的主题 JSON。
+---
+
+SD Design 现在以 ConfigProvider 的 theme 对象作为主题入口。你不需要再把主题能力绑定到 Less modifyVars，而是直接在运行时传入 tokens、components 和 meta 三个层级。
+
+## 组件级 ThemeProvider
+
+现在支持真正的组件级主题切换。你可以直接使用 `ThemeProvider` 包裹某个局部区域，让 `sd-theme` 和对应的 CSS variables 只在这个子树内生效。
+
+<Framework only="vue">
+
+```vue
+<template>
+  <sd-theme-provider theme-mode="dark">
+    <sd-card title="Scoped Theme">
+      <sd-button type="primary">Primary Action</sd-button>
+      <sd-alert type="success">这里的语义 token 不会再回退到 body。</sd-alert>
+    </sd-card>
+  </sd-theme-provider>
+</template>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { ThemeProvider, Card, Button, Alert } from '@sdata/web-react';
+
+<ThemeProvider themeMode="dark">
+  <Card title="Scoped Theme">
+    <Button type="primary">Primary Action</Button>
+    <Alert type="success">这里的语义 token 不会再回退到 body。</Alert>
+  </Card>
+</ThemeProvider>;
+```
+
+</Framework>
+
+如果你已经在用 `ConfigProvider`，也可以直接通过 `theme` 和 `theme-mode` 这两个配置项得到同样的局部主题容器能力。
+
+局部主题通过独立浮层容器同步到 Popover、Tooltip、Select 等浮层；使用 `global` 时则对整个页面生效。
+
+## 主题对象结构
+
+```ts
+interface SdThemeConfig {
+  seed?: {
+    primary?: string;
+    success?: string;
+    warning?: string;
+    danger?: string;
+    radius?: number;
+    fontSize?: number;
+    controlHeight?: number;
+  };
+  algorithm?: Array<'dark' | 'compact'>;
+  tokens?: Record<string, string | number>;
+  components?: Record<string, Record<string, string | number>>;
+  meta?: {
+    name?: string;
+    schemaVersion?: number;
+    cssVarPrefix?: string;
+  };
+}
+```
+
+推荐的约定：
+
+- seed 定义基础设计，自动派生色阶和尺寸；algorithm 可组合暗色、紧凑模式
+- tokens 存放全局颜色、圆角、语义中性色等可跨组件复用的变量
+- components 存放组件级覆盖，用于表达某个组件相对全局 token 的偏移
+- meta 用来标记 schemaVersion、导出名称和 CSS 变量前缀
+
+## 基本用法
+
+<Framework only="vue">
+
+```vue
+<template>
+  <sd-config-provider :theme="theme">
+    <sd-space direction="vertical" fill>
+      <sd-button type="primary">主题按钮</sd-button>
+      <sd-input placeholder="查看输入框状态" />
+      <sd-card title="运行时主题">不需要重新编译样式。</sd-card>
+    </sd-space>
+  </sd-config-provider>
+</template>
+
+<script setup lang="ts">
+  const theme = {
+    meta: {
+      schemaVersion: 1,
+      cssVarPrefix: '--',
+      name: 'Brand Campaign',
+    },
+    tokens: {
+      primary5: '255,98,150',
+      primary6: '230,57,122',
+      primary7: '184,28,90',
+      colorBg2: '#fff8fb',
+      colorNeutral10: '#2d1020',
+      borderRadiusMedium: '14px',
+    },
+  };
+</script>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { ConfigProvider, Space, Button, Input, Card, type SdThemeConfig } from '@sdata/web-react';
+
+const theme: SdThemeConfig = {
+  meta: { schemaVersion: 1, cssVarPrefix: '--', name: 'Brand Campaign' },
+  tokens: {
+    primary5: '255,98,150',
+    primary6: '230,57,122',
+    primary7: '184,28,90',
+    colorBg2: '#fff8fb',
+    colorNeutral10: '#2d1020',
+    borderRadiusMedium: '14px',
+  },
+};
+
+<ConfigProvider theme={theme}>
+  <Space direction="vertical" fill>
+    <Button type="primary">主题按钮</Button>
+    <Input placeholder="查看输入框状态" />
+    <Card title="运行时主题">不需要重新编译样式。</Card>
+  </Space>
+</ConfigProvider>;
+```
+
+</Framework>
+
+## CSS variables 约定
+
+Scss 迁移后的组件样式优先消费 CSS variables。当前已经稳定使用的变量主要集中在三类：
+
+- 颜色变量：如 primary1 到 primary7、colorNeutral2 到 colorNeutral10、colorBg2、colorBg5
+- 语义浅色层：如 colorPrimaryLight1 到 colorPrimaryLight4、danger 和 success 的 light 层
+- 圆角变量：如 borderRadiusSmall、borderRadiusMedium、borderRadiusLarge
+
+你传入的 token key 会先被归一化，再注入成 CSS 变量。例如：
+
+- primary6 会变成 --primary-6
+- colorNeutral10 会变成 --color-neutral-10
+- borderRadiusMedium 会变成 --border-radius-medium
+
+## 主题编辑器
+
+使用 [在线主题编辑器](/guides/theme-editor/) 调整基础、全局和组件主题，查看真实文档示例并导出可直接使用的 JSON。
+
+### 主题文件接入
+
+编辑器下载的 JSON 可作为 `SdThemeConfig` 传入 `ConfigProvider`，也可重新导入编辑器继续调整。文件包含名称、基础设计参数、全局与组件级覆盖，以及当前明暗模式。
+
+```json
+{
+  "meta": {
+    "schemaVersion": 1,
+    "cssVarPrefix": "--",
+    "name": "Campaign Theme"
+  },
+  "tokens": {
+    "primary6": "230,57,122",
+    "colorBg2": "#fff8fb",
+    "borderRadiusMedium": "14px"
+  },
+  "components": {
+    "button": {
+      "borderRadius": "14px"
+    }
+  }
+}
+```
+
+导入失败时，编辑器保留当前主题。文件校验规则：
+
+- `meta.schemaVersion` 必须与文档站支持的版本一致。
+- 空对象表示默认主题；可提供 `seed`、`tokens`、`components` 和 `algorithm`。
+- token 值只能是字符串或数字，不支持嵌套对象。
+- `algorithm` 仅支持 `dark`、`compact`；基础色使用六位十六进制，尺寸为有效数字。
+
+### 编辑器字段与组件发现
+
+组件目录和字段由组件库的 `style/token.scss` 自动生成，预览自动发现文档 demo。新增或修改组件时遵循现有样式和 demo 约定，在正常文档开发启动或构建时重新生成目录，无需维护编辑器注册表。
+
+整体圆角、字号、疏密和主色调整会替换对应的全局覆盖，保留组件独立样式。疏密调整控件高度和基础间距，不改变所有布局间距。组件“恢复跟随整体”后使用整体主题设置。
+
+## 迁移建议
+
+- 新项目直接使用 theme 对象，不再新增 Less modifyVars 覆盖
+- 已有 Less 主题先抽取出主品牌色、中性色和圆角，映射到 tokens
+
+## 连续曲率圆角
+
+普通圆角统一使用 `--sd-corner-shape` token，默认值为 `squircle`，在支持 `corner-shape` 的浏览器中平滑角部与直边的衔接。不支持的浏览器直接保留原有 `border-radius`，无需兼容代码。
+
+```css
+.my-theme {
+  --sd-corner-shape: squircle;
+}
+```
+
+原有圆角半径、方角和单侧圆角位置保持不变。圆形、胶囊形以及依赖圆弧路径的 BorderBeam / VoiceGlow 光效保留 `round`，避免改变轮廓或使光效与裁剪路径错位。继承半径的装饰层同时继承父级的角形状。

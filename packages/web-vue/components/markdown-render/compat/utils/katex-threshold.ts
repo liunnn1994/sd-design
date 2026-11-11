@@ -1,1 +1,1 @@
-export * from 'markstream-vue/utils/katex-threshold';
+export * from '@sdata/web-core/markdown/katex-threshold';

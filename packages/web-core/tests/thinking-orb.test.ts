@@ -175,6 +175,12 @@ function fixture(t: TestContext, intersection = true) {
     set now(value: number) {
       now = value;
     },
+    intersectBatch(values: boolean[]) {
+      observers.at(-1)!.callback(
+        values.map((isIntersecting) => ({ isIntersecting }) as IntersectionObserverEntry),
+        {} as IntersectionObserver,
+      );
+    },
     intersect(value: boolean | undefined) {
       const obs = observers.at(-1)!;
       obs.callback(
@@ -506,4 +512,14 @@ test('theme driver is inert without document even if a target could resolve', (t
   };
   createThemeModeFoundation(state).resolveTheme();
   assert.equal(reads, 0);
+});
+
+test('batched visibility uses the latest record to start and stop rendering', (t) => {
+  const f = fixture(t);
+  f.foundation.setupRenderer();
+  f.intersectBatch([false, true]);
+  assert.equal(f.frames.size, 1);
+  f.intersectBatch([true, false]);
+  assert.equal(f.frames.size, 0);
+  f.foundation.dispose();
 });

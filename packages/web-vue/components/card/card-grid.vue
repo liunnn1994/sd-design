@@ -27,14 +27,11 @@
 
   const context = inject<CardContext>(cardInjectionKey);
 
+  let unregister: (() => void) | undefined;
   onMounted(() => {
-    if (context) {
-      context.gridCount++;
-    }
+    unregister = context?.registerGrid();
   });
-  onBeforeUnmount(() => {
-    if (context) context.gridCount--;
-  });
+  onBeforeUnmount(() => unregister?.());
 
   const cls = computed(() => {
     return [

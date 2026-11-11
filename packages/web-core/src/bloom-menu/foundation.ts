@@ -1,8 +1,9 @@
+import { shift } from '@floating-ui/dom';
+
 import type {
   BloomMenuItem,
   BloomMenuOffset,
   TriggerStyleSnapshot,
-  BloomMenuMotionTarget,
   BloomMenuTransition,
   BloomMenuCenterState,
 } from './types.js';
@@ -33,11 +34,6 @@ export interface BloomMenuFoundationState<Item extends BloomMenuItem> {
   readonly panelElement: HTMLElement | undefined;
   readonly hasCustomTrigger: boolean;
   readonly reducedMotion: boolean | null | undefined;
-  readonly normalizedColumns: number;
-  readonly rowCount: number;
-  readonly isOpen: boolean;
-  readonly panelCollapsed: BloomMenuMotionTarget;
-  readonly panelAnimate: BloomMenuMotionTarget;
   internalOpen: boolean;
   popupVisible: boolean;
   triggerStyle: TriggerStyleSnapshot;
@@ -54,13 +50,14 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
   },
 ) {
   let closeTimer = 0;
+  let generation = 0;
 
   function getNormalizedColumns() {
     return Math.max(1, Math.floor(state.props.columns));
   }
 
   function getRowCount() {
-    return Math.max(1, Math.ceil(state.props.items.length / state.normalizedColumns));
+    return Math.max(1, Math.ceil(state.props.items.length / getNormalizedColumns()));
   }
 
   function getIsOpen() {
@@ -77,6 +74,13 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
         x: rects.reference.x + (rects.reference.width - rects.floating.width) / 2 + left,
         y: rects.reference.y + (rects.reference.height - rects.floating.height) / 2 + top,
       }),
+    };
+  }
+
+  function getFloatingOptions() {
+    return {
+      placement: 'top' as const,
+      middleware: [getCenterMiddleware(), shift({ crossAxis: true })],
     };
   }
 
@@ -97,7 +101,7 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
 
   function getPanelInitial() {
     return {
-      ...state.panelCollapsed,
+      ...getPanelCollapsed(),
       opacity: state.reducedMotion ? 0 : 0.98,
     };
   }
@@ -117,10 +121,10 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
 
   function getPanelTarget() {
     return state.reducedMotion
-      ? { ...state.panelAnimate, opacity: state.isOpen ? 1 : 0 }
-      : state.isOpen
-        ? state.panelAnimate
-        : state.panelCollapsed;
+      ? { ...getPanelAnimate(), opacity: getIsOpen() ? 1 : 0 }
+      : getIsOpen()
+        ? getPanelAnimate()
+        : getPanelCollapsed();
   }
 
   function getMorphTransition(): BloomMenuTransition {
@@ -131,8 +135,8 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
 
   function getContentTransition(): BloomMenuTransition {
     return {
-      delay: state.isOpen && !state.reducedMotion ? 0.12 : 0,
-      duration: state.reducedMotion ? 0.15 : state.isOpen ? 0.2 : 0.12,
+      delay: getIsOpen() && !state.reducedMotion ? 0.12 : 0,
+      duration: state.reducedMotion ? 0.15 : getIsOpen() ? 0.2 : 0.12,
     };
   }
 
@@ -148,7 +152,7 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
     };
   }
 
-  function getTriggerElement(event?: Event): HTMLElement | undefined {
+  function getTriggerElement(event?: Pick<Event, 'currentTarget'>): HTMLElement | undefined {
     if (event?.currentTarget instanceof HTMLElement) return event.currentTarget;
     const buttonEl = state.buttonElement;
     if (!state.hasCustomTrigger) return buttonEl;
@@ -160,7 +164,7 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
     return slotRoot ?? buttonEl;
   }
 
-  function captureTriggerStyle(event?: Event) {
+  function captureTriggerStyle(event?: Pick<Event, 'currentTarget'>) {
     const element = getTriggerElement(event);
     if (!element || typeof window === 'undefined') return;
 
@@ -178,7 +182,7 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
   }
 
   function setOpen(nextOpen: boolean) {
-    if (nextOpen === state.isOpen) return;
+    if (nextOpen === getIsOpen()) return;
     if (state.props.modelValue === undefined) state.internalOpen = nextOpen;
     callbacks.update(nextOpen);
     if (nextOpen) callbacks.opened();
@@ -187,12 +191,12 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
 
   function handlePopupVisibleChange(visible: boolean) {
     if (visible) {
-      const reopening = state.isOpen && !state.popupVisible;
+      const reopening = getIsOpen() && !state.popupVisible;
       // 受控开启被父级忽略后 popupVisible 可能被强制复位过，这里同步回来
       window.clearTimeout(closeTimer);
       captureTriggerStyle();
       setOpen(true);
-      if (state.isOpen) {
+      if (getIsOpen()) {
         state.popupVisible = true;
         if (reopening) focusPanel();
       }
@@ -205,7 +209,7 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
         focusTrigger();
       }
       setOpen(false);
-      if (state.props.modelValue !== undefined && state.isOpen) {
+      if (state.props.modelValue !== undefined && getIsOpen()) {
         // 强制受控开启：父级忽略 update:modelValue(false) 时 Trigger 已在关闭，
         // 内部 popupVisible 必须同步复位，避免 Trigger 与内部弹层状态失同步
         state.popupVisible = false;
@@ -218,7 +222,7 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
     window.clearTimeout(closeTimer);
     closeTimer = window.setTimeout(
       () => {
-        if (!state.isOpen) state.popupVisible = false;
+        if (!getIsOpen()) state.popupVisible = false;
       },
       state.reducedMotion ? 150 : 450,
     );
@@ -235,7 +239,12 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
 
   function close(restoreFocus = false) {
     setOpen(false);
-    if (restoreFocus) callbacks.afterRender(focusTrigger);
+    if (restoreFocus) {
+      const current = generation;
+      callbacks.afterRender(() => {
+        if (current === generation) focusTrigger();
+      });
+    }
   }
 
   // header 插槽的 close 需要稳定包装：直接把 close 传给 @click 时 MouseEvent
@@ -245,8 +254,10 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
   }
 
   function focusPanel(attempt = 0) {
+    const current = generation;
     callbacks.afterRender(() => {
-      if (!state.isOpen || !state.popupVisible) return;
+      if (current !== generation) return;
+      if (!getIsOpen() || !state.popupVisible) return;
       const firstItem = state.panelElement?.querySelector<HTMLButtonElement>(
         `.${state.prefixCls}-item:not(:disabled)`,
       );
@@ -259,7 +270,10 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
       // opacity 为 0 时 motion 会置 visibility:hidden,此时 focus() 会静默失败。
       // 两种情况都等就绪后再聚焦
       if (!target || getComputedStyle(target).visibility === 'hidden') {
-        if (attempt < 30) callbacks.requestFrame(() => focusPanel(attempt + 1));
+        if (attempt < 30)
+          callbacks.requestFrame(() => {
+            if (current === generation) focusPanel(attempt + 1);
+          });
         return;
       }
       target.focus();
@@ -277,11 +291,11 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
   }
 
   function getItemTransition(index: number): BloomMenuTransition {
-    const column = index % state.normalizedColumns;
-    const row = Math.floor(index / state.normalizedColumns);
+    const column = index % getNormalizedColumns();
+    const row = Math.floor(index / getNormalizedColumns());
     const distance = Math.hypot(
-      column - (state.normalizedColumns - 1) / 2,
-      row - (state.rowCount - 1) / 2,
+      column - (getNormalizedColumns() - 1) / 2,
+      row - (getRowCount() - 1) / 2,
     );
 
     return {
@@ -307,15 +321,16 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
   }
 
   function getItemLayout(item: Item, index: number) {
-    const column = index % state.normalizedColumns,
-      row = Math.floor(index / state.normalizedColumns);
+    const column = index % getNormalizedColumns(),
+      row = Math.floor(index / getNormalizedColumns());
     return {
-      borderRight: column < state.normalizedColumns - 1,
-      borderBottom: row < state.rowCount - 1,
+      borderRight: column < getNormalizedColumns() - 1,
+      borderBottom: row < getRowCount() - 1,
       disabled: item.disabled,
     };
   }
   function dispose() {
+    generation++;
     window.clearTimeout(closeTimer);
   }
 
@@ -324,6 +339,7 @@ export function createBloomMenuFoundation<Item extends BloomMenuItem>(
     getRowCount,
     getIsOpen,
     getCenterMiddleware,
+    getFloatingOptions,
     getPanelCollapsed,
     getPanelInitial,
     getPanelAnimate,

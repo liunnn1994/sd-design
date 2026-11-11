@@ -1,0 +1,134 @@
+.sd-markdown-pre-block {
+  margin: var(--ms-flow-codeblock-y, 1.5em) 0;
+  line-height: var(--ms-leading-body);
+  border: 1px solid var(--code-border);
+  border-radius: var(--ms-radius, 0.5rem);
+  box-shadow: var(--ms-shadow-subtle);
+  contain: layout style;
+  container-type: inline-size;
+
+  // The upstream React rich container defines these; native pre inherits caller values.
+  --markstream-diff-unchanged-bg: inherit;
+  --markstream-diff-unchanged-fg: inherit;
+
+  .code-block-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: var(--ms-gap-header);
+    align-items: center;
+    justify-content: space-between;
+    min-height: 0;
+    padding: var(--ms-inset-panel-y) var(--ms-inset-panel-x);
+    overflow: visible;
+    color: var(--code-fg);
+    line-height: var(--ms-leading-body);
+    background: var(--code-header-bg);
+    border-bottom: 1px solid var(--code-border);
+    border-radius: var(--ms-radius, 0.5rem) var(--ms-radius, 0.5rem) 0 0;
+  }
+
+  .code-header-main {
+    display: flex;
+    flex: 1 1 auto;
+    gap: var(--ms-gap-header-main);
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .icon-slot {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .code-header-copy {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .code-header-title {
+    overflow: hidden;
+    color: var(--code-action-fg);
+    font-weight: 500;
+    font-size: var(--ms-text-label);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .code-header-caption {
+    overflow: hidden;
+    color: var(--code-line-number);
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .copy-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--ms-action-btn-padding, 0.375rem);
+    color: var(--code-action-fg);
+    line-height: 1;
+    background: transparent;
+    border: 0;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+  .copy-button:hover {
+    color: var(--code-action-hover-fg);
+    background: var(--code-action-hover-bg);
+  }
+
+  .code-block-shell-content {
+    overflow: hidden;
+    border-radius: 0 0 var(--ms-radius, 0.5rem) var(--ms-radius, 0.5rem);
+    contain: content;
+  }
+
+  pre.code-pre-fallback {
+    font-weight: 400;
+    border: 0;
+    border-radius: 0;
+    transform: none;
+    backface-visibility: visible;
+    -webkit-font-smoothing: auto;
+
+    > code {
+      box-sizing: border-box;
+      min-width: 0;
+      padding: 0;
+      font: inherit;
+    }
+  }
+
+  .markstream-pre__code--wrapped > .markstream-pre__logical-line {
+    position: relative;
+    display: block;
+    min-height: 1lh;
+
+    &::before {
+      position: absolute;
+      left: calc(-1 * var(--markstream-code-padding-left, 52px));
+      box-sizing: content-box;
+      width: var(--markstream-pre-line-number-width, 2ch);
+      padding-left: var(--markstream-pre-line-number-padding-left, 2ch);
+      color: var(
+        --markstream-code-theme-line-number,
+        var(--markstream-pre-resolved-theme-line-number, var(--code-line-number))
+      );
+      font: inherit;
+      line-height: inherit;
+      white-space: pre;
+      text-align: right;
+      content: attr(data-line-number);
+      user-select: none;
+      pointer-events: none;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}

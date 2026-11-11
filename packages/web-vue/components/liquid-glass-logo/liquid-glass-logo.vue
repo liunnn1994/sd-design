@@ -24,11 +24,7 @@
         }"
       />
     </template>
-    <canvas
-      ref="canvas"
-      aria-hidden="true"
-      @webglcontextlost.prevent="fail(new Error('WebGL context lost.'))"
-    />
+    <canvas ref="canvas" aria-hidden="true" />
     <span
       v-if="fallback"
       :class="`${prefixCls}-fallback`"
@@ -52,8 +48,6 @@
 </template>
 
 <script setup lang="ts">
-  import type { LiquidGlassLogoRenderer } from '@sdata/web-core/liquid-glass-logo/renderer';
-
   import {
     computed,
     inject,
@@ -64,9 +58,9 @@
     watch,
   } from 'vue';
 
-  import { createLiquidGlassLogoAutoWidth } from '@sdata/web-core/liquid-glass-logo/auto-width';
+  import { createLiquidGlassLogoController } from '@sdata/web-core/liquid-glass-logo/controller';
   import { resolveLiquidGlassLogo } from '@sdata/web-core/liquid-glass-logo/foundation';
-  import { createLiquidGlassLogoRenderer } from '@sdata/web-core/liquid-glass-logo/renderer';
+  import { getLiquidGlassLogoFallbackTheme } from '@sdata/web-core/liquid-glass-logo/theme';
   import { usePreferredDark } from '@vueuse/core';
   import { clamp } from 'es-toolkit';
 
@@ -96,42 +90,37 @@
   const root = useTemplateRef('root');
   const preferredDark = usePreferredDark();
   const libraryTheme = inject(inheritedThemeInjectionKey, undefined);
-  const inheritedTheme = useThemeMode(root, () => {
-    if (libraryTheme?.mode.value) return libraryTheme.mode.value;
-    const pageMode = root.value?.closest('[data-theme]')?.getAttribute('data-theme');
-    if (pageMode === 'dark' || pageMode === 'light') return pageMode;
-    const schemes = root.value
-      ? getComputedStyle(root.value)
-          .colorScheme.split(/\s+/)
-          .filter((mode) => mode === 'light' || mode === 'dark')
-      : [];
-    return schemes.length === 1
-      ? schemes[0] === 'dark'
-        ? 'dark'
-        : 'light'
-      : preferredDark.value
-        ? 'dark'
-        : 'light';
-  });
+  const inheritedTheme = useThemeMode(root, () =>
+    getLiquidGlassLogoFallbackTheme(root.value, libraryTheme?.mode.value, preferredDark.value),
+  );
   const measuredWidth = shallowRef<number>();
   const measuredScale = shallowRef(1);
   const canvas = useTemplateRef('canvas');
   const ready = shallowRef(false);
   const fallback = shallowRef(false);
-  let engine: LiquidGlassLogoRenderer | null = null;
   const tuning = computed(() =>
     resolveLiquidGlassLogo(
       { ...props, theme: props.theme === 'auto' ? inheritedTheme.value : props.theme },
       Boolean(props.backgroundImage),
     ),
   );
-  const widthDriver = createLiquidGlassLogoAutoWidth({
+  const controller = createLiquidGlassLogoController({
     getElement: () => root.value,
+    getCanvas: () => canvas.value,
     getTuning: () => tuning.value,
-    isEnabled: () => props.autoWidth,
+    isAutoWidth: () => props.autoWidth,
     onWidth: (value, scale) => {
       measuredWidth.value = value;
       measuredScale.value = scale;
+    },
+    onReady: () => {
+      ready.value = true;
+      emit('ready');
+    },
+    onError: (error) => {
+      ready.value = false;
+      fallback.value = true;
+      emit('error', error);
     },
   });
   const markSource = computed(() =>
@@ -157,47 +146,16 @@
     letterSpacing: `${tuning.value.letterSpacing}em`,
     gap: `${tuning.value.markGap}em`,
   }));
-  function fail(error: Error) {
-    engine?.dispose();
-    engine = null;
-    ready.value = false;
-    fallback.value = true;
-    emit('error', error);
-  }
-  onMounted(() => {
-    widthDriver.connect();
-    try {
-      engine = createLiquidGlassLogoRenderer(
-        canvas.value!,
-        tuning.value,
-        () => {
-          ready.value = true;
-          emit('ready');
-        },
-        fail,
-      );
-      if (!engine) throw new Error('WebGL2 is unavailable.');
-    } catch (error) {
-      fail(error instanceof Error ? error : new Error(String(error)));
-    }
+  onMounted(controller.connect);
+  watch(tuning, controller.updateTuning);
+  watch([tuning, () => props.height, () => props.autoWidth], controller.updateWidth, {
+    flush: 'post',
   });
-  watch(tuning, (value) => engine?.update(value));
-  watch(
-    [tuning, () => props.height, () => props.autoWidth],
-    () => {
-      void widthDriver.update();
-    },
-    { flush: 'post' },
-  );
-  onBeforeUnmount(() => {
-    widthDriver.dispose();
-    engine?.dispose();
-    engine = null;
-  });
+  onBeforeUnmount(controller.dispose);
   defineExpose<LiquidGlassLogoExposed>({
-    replay: () => engine?.replay(),
-    seek: (seconds) => engine?.seek(seconds),
-    pause: () => engine?.pause(),
-    play: () => engine?.play(),
+    replay: controller.replay,
+    seek: controller.seek,
+    pause: controller.pause,
+    play: controller.play,
   });
 </script>

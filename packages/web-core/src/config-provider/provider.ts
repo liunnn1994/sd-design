@@ -233,6 +233,8 @@ export function createThemeProviderFoundation(state: ThemeProviderFoundationStat
   }
   function dispose() {
     inheritedModeObserver?.disconnect();
+    inheritedModeObserver = undefined;
+    observedModeSource = null;
     cleanupTarget(activeTarget);
     cleanupPopupContainer();
     activeTarget = null;

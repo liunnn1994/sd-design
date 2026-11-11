@@ -14,6 +14,7 @@ describe('Affix content resizing', () => {
           template: `
           <button data-test="grow" @click="height = 100">Grow</button>
           <button data-test="shrink" @click="height = 20">Shrink</button>
+          <div style="width: 200vw; height: 1px" />
           <div id="resizing-affix-target" style="height: 200px; overflow: auto; margin-top: 40px">
             <div :style="{ height: bottom ? '250px' : '100px' }" />
             <Affix target="#resizing-affix-target" :offset-top="10" :offset-bottom="bottom ? 10 : undefined">
@@ -26,6 +27,15 @@ describe('Affix content resizing', () => {
       );
       if (!bottom) cy.get('#resizing-affix-target').scrollTo(0, 120);
       cy.get('.sd-affix').should('have.css', 'position', 'fixed');
+      if (bottom) {
+        cy.get('.sd-affix').should(($fixed) => {
+          const target = $fixed[0].ownerDocument.querySelector('#resizing-affix-target')!;
+          expect($fixed[0].getBoundingClientRect().bottom).to.be.closeTo(
+            target.getBoundingClientRect().bottom - 10,
+            1,
+          );
+        });
+      }
       cy.get('.sd-affix').prev().should('have.css', 'height', '40px');
       cy.get('[data-test="grow"]').click();
       cy.get('[data-test="content"]').should('have.css', 'height', '100px');

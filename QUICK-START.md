@@ -89,6 +89,8 @@ pnpm run dev:web-vue
 pnpm run dev:docs
 ```
 
+Vue 和 React 示例由同一个 Astro 服务承载。React TSX 放在 `src/components/react/` 并沿用该目录的 React JSX tsconfig；开发模式的 Fast Refresh 只作用于 React 客户端模块。修改框架编译配置后，运行 `pnpm --filter @sd-design/sd-vue-docs run test:dev` 检查 Vue/React 的服务端和客户端编译边界。
+
 ### 3. 全量开发
 
 如果是日常需求开发，需要同时看到组件和文档的实时反馈：
@@ -247,6 +249,8 @@ Trigger 共享规则位于 core 的 `src/trigger`。修改时覆盖受控拒绝�
 
 Menu 共享模块位于 core 的 `src/menu`。修改时覆盖注册数据的 push/splice 与替换引用、已挂载子菜单首次更新、autoOpen/autoOpenSelected/accordion 优先级、重复 key、回调后的 selectable 重读，以及布局方向对应的键盘目标。溢出测量按 DOM 顺序惰性提供宽度，保持镜像保留宽度和 10px 阈值；VNode 解析与 clone 留在 Vue。
 
+非深层响应式适配器可通过 collector 的 `onChange` 刷新视图；React 的 `useMenuCollector` 同时刷新祖先，挂载/卸载连接共享注册生命周期。检查初始弹出菜单、延迟新增子菜单、StrictMode 重挂载和嵌套根隔离。React Menu 使用 `itemKey` 和 `onSelectedKeysChange` / `onOpenKeysChange`，支持四种模式、Sider 联动和横向溢出；按需引入 `@sdata/web-react/styles/menu.scss`。
+
 Tabs/Collapse 共享规则分别位于 core 的 `src/tabs` 与 `src/collapse`。验证数字/字符串 key、禁用键盘行为、异步新增后读取注册顺序、受控拒绝、RTL/滚动对齐、重复折叠 key 和离场取消。Tabs 的 VNode 冻结缓存及 Collapse 的交互控件 closest 检查留在 Vue；原 TabsProps/TabPaneProps 仍通过 tabs 深入口提供，不新增根导出。
 
 Modal/Drawer/Popconfirm 的确认和对话框规则位于 core 的 `src/dialog`，共享弹层栈、焦点和滚动锁位于 `src/popup`。验证 done/Promise 首次结果、取消否决、关闭后过期确认、层叠 Escape/焦点恢复、离场销毁、容器更换与多所有者滚动锁。组件和命令式配置中的 Vue 渲染类型继续从旧入口提供。
@@ -264,6 +268,14 @@ Carousel 共享逻辑位于 core 的 `src/carousel`。保持 current、change �
 Tour 共享逻辑位于 core 的 `src/tour`，继续使用 driver.js 原生配置/实例协议。验证显式 false、原生全局/步骤回调、highlight/setSteps、footer 对 progress 的优先级、动态插槽尺寸、过渡后定位及卸载清理。Vue 的 MutationObserver 只观察 body 直接子节点，ResizeObserver 监听当前浮层；升级 driver.js 时同步 core 的基础 CSS，并运行与已安装上游资产的样式等价测试。
 
 滚动组件共享逻辑位于 core 的 `src/anchor`、`src/affix`、`src/back-top`，通用驱动在 `_utils/scroll-to.ts`、`_utils/tween.ts` 和 `_utils/dom.ts`。验证容器/阈值变化、监听切换、Anchor 前一 hash/字面 ID/初始 URL、Affix 顶/底偏移与内容变高、BackTop 减少动态效果偏好/中止，以及 TimePicker 连续点击取消旧滚动。Vue 不再直接依赖 b-tween 或 compute-scroll-into-view；公开滑动/DOM 工具旧深路径仍可使用。
+
+React Affix 从 `@sdata/web-react/affix` 导入，按需样式为 `@sdata/web-react/styles/affix.scss`。通过 ref 调用 `updatePosition()` 刷新仅发生位移的布局；回归需覆盖横向滚动条存在时的底部几何、外层滚动、目标替换和卸载清理。
+
+React BackTop 从 `@sdata/web-react/back-top` 导入，样式为 `@sdata/web-react/styles/back-top.scss`。`targetContainer` 可指定滚动元素或选择器，默认监听页面；自定义 children 应提供可键盘激活的控件。回归阈值变化、真实滚动、目标切换、减少动态效果及卸载清理，同时运行 Trigger 过渡回归。
+
+React Anchor/AnchorLink 从 `@sdata/web-react/anchor` 导入，支持 `Anchor.Link`，样式入口 `@sdata/web-react/styles/anchor.scss` 包含 Affix。用 `sublist` 传嵌套链接，`changeHash={false}` 保留位置跳转但不更新 URL；回归动态 href、字面 ID、初始 hash、select/change 顺序、容器切换和动画取消。
+
+React Tabs/TabPane 从 `@sdata/web-react/tabs` 导入，样式入口为 `@sdata/web-react/styles/tabs.scss`。数字 key 使用 `paneKey`，受控状态通过 `onActiveKeyChange` 写回；包装组件中的 TabPane 显式提供稳定 paneKey。验证隐藏内容缓存、懒加载/销毁、增删后的注册顺序、胶囊指示条、RTL/纵向导航、滚轮和 scrollPosition 对齐。
 
 标签与候选输入逻辑位于 core 的 `src/input-tag`、`src/auto-complete`、`src/mention`，只读提示规则位于 `text-input/readonly.ts`。验证 InputTag 的重复值/按位置删除、tagProps.closable 优先级、IME/受控草稿和布局切换；AutoComplete 的搜索/选择/清除顺序、数字零与只读关闭；Mention 多字符前缀、光标尾部与受控回写。TagData 的 Vue TagProps 专化保留在原接口，旧工具和只读 hook 深路径仍可使用。
 
@@ -396,3 +408,144 @@ Table 根规则可通过 `tableInteraction`、`tableDrag` 与既有 `tableLayout
 进入文档站首页即自动加载 WebLLM 微型模型，Sender 示例通过 mini 尺寸的 Progress 显示加载进度，完成后隐藏。需要支持 WebGPU 与 shader-f16 的浏览器，以及可访问 ModelScope 和 jsDelivr 的网络。首次下载约 85 MB，浏览器缓存可复用；无需配置 Google 浏览器 AI、服务端模型或 API Key。默认输入询问 Sender 的用途，也可改为 MarkdownRender、Progress 等组件；背景来自本站 `/llms/llms.txt`，文档未提供的信息不会作为预置知识。停止按钮会终止推理 Worker，下一次发送重新加载缓存中的模型。
 
 相关验证：`mise exec -- node packages/web-vue/node_modules/cypress/bin/cypress run --project packages/web-vue --component --browser chrome --spec packages/web-vue/components/sender/__test__/home-demo.cy.ts`；`cypress/e2e/home-local-chat.cy.ts` 另含真实模型下载与生成测试，需要上述网络及 GPU 条件。
+
+## React 适配迁移（进行中）
+
+React 适配包要求 React、ReactDOM 及对应类型包版本满足 `^19.3.0`；无宿主 Fragment 的原生事件委托使用这一版本基线提供的 Fragment ref API。
+
+`packages/web-react` 是 ESM React Adapter/View 包，复用 `packages/web-core` 的 Foundation 和 SCSS。当前 Vue 公开的 100 个组件组均已有对应 React 入口、样式和文档；SD 自有实现的验收结果与验证边界见 [React 对齐清单](docs/react-parity.md)。
+
+本地构建先执行 `mise exec -- pnpm run build:core`，再执行 `mise exec -- pnpm --filter @sdata/web-react build`。React 渲染检查使用 `mise exec -- pnpm --filter @sdata/web-react test`。
+React 的 `Card`、`CardMeta`、`CardGrid` 从 `@sdata/web-react` 导入，按需样式入口为 `@sdata/web-react/styles/card.scss`；其尺寸、滚动模式和子组件注册逻辑与 Vue 共享 core Foundation。
+
+React 的 `Skeleton`、`SkeletonLine`、`SkeletonShape` 同样从 `@sdata/web-react` 导入；按需加载 `@sdata/web-react/styles/skeleton.scss`。`loading` 为 false 时渲染 `content`，否则渲染 `children` 占位内容。
+
+React `Result` 的按需样式入口为 `@sdata/web-react/styles/result.scss`，通过 `status` 选择状态；标题、副标题、图标、操作区分别使用 `title`、`subtitle`、`icon`、`extra`。
+
+React 栅格使用 `Grid`、`GridItem`、`Row`、`Col`，按需样式入口为 `@sdata/web-react/styles/grid.scss`；GridItem 可用 `children={({ overflow }) => ...}` 渲染折叠提示。
+
+React 抽屉使用 `Drawer` 和 `@sdata/web-react/styles/drawer.scss`，通过 `visible` / `onVisibleChange` 控制显示；默认值可由 ConfigProvider 的 `drawer` 设置。
+
+React 布局使用 `Layout` 和 `@sdata/web-react/styles/layout.scss`；通过 Layout.Header/Content/Footer/Sider 组合页面。Sider 的 `onCollapse` 通知受控折叠，`rail` / `expandOnHover` 开启窄轨覆盖层，`temporary` 开启临时抽屉模式。
+
+React 下拉菜单使用 `Dropdown`、`Doption`、`Dgroup`、`Dsubmenu`、`DropdownButton`，按需样式入口为 `@sdata/web-react/styles/dropdown.scss`；通过 content 传入菜单，通过 onSelect 接收值。
+
+React 面包屑使用 `Breadcrumb`、`BreadcrumbItem` 和 `@sdata/web-react/styles/breadcrumb.scss`，可通过 routes 生成累计路径，或通过 children 组合条目；dropdownContent 与 dropdownProps 配置条目的下拉菜单。
+
+React 步骤条使用 `Steps`、`Step` 和 `@sdata/web-react/styles/steps.scss`。current 从 1 开始，changeable 开启鼠标和键盘切换，onCurrentChange 用于受控写回。
+
+React 时间轴使用 `Timeline`、`TimelineItem` 和 `@sdata/web-react/styles/timeline.scss`；pending/pendingContent 设置待办节点，reverse 反转视觉顺序，ConfigProvider.timelineSpinProps 提供加载默认配置。
+
+React 折叠面板使用 `Collapse`、`CollapseItem` 和 `@sdata/web-react/styles/collapse.scss`。用 itemKey 保留面板标识的字符串或数字类型；activeKey/onActiveKeyChange 管理受控展开，destroyOnHide 在离场结束后卸载内容。
+
+React Statistic/Countdown 从 @sdata/web-react/statistic 导入，样式入口为 @sdata/web-react/styles/statistic.scss；也可使用 Statistic.Countdown。SSR 倒计时显式提供一致的 value/now；验证暂停过期恢复、截止时间替换、完成去重与卸载清理。
+
+React Progress 从 @sdata/web-react/progress 导入，样式入口为 @sdata/web-react/styles/progress.scss。percent 使用比例值，steps 优先于 type；text 接收原始 percent。验证尺寸、mini 线形的环形视图、渐变 ID、状态图标和隐藏文本不调用渲染函数。
+
+React TagGroup 从 @sdata/web-react/tag-group 导入，样式入口为 @sdata/web-react/styles/tag-group.scss。renderItem/renderLabel/renderCounter 对应 Vue 插槽；通过更新 options 移除标签，itemProps.onClose 本身不会删除选项。验证宽度重测、动态计数、焦点弹层和默认空内容。
+
+React Watermark 从 @sdata/web-react/watermark 导入，支持文字/图片、间距、偏移、字体、透明度、灰阶和重复排列。验证 StrictMode 单层、删除/样式篡改恢复、关闭防篡改、body 主题变化、图片像素与卸载释放。
+
+React Form 从 @sdata/web-react/form 导入；model 是受控对象，使用 setFields/resetFields 时需将 onModelChange 接到模型 setter。FormItem 的 field 支持点/数组路径，自定义控件通过 useFormItem 关联 id 并通知校验。验证批量回写、动态字段、noStyle 错误传播、异步校验失效和提交快照。
+
+React Input 使用 value/onValueChange 绑定模型；onChange 只在失焦、回车或清除提交变化时触发。原生 input 属性使用 inputAttrs；Input.Search、Input.Password、Input.Group 与独立导出一致。修改输入适配时验证组合输入草稿、拒绝回写、grapheme 截断、动态附加内容、搜索禁用和密码焦点保持。
+
+React Textarea 从 @sdata/web-react/textarea 导入，value/onValueChange 回写模型，textareaAttrs 提供原生属性，ref 提供 focus/blur。autoSize 支持 true 或 minRows/maxRows；验证行数限制变更、父容器缩放、关闭后恢复 resize、受控拒绝回写、组合输入和 blur 先于 change 的顺序。共享高度规则在 core/textarea/size，Vue utils 兼容转发。
+
+React InputNumber 从 @sdata/web-react/input-number 导入；value/onValueChange 绑定提交值，modelEvent="input" 可改为即时回写。高精度值使用 stringMode 和字符串，原生属性放入 inputAttrs；验证格式化切换、动态边界、长按卸载与两种按钮模式。
+
+React Checkbox/Radio 单项用 modelValue/onValueChange 绑定模型，value 表示选项值；Group 用 value/onValueChange。使用 inputAttrs 设置原生属性，renderCheckbox/renderRadio 自定义内容。验证半选属性、受控拒绝、组限额与真实方向键导航。
+
+React Rate 从 @sdata/web-react/rate 导入，使用 value/onValueChange 绑定评分；renderCharacter 自定义字符，grading 使用分级表情。验证半星 ARIA、Home/End 边界、allowClear、动态只读/禁用清除预览及表单校验。
+
+React Slider 从 @sdata/web-react/slider 导入，value/onValueChange 绑定 number 或区间，showInput 组合数字输入。竖向设置容器高度；验证负数坐标、小数步长、受控拒绝、端点交叉输入和触摸取消。
+
+React Message/Notification 从对应子路径导入，样式为 styles/message.scss、styles/notification.scss。组件内使用 const [api, holder] = useMessage()/useNotification() 并渲染 holder；静态 Message.success/Notification.info 可接收显式 NoticeContext。验证去重、ID 更新、悬停/更新计时、键盘关闭、容器断连及 StrictMode effect 重放。
+
+React 可从 `@sdata/web-react` 导入 Copy、Secret；按需样式分别使用 `styles/copy.scss`、`styles/secret.scss`。Secret 受控显隐使用 visible/onVisibleChange。
+
+React 标签输入使用 `<InputTag value={tags} onValueChange={setTags} />`，配合 `styles/input-tag.scss`；内部输入通过 inputValue/onInputValueChange 受控。
+
+React 组件以文档总览自动生成的目录为准；InputLabel/SelectView 是内部构件，不作为公开导入入口。Select、TreeSelect、Cascader 均已提供公开入口和文档。
+
+React 内部 VirtualList 复用 core/virtual-list Foundation，并以 virtua React 引擎适配容器、条目、滚动和缓存接口；布局及滚动条 SCSS 复用 core。WrapClamp 的测量提交在微任务中同步完成，尺寸通知触发的重新测量合并到下一帧并在卸载时取消，避免同页虚拟列表同步提交导致 ResizeObserver 循环。VirtualList 尚非公共组件入口；Select 与 Pagination 公开适配均已接入。
+
+React Select 已接入公共入口、类型、按需样式和独立文档，组合 SelectView、VirtualList、Trigger、Scrollbar 与表单上下文，复用 Core 的值更新、选项归一化和键盘导航。下拉虚拟列表的尺寸提示及高度优先级从 Vue 工具层移入 core/select/virtual-dropdown，Vue 原路径保留重导出；ConfigProvider 增加 allowSearch、virtualListProps、selectSpinProps。
+
+React Trigger 支持 referenceElement 显式定位节点。Select 的事件包裹节点使用 display: contents，定位和宽度测量指向实际选择视图；单/多选切换时重新绑定节点，使 CSS class 宽度与 fitWidth 都能正确传递到弹层。
+
+React 分页可从 @sdata/web-react/pagination 导入，样式使用 @sdata/web-react/styles/pagination.scss；通过 onCurrentChange/onPageSizeValueChange 回写受控状态，onChange/onPageSizeChange 接收通知。
+
+React AutoComplete 可从 @sdata/web-react/auto-complete 导入，样式使用 @sdata/web-react/styles/auto-complete.scss；onValueChange 回写受控文本，onSearch 接收输入搜索，选择后主动失焦。
+
+React Modal 从 @sdata/web-react/modal 导入，独立样式为 @sdata/web-react/styles/modal.scss；useModal 返回 API 与需要放入 Provider 内的 holder。
+
+修改 React 对话框挂载逻辑时，回归容器切换后的节点身份、输入草稿、焦点、滚动锁、onOpen 次数及宿主卸载；Hook 卸载后的延迟调用应无副作用。
+
+React List 从 @sdata/web-react/list 导入，独立样式为 @sdata/web-react/styles/list.scss；renderItem 接收 item/index，受控分页通过 onPageChange/onPageSizeChange 回写，虚拟列表需指定高度或具有确定高度的父容器。
+
+React Carousel 从 @sdata/web-react/carousel 导入，样式使用 @sdata/web-react/styles/carousel.scss；current 与 ref.goTo 使用 1 起始编号，受控状态通过 onCurrentChange 回写，容器需指定高度。
+
+React Mention 通过 `@sdata/web-react/mention` 提供提及输入与文本域，按需样式为 `@sdata/web-react/styles/mention.scss`。搜索/替换复用 core/mention，候选项导航复用 core/select，文本域镜像尺寸复用 core/textarea；React 适配层组合 Input、Textarea、SelectDropdown 和 Trigger。交互与 API 文档位于 React Mention 页面。
+
+React SelectableCard 从 `@sdata/web-react/selectable-card` 导入，样式入口为 `@sdata/web-react/styles/selectable-card.scss`。Vue/React 共用 core/selectable-card 的公共类型、受控选择 Foundation 与样式；React 用原生 checkbox 保持键盘及拒绝写回行为，内容区域支持 ReactNode。完整交互示例见 React SelectableCard 文档。
+
+React QrCode 通过 `@sdata/web-react/qr-code` 导出，样式入口为 `@sdata/web-react/styles/qr-code.scss`。Vue/React 复用 core/qr-code 的编码与异步结果失效规则，两侧卸载时调用 dispose；React QrCode 与 Layout.Sider 共用 useThemeMode 适配层，主题判定仍由 core/config-provider/theme-mode 提供。ConfigProvider.qrCodeSpinProps 配置加载指示器，React 文档含 Canvas/SVG 与刷新交互。
+
+React 包的 `typecheck` 同时检查组件源码与浏览器 spec/fixture。`tests/browser/tsconfig.check.json` 承担完整静态检查，Cypress 的 `tsconfig.json` 保持仅包含 spec，避免 TNB/ts-loader 编译多个输出时的 source map 冲突。
+
+React Typography 包含 Text、Title、Paragraph 及组合入口，复用 core/typography 的编辑、复制计时、展开与格式化规则。React 适配负责 DOM 文本读取、Context 子内容更新、Input 聚焦和浮层根引用；共享样式通过 styles/typography.scss 引入，文档提供编辑/复制/省略示例。
+
+React SkeletonReveal 提供自动入场、replay/finish 引用和按需样式。Vue/React 共用 core/skeleton-reveal 的几何测量、状态/取消规则及原生动画驱动；可见性批次采用最新记录，避免快速入场丢失。React 每次连接创建独立 Foundation，并在 StrictMode 清理时隔离旧实例。
+
+React ThinkingOrb 复用 core/thinking-orb 的 Canvas 引擎、预设和动画生命周期，提供九种状态、20/64 尺寸、自动主题、速度、暂停及 Canvas 引用。React 仅负责状态/生命周期接线；根与子路径导出、按需样式和交互文档同步提供。ThinkingOrb 与 LiquidGlassLogo 的可见性观察器采用批次最新记录，避免快速入场丢失。
+
+React LiquidGlassLogo 提供与 Vue 共用的 WebGL 渲染、自动宽度、主题回退和静态降级，以及 replay/seek/pause/play 引用、ready/error 回调、按需样式和交互文档。连接、上下文丢失与释放逻辑移入 core/liquid-glass-logo/controller；React 每次连接创建新控制器以隔离 StrictMode 清理后的异步任务。
+
+React BorderBeam 复用 Core 的五种效果、动态 CSS、共享脉冲驱动与 flowFrom 状态规则，提供公开引用、回调、按需样式及交互文档。派生主题/尺寸/样式直接在 Foundation 内计算，两端 Adapter 不再把同一计算结果循环回传；React 对延迟测量使用连接代次检查，清理 StrictMode 废弃任务。
+
+React VoiceGlow 复用 Core 音频分析、绘制驱动、预设、默认参数与 Foundation，提供完整几何/音频属性、回调、原生引用和 useVoiceMicrophone。派生计算由 Core 直接完成；麦克风 Hook 在客户端连接后检测支持，跳过 StrictMode 废弃连接的自动请求，并通过共享请求代次释放晚返回的音轨。深浅主题交互文档、全部参数、Hook 状态与按需样式同步提供。
+
+React BloomMenu 使用现有 Button/Trigger 和与 motion-v 同版本的 Framer Motion；两端共用 Core 属性、布局、定位、动画参数和焦点规则。Core 直接计算派生值，并在 dispose 时使旧焦点任务失效；React 还取消连接持有的动画帧。提供受控/非受控菜单、五类自定义内容、原生根引用、按需样式和交互文档。
+
+KvList 的框架无关类型、HTTP Header 建议和字段属性合并规则集中到 Core，Vue 保留原类型与常量转发入口。行增删改通过新数组通知 Adapter，并保留未修改行的身份；JSON/Bulk 归一化和排序仍使用现有 Foundation。React Adapter 提供 JSON/Bulk 双模型、Header/密码编辑器、自定义字段及拖拽排序，并配套根/子路径导出、独立样式与交互文档。共享排序驱动在销毁时移除当前实例持有的镜像和克隆节点，修复拖动中卸载的残留。
+
+PanelGroup React 适配复用 Core 面板控制器、指针与键盘处理、尺寸测量、重排及内容过渡，动画驱动使用已有 framer-motion。PanelGroup、Panel、PanelSeparator 提供根/子路径导出、独立样式和 React 交互文档；引擎字段通过 React 外部存储订阅更新，保留 Vue 的受控/非受控尺寸、折叠、填充面板、嵌套与禁用契约。
+
+图标生成器从同一批 SVG 生成 287 个 Vue 图标、Core 图形数据和 React 图标模块，并校验两端几何一致。尺寸/旋转规则和 IconFont 脚本去重、失败重试归入 Core；React 主入口提供通用 Icon，独立 icon 入口提供完整图标集合与单图标子路径。KvList、PanelGroup、BloomMenu 复用生成图标，移除重复路径。图标生成先于 Core 编译，React 文档包含可搜索目录和 IconFont 交互示例。
+
+React Image、ImagePreview、ImagePreviewGroup 和 ImagePreviewAction 复用 Core 图片状态、预览操作、拖拽及分组 Foundation，并共用弹层堆叠、滚动锁和 SCSS。React Adapter 管理受控回写、图片注册身份、DOM 监听及稳定的 portal 容器；提供根/子路径入口、含基础图标的独立样式、实例方法和交互文档。
+
+React Transfer 已接入公共入口、按需样式与 React 文档，复用 Core Transfer Foundation 的选择、过滤和移动逻辑；支持受控值、自定义面板及单向模式。
+
+Calendar 的 37 项标量默认配置集中在 Core calendar/prop-defaults，Vue 属性定义与 React 配置适配共用；数组和对象默认值仍按实例创建。React Calendar 已提供公开组件、样式和交互文档，复用共享日程、导航及拖拽规则。
+
+React Tour 已接入公共入口、按需样式与文档。两框架共用 Core driver 引擎、原生配置类型、动态浮层区域恢复逻辑和 vendor 样式；ref 暴露原生实例，React 通过渲染函数组合内容。
+
+React 富文本编辑器从 `@sdata/web-react/rich-text-editor` 导入 RichTextEditor，并加载 `@sdata/web-react/styles/rich-text-editor.scss`。defaultValue 支持文本或组件节点数组，value/onValueChange 接收 Lexical 序列化状态；slots 提供自定义组件节点，ref 暴露编辑与导入导出方法。SSR 宿主在浏览器挂载前保持不可编辑。
+
+React 消息发送框从 `@sdata/web-react/sender` 导入 Sender，并加载 `@sdata/web-react/styles/sender.scss`。普通文本使用 value/onValueChange；slotConfig 与 skill 启用结构化编辑。slots.header/prefix/suffix/footer 接收共享动作，ref 提供 focus/insert/clear/getValue。allowSpeech 默认关闭，开启后由浏览器管理麦克风权限。
+
+React Markdown 已提供 @sdata/web-react 根入口、@sdata/web-react/markdown-render 子路径与 @sdata/web-react/styles/markdown-render.scss 按需样式，文档含流式、主题、自定义节点与 ref 示例。本轮自有实现与生产回归已完成，第三方渲染差异按约定排除。当前协调测量在 virtualScroll.enabled 且浏览器挂载后启用隐藏字体探针；SSR 与 fragment 不创建探针，无 Canvas 时继续静态估高。字体布局变化可通过 measurementKey 通知重新测量。具体范围与验证见 [React 迁移记录](docs/react-parity.md)。
+
+协调模式按实际代码渲染器估算流式和 pre 代码块高度；codeBlockOptions 的字号、行高、换行、padding、tabSize、diffStyle 和高度上限，以及 codeBlockProps 的标题和行号配置参与计算。自定义代码组件继续静态回退，完整代码块渲染 API 仍待验收。
+
+默认 pre 渲染支持上述基础样式、showHeader/showCopyButton/showLineNumbers、clipboardWriter 和复制成功回调；pre 模式下 mermaid、infographic、d2/d2lang 也显示代码。复制失败不会发出成功事件。diffHideUnchangedRegions 控制未修改行折叠，设为 false 恢复所有行；diffInline 或 diffStyle=unified 切换单栏，reservedHeightPx 约束预览高度。异步重型代码交接及完整组合验收仍待完成。
+
+Vue 的 recommendWorkerThreshold、estimateRByFormula、defaultRByClass、recommendNForSamples、safeRaf 和 safeCancelRaf 保留原有根/工具深入口；两端适配复用 Core 实现。safeRaf 在没有可用原生 RAF 时回退到定时器，safeCancelRaf 支持对应取消。React 通过 markdown-render 公共入口提供这些共享工具。
+
+Vue 的 buildKaTeXCDNWorkerSource / createKaTeXWorkerFromCDN 与 buildMermaidCDNWorkerSource / createMermaidWorkerFromCDN 保留原入口和参数，复用 Core；URL 由调用方提供。KaTeX 默认 classic，Mermaid 默认 module；Mermaid 首个请求会等待模块加载。返回句柄的 dispose 不终止 Worker，用完后调用 worker?.terminate()。
+
+解析器兼容项与实际渲染器共用 Core 依赖模块及全局注册表：registerMarkdownPlugin 影响后续创建的解析器实例，clearRegisteredMarkdownPlugins 清除后续实例的插件配置。Core parser 的 CustomComponents 是 AST 描述表，React 兼容入口同名类型则是组件映射，两者用途不同。该公共入口只转发官方 React SDK 支持的第三方 API。
+
+手动监控：调用 enablePerfMonitoring() 后，用 perfMonitor.recordRender({type:'direct', duration:10, formulaLength:3, timestamp:Date.now(), success:true}) 记录样本；getPerfReport() 返回统计，disablePerfMonitoring() 暂停记录但保留历史，perfMonitor.reset() 清空历史。浏览器可用 __katexPerfMonitor / __katexPerfReport 调试助手。
+
+启用虚拟滚动的类型示例：virtualScroll={{enabled:true, sessionKey:'conversation-1'}}。如果复用高度缓存，同时传 heightCache 和测量时的 heightCacheWidth；尚未挂载的 scrollRoot ref 可以保留 undefined。
+
+第三方依赖边界：markstream-react 2.0.18 与 virtua 0.53.4 使用官方原包，不维护依赖补丁、私有入口或修改版 SDK 副本。1:1 还原仅针对 SD 组件库自己的实现，第三方 React/Vue 的能力与行为差异不纳入要求。React 源码按官方包支持的 Bundler 模块解析检查类型，不改写第三方声明。
+
+## 双框架共享文档
+
+文档正文只维护 `packages/sd-vue-docs/src/content/shared/`。`<Demo id="component/scenario" />` 关联 `src/components/generated/` 下的 Vue 示例和 `src/components/react/generated/` 下的真实 React 示例；框架专属代码使用 `<Framework only="vue|react">`。不要手改 `src/content/docs/` 中带生成标记的页面。
+
+Astro 启动与构建自动生成两套路由和共享场景清单；`docs:pages` 可手动生成，`docs:check` 检查缺失场景、API 映射与过期输出。在线编辑器共享外壳，分别使用 Vue REPL 与 React TSX 运行器。首页布局、主题编辑控件和数据共享，预览按当前框架渲染；LLMs 文本分别位于 `/llms/` 与 `/react/llms/`。

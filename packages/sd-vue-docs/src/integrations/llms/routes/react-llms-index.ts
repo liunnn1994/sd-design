@@ -1,0 +1,11 @@
+import { renderLlmsIndex } from '../core.ts';
+
+export async function GET({ site }: { site?: URL }) {
+  const body = await renderLlmsIndex({ siteUrl: site?.toString(), framework: 'react' });
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/plain; charset=utf-8',
+    },
+  });
+}

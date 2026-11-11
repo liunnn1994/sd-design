@@ -6,6 +6,8 @@ export interface PerformantEllipsisState {
   afterRender: () => Promise<unknown>;
   waitForMeasurement: () => Promise<void> | undefined;
   toggleExpanded: () => void;
+  replayHover?: (element: HTMLElement) => void;
+  dispatchFocus?: (element: HTMLElement, focused: boolean) => void;
 }
 export function createPerformantEllipsisFoundation(state: PerformantEllipsisState) {
   const getActivatedTriggerElement = () => state.triggerElement;
@@ -17,6 +19,10 @@ export function createPerformantEllipsisFoundation(state: PerformantEllipsisStat
     }
 
     if (type === 'hover') {
+      if (state.replayHover) {
+        state.replayHover(triggerElement);
+        return;
+      }
       triggerElement.dispatchEvent(new MouseEvent('mouseenter', { bubbles: false }));
       triggerElement.dispatchEvent(new MouseEvent('mousemove', { bubbles: true }));
       return;
@@ -30,24 +36,33 @@ export function createPerformantEllipsisFoundation(state: PerformantEllipsisStat
     state.toggleExpanded();
   };
 
+  let activationPending = false;
+  let pendingInteraction: EllipsisInteraction | undefined;
   const activate = async (interactionType?: 'hover' | 'focus' | 'click') => {
     if (state.activated) {
+      if (activationPending && interactionType === 'click') pendingInteraction = 'click';
       return;
     }
 
+    activationPending = true;
+    pendingInteraction = interactionType;
     state.activated = true;
-    await state.afterRender();
-    await state.afterRender();
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    try {
+      await state.afterRender();
+      await state.afterRender();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-    // 等 RichLineClamp 首次测量稳定（带真实内容的 clampchange 到达）后再回放交互，
-    // 否则 hover 的 tooltip / click 的展开判定会读到未就绪的 clamp 状态。
-    const measurement = state.waitForMeasurement();
-    if (measurement) {
-      await measurement;
+      // 等 RichLineClamp 首次测量稳定（带真实内容的 clampchange 到达）后再回放交互，
+      // 否则 hover 的 tooltip / click 的展开判定会读到未就绪的 clamp 状态。
+      const measurement = state.waitForMeasurement();
+      if (measurement) {
+        await measurement;
+      }
+
+      replayInteraction(pendingInteraction);
+    } finally {
+      activationPending = false;
     }
-
-    replayInteraction(interactionType);
   };
 
   const handleMouseenter = () => {
@@ -68,10 +83,13 @@ export function createPerformantEllipsisFoundation(state: PerformantEllipsisStat
       await state.waitForMeasurement();
     }
     if (externallyFocused !== focused) return;
-    getActivatedTriggerElement()?.dispatchEvent(new FocusEvent(focused ? 'focusin' : 'focusout'));
+    const element = getActivatedTriggerElement();
+    if (!element) return;
+    if (state.dispatchFocus) state.dispatchFocus(element, focused);
+    else element.dispatchEvent(new FocusEvent(focused ? 'focusin' : 'focusout'));
   };
 
-  const handleClick = (event: MouseEvent) => {
+  const handleClick = (event: Pick<MouseEvent, 'target' | 'currentTarget'>) => {
     const target = event.target;
     const interactive =
       target instanceof Element

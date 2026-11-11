@@ -1,700 +1,120 @@
 <script setup lang="ts">
-  import { File, Repl, useStore } from '@vue/repl';
-  import type { ReplStore } from '@vue/repl';
-  import Monaco from '@vue/repl/monaco-editor';
-  import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
+  import type { Component } from 'vue';
+  import { onBeforeUnmount, shallowRef, useId } from 'vue';
 
-  import overlayScrollbarsStylesheetHref from 'overlayscrollbars/overlayscrollbars.css?url';
-  import vueRuntimeSource from 'vue/dist/vue.runtime.esm-browser.js?raw';
+  import type { DocsFramework } from '../../utils/framework-navigation';
 
-  import demoStylesheetHref from '../../styles/demo.css?url';
-
-  function createJavaScriptDataUrl(source: string) {
-    return `data:text/javascript;charset=utf-8,${encodeURIComponent(source)}`;
-  }
-
-  interface BrowserComponentExportEntry {
-    importMode: 'default' | 'named';
-    importedName?: string;
-    specifier: string;
-  }
-
-  interface BrowserComponentManifest {
-    exports: Record<string, BrowserComponentExportEntry>;
-  }
-
-  interface BrowserTypeReferenceManifestEntry {
-    code: string;
-    kind: string;
-    modulePath: string;
-  }
-
-  interface BrowserTypeReferenceManifest {
-    packageName: string;
-    types: Record<string, BrowserTypeReferenceManifestEntry>;
-  }
-
-  interface ParsedImportSpecifier {
-    importedName: string;
-    isType: boolean;
-    localName: string;
-  }
-
-  let cachedVendorDependencyImports: Record<string, string> | null = null;
-  let cachedVendorDependencyImportsPromise: Promise<Record<string, string>> | null = null;
-  let cachedComponentManifest: BrowserComponentManifest | null = null;
-  let cachedComponentManifestPromise: Promise<BrowserComponentManifest> | null = null;
-  let cachedTypeReferenceManifest: BrowserTypeReferenceManifest | null = null;
-  let cachedTypeReferenceManifestPromise: Promise<BrowserTypeReferenceManifest> | null = null;
-
-  function parseNamedImportSpecifiers(clause: string) {
-    const trimmedClause = clause.trim();
-
-    if (!trimmedClause.startsWith('{') || !trimmedClause.endsWith('}')) {
-      return null;
-    }
-
-    return trimmedClause
-      .slice(1, -1)
-      .split(',')
-      .map((item) => item.trim())
-      .filter(Boolean)
-      .map<ParsedImportSpecifier>((item) => {
-        const isType = item.startsWith('type ');
-        const normalizedItem = isType ? item.slice(5).trim() : item;
-        const [importedName, localAlias] = normalizedItem
-          .split(/\s+as\s+/i)
-          .map((part) => part.trim());
-
-        return {
-          importedName,
-          isType,
-          localName: localAlias ?? importedName,
-        };
-      });
-  }
-
-  function renderNamedImportSpecifier(specifier: ParsedImportSpecifier) {
-    const aliasClause =
-      specifier.localName === specifier.importedName ? '' : ` as ${specifier.localName}`;
-    return `${specifier.isType ? 'type ' : ''}${specifier.importedName}${aliasClause}`;
-  }
-
-  const iconPluginSpecifier = '@sdata/web-vue/es/icon.js';
-
-  function extractUsedTagNames(source: string) {
-    const tagNames = new Set<string>();
-
-    for (const match of source.matchAll(/<\/?([a-z][\w-]*)\b/g)) {
-      const tagName = match[1];
-
-      if (!tagName?.startsWith('sd')) {
-        continue;
-      }
-
-      tagNames.add(tagName);
-    }
-
-    return Array.from(tagNames).sort((left, right) => left.localeCompare(right));
-  }
-
-  // Individual icons (e.g. `<icon-upload>`) are not exported from the main
-  // entry — they are globally registered by the `SDVueIcon` plugin, mirroring
-  // the docs site's `_app.ts` (`app.use(SDVueIcon)`). When a demo uses any
-  // `icon-*` tag, the REPL preview must therefore `app.use(SDVueIcon)` too.
-  function previewUsesIconPlugin(source: string) {
-    for (const match of source.matchAll(/<\/?([a-z][\w-]*)\b/g)) {
-      if (match[1]?.startsWith('icon-')) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  // Resolve a tag used in the demo (e.g. `sd-modal`) to its export name
-  // (`Modal`) using the web-vue naming convention. Deriving the export directly
-  // from the tag — instead of from `vetur-tags.json` — keeps the REPL independent
-  // of that metadata file: a missing/stale vetur entry can no longer break a
-  // demo, and any newly added component auto-registers as long as it is exported
-  // from the entry under the conventional name.
-  function getExportNameForTag(tagName: string) {
-    const rawName = tagName.startsWith('sd-')
-      ? tagName.slice(3)
-      : tagName.startsWith('sd')
-        ? tagName.slice(2)
-        : tagName;
-
-    return rawName
-      .split('-')
-      .filter(Boolean)
-      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-      .join('');
-  }
-
-  function buildPreviewLibrarySetup(
-    source: string,
-    manifest: BrowserComponentManifest | null,
-    theme: 'light' | 'dark',
-  ) {
-    const components = manifest
-      ? extractUsedTagNames(source)
-          .map((tagName) => ({
-            entry: manifest.exports[getExportNameForTag(tagName)],
-            tagName,
-          }))
-          .filter(
-            (component): component is { entry: BrowserComponentExportEntry; tagName: string } =>
-              Boolean(component.entry),
-          )
-      : [];
-    const importLines = components.map(({ entry, tagName }, index) => {
-      if (entry.importMode === 'named') {
-        const importedName = entry.importedName ?? getExportNameForTag(tagName);
-        return `import { ${importedName} as __SdComponent${index} } from '${entry.specifier}';`;
-      }
-
-      return `import __SdComponent${index} from '${entry.specifier}';`;
-    });
-    const useStatements = components.map(
-      ({ tagName }, index) => `app.component('${tagName}', __SdComponent${index});`,
-    );
-
-    if (previewUsesIconPlugin(source)) {
-      importLines.push(`import SDVueIcon from '${iconPluginSpecifier}';`);
-      useStatements.push('app.use(SDVueIcon);');
-    }
-
-    const importCode = importLines.join('\n');
-
-    useStatements.push(
-      `if (${JSON.stringify(theme)} === 'dark') { document.body.setAttribute('sd-theme', 'dark'); } else { document.body.removeAttribute('sd-theme'); }`,
-    );
-
-    return {
-      importCode,
-      useCode: useStatements.join('\n'),
-    };
-  }
-
-  function rewriteWebVueRuntimeImports(source: string, manifest: BrowserComponentManifest | null) {
-    if (!manifest) {
-      return source;
-    }
-
-    return source.replace(
-      /import\s+([\s\S]*?)\s+from\s+['"]@sdata\/web-vue['"];?/g,
-      (fullMatch, clause: string) => {
-        const namedSpecifiers = parseNamedImportSpecifiers(clause);
-
-        if (!namedSpecifiers) {
-          return fullMatch;
-        }
-
-        const transformedImports: string[] = [];
-        const unresolvedValueSpecifiers: ParsedImportSpecifier[] = [];
-        const unresolvedTypeSpecifiers: ParsedImportSpecifier[] = [];
-
-        for (const specifier of namedSpecifiers) {
-          if (specifier.isType) {
-            unresolvedTypeSpecifiers.push(specifier);
-            continue;
-          }
-
-          const exportEntry = manifest.exports[specifier.importedName];
-
-          if (!exportEntry) {
-            unresolvedValueSpecifiers.push(specifier);
-            continue;
-          }
-
-          if (exportEntry.importMode === 'default') {
-            transformedImports.push(
-              `import ${specifier.localName} from '${exportEntry.specifier}';`,
-            );
-            continue;
-          }
-
-          const importedName = exportEntry.importedName ?? specifier.importedName;
-          const aliasClause =
-            specifier.localName === importedName ? '' : ` as ${specifier.localName}`;
-
-          transformedImports.push(
-            `import { ${importedName}${aliasClause} } from '${exportEntry.specifier}';`,
-          );
-        }
-
-        if (unresolvedValueSpecifiers.length > 0) {
-          transformedImports.push(
-            `import { ${unresolvedValueSpecifiers.map(renderNamedImportSpecifier).join(', ')} } from '@sdata/web-vue';`,
-          );
-        }
-
-        // Type imports are omitted — they have no runtime value and can cause
-        // module-loading failures in the REPL when the SFC compiler doesn't
-        // strip them (e.g. `import type { X } from '@sdata/web-vue'` where X
-        // is only a TS declaration, not a runtime export).
-
-        return transformedImports.join('\n');
-      },
-    );
-  }
-
-  async function loadVendorDependencyImports() {
-    if (cachedVendorDependencyImports) {
-      return cachedVendorDependencyImports;
-    }
-
-    cachedVendorDependencyImportsPromise ??= fetch('/vendor/sd-web-vue/deps/import-map.json')
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`依赖映射加载失败: ${response.status}`);
-        }
-
-        const manifest = (await response.json()) as { imports?: Record<string, string> };
-        cachedVendorDependencyImports = manifest.imports ?? {};
-        return cachedVendorDependencyImports;
-      })
-      .catch((error) => {
-        cachedVendorDependencyImportsPromise = null;
-        throw error;
-      });
-
-    return cachedVendorDependencyImportsPromise;
-  }
-
-  async function loadComponentManifest() {
-    if (cachedComponentManifest) {
-      return cachedComponentManifest;
-    }
-
-    cachedComponentManifestPromise ??= fetch('/vendor/sd-web-vue/deps/component-manifest.json')
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`组件清单加载失败: ${response.status}`);
-        }
-
-        cachedComponentManifest = (await response.json()) as BrowserComponentManifest;
-        return cachedComponentManifest;
-      })
-      .catch((error) => {
-        cachedComponentManifestPromise = null;
-        throw error;
-      });
-
-    return cachedComponentManifestPromise;
-  }
-
-  async function loadTypeReferenceManifest() {
-    if (cachedTypeReferenceManifest) {
-      return cachedTypeReferenceManifest;
-    }
-
-    cachedTypeReferenceManifestPromise ??= fetch(
-      '/vendor/sd-web-vue/deps/type-reference-manifest.json',
-    )
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`类型索引加载失败: ${response.status}`);
-        }
-
-        cachedTypeReferenceManifest = (await response.json()) as BrowserTypeReferenceManifest;
-        return cachedTypeReferenceManifest;
-      })
-      .catch((error) => {
-        cachedTypeReferenceManifestPromise = null;
-        throw error;
-      });
-
-    return cachedTypeReferenceManifestPromise;
-  }
-
-  const vueModuleUrl = createJavaScriptDataUrl(vueRuntimeSource);
-
-  const props = defineProps<{
-    source: string;
-    mainFile: string;
-  }>();
+  const props = withDefaults(
+    defineProps<{
+      source: string;
+      mainFile: string;
+      framework?: DocsFramework;
+      files?: Record<string, string>;
+    }>(),
+    { framework: 'vue', files: () => ({}) },
+  );
 
   const expanded = shallowRef(false);
+  const panel = shallowRef<Component>();
+  const loading = shallowRef(false);
   const loadError = shallowRef('');
-  const currentTheme = shallowRef<'light' | 'dark'>('light');
-  const replStore = shallowRef<ReplStore | null>(null);
-  const themeObserver = shallowRef<MutationObserver | null>(null);
-  const browserComponentManifest = shallowRef<BrowserComponentManifest | null>(null);
-  const vendorDependencyImports = shallowRef<Record<string, string>>({});
-  const previewEnvironmentScriptCloseTag = '</scr' + 'ipt>';
-  const previewThemeScriptCloseTag = '</scr' + 'ipt>';
-
-  const normalizedCode = computed(() => props.source.trim());
-  const resolvedSource = computed(() =>
-    rewriteWebVueRuntimeImports(normalizedCode.value, browserComponentManifest.value),
-  );
-  const replTheme = computed(() => currentTheme.value);
-  const previewLibrarySetup = computed(() =>
-    buildPreviewLibrarySetup(normalizedCode.value, browserComponentManifest.value, replTheme.value),
-  );
-  const editorFiles = computed(() => ({
-    [props.mainFile]: resolvedSource.value,
-    'import-map.json': JSON.stringify(importMap.value, null, 2),
-  }));
-
-  const previewOptions = computed(() => ({
-    headHTML: [
-      '<link rel="stylesheet" href="/vendor/sd-web-vue/dist/sd.css">',
-      `<link rel="stylesheet" href="${overlayScrollbarsStylesheetHref}">`,
-      `<link rel="stylesheet" href="${demoStylesheetHref}">`,
-      '<style>body{margin:0;padding:16px;font-family:Inter,Segoe UI,sans-serif;}body[sd-theme="dark"]{background:#141414;color:#f2f3f5;}#app{min-height:40px;}</style>',
-      `<script>globalThis.process??={env:{NODE_ENV:'production'}};globalThis.global??=globalThis;${previewEnvironmentScriptCloseTag}`,
-      `<script>document.addEventListener('DOMContentLoaded',function(){if(${JSON.stringify(replTheme.value)}==='dark'){document.body.setAttribute('sd-theme','dark');}else{document.body.removeAttribute('sd-theme');}});${previewThemeScriptCloseTag}`,
-    ].join(''),
-    customCode: previewLibrarySetup.value,
-  }));
-  const importMap = computed(() => ({
-    imports: {
-      'vue': vueModuleUrl,
-      '@sdata/web-vue': '/vendor/sd-web-vue/es/index.js',
-      '@sdata/web-vue/es/icon': '/vendor/sd-web-vue/es/icon/index.js',
-      '@sdata/web-vue/': '/vendor/sd-web-vue/',
-      '@sdata/web-vue/es/icon.js': '/vendor/sd-web-vue/es/icon/index.js',
-      ...vendorDependencyImports.value,
-    },
-  }));
-
-  async function ensureVendorImportMapLoaded() {
-    if (
-      Object.keys(vendorDependencyImports.value).length > 0 &&
-      browserComponentManifest.value &&
-      cachedTypeReferenceManifest
-    ) {
-      return;
-    }
-
-    const [imports, manifest, typeManifest] = await Promise.all([
-      loadVendorDependencyImports(),
-      loadComponentManifest(),
-      loadTypeReferenceManifest(),
-    ]);
-
-    vendorDependencyImports.value = imports;
-    browserComponentManifest.value = manifest;
-    cachedTypeReferenceManifest = typeManifest;
-  }
-
-  function indentLines(source: string, indent = '  ') {
-    return source
-      .split('\n')
-      .map((line) => `${indent}${line}`)
-      .join('\n');
-  }
-
-  function buildModuleDeclarations(manifest: BrowserComponentManifest) {
-    const modules = new Map<string, { defaultExport: boolean; namedExports: Set<string> }>();
-
-    for (const [exportName, exportEntry] of Object.entries(manifest.exports)) {
-      const bucket = modules.get(exportEntry.specifier) ?? {
-        defaultExport: false,
-        namedExports: new Set<string>(),
-      };
-
-      if (exportEntry.importMode === 'default') {
-        bucket.defaultExport = true;
-      }
-
-      if (exportEntry.importMode === 'named') {
-        bucket.namedExports.add(exportEntry.importedName ?? exportName);
-      }
-
-      modules.set(exportEntry.specifier, bucket);
-    }
-
-    return Array.from(modules.entries())
-      .sort(([left], [right]) => left.localeCompare(right))
-      .map(([specifier, exports]) => {
-        const lines = [`declare module '${specifier}' {`];
-
-        if (exports.defaultExport) {
-          lines.push('  const component: any;');
-          lines.push('  export default component;');
-        }
-
-        for (const namedExport of Array.from(exports.namedExports).sort((left, right) =>
-          left.localeCompare(right),
-        )) {
-          lines.push(`  export const ${namedExport}: any;`);
-        }
-
-        lines.push('}');
-        return lines.join('\n');
-      })
-      .join('\n\n');
-  }
-
-  function buildTypeReferenceDeclarationFile(
-    typeManifest: BrowserTypeReferenceManifest,
-    componentManifest: BrowserComponentManifest,
-  ) {
-    const typeLines = Object.entries(typeManifest.types)
-      .sort(([left], [right]) => left.localeCompare(right))
-      .map(([, entry]) => indentLines(entry.code))
-      .join('\n\n');
-    const valueExports = Object.keys(componentManifest.exports)
-      .sort((left, right) => left.localeCompare(right))
-      .map((exportName) => `  export const ${exportName}: any;`)
-      .join('\n');
-    const moduleDeclarations = buildModuleDeclarations(componentManifest);
-
-    return [
-      "declare module '@sdata/web-vue' {",
-      valueExports,
-      '  const plugin: { install(...args: any[]): void };',
-      '  export default plugin;',
-      typeLines,
-      '}',
-      '',
-      "declare module '@sdata/web-vue/es/icon.js' {",
-      '  const iconPlugin: any;',
-      '  export default iconPlugin;',
-      '}',
-      '',
-      moduleDeclarations,
-    ]
-      .filter(Boolean)
-      .join('\n');
-  }
-
-  function applyHiddenTypeFiles(
-    store: ReplStore,
-    componentManifest: BrowserComponentManifest,
-    typeManifest: BrowserTypeReferenceManifest,
-  ) {
-    const declarationFileName = 'src/types/sd-web-vue.generated.d.ts';
-    const declarationFile = new File(
-      declarationFileName,
-      buildTypeReferenceDeclarationFile(typeManifest, componentManifest),
-      true,
-    );
-    const tsconfigFile = new File(
-      'tsconfig.json',
-      JSON.stringify(
-        {
-          compilerOptions: {
-            allowJs: true,
-            checkJs: false,
-            jsx: 'preserve',
-            module: 'ESNext',
-            moduleResolution: 'Bundler',
-            strict: true,
-            target: 'ES2022',
-            types: [],
-          },
-          include: ['src/**/*'],
-        },
-        null,
-        2,
-      ),
-      true,
-    );
-
-    store.files[declarationFileName] = declarationFile;
-    store.files['tsconfig.json'] = tsconfigFile;
-    store.reloadLanguageTools?.();
-  }
-
-  function installBrowserProcessShim() {
-    const shimTarget = globalThis as Record<string, unknown>;
-    const processShim =
-      (shimTarget.process as
-        | {
-            env?: Record<string, string>;
-            argv?: string[];
-            cwd?: () => string;
-            versions?: Record<string, string>;
-          }
-        | undefined) ?? {};
-
-    shimTarget.global ??= globalThis;
-    processShim.env ??= {};
-    processShim.env.NODE_ENV ??= 'production';
-    processShim.argv ??= [];
-    processShim.cwd ??= () => '/';
-    shimTarget.process = processShim;
-  }
-
-  function applySafeVirtualFs(store: ReplStore) {
-    const target = ('value' in store.sfcOptions ? store.sfcOptions.value : store.sfcOptions) as {
-      script?: {
-        fs?: {
-          fileExists(file: unknown): boolean;
-          readFile(file: unknown): string;
-        };
-      };
-    };
-
-    target.script ||= {};
-    target.script.fs = {
-      fileExists(file: unknown) {
-        if (typeof file !== 'string' || file.length === 0) {
-          return false;
-        }
-
-        const normalizedFile = file.startsWith('/') ? file.slice(1) : file;
-        return Boolean(store.files[normalizedFile]);
-      },
-      readFile(file: unknown) {
-        if (typeof file !== 'string' || file.length === 0) {
-          return '';
-        }
-
-        const normalizedFile = file.startsWith('/') ? file.slice(1) : file;
-        return store.files[normalizedFile]?.code ?? '';
-      },
-    };
-  }
-
-  function syncTheme() {
-    currentTheme.value = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
-  }
-
-  watch(normalizedCode, (code) => {
-    replStore.value?.setFiles(editorFiles.value, props.mainFile);
-  });
-
-  watch(currentTheme, () => {
-    replStore.value?.setFiles(editorFiles.value, props.mainFile);
-  });
-
-  async function ensureReplLoaded() {
-    if (replStore.value) {
-      return;
-    }
-
-    loadError.value = '';
-
-    try {
-      installBrowserProcessShim();
-      await ensureVendorImportMapLoaded();
-      const store = useStore({}, '');
-
-      store.showOutput = false;
-      store.outputMode = 'preview';
-
-      await store.setFiles(editorFiles.value, props.mainFile);
-
-      if (browserComponentManifest.value && cachedTypeReferenceManifest) {
-        applyHiddenTypeFiles(store, browserComponentManifest.value, cachedTypeReferenceManifest);
-      }
-
-      applySafeVirtualFs(store);
-
-      replStore.value = store;
-    } catch (error) {
-      loadError.value = error instanceof Error ? error.message : '编辑器加载失败';
-    }
-  }
+  const panelId = `demo-editor-${useId()}`;
+  let disposed = false;
 
   async function toggleEditor() {
     expanded.value = !expanded.value;
-
-    if (expanded.value) {
-      await ensureReplLoaded();
+    if (!expanded.value || panel.value || loading.value) return;
+    loading.value = true;
+    loadError.value = '';
+    try {
+      const module =
+        props.framework === 'react'
+          ? await import('./ReactReplPanel.vue')
+          : await import('./VueReplPanel.vue');
+      if (!disposed) panel.value = module.default;
+    } catch (error) {
+      if (!disposed) loadError.value = error instanceof Error ? error.message : '编辑器加载失败';
+    } finally {
+      if (!disposed) loading.value = false;
     }
   }
 
-  onMounted(() => {
-    installBrowserProcessShim();
-    syncTheme();
-
-    const observer = new MutationObserver(syncTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme'],
-    });
-    themeObserver.value = observer;
-  });
-
   onBeforeUnmount(() => {
-    themeObserver.value?.disconnect();
+    disposed = true;
   });
 </script>
 
 <template>
-  <div class="demo-editor">
+  <div class="demo-editor" :data-framework="framework">
     <div class="demo-editor__toolbar">
-      <button class="demo-editor__button" type="button" @click="toggleEditor">
+      <button
+        class="demo-editor__button"
+        type="button"
+        :aria-expanded="expanded"
+        :aria-controls="panelId"
+        @click="toggleEditor"
+      >
         {{ expanded ? '收起' : '在线编辑' }}
       </button>
     </div>
-
-    <div v-if="expanded" class="demo-editor__panel">
-      <div v-if="loadError" class="demo-editor__state demo-editor__state--error">
-        {{ loadError }}
-      </div>
-      <Repl
-        v-else-if="replStore"
-        :editor="Monaco"
-        :show-compile-output="false"
-        :show-import-map="false"
-        :show-ssr-output="false"
-        :store="replStore"
-        :theme="replTheme"
-        :preview-options="previewOptions"
-      />
+    <div v-show="expanded" :id="panelId" class="demo-editor__panel">
+      <div v-if="loading" class="demo-editor__state" role="status">编辑器加载中…</div>
+      <div
+        v-else-if="loadError"
+        class="demo-editor__state demo-editor__state--error"
+        role="alert"
+        >{{ loadError }}</div
+      >
+      <component :is="panel" v-if="panel" :source="source" :main-file="mainFile" :files="files" />
     </div>
   </div>
 </template>
 
-<style scoped>
-  .demo-editor__toolbar {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.875rem 1rem;
-    background: var(--sl-color-gray-7);
-  }
+<style lang="scss">
+  .demo-editor {
+    &__toolbar {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.875rem 1rem;
+      background: var(--sl-color-gray-7);
+    }
 
-  .demo-editor__button {
-    min-height: 32px;
-    margin-left: auto;
-    padding: 0 12px;
-    color: var(--sd-color-text-2);
-    font: inherit;
-    font-size: 14px;
-    background: var(--sd-color-fill-2);
-    border: 0;
-    border-radius: 8px;
-    cursor: pointer;
-  }
+    &__button {
+      min-height: 32px;
+      margin-left: auto;
+      padding: 0 12px;
+      color: var(--sd-color-text-2);
+      font: inherit;
+      font-size: 14px;
+      background: var(--sd-color-fill-2);
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
 
-  .demo-editor__button:hover {
-    color: rgb(var(--sd-primary-6));
-    background: var(--sd-color-primary-light-1);
-  }
+      &:hover {
+        color: rgb(var(--sd-primary-6));
+        background: var(--sd-color-primary-light-1);
+      }
 
-  .demo-editor__button:focus-visible {
-    outline: 2px solid rgb(var(--sd-primary-6));
-    outline-offset: 2px;
-  }
+      &:focus-visible {
+        outline: 2px solid rgb(var(--sd-primary-6));
+        outline-offset: 2px;
+      }
+    }
 
-  .demo-editor__panel {
-    border-top: 1px solid var(--sl-color-gray-5);
-  }
+    &__panel {
+      border-top: 1px solid var(--sl-color-gray-5);
+    }
 
-  .demo-editor__state {
-    padding: 1rem;
-    color: var(--sl-color-gray-2);
-  }
+    &__state {
+      padding: 1rem;
+      color: var(--sl-color-gray-2);
+    }
 
-  .demo-editor__state--error {
-    color: rgb(var(--sd-danger-6));
-  }
-
-  .demo-editor__panel :deep(.vue-repl) {
-    height: 540px;
-  }
-
-  .demo-editor__panel :deep(.vue-repl, .vue-repl pre, .vue-repl code) {
-    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    &__state--error {
+      color: rgb(var(--sd-danger-6));
+    }
   }
 </style>

@@ -12,7 +12,7 @@ export function createCarouselIndicator(adapter: {
   onSelect(index: number): void;
 }) {
   return {
-    click(event: MouseEvent) {
+    click(event: Pick<MouseEvent, 'preventDefault' | 'offsetX' | 'currentTarget' | 'target'>) {
       event.preventDefault();
       if (adapter.props.type === 'slider') {
         const x = event.offsetX;

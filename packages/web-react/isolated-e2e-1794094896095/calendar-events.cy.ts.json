@@ -1,0 +1,9 @@
+{
+  "spec": "calendar-events.cy.ts",
+  "status": "finished",
+  "tests": 22,
+  "passed": 22,
+  "failed": 0,
+  "pending": 0,
+  "skipped": 0
+}

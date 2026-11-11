@@ -164,7 +164,13 @@ export function createModelSelectorFoundation(
   }
 
   function handleShortcut(event: KeyboardEvent) {
-    if (event.type !== 'keydown' || event.repeat || !state.mergedVisible) {
+    if (
+      event.type !== 'keydown' ||
+      event.repeat ||
+      event.isComposing ||
+      event.defaultPrevented ||
+      !state.mergedVisible
+    ) {
       return;
     }
 

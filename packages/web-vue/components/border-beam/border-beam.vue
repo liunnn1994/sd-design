@@ -132,14 +132,7 @@
 
   import { createBorderBeamFoundation } from '@sdata/web-core/border-beam/foundation';
 
-  import type {
-    BorderBeamTheme,
-    BorderBeamSize,
-    BorderBeamColorVariant,
-    BorderBeamFlowCoordinate,
-    BorderBeamFlowPoint,
-    BorderBeamExposed,
-  } from './types';
+  import type { BorderBeamProps, BorderBeamFlowPoint, BorderBeamExposed } from './types';
 
   import { useBeamPreferences } from '../_hooks/use-beam-preferences';
   import { getPrefixCls } from '../_utils/global-config';
@@ -147,88 +140,16 @@
 
   defineOptions({ name: 'BorderBeam' });
 
-  const props = withDefaults(
-    defineProps<{
-      /**
-       * @zh 尺寸/类型预设
-       * @en Size/type preset
-       * @default 'md'
-       */
-      size?: BorderBeamSize;
-      /**
-       * @zh 颜色变体
-       * @en Color variant
-       * @default 'colorful'
-       */
-      colorVariant?: BorderBeamColorVariant;
-      /**
-       * @zh 主题模式
-       * @en Theme mode
-       * @default 'dark'
-       */
-      theme?: BorderBeamTheme;
-      /**
-       * @zh 禁用色相偏移动画
-       * @en Disable hue-shift animation
-       * @default false
-       */
-      staticColors?: boolean;
-      /**
-       * @zh 旋转/移动持续时间（秒）Rotation/travel
-       * @en duration in seconds
-       */
-      duration?: number;
-      /**
-       * @zh 动画是否激活
-       * @en Whether the animation is active
-       * @default true
-       */
-      active?: boolean;
-      /**
-       * @zh 自定义边框圆角（像素），省略时自动检测
-       * @en Custom border radius in pixels
-       */
-      borderRadius?: number;
-      /**
-       * @zh 亮度倍率，默认使用预设值
-       * @en Brightness multiplier
-       */
-      brightness?: number;
-      /**
-       * @zh 饱和度倍率，默认使用预设值
-       * @en Saturation multiplier
-       */
-      saturation?: number;
-      /**
-       * @zh 色相旋转范围（度）
-       * @en Hue rotation range in degrees
-       * @default 30
-       */
-      hueRange?: number;
-      /**
-       * @zh 整体效果强度
-       * @en 0–1 Overall strength/opacity
-       * @default 1
-       */
-      strength?: number;
-      /**
-       * @zh 渐变尺寸倍率
-       * @en Gradient size multiplier
-       * @default 1
-       */
-      density?: number;
-    }>(),
-    {
-      size: 'md',
-      colorVariant: 'colorful',
-      theme: 'dark',
-      staticColors: false,
-      active: true,
-      hueRange: 30,
-      strength: 1,
-      density: 1,
-    },
-  );
+  const props = withDefaults(defineProps<BorderBeamProps>(), {
+    size: 'md',
+    colorVariant: 'colorful',
+    theme: 'dark',
+    staticColors: false,
+    active: true,
+    hueRange: 30,
+    strength: 1,
+    density: 1,
+  });
 
   const emit = defineEmits<{
     /**
@@ -345,42 +266,6 @@
       get systemTheme() {
         return systemTheme.value;
       },
-      get resolvedTheme() {
-        return resolvedTheme.value;
-      },
-      get themeConfig() {
-        return themeConfig.value;
-      },
-      get sizeConfig() {
-        return sizeConfig.value;
-      },
-      get isPulse() {
-        return isPulse.value;
-      },
-      get finalBorderRadius() {
-        return finalBorderRadius.value;
-      },
-      get finalDuration() {
-        return finalDuration.value;
-      },
-      get finalSaturation() {
-        return finalSaturation.value;
-      },
-      get finalBrightness() {
-        return finalBrightness.value;
-      },
-      get finalHueRange() {
-        return finalHueRange.value;
-      },
-      get finalStaticColors() {
-        return finalStaticColors.value;
-      },
-      get cssStyles() {
-        return cssStyles.value;
-      },
-      get driverConfig() {
-        return driverConfig.value;
-      },
     },
     {
       afterRender: (task) => {
@@ -404,16 +289,7 @@
   watch(() => props.size, foundation.syncSize);
   onMounted(foundation.mountScale);
   onUnmounted(foundation.disposeScale);
-  const resolvedTheme = computed(foundation.getResolvedTheme);
-  const themeConfig = computed(foundation.getThemeConfig);
-  const sizeConfig = computed(foundation.getSizeConfig);
-  const isPulse = computed(foundation.getIsPulse);
   const finalBorderRadius = computed(foundation.getFinalBorderRadius);
-  const finalDuration = computed(foundation.getFinalDuration);
-  const finalSaturation = computed(foundation.getFinalSaturation);
-  const finalBrightness = computed(foundation.getFinalBrightness);
-  const finalHueRange = computed(foundation.getFinalHueRange);
-  const finalStaticColors = computed(foundation.getFinalStaticColors);
   const cssStyles = computed(foundation.getCssStyles);
   onMounted(foundation.mountStyle);
   watch(cssStyles, foundation.syncCss);

@@ -1,0 +1,52 @@
+import { defineConfig } from 'cypress';
+import { basename, dirname } from 'node:path';
+import { build } from 'vite';
+
+export default defineConfig({
+  e2e: {
+    baseUrl: 'http://127.0.0.1:5187',
+    specPattern: 'tests/browser/*.cy.ts',
+    supportFile: false,
+    setupNodeEvents(on) {
+      // Cypress's ts-loader requests one source map; TNB emits maps for every spec in the program.
+      on('file:preprocessor', async (file) => {
+        const result = await build({
+          configFile: false,
+          logLevel: 'error',
+          build: {
+            watch: file.shouldWatch ? {} : null,
+            emptyOutDir: false,
+            outDir: dirname(file.outputPath),
+            sourcemap: 'inline',
+            minify: false,
+            lib: {
+              entry: file.filePath,
+              name: 'spec',
+              formats: ['iife'],
+              fileName: () => basename(file.outputPath),
+            },
+          },
+        });
+        if ('on' in result) {
+          file.on('close', () => void result.close());
+          await new Promise<void>((resolve, reject) => {
+            let ready = false;
+            result.on('event', (event) => {
+              if (event.code === 'ERROR') reject(event.error);
+              if (event.code === 'BUNDLE_END') void event.result.close();
+              if (event.code === 'END') {
+                if (ready) file.emit('rerun');
+                ready = true;
+                resolve();
+              }
+            });
+          });
+        }
+        return file.outputPath;
+      });
+    },
+  },
+  video: false,
+  // Match the Vue suite's Cypress 16 browser-memory setting for long runs.
+  manageBrowserMemory: false,
+});

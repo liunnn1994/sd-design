@@ -1,0 +1,53 @@
+import { checkComponentDocs } from './docs-contract';
+
+describe('shared React documentation 1', () => {
+  for (const component of [
+    'watermark',
+    'tag-group',
+    'progress',
+    'statistic',
+    'collapse',
+    'timeline',
+    'steps',
+    'breadcrumb',
+    'dropdown',
+    'layout',
+    'drawer',
+    'grid',
+    'descriptions',
+    'page-header',
+    'result',
+    'skeleton',
+    'card',
+    'alert',
+    'popconfirm',
+    'popover',
+    'avatar',
+    'link',
+    'ellipsis',
+    'clamp',
+    'tooltip',
+    'scrollbar',
+    'menu',
+    'affix',
+    'tabs',
+    'anchor',
+    'back-top',
+    'qr-code',
+    'selectable-card',
+    'mention',
+    'carousel',
+    'list',
+    'modal',
+    'auto-complete',
+    'pagination',
+    'trigger',
+    'number-flow',
+    'badge',
+    'message',
+  ]) {
+    it(component + ': shared scenes, navigation and framework counterpart', () =>
+      checkComponentDocs(component),
+    );
+  }
+});

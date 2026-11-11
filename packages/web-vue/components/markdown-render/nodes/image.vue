@@ -105,7 +105,7 @@
     lazy,
   }));
   watch(
-    () => [node.src, node.loading, fallbackSrc, indexKey],
+    [() => node.src, () => node.loading, () => fallbackSrc, () => indexKey],
     (_value, _previous, onCleanup) => foundation.reset(onCleanup),
     { immediate: true },
   );

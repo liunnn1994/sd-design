@@ -241,4 +241,32 @@ describe('QrCode', () => {
       expect(opts.boostLevel).to.equal(true);
     });
   });
+
+  it('keeps a remounted QR code when an earlier instance completes encoding', () => {
+    const shown = ref(true);
+    const currentValue = ref('old-instance');
+    const pending = new Map<string, (markup: string) => void>();
+    cy.stub(QRCode, 'toString').callsFake(
+      (text: string) => new Promise<string>((resolve) => pending.set(text, resolve)),
+    );
+    cy.mount(() => (shown.value ? h(QrCode, { value: currentValue.value, type: 'svg' }) : null));
+    cy.wrap(pending).should((renders) => expect(renders.has('old-instance')).to.equal(true));
+    cy.then(() => {
+      shown.value = false;
+    });
+    cy.get('.sd-qr-code').should('not.exist');
+    cy.then(() => {
+      currentValue.value = 'new-instance';
+      shown.value = true;
+    });
+    cy.wrap(pending).should((renders) => expect(renders.has('new-instance')).to.equal(true));
+    cy.then(() => pending.get('new-instance')?.('<svg data-value="new-instance"></svg>'));
+    cy.get('.sd-qr-code-svg svg').should('have.attr', 'data-value', 'new-instance');
+    cy.then(async () => {
+      pending.get('old-instance')?.('<svg data-value="old-instance"></svg>');
+      await Promise.resolve();
+      await nextTick();
+    });
+    cy.get('.sd-qr-code-svg svg').should('have.attr', 'data-value', 'new-instance');
+  });
 });

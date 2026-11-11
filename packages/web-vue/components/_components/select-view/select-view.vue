@@ -11,10 +11,10 @@
       <IconHover><IconClose /></IconHover>
     </button>
     <span :class="`${prefixCls}-icon`">
-      <slot v-if="loading && $slots['loading-icon']" name="loading-icon" />
-      <IconLoading v-else-if="loading" />
-      <slot v-else-if="allowSearch && opened && $slots['search-icon']" name="search-icon" />
-      <IconSearch v-else-if="allowSearch && opened" />
+      <slot v-if="iconMode === 'loading' && $slots['loading-icon']" name="loading-icon" />
+      <IconLoading v-else-if="iconMode === 'loading'" />
+      <slot v-else-if="iconMode === 'search' && $slots['search-icon']" name="search-icon" />
+      <IconSearch v-else-if="iconMode === 'search'" />
       <slot v-else-if="$slots['arrow-icon']" name="arrow-icon" />
       <IconDown v-else-if="showArrow" :class="`${prefixCls}-arrow-icon`" />
     </span>
@@ -35,6 +35,7 @@
     :size="mergedSize"
     :error="mergedError"
     :max-tag-count="maxTagCount"
+    :allow-clear="false"
     :disabled-input="!allowSearch && !allowCreate"
     :tag-nowrap="tagNowrap"
     retain-input-value
@@ -86,6 +87,7 @@
   import type { ComponentPublicInstance, VNode } from 'vue';
   import { computed, ref, toRef, watch } from 'vue';
 
+  import { createSelectViewFoundation } from '@sdata/web-core/select/view';
   import { createSelectViewFocus } from '@sdata/web-core/select/view-focus';
   import { createReusableTemplate } from '@vueuse/core';
 
@@ -182,13 +184,37 @@
   const inputRef = computed<HTMLInputElement | undefined>(
     () => (componentRef.value as { inputRef?: HTMLInputElement } | undefined)?.inputRef,
   );
-  const isEmptyValue = computed(() => props.modelValue.length === 0);
-  const enabledInput = computed(() => props.allowSearch || props.allowCreate);
-  const showClearBtn = computed(
-    () => props.allowClear && !mergedDisabled.value && !isEmptyValue.value,
-  );
+  const foundation = createSelectViewFoundation({
+    get multiple() {
+      return props.multiple;
+    },
+    get allowSearch() {
+      return props.allowSearch;
+    },
+    get allowCreate() {
+      return props.allowCreate;
+    },
+    get allowClear() {
+      return props.allowClear;
+    },
+    get disabled() {
+      return mergedDisabled.value;
+    },
+    get valueCount() {
+      return props.modelValue.length;
+    },
+    get loading() {
+      return props.loading;
+    },
+    get opened() {
+      return props.opened;
+    },
+  });
+  const enabledInput = computed(foundation.getEnabledInput);
+  const showClearBtn = computed(foundation.getShowClear);
+  const iconMode = computed(foundation.getIconMode);
   const cls = computed(() => [
-    `${prefixCls}-${props.multiple ? 'multiple' : 'single'}`,
+    `${prefixCls}-${foundation.getMode()}`,
     {
       [`${prefixCls}-opened`]: props.opened,
       [`${prefixCls}-borderless`]: !props.bordered,

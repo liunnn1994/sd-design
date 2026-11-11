@@ -1,1 +1,1 @@
-export * from 'markstream-vue/workers/mermaidCdnWorker';
+export * from '@sdata/web-core/markdown/mermaid-cdn-worker';

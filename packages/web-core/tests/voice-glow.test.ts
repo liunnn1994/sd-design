@@ -39,45 +39,6 @@ function fixture(active = false) {
     detectedRadius: 16,
     systemTheme: 'dark',
     reducedMotion: false,
-    get resolvedTheme() {
-      return foundation.getResolvedTheme();
-    },
-    get defaults() {
-      return foundation.getDefaults();
-    },
-    get geometry() {
-      return foundation.getGeometry();
-    },
-    get palette() {
-      return foundation.getPalette();
-    },
-    get typeStyle() {
-      return foundation.getTypeStyle();
-    },
-    get scale() {
-      return foundation.getScale();
-    },
-    get coreLight() {
-      return foundation.getCoreLight();
-    },
-    get distortion() {
-      return foundation.getDistortion();
-    },
-    get distortionDetail() {
-      return foundation.getDistortionDetail();
-    },
-    get radius() {
-      return foundation.getRadius();
-    },
-    get bandColors() {
-      return foundation.getBandColors();
-    },
-    get css() {
-      return foundation.getCss();
-    },
-    get driverConfig() {
-      return foundation.getDriverConfig();
-    },
   };
   foundation = createVoiceGlowFoundation(state, {
     level(value) {
@@ -112,53 +73,53 @@ test('VoiceGlow constructs without DOM and preserves defaults, opaque style, cus
   const { state, foundation } = fixture(true);
   assert.equal(state.isActive, true);
   assert.equal(supportsVoiceCanvasFilter(), true);
-  assert.equal(state.resolvedTheme, 'dark');
+  assert.equal(foundation.getResolvedTheme(), 'dark');
   const style = { opaque: true };
   state.props.style = style;
   state.props.css = '[data-voice-beam="{id}"] { --test: 1; }';
-  assert.match(state.css, /--test: 1/);
-  assert.match(state.css, /vg-contract/);
+  assert.match(foundation.getCss(), /--test: 1/);
+  assert.match(foundation.getCss(), /vg-contract/);
   assert.equal(state.props.style, style);
   state.props.level = () => {
     throw Error('must stay lazy');
   };
-  assert.equal(state.driverConfig.sensitivity, 3.1);
+  assert.equal(foundation.getDriverConfig().sensitivity, 3.1);
   foundation.connectDriver(() => {
     throw Error('no wrapper');
   });
 });
 test('VoiceGlow geometry copies defaults and retains explicit numeric zero and clamp rules', () => {
-  const { state } = fixture();
-  const defaults = state.defaults;
+  const { state, foundation } = fixture();
+  const defaults = foundation.getDefaults();
   state.props.scale = 0;
   state.props.flow = 0;
   state.props.glowWidth = 0;
   state.props.coreLight = 9;
   state.props.borderRadius = 0;
-  assert.equal(state.scale, 0.05);
-  assert.equal(state.geometry.flow, 0);
-  assert.equal(state.geometry.glowWidth, 0);
-  assert.equal(state.coreLight, 3);
-  assert.equal(state.radius, 0);
-  assert.notEqual(state.geometry, defaults);
+  assert.equal(foundation.getScale(), 0.05);
+  assert.equal(foundation.getGeometry().flow, 0);
+  assert.equal(foundation.getGeometry().glowWidth, 0);
+  assert.equal(foundation.getCoreLight(), 3);
+  assert.equal(foundation.getRadius(), 0);
+  assert.notEqual(foundation.getGeometry(), defaults);
   assert.notEqual(defaults.glowWidth, 0);
   state.props.colorVariant = 'mono';
-  assert.equal(state.driverConfig.staticColors, true);
+  assert.equal(foundation.getDriverConfig().staticColors, true);
   state.props.hueRange = 0;
-  assert.equal(state.driverConfig.hueRange, 0);
+  assert.equal(foundation.getDriverConfig().hueRange, 0);
 });
 test('VoiceGlow uses original palette fallback and processing driver settings', () => {
-  const { state } = fixture();
+  const { state, foundation } = fixture();
   state.props.theme = 'light';
   state.props.bandColors = { core: '#abc', above: 'unsupported' };
-  assert.equal(state.bandColors.core, '170, 187, 204');
-  assert.equal(state.bandColors.above, '255, 122, 182');
+  assert.equal(foundation.getBandColors().core, '170, 187, 204');
+  assert.equal(foundation.getBandColors().above, '255, 122, 182');
   state.props.processing = true;
   state.props.paused = true;
-  assert.equal(state.driverConfig.processing, true);
-  assert.equal(state.driverConfig.paused, true);
-  assert.equal(state.driverConfig.theme, 'light');
-  assert.equal(state.driverConfig.radius, 16);
+  assert.equal(foundation.getDriverConfig().processing, true);
+  assert.equal(foundation.getDriverConfig().paused, true);
+  assert.equal(foundation.getDriverConfig().theme, 'light');
+  assert.equal(foundation.getDriverConfig().radius, 16);
 });
 test('VoiceGlow fade callbacks reject descendants and pseudo-elements before exact instance names', () => {
   const { state, foundation, env, events } = fixture(true);
@@ -209,7 +170,7 @@ test('VoiceGlow radius mount retains zero fallback and bloom-parent lookup', asy
   );
 });
 test('VoiceGlow style node is inserted before wrapper, updated only after mount, removed on dispose', async () => {
-  const { state, foundation, env } = fixture();
+  const { foundation, env } = fixture();
   let inserted: unknown;
   let removed = 0,
     created = 0;
@@ -238,7 +199,7 @@ test('VoiceGlow style node is inserted before wrapper, updated only after mount,
       assert.equal(created, 0);
       foundation.mountStyle();
       assert.equal(inserted, element);
-      assert.equal(element.textContent, state.css);
+      assert.equal(element.textContent, foundation.getCss());
       foundation.syncCss('updated');
       assert.equal(element.textContent, 'updated');
       foundation.disposeStyle();

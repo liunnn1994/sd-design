@@ -1,0 +1,23 @@
+{
+  "events": [
+    {
+      "name": "focusin",
+      "tag": "INPUT",
+      "className": "sd-input sd-input-size-medium",
+      "expanded": "false"
+    },
+    {
+      "name": "click",
+      "tag": "INPUT",
+      "className": "sd-input sd-input-size-medium",
+      "expanded": "false"
+    },
+    {
+      "name": "focusout",
+      "tag": "INPUT",
+      "className": "sd-input sd-input-size-medium",
+      "expanded": "true"
+    }
+  ],
+  "expanded": "true"
+}

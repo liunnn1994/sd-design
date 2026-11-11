@@ -693,7 +693,7 @@ test('range invalid input and incomplete enter retain drafts and route focus wit
   assert.deepEqual(state.input, ['bad']);
   assert.equal(state.process, undefined);
   foundation.onInputChange('');
-  assert.equal(state.input, undefined);
+  assert.deepEqual(state.input, ['']);
   foundation.onInputChange('2024-02-01 09:00:00');
   assert.equal(state.process?.[0]?.date(), 1);
   foundation.onInputPressEnter();
@@ -702,6 +702,26 @@ test('range invalid input and incomplete enter retain drafts and route focus wit
     events.some((item) => item[0] === 'update'),
     false,
   );
+});
+
+test('range empty editing drafts preserve the opposite endpoint without changing the model', () => {
+  for (const focused of [0, 1]) {
+    const { state, events, foundation } = range();
+    state.selected = [date('2024-02-01'), date('2024-02-20')];
+    state.focused = focused;
+    foundation.onInputChange('');
+    assert.deepEqual(
+      state.input,
+      focused === 0 ? ['', '2024-02-20 00:00:00'] : ['2024-02-01 00:00:00', ''],
+    );
+    assert.deepEqual(formatted(state.selected), ['2024-02-01 00:00:00', '2024-02-20 00:00:00']);
+    assert.equal(
+      events.some((event) => event[0] === 'update'),
+      false,
+    );
+    foundation.onVisibilityChange(false);
+    assert.equal(state.input, undefined);
+  }
 });
 
 test('range time edits retain date slots and preview leave resets input and headers after scheduling', () => {

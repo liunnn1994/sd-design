@@ -1,0 +1,8 @@
+@use '@sdata/web-core/styles/style/index.scss';
+@use './button.scss';
+@use './input.scss';
+@use './modal.scss';
+@use './empty.scss';
+@use './scrollbar.scss';
+@use './divider.scss';
+@forward '@sdata/web-core/styles/model-selector/style/index.scss';

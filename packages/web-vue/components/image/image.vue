@@ -358,7 +358,7 @@
   });
   watchEffect(() => {
     if (isServerRendering || !refImg.value) return;
-    foundation.syncSource();
+    foundation.syncSource(refImg.value);
   });
   let unregisterImage: (() => void) | undefined;
   watchEffect(() => {

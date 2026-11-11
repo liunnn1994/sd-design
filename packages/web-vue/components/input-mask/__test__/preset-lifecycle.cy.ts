@@ -12,6 +12,11 @@ const cases: Array<[InputMaskPresetName, string, string]> = [
 ];
 
 describe('InputMask preset user flows', () => {
+  it('preserves the date cursor during continuous rapid input', () => {
+    cy.mount(InputMask, { props: { preset: 'date' } });
+    cy.get('input').type('20261107', { delay: 0 }).should('have.value', '2026-11-07');
+  });
+
   for (const [preset, input, expected] of cases) {
     it(`accepts a complete ${preset} value through typing`, () => {
       cy.mount(InputMask, { props: { preset } });

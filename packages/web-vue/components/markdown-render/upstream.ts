@@ -1,5 +1,6 @@
 /**
- * markstream-vue@2.0.13 根入口兼容清单；升级时必须重新核查。
+ * markstream-vue@2.0.18 根入口兼容清单；升级时必须重新核查。
+ * 无框架的阈值、帧调度与 CDN Worker 工具复用 Core；其余条目保留原生上游绑定。
  *
  * 这里刻意不使用 `export *`：星号导出会把上游新增符号静默放行，
  * 也会在上游出现同名符号时被 ESM 静默丢弃，两种情况都不会报错。
@@ -13,8 +14,6 @@ export {
   BLOCKED_HTML_TAG_NAMES,
   BLOCKED_HTML_TAGS,
   BlockquoteNode,
-  buildKaTeXCDNWorkerSource,
-  buildMermaidCDNWorkerSource,
   canParseOffthread,
   CheckboxNode,
   clearGlobalCustomComponents,
@@ -25,12 +24,9 @@ export {
   CodeBlockNode,
   convertHtmlAttrsToProps,
   convertHtmlPropValue,
-  createKaTeXWorkerFromCDN,
-  createMermaidWorkerFromCDN,
   D2BlockNode,
   DANGEROUS_HTML_ATTR_NAMES,
   DANGEROUS_HTML_ATTRS,
-  defaultRByClass,
   DefinitionListNode,
   disableD2,
   disableInfographic,
@@ -45,7 +41,6 @@ export {
   enableMermaid,
   enablePerfMonitoring,
   ESCAPED_TEX_BRACE_COMMANDS,
-  estimateRByFormula,
   EXTENDED_STANDARD_HTML_TAG_NAMES,
   EXTENDED_STANDARD_HTML_TAGS,
   findMatchingClose,
@@ -118,8 +113,6 @@ export {
   preloadCodeBlockRuntime,
   preloadExtendedLanguageIcons,
   processTokens,
-  recommendNForSamples,
-  recommendWorkerThreshold,
   ReferenceNode,
   registerIconTheme,
   registerMarkdownPlugin,
@@ -129,8 +122,6 @@ export {
   resolveCustomHtmlTags,
   resolveLanguageId,
   SAFE_ALLOWED_HTML_TAGS,
-  safeCancelRaf,
-  safeRaf,
   sanitizeHtmlAttrs,
   sanitizeHtmlContent,
   sanitizeHtmlTokenAttrs,
@@ -217,9 +208,6 @@ export type {
   InfographicBlockNodeProps,
   InfographicLoader,
   InlineNode,
-  KaTeXCDNWorkerHandle,
-  KaTeXCDNWorkerMode,
-  KaTeXCDNWorkerOptions,
   KatexLoader,
   LanguageIconResolver,
   LinkNodeProps,
@@ -266,9 +254,6 @@ export type {
   MathOptions,
   MermaidBlockEvent,
   MermaidBlockNodeProps,
-  MermaidCDNWorkerHandle,
-  MermaidCDNWorkerMode,
-  MermaidCDNWorkerOptions,
   MermaidLoader,
   NodeRendererDomMode,
   NodeRendererMode,
@@ -283,9 +268,30 @@ export type {
   StreamDiffsWorkerPoolLike,
   TableCellNode,
   TableRowNode,
-  ThresholdInput,
   TransformTokensHook,
   UnknownNode,
   UseMarkstreamVirtualAdapterOptions,
 } from 'markstream-vue';
 export { default } from 'markstream-vue';
+export {
+  defaultRByClass,
+  estimateRByFormula,
+  recommendNForSamples,
+  recommendWorkerThreshold,
+  type ThresholdInput,
+} from '@sdata/web-core/markdown/katex-threshold';
+export { safeCancelRaf, safeRaf } from '@sdata/web-core/markdown/safe-raf';
+export {
+  buildKaTeXCDNWorkerSource,
+  createKaTeXWorkerFromCDN,
+  type KaTeXCDNWorkerHandle,
+  type KaTeXCDNWorkerMode,
+  type KaTeXCDNWorkerOptions,
+} from '@sdata/web-core/markdown/katex-cdn-worker';
+export {
+  buildMermaidCDNWorkerSource,
+  createMermaidWorkerFromCDN,
+  type MermaidCDNWorkerHandle,
+  type MermaidCDNWorkerMode,
+  type MermaidCDNWorkerOptions,
+} from '@sdata/web-core/markdown/mermaid-cdn-worker';

@@ -1,0 +1,124 @@
+---
+title: 暗黑模式
+description: 组件库内置暗色的主题，你可以轻易的切换到暗色。
+---
+
+## 切换到暗黑模式
+
+组件库通过带有 `sd-theme` 属性的主题容器来标明当前模式。最外层应用可以继续直接修改 `body`，但从现在开始，你也可以在任意局部容器上切换暗黑模式。
+
+```ts
+document.body.setAttribute('sd-theme', 'dark');
+
+document.body.removeAttribute('sd-theme');
+```
+
+## 局部暗黑模式
+
+如果你只想让某个区域进入暗黑模式，可以直接给容器设置 `sd-theme`：
+
+```html
+<section sd-theme="dark">
+  <!-- 这个容器里的组件会使用暗黑模式变量 -->
+</section>
+```
+
+更推荐的方式是通过 `ThemeProvider` 或 `ConfigProvider` 统一管理局部主题模式和运行时 theme 对象：
+
+<Framework only="vue">
+
+```vue
+<template>
+  <sd-theme-provider theme-mode="dark">
+    <sd-card title="局部暗黑模式">
+      <sd-alert type="success">这里会使用当前容器的暗色语义变量。</sd-alert>
+    </sd-card>
+  </sd-theme-provider>
+</template>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { ThemeProvider, Card, Alert } from '@sdata/web-react';
+
+<ThemeProvider themeMode="dark">
+  <Card title="局部暗黑模式">
+    <Alert type="success">这里会使用当前容器的暗色语义变量。</Alert>
+  </Card>
+</ThemeProvider>;
+```
+
+</Framework>
+
+如果同时还需要 locale、rtl、size 等全局配置，再使用 `ConfigProvider`：
+
+<Framework only="vue">
+
+```vue
+<template>
+  <sd-config-provider theme-mode="dark" :theme="theme">
+    <sd-card title="局部暗黑模式">
+      <sd-alert type="success">这里会使用当前容器的暗色语义变量。</sd-alert>
+    </sd-card>
+  </sd-config-provider>
+</template>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { ConfigProvider, Card, Alert } from '@sdata/web-react';
+
+<ConfigProvider themeMode="dark" theme={theme}>
+  <Card title="局部暗黑模式">
+    <Alert type="success">这里会使用当前容器的暗色语义变量。</Alert>
+  </Card>
+</ConfigProvider>;
+```
+
+</Framework>
+
+`theme-mode="dark"` 会在当前子树内创建一个真正的主题容器。它不仅会切换 `sd-theme`，也会把当前 `theme` 对象对应的 CSS variables 一起分发到这个子树。
+
+## 原理和内置颜色
+
+### 基础色与模式保持一致
+
+`theme-mode` 的优先级高于 `theme.algorithm`；未指定模式时继承祖先主题。`compact` 只调整尺寸，不会将暗色改回浅色。`seed` 色板按最终生效的模式重新派生，局部浮层也同步更新。
+
+<Framework only="vue">
+
+```vue
+<sd-config-provider theme-mode="dark" :theme="{ seed: { primary: '#1476ff' } }">
+  <sd-config-provider :theme="{ algorithm: ['compact'] }">
+    <sd-button type="primary">继承暗色的紧凑按钮</sd-button>
+  </sd-config-provider>
+</sd-config-provider>
+```
+
+</Framework>
+
+<Framework only="react">
+
+```tsx
+import { ConfigProvider, Button } from '@sdata/web-react';
+
+<ConfigProvider themeMode="dark" theme={{ seed: { primary: '#1476ff' } }}>
+  <ConfigProvider theme={{ algorithm: ['compact'] }}>
+    <Button type="primary">继承暗色的紧凑按钮</Button>
+  </ConfigProvider>
+</ConfigProvider>;
+```
+
+</Framework>
+
+背景、填充、边框与文字使用对应的语义 token（如 `--sd-color-bg-2`、`--sd-color-fill-2`、`--sd-color-text-1`）。不要把浅色模式解析后的颜色批量写入 `tokens`：显式 `tokens` / `components` 是用户覆盖，切换模式时不会自动删除或反转它们。如果导入旧主题后仍有白底，请在编辑器高级模式中重置相应覆盖，或重新选择内置预设。
+
+主题编辑器的内置预设只保存基础色、尺寸和算法，背景与中性色由库的明暗语义层提供，因此可以双向切换而不残留另一模式的颜色。
+
+可参考 [定制主题](/guides/theme/) 与 [主题编辑器](/guides/theme-editor/)。

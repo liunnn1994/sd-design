@@ -15,7 +15,7 @@ export interface StepsState {
   onClick(step: number, event: Event): void;
 }
 
-export function createSteps(adapter: {
+export function createSteps<Key = number>(adapter: {
   readonly props: {
     type: StepsType;
     direction: Direction;
@@ -24,7 +24,7 @@ export function createSteps(adapter: {
     changeable: boolean;
   };
   readonly current: number;
-  readonly registry: Map<number, StepData>;
+  readonly registry: Map<Key, StepData>;
   setInner(step: number): void;
   onUpdate(step: number): void;
   onChange(step: number, event: Event): void;
@@ -59,10 +59,10 @@ export function createSteps(adapter: {
         .filter((item) => item.status === 'error')
         .map((item) => item.step);
     },
-    add(id: number, data: StepData) {
+    add(id: Key, data: StepData) {
       adapter.registry.set(id, data);
     },
-    remove(id: number) {
+    remove(id: Key) {
       adapter.registry.delete(id);
     },
   };

@@ -43,20 +43,24 @@ export function createKvListFoundation(state: KvListState) {
 
   function addItem() {
     if (state.disabled) return;
-    state.rows.push(createWorkingItem({ key: '', value: '' }));
+    state.rows = [...state.rows, createWorkingItem({ key: '', value: '' })];
     // 空键行仍会被 normalizeKvList 过滤，commit 仅用于保持两个模型与行列表一致
     commitRows();
   }
 
   function updateItem(index: number, item: KvListWorkingItem) {
     if (state.disabled) return;
-    state.rows[index] = item;
+    const next = [...state.rows];
+    next[index] = item;
+    state.rows = next;
     commitRows();
   }
 
   function removeItem(index: number) {
     if (state.disabled) return;
-    state.rows.splice(index, 1);
+    const next = [...state.rows];
+    next.splice(index, 1);
+    state.rows = next;
     if (state.rows.length === 0) {
       addItem();
     }

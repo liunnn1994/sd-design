@@ -36,8 +36,16 @@ export function createImageFoundation(adapter: {
     adapter.setPreviewVisible(value);
   }
   return {
-    syncSource() {
-      adapter.setLoadStatus(adapter.src ? 'loading' : 'beforeLoad');
+    syncSource(image?: Pick<HTMLImageElement, 'complete' | 'naturalWidth'>) {
+      adapter.setLoadStatus(
+        !adapter.src
+          ? 'beforeLoad'
+          : image?.complete
+            ? image.naturalWidth > 0
+              ? 'loaded'
+              : 'error'
+            : 'loading',
+      );
     },
     loaded() {
       if (adapter.src) adapter.setLoadStatus('loaded');
@@ -64,14 +72,17 @@ export function getPreviewActions<Action extends { key: string }>(
     .filter((item) => included.has(item.key))
     .sort((pre, cur) => (layout.indexOf(pre.key) > layout.indexOf(cur.key) ? 1 : -1));
 }
-export function activatePreviewAction(
+export function activatePreviewAction<Event>(
   disabled: boolean,
-  event: MouseEvent,
-  notify: (event: MouseEvent) => void,
+  event: Event,
+  notify: (event: Event) => void,
 ) {
   if (!disabled) notify(event);
 }
-export function activatePreviewArrow(event: MouseEvent, callback: (() => void) | undefined) {
+export function activatePreviewArrow(
+  event: Pick<MouseEvent, 'preventDefault'>,
+  callback: (() => void) | undefined,
+) {
   event.preventDefault();
   if (callback) callback();
 }

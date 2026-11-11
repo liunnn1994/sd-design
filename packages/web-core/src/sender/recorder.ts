@@ -148,6 +148,7 @@ export function createSenderRecorder(
     trigger,
     mount() {
       mounted = true;
+      disposed = false;
       if (state.config) checkSupport();
     },
     syncEnabled(enabled: boolean) {

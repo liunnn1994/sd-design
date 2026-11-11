@@ -79,6 +79,29 @@ test('image source state, grouped opening and event-before-local writes preserve
   });
 });
 
+test('image source synchronization recovers completed hydration loads without native events', () => {
+  let src: string | undefined = 'cached-image';
+  const statuses: string[] = [];
+  const foundation = createImageFoundation({
+    get src() {
+      return src;
+    },
+    preview: true,
+    groupPreview: false,
+    id: 0,
+    setLoadStatus: (value) => statuses.push(value),
+    previewGroup() {},
+    onPreviewVisibleChange() {},
+    setPreviewVisible() {},
+  });
+  foundation.syncSource({ complete: true, naturalWidth: 640 });
+  foundation.syncSource({ complete: true, naturalWidth: 0 });
+  foundation.syncSource({ complete: false, naturalWidth: 0 });
+  src = undefined;
+  foundation.syncSource({ complete: true, naturalWidth: 0 });
+  assert.deepEqual(statuses, ['loaded', 'error', 'loading', 'beforeLoad']);
+});
+
 function group() {
   const registered = new Map<number, PreviewImage>();
   const state = {

@@ -1,0 +1,33 @@
+{
+  "value": "0.75|0.50|0.50",
+  "trace": [
+    {
+      "kind": "cancel",
+      "id": 0,
+      "stack": "Error\n    at win.cancelAnimationFrame (http://127.0.0.1:5191/__cypress/tests?p=tests\\browser\\color-control-diagnostic.cy.js:28:31)\n    at throttle.cancel (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/_utils/throttle-by-raf.js:14:9)\n    at Object.dispose (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/color-picker/control.js:47:20)\n    at http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-react/src/color-picker/use-control.ts:21:38\n    at Object.react_stack_bottom_frame (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:14182:5)\n    at runWithFiberInDEV (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:944:66)\n    at commitHookEffectListUnmount (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:6926:149)\n    at commitHookLayoutUnmountEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:6892:55)\n    at disappearLayoutEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:8156:6)\n    at recursivelyTraverseDisappearLayoutEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:8198:65)"
+    },
+    {
+      "kind": "cancel",
+      "id": 0,
+      "stack": "Error\n    at win.cancelAnimationFrame (http://127.0.0.1:5191/__cypress/tests?p=tests\\browser\\color-control-diagnostic.cy.js:28:31)\n    at throttle.cancel (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/_utils/throttle-by-raf.js:14:9)\n    at Object.dispose (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/color-picker/control.js:47:20)\n    at http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-react/src/color-picker/use-control.ts:21:38\n    at Object.react_stack_bottom_frame (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:14182:5)\n    at runWithFiberInDEV (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:944:66)\n    at commitHookEffectListUnmount (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:6926:149)\n    at commitHookLayoutUnmountEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:6892:55)\n    at disappearLayoutEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:8156:6)\n    at recursivelyTraverseDisappearLayoutEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:8198:65)"
+    },
+    {
+      "kind": "cancel",
+      "id": 0,
+      "stack": "Error\n    at win.cancelAnimationFrame (http://127.0.0.1:5191/__cypress/tests?p=tests\\browser\\color-control-diagnostic.cy.js:28:31)\n    at throttle.cancel (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/_utils/throttle-by-raf.js:14:9)\n    at Object.dispose (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/color-picker/control.js:47:20)\n    at http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-react/src/color-picker/use-control.ts:21:38\n    at Object.react_stack_bottom_frame (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:14182:5)\n    at runWithFiberInDEV (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:944:66)\n    at commitHookEffectListUnmount (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:6926:149)\n    at commitHookLayoutUnmountEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:6892:55)\n    at disappearLayoutEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:8156:6)\n    at recursivelyTraverseDisappearLayoutEffects (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:8198:65)"
+    },
+    {
+      "kind": "down",
+      "target": "sd-color-picker-control-bar sd-color-picker-control-bar-hue"
+    },
+    {
+      "kind": "queue",
+      "id": 1,
+      "stack": "Error\n    at win.requestAnimationFrame (http://127.0.0.1:5191/__cypress/tests?p=tests\\browser\\color-control-diagnostic.cy.js:20:31)\n    at throttle (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/_utils/throttle-by-raf.js:8:17)\n    at position (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/color-picker/control.js:21:13)\n    at down (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-core/dist/color-picker/control.js:40:13)\n    at onMouseDown (http://127.0.0.1:5191/@fs/D:/work/sd-design/packages/web-react/src/color-picker/controls.tsx:40:27)\n    at executeDispatch (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:9906:5)\n    at runWithFiberInDEV (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:944:66)\n    at processDispatchQueue (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:9932:27)\n    at http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:10201:5\n    at batchedUpdates$1 (http://127.0.0.1:5191/node_modules/.vite-cascader-view/deps/react-dom_client.js?v=67352552:2145:12)"
+    },
+    {
+      "kind": "run",
+      "id": 1
+    }
+  ]
+}

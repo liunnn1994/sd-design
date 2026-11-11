@@ -315,7 +315,10 @@ describe('首页中央输入面板', () => {
 
   it('Agent 分组菜单在明暗主题下完整显示', () => {
     cy.get('.home-workbench [aria-label="选择工作方式"]').click();
-    cy.contains('[role="menuitem"]', 'React').should('have.attr', 'aria-disabled', 'true');
+    cy.contains('[role="menuitem"]', 'React')
+      .should('not.have.attr', 'aria-disabled', 'true')
+      .find('a')
+      .should('have.attr', 'href', '/react/');
     cy.contains('[role="menuitem"]', 'Vue 3').should('be.visible');
     captureWorkbench('workbench-agent-light');
     cy.contains('[role="menuitem"]', '提问').click();

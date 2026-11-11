@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { Middleware, ReferenceElement, VirtualElement } from '@floating-ui/vue';
+  import type { ReferenceElement, VirtualElement } from '@floating-ui/vue';
   import type { Simplify } from 'type-fest';
 
   import type { ComponentPublicInstance, CSSProperties, Ref, VNodeChild } from 'vue';
@@ -73,7 +73,8 @@
     watch,
   } from 'vue';
 
-  import { arrow, autoUpdate, flip, offset, shift, size, useFloating } from '@floating-ui/vue';
+  import { autoUpdate, useFloating } from '@floating-ui/vue';
+  import { createTriggerMiddleware } from '@sdata/web-core/trigger/floating';
   import { createTriggerFoundation } from '@sdata/web-core/trigger/foundation';
   import {
     toFloatingPlacement,
@@ -255,40 +256,7 @@
     props.alignPoint ? pointReference : (firstElement.value ?? null),
   );
   const floatingElement = computed(() => (computedVisible.value ? popupRef.value : null));
-  const legacyMiddleware = computed<Middleware[]>(() => {
-    const middleware: Middleware[] = [offset(props.popupOffset)];
-    const translate = Array.isArray(props.popupTranslate)
-      ? props.popupTranslate
-      : props.popupTranslate?.[props.position];
-    if (translate) {
-      middleware.push({
-        name: 'sdTriggerTranslate',
-        options: translate,
-        fn: ({ x, y }) => ({ x: x + translate[0], y: y + translate[1] }),
-      });
-    }
-    const padding = props.autoFitPopupSize ? 8 : 0;
-    if (props.autoFitPosition) middleware.push(flip({ padding }), shift({ padding }));
-    if (props.autoFitPopupSize) {
-      middleware.push(
-        size({
-          padding,
-          apply({ availableWidth, availableHeight, elements }) {
-            elements.floating.style.setProperty(
-              '--sd-trigger-available-width',
-              `${Math.max(0, availableWidth)}px`,
-            );
-            elements.floating.style.setProperty(
-              '--sd-trigger-available-height',
-              `${Math.max(0, availableHeight)}px`,
-            );
-          },
-        }),
-      );
-    }
-    if (props.showArrow) middleware.push(arrow({ element: arrowRef }));
-    return middleware;
-  });
+  const legacyMiddleware = computed(() => createTriggerMiddleware(props, arrowRef.value));
   const defaultWhileElementsMounted: NonNullable<FloatingOptions['whileElementsMounted']> = (
     reference,
     floating,

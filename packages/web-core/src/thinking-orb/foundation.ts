@@ -86,8 +86,8 @@ export function createThinkingOrbFoundation(state: ThinkingOrbFoundationState) {
     const observer =
       typeof IntersectionObserver === 'undefined'
         ? undefined
-        : new IntersectionObserver(([entry]) => {
-            visible = entry?.isIntersecting ?? false;
+        : new IntersectionObserver((entries) => {
+            visible = entries.at(-1)?.isIntersecting ?? false;
             if (visible && document.visibilityState !== 'hidden') start();
             else stop();
           });

@@ -1,0 +1,165 @@
+@use './markdown-render/upstream.css';
+@use '@sdata/web-core/styles/style/index.scss';
+@use './typography.scss';
+@use './button.scss';
+@use './link.scss';
+@use './tooltip.scss';
+@use './checkbox.scss';
+@use './alert.scss';
+@use './image.scss';
+@use './divider.scss';
+@forward '@sdata/web-core/styles/markdown-render/style/index.scss';
+
+// React's utility defaults must consume the same native-node tokens as Vue.
+.markstream-react.markdown-renderer {
+  --code-header-bg: hsl(var(--ms-secondary, 0 0% 93.5%));
+  --diff-added-fg: hsl(var(--ms-diff-added, 152 50% 36%));
+  --diff-removed-fg: hsl(var(--ms-diff-removed, 0 58% 48%));
+  --diff-added-bg: hsl(var(--ms-diff-added, 152 50% 36%) / 10%);
+  --diff-removed-bg: hsl(var(--ms-diff-removed, 0 58% 48%) / 10%);
+
+  &.dark {
+    --code-header-bg: hsl(var(--ms-muted, 0 0% 12%));
+    --diff-added-fg: hsl(var(--ms-diff-added, 152 42% 60%));
+    --diff-removed-fg: hsl(var(--ms-diff-removed, 0 58% 58%));
+    --diff-added-bg: hsl(var(--ms-diff-added, 152 42% 60%) / 10%);
+    --diff-removed-bg: hsl(var(--ms-diff-removed, 0 58% 58%) / 10%);
+  }
+
+  .paragraph-node {
+    margin: var(--ms-flow-paragraph-y, 1.5em) 0;
+    font-size: var(--ms-text-body);
+    line-height: var(--ms-leading-body);
+  }
+
+  .list-item {
+    margin: var(--ms-flow-list-item-y, 0.25em) 0;
+    /* stylelint-disable-next-line custom-property-pattern -- Pinned upstream token name. */
+    padding-left: var(--ms-space-1_5, 0.375rem);
+  }
+
+  .list-item > .paragraph-node {
+    margin: 0;
+  }
+
+  .list-node {
+    margin-top: var(--ms-flow-list-y, 1em);
+    margin-bottom: var(--ms-flow-list-y, 1em);
+    padding-left: var(--ms-flow-list-indent, 1.625em);
+  }
+
+  @media (width <= 1023px) {
+    .list-node.list-disc {
+      margin-top: calc(4 / 3 * 1em);
+      margin-bottom: calc(4 / 3 * 1em);
+      padding-left: var(--ms-flow-list-indent-mobile, calc(14 / 9 * 1em));
+    }
+  }
+
+  .heading-node {
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .heading-node.heading-1 {
+    margin-top: var(--ms-flow-heading-1-mt, 0);
+    margin-bottom: var(--ms-flow-heading-1-mb, 1em);
+    font-weight: var(--ms-weight-h1, 700);
+    font-size: var(--ms-text-h1, 2.25rem);
+    line-height: var(--ms-leading-h1, 1.2);
+  }
+
+  .heading-node.heading-2 {
+    margin-top: var(--ms-flow-heading-2-mt, 2em);
+    margin-bottom: var(--ms-flow-heading-2-mb, 0.75em);
+    font-weight: var(--ms-weight-h2, 600);
+    font-size: var(--ms-text-h2, 1.5rem);
+    line-height: var(--ms-leading-h2, 1.35);
+  }
+
+  .heading-node.heading-3 {
+    margin-top: var(--ms-flow-heading-3-mt, 1.5em);
+    margin-bottom: var(--ms-flow-heading-3-mb, 0.6em);
+    font-weight: var(--ms-weight-h3, 600);
+    font-size: var(--ms-text-h3, 1.25rem);
+    line-height: var(--ms-leading-h3, 1.5);
+  }
+
+  .heading-node.heading-4 {
+    margin-top: var(--ms-flow-heading-4-mt, 1.25em);
+    margin-bottom: var(--ms-flow-heading-4-mb, 0.4em);
+    font-weight: var(--ms-weight-h4, 600);
+    font-size: var(--ms-text-h4, 1rem);
+  }
+
+  .heading-node.heading-5 {
+    margin-top: var(--ms-flow-heading-5-mt, 1em);
+    margin-bottom: var(--ms-flow-heading-5-mb, 0.25em);
+    font-size: var(--ms-text-h5, 1rem);
+  }
+
+  .heading-node.heading-6 {
+    margin-top: var(--ms-flow-heading-6-mt, 1em);
+    margin-bottom: var(--ms-flow-heading-6-mb, 0.25em);
+    font-size: var(--ms-text-h6, 1rem);
+  }
+}
+
+.markstream-react.markdown-renderer.virtualized .node-content,
+.markstream-react.markdown-renderer.virtual-scroll-coordinated .node-content {
+  display: flow-root;
+}
+
+.markstream-react.markdown-renderer.virtualized,
+.markstream-react.markdown-renderer.virtual-scroll-coordinated {
+  overflow-anchor: none;
+}
+
+.markstream-react .height-estimation-probes {
+  position: absolute;
+  top: 0;
+  left: -100000px;
+  z-index: -1;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.markstream-react .fade-enter-from {
+  opacity: 0;
+}
+
+.markstream-react .fade-enter-active {
+  transition: opacity var(--fade-duration, 0.28s) var(--fade-ease, cubic-bezier(0.33, 0, 0.67, 1));
+  will-change: opacity;
+}
+
+.markstream-react .fade-enter-to {
+  opacity: 1;
+}
+
+.markstream-react .text-node-stream-delta {
+  animation-duration: var(--stream-update-fade-duration, var(--fade-duration, 0.2s));
+  animation-timing-function: var(
+    --stream-update-fade-ease,
+    var(--fade-ease, cubic-bezier(0.2, 0, 0.4, 1))
+  );
+}
+
+.markstream-react.typewriter-simple-cursor .typewriter-simple-cursor-target::after {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.08em;
+  vertical-align: -0.12em;
+  border-right: 2px solid currentcolor;
+  animation: markstream-react-typewriter-cursor-blink 1s steps(1, end) infinite;
+  content: '';
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .markstream-react.typewriter-simple-cursor .typewriter-simple-cursor-target::after {
+    animation: none;
+  }
+}

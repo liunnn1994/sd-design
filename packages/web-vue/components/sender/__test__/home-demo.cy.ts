@@ -1,6 +1,12 @@
-import HomeAIExamples from '../../../../sd-vue-docs/src/components/home/HomeAIExamples.vue';
+import HomeContentExample from '../../../../sd-vue-docs/src/components/home/HomeContentExample.vue';
+import HomeFeedbackExample from '../../../../sd-vue-docs/src/components/home/HomeFeedbackExample.vue';
 import HomeFramework from '../../../../sd-vue-docs/src/components/home/HomeFramework.vue';
 import HomeInputExample from '../../../../sd-vue-docs/src/components/home/HomeInputExample.vue';
+
+const HomeAIExamples = {
+  components: { HomeInputExample, HomeContentExample, HomeFeedbackExample },
+  template: '<div><HomeInputExample /><HomeContentExample /><HomeFeedbackExample /></div>',
+};
 
 function mockLocalWorker(
   mode: 'reply' | 'loading' | 'failure' | 'generating' = 'reply',
@@ -73,8 +79,14 @@ function mockLocalWorker(
 
 describe('首页 WebLLM 本地聊天', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/llms/llms.txt', {
-      body: '# SD Design\n- [SD Design](https://sd-design.js.org/): 为 AI 而生的组件库。\n- [对话输入框 Sender](https://sd-design.js.org/llms/components/sender.md): 来自测试文档的 Sender 描述：聊天输入、提交、取消和结构化词槽。\n- [MarkdownRender](https://sd-design.js.org/llms/components/markdown-render.md): 呈现 Markdown 回答。',
+    // Cypress's internal /__cypress/src/ base bypasses cy.intercept; keep model tests offline.
+    cy.window().then((win) => {
+      cy.stub(win, 'fetch').resolves(
+        new win.Response(
+          '# SD Design\n- [SD Design](https://sd-design.js.org/): 为 AI 而生的组件库。\n- [对话输入框 Sender](https://sd-design.js.org/llms/components/sender.md): 来自测试文档的 Sender 描述：聊天输入、提交、取消和结构化词槽。\n- [MarkdownRender](https://sd-design.js.org/llms/components/markdown-render.md): 呈现 Markdown 回答。',
+          { status: 200 },
+        ),
+      );
     });
   });
 
@@ -249,16 +261,18 @@ describe('首页 WebLLM 本地聊天', () => {
 });
 
 describe('首页框架切换', () => {
-  it('自动循环切换且没有启停按钮，两种状态颜色不同', () => {
+  it('自动循环切换且没有启停按钮，React 为 Alpha 并保持原有颜色区分', () => {
     cy.mount(HomeFramework);
     cy.get('.home-framework button').should('not.exist');
     cy.get('.home-framework__window').should('contain.text', 'Vue');
+    cy.get('.home-framework .sd-tag').should('contain.text', '现在可用');
+    cy.get('.home-framework .sr-only').should('have.text', 'Vue 现在可用，React 处于 Alpha 阶段。');
     cy.get('.home-framework .sd-tag')
       .invoke('css', 'background-color')
       .then((vueColor) => {
         cy.get('.home-framework__window', { timeout: 6000 }).should('contain.text', 'React');
         cy.get('.home-framework .sd-tag')
-          .should('contain.text', '即将到来')
+          .should('contain.text', 'Alpha')
           .and(($tag) => {
             expect($tag.css('background-color')).not.to.equal(vueColor);
           });

@@ -19,8 +19,15 @@ function tour(
       {
         isConnected: true,
         style: { display: '' },
-        replaceChildren() {
-          calls.push(name);
+        childNodes: [
+          {
+            remove() {
+              calls.push(name);
+            },
+          },
+        ],
+        append(..._nodes: unknown[]) {
+          calls.push(`${name}:restore`);
         },
       },
     ]),
@@ -187,4 +194,28 @@ test('Tour unmount disconnects, cancels its pending frame, then destroys the unt
   const unmounted = tour();
   unmounted.f.dispose();
   assert.deepEqual(unmounted.calls, ['destroy']);
+});
+
+test('Tour switches slot ownership and restores native regions without repeated work', () => {
+  const { f, sync, adapter, calls, nodes } = tour();
+  f.connect();
+  sync();
+  adapter.slots.title = () => {};
+  adapter.slots.footer = () => {};
+  adapter.slots.progress = () => {};
+  f.syncSlots();
+  assert.deepEqual(calls, ['observe', 'title', 'footer']);
+  f.syncSlots();
+  assert.equal(calls.length, 3);
+  adapter.slots.footer = undefined;
+  f.syncSlots();
+  assert.deepEqual(calls.slice(-2), ['footer:restore', 'progress']);
+  assert.equal(nodes.footer.style.display, 'flex');
+  adapter.slots.title = undefined;
+  adapter.slots.progress = undefined;
+  f.syncSlots();
+  assert.deepEqual(calls.slice(-2), ['title:restore', 'progress:restore']);
+  assert.equal(nodes.title.style.display, '');
+  assert.equal(nodes.progress.style.display, '');
+  assert.equal(nodes.footer.style.display, '');
 });

@@ -15,6 +15,43 @@ function instance(run: (tour: TourExpose) => void) {
 }
 
 describe('Tour Vue slots', () => {
+  it('switches slot regions while open and restores native content and button handlers', () => {
+    const custom = shallowRef(false);
+    const footer = shallowRef(false);
+    const tour = shallowRef<TourExpose>();
+    cy.mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            Tour,
+            { ref: tour, steps, animate: false },
+            {
+              ...(custom.value ? { title: () => h('b', '自定义标题') } : {}),
+              ...(footer.value ? { footer: () => h('button', '自定义页脚') } : {}),
+            },
+          ),
+      }),
+    );
+    cy.then(() => tour.value!.drive());
+    cy.get('.driver-popover-title').should('have.text', '原生标题');
+    cy.then(() => {
+      custom.value = true;
+      footer.value = true;
+    });
+    cy.get('.driver-popover-title').should('have.text', '自定义标题');
+    cy.get('.driver-popover-footer').should('have.text', '自定义页脚');
+    cy.get('.driver-popover-next-btn').should('not.exist');
+    cy.then(() => {
+      custom.value = false;
+      footer.value = false;
+    });
+    cy.get('.driver-popover-title').should('have.text', '原生标题');
+    cy.get('.driver-popover-next-btn').click();
+    cy.get('.driver-popover-title').should('have.text', '第二步');
+    cy.then(() => tour.value!.destroy());
+    cy.get('.driver-popover').should('not.exist');
+  });
+
   it('renders slots inside a modal dialog and cleans them up on destroy', () => {
     cy.mount(Tour, {
       props: {

@@ -1,6 +1,16 @@
 import Textarea from '../index';
 
 describe('Textarea auto size updates', () => {
+  it('updates minimum rows without changing the value', () => {
+    cy.mount(Textarea, { props: { defaultValue: 'One', autoSize: { minRows: 2 } } });
+    cy.get('textarea')
+      .should('have.css', 'resize', 'none')
+      .invoke('outerHeight')
+      .then((height) => {
+        cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ autoSize: { minRows: 4 } }));
+        cy.get('textarea').invoke('outerHeight').should('be.greaterThan', height!);
+      });
+  });
   it('recalculates the height when maxRows changes without input', () => {
     cy.mount(Textarea, {
       props: { defaultValue: 'One\nTwo\nThree\nFour\nFive', autoSize: { maxRows: 5 } },

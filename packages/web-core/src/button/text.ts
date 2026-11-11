@@ -3,6 +3,19 @@ export interface ButtonTextState {
   isTwoCNChar: boolean;
 }
 
+export function getButtonText(element: HTMLElement | null | undefined): string {
+  if (!element) return '';
+  const walker = element.ownerDocument.createTreeWalker(element, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node) =>
+      node.parentElement?.closest('[data-ellipsis-measure]')
+        ? NodeFilter.FILTER_REJECT
+        : NodeFilter.FILTER_ACCEPT,
+  });
+  let text = '';
+  while (walker.nextNode()) text += walker.currentNode.textContent;
+  return text;
+}
+
 export function createButtonTextFoundation(
   state: ButtonTextState,
   getText: () => string | null | undefined,

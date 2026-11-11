@@ -147,7 +147,8 @@
     }
   }
 
-  &:hover .#{$cls}-clear-btn {
+  &:hover .#{$cls}-clear-btn,
+  &:focus-within .#{$cls}-clear-btn {
     visibility: visible;
   }
 

@@ -1,0 +1,9 @@
+{
+  "spec": "time-picker.cy.ts",
+  "status": "finished",
+  "tests": 34,
+  "passed": 33,
+  "failed": 1,
+  "pending": 0,
+  "skipped": 0
+}

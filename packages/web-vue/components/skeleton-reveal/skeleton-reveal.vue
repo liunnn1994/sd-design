@@ -74,9 +74,10 @@
 
   import { nextTick, onBeforeUnmount, onMounted, shallowRef, useTemplateRef, watch } from 'vue';
 
+  import { animateSkeletonReveal } from '@sdata/web-core/skeleton-reveal/animation';
   import { createSkeletonRevealFoundation } from '@sdata/web-core/skeleton-reveal/foundation';
   import { uniqueId } from 'es-toolkit/compat';
-  import { animate, useReducedMotion } from 'motion-v';
+  import { useReducedMotion } from 'motion-v';
 
   import type { SkeletonRevealExposed, SkeletonRevealProps } from './types';
 
@@ -137,7 +138,7 @@
       box.value = value;
     },
     afterRender: () => nextTick(),
-    animate: (element, values, options) => animate(element, values, options),
+    animate: animateSkeletonReveal,
     onFinish: () => emit('finish'),
   });
   watch([() => disabled, reducedMotion], foundation.syncOptions);

@@ -1,5 +1,6 @@
-import { validateThemeConfig, normalizeTokenKey, type SdThemeConfig } from '@sdata/web-vue';
-export { validateThemeConfig } from '@sdata/web-vue';
+import { normalizeTokenKey, type SdThemeConfig } from '@sdata/web-core/config-provider/theme';
+import { validateThemeConfig } from '@sdata/web-core/config-provider/theme-config';
+export { validateThemeConfig } from '@sdata/web-core/config-provider/theme-config';
 
 export interface ThemeTokenMap {
   [key: string]: string | number;

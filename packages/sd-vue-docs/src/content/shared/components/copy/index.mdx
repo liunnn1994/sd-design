@@ -1,0 +1,60 @@
+---
+title: 复制 Copy
+description: 通过链接或按钮触发复制操作。
+---
+
+### 基本用法
+
+默认使用链接样式作为触发器，点击后把 `content` 写入剪贴板。
+
+复制成功后，默认图标会显示勾选反馈 2.5 秒，悬停提示同步显示“复制成功”。再次复制会重新计时。自定义 `icon` 插槽和 `tooltip` 文案仍优先采用传入内容。
+
+<Demo id="copy/basic" />
+
+### 按钮触发器
+
+通过 `component="button"` 切换为按钮样式，同时可以继续透传按钮组件支持的属性。
+
+<Demo id="copy/button" />
+
+### 自定义提示内容
+
+通过 `tooltip` 设置提示文案，也可以通过 `tooltip-props` 继续配置浮层位置等属性。
+
+<Demo id="copy/tooltip" />
+
+### 自定义图标
+
+通过 `icon` 插槽替换默认复制图标。
+
+<Demo id="copy/icon" />
+
+## API
+
+### `<copy>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 | 版本 |
+| --- | --- | --- | :-: | :-- |
+| content | 要复制的内容 | `string` | `''` |  |
+| tooltip | Tooltip 文案 | `string` | `'复制'` |  |
+| tooltip-props | Tooltip 组件属性 | [`Tooltip` Props](../tooltip) | `-` |  |
+| component | 触发复制的组件类型 | `'link' \| 'button'` | `'link'` |  |
+| text-inherit | 是否继承当前文本颜色，仅在 link 模式下生效 | `boolean` | `true` |  |
+| success-message | 复制成功提示文案 | `string` | `'复制成功'` |  |
+
+### `<copy>` 事件
+
+| 事件名 | 描述           | 参数            |
+| ------ | -------------- | --------------- |
+| copy   | 复制成功后触发 | value: `string` |
+
+### `<copy>` 插槽
+
+| 插槽名  | 描述             | 参数 |
+| ------- | ---------------- | ---- |
+| default | 触发器内容       | -    |
+| icon    | 自定义触发器图标 | -    |
+
+### 透传属性
+
+当 `component="link"` 时，会透传到 `Link` 组件；当 `component="button"` 时，会透传到 `Button` 组件，可继续使用对应组件支持的属性，例如 `status`、`type`、`disabled`、`loading`。

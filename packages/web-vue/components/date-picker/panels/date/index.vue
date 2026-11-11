@@ -36,6 +36,7 @@
       <TimePanel
         v-bind="mergedTimePanelProps"
         hide-footer
+        visible
         :value="value || isRange ? timePickerValue : undefined"
         :disabled="disabled"
         @select="onTimePanelSelect"

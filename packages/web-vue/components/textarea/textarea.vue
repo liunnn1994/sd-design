@@ -60,6 +60,7 @@
   } from 'vue';
 
   import { createTextInputFoundation } from '@sdata/web-core/text-input/foundation';
+  import { getTextareaAutoStyle, getTextareaHeightLimits } from '@sdata/web-core/textarea/size';
 
   import IconHover from '../_components/icon-hover.vue';
   import ResizeObserver from '../_components/resize-observer.vue';
@@ -74,7 +75,6 @@
   } from '../_hooks/use-readonly-tip';
   import { INPUT_EVENTS } from '../_utils/constant';
   import { getPrefixCls } from '../_utils/global-config';
-  import { isObject } from '../_utils/is';
   import { isActivationKey } from '../_utils/keyboard';
   import { omit } from '../_utils/omit';
   import pick from '../_utils/pick';
@@ -447,51 +447,14 @@
 
   let styleDeclaration: CSSStyleDeclaration;
 
-  const lineHeight = ref<number>(0);
-  const outerHeight = ref<number>(0);
-  const minHeight = computed(() => {
-    if (!isObject(props.autoSize) || !props.autoSize.minRows) {
-      return 0;
-    }
-    return props.autoSize.minRows * lineHeight.value + outerHeight.value;
-  });
-  const maxHeight = computed(() => {
-    if (!isObject(props.autoSize) || !props.autoSize.maxRows) {
-      return 0;
-    }
-    return props.autoSize.maxRows * lineHeight.value + outerHeight.value;
-  });
-
   const getMirrorStyle = () => {
     const styles = getSizeStyles(styleDeclaration);
-
-    lineHeight.value = Number.parseInt(styles['line-height'] || '0', 10);
-    outerHeight.value =
-      Number.parseInt(styles['border-width'] || '0', 10) * 2 +
-      Number.parseInt(styles['padding-top'] || '0', 10) +
-      Number.parseInt(styles['padding-bottom'] || '0', 10);
-
     mirrorStyle.value = styles;
-
     nextTick(() => {
-      const mirrorHeight = mirrorRef.value?.offsetHeight;
-
-      let height = mirrorHeight ?? 0;
-      let overflow = 'hidden';
-
-      if (minHeight.value && height < minHeight.value) {
-        height = minHeight.value;
-      }
-      if (maxHeight.value && height > maxHeight.value) {
-        height = maxHeight.value;
-        overflow = 'auto';
-      }
-
-      textareaStyle.value = {
-        height: `${height}px`,
-        resize: 'none',
-        overflow,
-      };
+      textareaStyle.value = getTextareaAutoStyle(
+        mirrorRef.value?.offsetHeight ?? 0,
+        getTextareaHeightLimits(styles, props.autoSize),
+      );
     });
   };
 

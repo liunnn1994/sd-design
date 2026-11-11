@@ -4,6 +4,12 @@ import Input, { InputGroup, InputPassword, InputSearch } from '../index';
 const fitWidthCssVar = getFitWidthCssVar('sd');
 
 describe('Input', () => {
+  it('keeps clear visible while keyboard focus moves from input to the clear control', () => {
+    cy.mount(Input, { props: { defaultValue: 'keyboard', allowClear: true } });
+    cy.get('input').focus();
+    cy.get('.sd-input-clear-btn').should('be.visible').focus().type('{enter}');
+    cy.get('input').should('have.value', '');
+  });
   it('should update value and emit on input', () => {
     cy.mount(Input);
     cy.get('input').type('test');

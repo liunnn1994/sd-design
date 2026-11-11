@@ -2,6 +2,8 @@ type DocRecord = Awaited<ReturnType<typeof createDocRecord>>;
 
 import { readFile, readdir } from 'node:fs/promises';
 import { basename, dirname, extname, relative, resolve, sep } from 'node:path';
+
+import type { DocsFramework } from '../../utils/framework-navigation';
 const docsRoot = resolve(process.cwd(), 'src/content/docs');
 const fallbackSiteUrl = 'https://sd-design.js.org';
 
@@ -101,7 +103,10 @@ async function createRawImportMap(filePath: string, fileText: string) {
 
   for (const match of fileText.matchAll(pattern)) {
     const [, localName, importPath] = match;
-    const resolvedPath = resolve(dirname(filePath), importPath.replace(/\?raw$/, ''));
+    const rawPath = importPath.replace(/\?raw$/, '');
+    const resolvedPath = rawPath.startsWith('/src/')
+      ? resolve(process.cwd(), rawPath.slice(1))
+      : resolve(dirname(filePath), rawPath);
     const sourceText = await readFile(resolvedPath, 'utf8');
 
     imports.set(localName, sourceText.trim());
@@ -135,7 +140,7 @@ async function replaceDemoBlocks(filePath: string, fileText: string, body: strin
 
 async function renderDocMarkdown(
   filePath: string,
-  options: { siteUrl?: string; inlineDemos?: boolean } = {},
+  options: { siteUrl?: string; inlineDemos?: boolean; framework?: DocsFramework } = {},
 ) {
   const fileText = await readFile(filePath, 'utf8');
   const { body } = parseFrontmatter(fileText);
@@ -152,16 +157,19 @@ function createDocUrl(siteUrl: string, routePath: string) {
   return routePath ? `${siteUrl}/${routePath}/` : `${siteUrl}/`;
 }
 
-function createLlmsComponentUrl(siteUrl: string, slug: string) {
-  return `${siteUrl}/llms/components/${slug}.md`;
+function createLlmsComponentUrl(siteUrl: string, slug: string, framework: DocsFramework) {
+  return `${siteUrl}/${framework === 'react' ? 'react/' : ''}llms/components/${slug}.md`;
 }
 
-async function createDocRecord(filePath: string, siteUrl: string) {
+async function createDocRecord(filePath: string, siteUrl: string, framework: DocsFramework) {
   const relativeFilePath = relative(docsRoot, filePath);
   const routePath = resolveRoute(relativeFilePath);
   const fileText = await readFile(filePath, 'utf8');
   const { data } = parseFrontmatter(fileText);
-  const routeSegments = routePath.split('/').filter(Boolean);
+  const routeSegments = routePath
+    .replace(/^react\/?/, '')
+    .split('/')
+    .filter(Boolean);
   const isComponent = routeSegments[0] === 'components' && routeSegments.length === 2;
   const llmsSlug = isComponent ? routeSegments[1] : null;
   const markdown = await renderDocMarkdown(filePath, { inlineDemos: isComponent });
@@ -171,7 +179,7 @@ async function createDocRecord(filePath: string, siteUrl: string) {
     filePath,
     isComponent,
     llmsSlug,
-    llmsUrl: llmsSlug ? createLlmsComponentUrl(siteUrl, llmsSlug) : null,
+    llmsUrl: llmsSlug ? createLlmsComponentUrl(siteUrl, llmsSlug, framework) : null,
     markdown,
     routePath,
     sourceUrl: createDocUrl(siteUrl, routePath),
@@ -187,24 +195,37 @@ function sortDocs(left: DocRecord, right: DocRecord) {
   return left.routePath.localeCompare(right.routePath, 'zh-CN');
 }
 
-export async function getLlmsCatalog(options: { siteUrl?: string; inlineDemos?: boolean } = {}) {
+export async function getLlmsCatalog(
+  options: { siteUrl?: string; inlineDemos?: boolean; framework?: DocsFramework } = {},
+) {
   const siteUrl = normalizeSiteUrl(options.siteUrl);
-  const filePaths = await walkDocs(docsRoot);
-  const docs = (await Promise.all(filePaths.map((filePath) => createDocRecord(filePath, siteUrl))))
-    .filter((doc) => doc.routePath !== '404')
+  const framework = options.framework ?? 'vue';
+  const filePaths = (await walkDocs(docsRoot)).filter((file) =>
+    relative(docsRoot, file).split(sep)[0] === 'react'
+      ? framework === 'react'
+      : framework === 'vue',
+  );
+  const docs = (
+    await Promise.all(filePaths.map((filePath) => createDocRecord(filePath, siteUrl, framework)))
+  )
+    .filter((doc) => !/(^|\/)404$/.test(doc.routePath))
     .sort(sortDocs);
 
   return {
     components: docs.filter((doc) => doc.isComponent),
     docs,
-    guides: docs.filter((doc) => !doc.isComponent && doc.routePath.startsWith('guides/')),
+    guides: docs.filter(
+      (doc) => !doc.isComponent && doc.routePath.replace(/^react\//, '').startsWith('guides/'),
+    ),
     overview: docs.filter(
       (doc) =>
         !doc.isComponent &&
         !doc.routePath.startsWith('guides/') &&
-        !doc.routePath.startsWith('components/'),
+        !doc.routePath.replace(/^react\//, '').startsWith('components/'),
     ),
     siteUrl,
+    prefix: framework === 'react' ? '/react' : '',
+    framework,
   };
 }
 
@@ -221,12 +242,14 @@ function formatIndexSection(title: string, docs: DocRecord[], urlKey: 'sourceUrl
   ];
 }
 
-export async function renderLlmsIndex(options: { siteUrl?: string; inlineDemos?: boolean } = {}) {
+export async function renderLlmsIndex(
+  options: { siteUrl?: string; inlineDemos?: boolean; framework?: DocsFramework } = {},
+) {
   const catalog = await getLlmsCatalog(options);
   const lines = [
-    '# SD Design Vue Docs',
+    `# SD Design ${catalog.framework === 'react' ? 'React' : 'Vue'} Docs`,
     '',
-    `- [llms-full.txt](${catalog.siteUrl}/llms/llms-full.txt): 聚合后的完整文档文本。`,
+    `- [llms-full.txt](${catalog.siteUrl}${catalog.prefix}/llms/llms-full.txt): 聚合后的完整文档文本。`,
     '',
     ...formatIndexSection('Overview', catalog.overview, 'sourceUrl'),
     ...formatIndexSection('Guides', catalog.guides, 'sourceUrl'),
@@ -254,10 +277,12 @@ function renderDocSection(doc: DocRecord) {
   return collapseBlankLines(lines.join('\n'));
 }
 
-export async function renderLlmsFull(options: { siteUrl?: string; inlineDemos?: boolean } = {}) {
+export async function renderLlmsFull(
+  options: { siteUrl?: string; inlineDemos?: boolean; framework?: DocsFramework } = {},
+) {
   const catalog = await getLlmsCatalog(options);
   const lines = [
-    '# SD Design Vue Docs',
+    `# SD Design ${catalog.framework === 'react' ? 'React' : 'Vue'} Docs`,
     '',
     `Source site: ${catalog.siteUrl}/`,
     '',
@@ -269,7 +294,7 @@ export async function renderLlmsFull(options: { siteUrl?: string; inlineDemos?: 
 
 export async function renderComponentMarkdown(
   slug: string,
-  options: { siteUrl?: string; inlineDemos?: boolean } = {},
+  options: { siteUrl?: string; inlineDemos?: boolean; framework?: DocsFramework } = {},
 ) {
   const catalog = await getLlmsCatalog(options);
   const component = catalog.components.find((doc) => doc.llmsSlug === slug);

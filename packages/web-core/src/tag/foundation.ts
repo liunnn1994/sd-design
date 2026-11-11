@@ -264,6 +264,15 @@ export function createTagFoundation<Tooltip extends TagTooltipOptions, Size exte
     }
   }
 
+  function getStyle(): Record<`--sd-tag-${string}`, string | undefined> | undefined {
+    if (!state.isCustomColor || !state.resolvedColor) return undefined;
+    const style: Record<`--sd-tag-${string}`, string | undefined> = {};
+    if (state.finalTextColor) style['--sd-tag-color'] = state.finalTextColor;
+    style['--sd-tag-bg-color'] = getBackgroundColor();
+    if (!isNil(props.bordered)) style['--sd-tag-border-color'] = state.resolvedBackgroundColor;
+    return style;
+  }
+
   return {
     getIsBuiltInColor,
     getIsCustomColor,
@@ -288,5 +297,6 @@ export function createTagFoundation<Tooltip extends TagTooltipOptions, Size exte
     handleClick,
     handleTagKeydown,
     getBackgroundColor,
+    getStyle,
   };
 }

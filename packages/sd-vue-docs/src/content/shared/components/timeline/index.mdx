@@ -1,0 +1,101 @@
+---
+title: 时间轴 Timeline
+description: 按照时间顺序或倒序规则的展示信息内容。
+---
+
+### 基本用法
+
+基本使用
+
+<Demo id="timeline/basic" />
+
+### 自定义标签
+
+可以通过 `label` 插槽自定义标签
+
+<Demo id="timeline/custom" />
+
+### 横向时间轴
+
+可以通过 `direction` 设置展示横向时间轴
+
+<Demo id="timeline/direction" />
+
+### 自定义节点
+
+可以通过属性 `dotColor`, `dotType` 设置节点的颜色以及节点类型。同时可通过 `dot` 直接传入 DOM 自定义节点样式。优先级高于 `dotColor` 和 `dotType`
+
+<Demo id="timeline/dot" />
+
+### 自定义节点内容
+
+自定义节点内容
+
+<Demo id="timeline/icon" />
+
+### 标签文本位置
+
+通过 `labelPosition` 可以设置标签文本的位置。
+
+<Demo id="timeline/label" />
+
+### 时间轴展示类型
+
+设置 `mode=alternate`时将会交替展示内容。同时可以通过设置 `TimelineItem` 的 `positon`属性控制时间轴节点的位置.
+
+<Demo id="timeline/mode" />
+
+### 幽灵节点
+
+当任务状态正在发生，还在记录过程中，可用幽灵节点来表示当前的时间节点，通过`slot#dot`定制其轴点。
+
+<Demo id="timeline/pending" />
+
+### 自定义轴线样式
+
+自定义轴线的示例。
+
+<Demo id="timeline/type" />
+
+### 纵向时间轴
+
+竖直方向的时间轴。
+
+<Demo id="timeline/vertical" />
+
+## API
+
+### `<timeline>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| reverse | 是否倒序 | `boolean` | `false` |
+| direction | 时间轴方向 | `'horizontal' \| 'vertical'` | `'vertical'` |
+| mode | 时间轴的展示类型：时间轴在左侧，时间轴在右侧, 交替出现。 | `'left' \| 'right' \| 'top' \| 'bottom' \| 'alternate'` | `'left'` |
+| pending | 是否展示幽灵节点，设置为 true 时候只展示幽灵节点。传入ReactNode时，会作为节点内容展示。 | `boolean\|string` | `-` |
+| spin-props | 传递给幽灵节点 Spin 的属性 | `SpinProps` | `-` |
+| label-position | 设置标签文本的位置 | `'relative' \| 'same'` | `'same'` |
+
+### `<timeline>` 插槽
+
+| 插槽名 |   描述   | 参数 |
+| ------ | :------: | ---- |
+| dot    | 幽灵节点 | -    |
+
+### `<timeline-item>` 属性
+
+| 参数名     | 描述                         | 类型                              |  默认值   |
+| ---------- | ---------------------------- | --------------------------------- | :-------: |
+| dot-color  | 节点颜色                     | `string`                          |    `-`    |
+| dot-type   | 节点类型：空心圆/实心圆      | `'hollow' \| 'solid'`             | `'solid'` |
+| line-type  | 时间轴类型：实线/虚线/点状线 | `'solid' \| 'dashed' \| 'dotted'` | `'solid'` |
+| line-color | 时间轴颜色                   | `string`                          |    `-`    |
+| label      | 标签文本                     | `string`                          |    `-`    |
+| position   | Item 位置                    | `PositionType`                    |    `-`    |
+
+### `<timeline-item>` 插槽
+
+| 插槽名 |    描述    | 参数 | 版本   |
+| ------ | :--------: | ---- | :----- |
+| dot    | 自定义节点 | -    |        |
+| label  | 自定义标签 | -    | 2.50.0 |

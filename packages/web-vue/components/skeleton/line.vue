@@ -6,10 +6,11 @@
 
 <script setup lang="ts">
   import { computed } from 'vue';
-  import type { PropType, CSSProperties } from 'vue';
+  import type { PropType } from 'vue';
+
+  import { getSkeletonLines } from '@sdata/web-core/skeleton/foundation';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import { isNumber, isString } from '../_utils/is';
 
   defineOptions({ name: 'SkeletonLine' });
 
@@ -50,23 +51,5 @@
 
   const prefixCls = getPrefixCls('skeleton-line');
 
-  // computed 保证 rows/widths/lineHeight/lineSpacing 变化时行样式响应式更新
-  const lines = computed<CSSProperties[]>(() => {
-    const result: CSSProperties[] = [];
-    for (let i = 0; i < props.rows; i++) {
-      const style: CSSProperties = {};
-      if (isNumber(props.widths[i])) {
-        style.width = `${props.widths[i]}px`;
-      } else if (isString(props.widths[i])) {
-        style.width = String(props.widths[i]);
-      }
-      style.height = `${props.lineHeight}px`;
-      style.marginBottom = '0';
-      if (i > 0) {
-        style.marginTop = `${props.lineSpacing}px`;
-      }
-      result.push(style);
-    }
-    return result;
-  });
+  const lines = computed(() => getSkeletonLines(props));
 </script>

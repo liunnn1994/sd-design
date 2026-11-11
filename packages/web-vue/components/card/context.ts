@@ -1,10 +1,8 @@
+import type { createCardFoundation } from '@sdata/web-core/card/foundation';
+
 import type { InjectionKey, Slots } from 'vue';
 
-export interface CardContext {
-  metaCount: number;
-  gridCount: number;
-  hasMeta: boolean;
-  hasGrid: boolean;
+export interface CardContext extends ReturnType<typeof createCardFoundation> {
   slots: Slots;
 }
 

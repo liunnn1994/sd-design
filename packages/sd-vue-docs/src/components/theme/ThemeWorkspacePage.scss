@@ -1,0 +1,113 @@
+.workspace-page {
+  color: var(--sd-color-text-1);
+  background: var(--sd-color-bg-1);
+
+  .workspace-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 16px 24px;
+    background: var(--sd-color-bg-2);
+    border-bottom: 1px solid var(--sd-color-border-2);
+  }
+
+  .workspace-sidebar {
+    background: var(--sd-color-bg-2);
+    border-right: 1px solid var(--sd-color-border-2);
+  }
+
+  .sidebar-summary {
+    padding: 16px;
+  }
+
+  .workspace-content {
+    display: grid;
+    gap: 20px;
+    min-width: 0;
+    padding: 24px;
+  }
+
+  .workspace-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .task-filters {
+    margin-bottom: 16px;
+  }
+
+  .task-status {
+    width: 140px;
+  }
+
+  .workspace-bottom {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 16px;
+  }
+
+  &.mobile-layout {
+    overflow: hidden;
+    border: 1px solid var(--sd-color-border-2);
+    border-radius: var(--sd-border-radius-medium);
+  }
+
+  &.mobile-layout .workspace-sidebar {
+    display: none;
+  }
+
+  &.mobile-layout .workspace-header {
+    gap: 8px;
+    height: auto;
+    min-height: 64px;
+    padding: 12px;
+  }
+
+  &.mobile-layout .workspace-header .sd-tag,
+  &.mobile-layout .workspace-header > :last-child .sd-avatar {
+    display: none;
+  }
+
+  &.mobile-layout .workspace-content {
+    gap: 16px;
+    padding: 12px;
+  }
+
+  &.mobile-layout .workspace-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  &.mobile-layout .workspace-bottom {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  &.mobile-layout .workspace-title .sd-page-header-header,
+  &.mobile-layout .workspace-title .sd-page-header-main {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &.mobile-layout .workspace-title .sd-page-header-divider {
+    display: none;
+  }
+
+  &.mobile-layout .workspace-title .sd-page-header-subtitle {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  &.mobile-layout .workspace-title .sd-page-header-extra {
+    margin-left: 0;
+  }
+
+  &.mobile-layout .task-filters {
+    display: flex;
+  }
+
+  &.mobile-layout .task-filters .sd-space-item:first-child {
+    width: 100%;
+  }
+}

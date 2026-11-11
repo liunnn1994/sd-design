@@ -1,1 +1,1 @@
-export * from 'markstream-vue/workers/katexCdnWorker';
+export * from '@sdata/web-core/markdown/katex-cdn-worker';

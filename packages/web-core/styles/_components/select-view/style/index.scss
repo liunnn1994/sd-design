@@ -50,7 +50,8 @@ $select-view-prefix-cls: string.unquote('#{theme.$prefix}-select-view');
     cursor: pointer;
   }
 
-  &:hover &-clear-btn {
+  &:hover &-clear-btn,
+  &:focus-within &-clear-btn {
     display: block;
 
     & ~ * {

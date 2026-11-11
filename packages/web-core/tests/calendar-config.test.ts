@@ -418,3 +418,9 @@ test('locale completion reads the current text target after translations', async
   assert.equal(current.today, 'replacement');
   assert.equal(original.today, defaults.texts.today);
 });
+
+test('calendar English weekday abbreviations fall back to full weekday names', () => {
+  const texts = createCalendarTexts(undefined, 'en');
+  assert.deepEqual(texts.weekDaysShort, ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']);
+  assert.deepEqual(texts.weekDaysMin, ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']);
+});

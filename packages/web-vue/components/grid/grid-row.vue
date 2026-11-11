@@ -7,6 +7,8 @@
 <script setup lang="ts">
   import { computed, PropType, provide, reactive, toRefs } from 'vue';
 
+  import { getGridRowMargins } from '@sdata/web-core/grid/layout';
+
   import { getPrefixCls } from '../_utils/global-config';
   import { RowContextInjectionKey } from './context';
   import { useResponsiveState } from './hook/use-responsive-state';
@@ -76,28 +78,9 @@
   const propGutterVertical = computed(() => (Array.isArray(gutter.value) ? gutter.value[1] : 0));
   const gutterHorizontal = useResponsiveState(propGutterHorizontal, 0);
   const gutterVertical = useResponsiveState(propGutterVertical, 0);
-  const styles = computed(() => {
-    const result: {
-      marginTop?: string;
-      marginBottom?: string;
-      marginLeft?: string;
-      marginRight?: string;
-    } = {};
-    if ((gutterHorizontal.value || gutterVertical.value) && !div.value) {
-      const marginHorizontal = -gutterHorizontal.value / 2;
-      const marginVertical = -gutterVertical.value / 2;
-      if (marginHorizontal) {
-        result.marginLeft = `${marginHorizontal}px`;
-        result.marginRight = `${marginHorizontal}px`;
-      }
-      if (marginVertical) {
-        result.marginTop = `${marginVertical}px`;
-        result.marginBottom = `${marginVertical}px`;
-      }
-    }
-
-    return result;
-  });
+  const styles = computed(() =>
+    getGridRowMargins([gutterHorizontal.value, gutterVertical.value], div.value),
+  );
 
   const resultGutter = computed<[number, number]>(() => [
     gutterHorizontal.value,

@@ -3,6 +3,28 @@ import { h, ref } from 'vue';
 import Menu, { MenuItem, SubMenu } from '../index';
 
 describe('Menu robustness', () => {
+  it('skips hidden horizontal overflow items during keyboard navigation', () => {
+    cy.mount(() =>
+      h(Menu, { mode: 'horizontal', style: { width: '400px' } }, () =>
+        Array.from({ length: 6 }, (_, index) =>
+          h(MenuItem, { key: `${index}`, style: { width: '120px' } }, () => `Item ${index}`),
+        ),
+      ),
+    );
+    const visible =
+      '.sd-menu-overflow-wrap > .sd-menu-item:not(.sd-menu-overflow-hidden-menu-item)';
+    cy.get(visible).should(($items) => {
+      expect($items.length).to.be.greaterThan(1);
+      expect($items.length).to.be.lessThan(6);
+    });
+    cy.get(visible)
+      .last()
+      .invoke('text')
+      .then((last) => {
+        cy.get(visible).first().focus().type('{end}');
+        cy.focused().should('have.text', last);
+      });
+  });
   for (const initial of [false, true]) {
     it(`updates collapse-icon slots starting ${initial ? 'present' : 'absent'}`, () => {
       const visible = ref(initial);

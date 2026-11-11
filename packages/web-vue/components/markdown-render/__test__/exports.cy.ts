@@ -1,6 +1,14 @@
+import * as katexWorkers from '@sdata/web-core/markdown/katex-cdn-worker';
+import * as thresholds from '@sdata/web-core/markdown/katex-threshold';
+import * as mermaidWorkers from '@sdata/web-core/markdown/mermaid-cdn-worker';
+import * as scheduling from '@sdata/web-core/markdown/safe-raf';
 import * as markstream from 'markstream-vue';
 
 import * as sdRoot from '../../index';
+import * as deepThresholds from '../compat/utils/katex-threshold';
+import * as deepScheduling from '../compat/utils/safeRaf';
+import * as deepKatexWorkers from '../compat/workers/katexCdnWorker';
+import * as deepMermaidWorkers from '../compat/workers/mermaidCdnWorker';
 import * as sdUpstream from '../upstream';
 
 // SD 根入口按同名承接上游全部运行时导出，只有两个符号按约定改名或让位。
@@ -10,6 +18,47 @@ const upstreamNames = () =>
   Object.keys(markstream).filter((name) => name !== 'default' && !HANDLED_BY_SD.includes(name));
 
 describe('上游公开导出兼容', () => {
+  it('shares CDN worker factories through root and legacy worker entries', () => {
+    for (const [name, helper] of Object.entries({ ...katexWorkers, ...mermaidWorkers })) {
+      expect(sdUpstream[name as keyof typeof sdUpstream]).to.equal(helper);
+      expect(sdRoot[name as keyof typeof sdRoot]).to.equal(helper);
+    }
+    expect(deepKatexWorkers.createKaTeXWorkerFromCDN).to.equal(
+      katexWorkers.createKaTeXWorkerFromCDN,
+    );
+    expect(deepMermaidWorkers.createMermaidWorkerFromCDN).to.equal(
+      mermaidWorkers.createMermaidWorkerFromCDN,
+    );
+  });
+  it('shares threshold and scheduling helpers through root and legacy deep entries', () => {
+    for (const [name, helper] of Object.entries({ ...thresholds, ...scheduling })) {
+      expect(sdUpstream[name as keyof typeof sdUpstream]).to.equal(helper);
+      expect(sdRoot[name as keyof typeof sdRoot]).to.equal(helper);
+    }
+    expect(deepThresholds.recommendNForSamples).to.equal(thresholds.recommendNForSamples);
+    expect(deepScheduling.safeRaf).to.equal(scheduling.safeRaf);
+    for (const value of ['', 'x'.repeat(10), 'x'.repeat(40), '\\\\alpha']) {
+      expect(sdRoot.estimateRByFormula(value)).to.equal(markstream.estimateRByFormula(value));
+    }
+  });
+  it('schedules and cancels actual native browser frames through the root entry', () => {
+    cy.then(
+      () =>
+        new Cypress.Promise<void>((resolve) => {
+          let cancelled = false;
+          sdRoot.safeCancelRaf(
+            sdRoot.safeRaf(() => {
+              cancelled = true;
+            }),
+          );
+          sdRoot.safeRaf((timestamp) => {
+            expect(typeof timestamp).to.equal('number');
+            expect(cancelled).to.equal(false);
+            resolve();
+          });
+        }),
+    );
+  });
   it('SD 兼容入口导出上游全部运行时符号', () => {
     const sdNames = new Set(Object.keys(sdUpstream));
     const missing = upstreamNames().filter((name) => !sdNames.has(RENAMED[name] ?? name));

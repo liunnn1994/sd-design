@@ -1,5 +1,10 @@
 <template>
-  <section v-show="hasVisibleItems" :class="prefixCls" role="group" :aria-labelledby="headingId">
+  <section
+    v-show="hasVisibleItems"
+    :class="prefixCls"
+    role="group"
+    :aria-labelledby="heading || $slots.heading ? headingId : undefined"
+  >
     <button
       v-if="heading || $slots.heading"
       :id="headingId"

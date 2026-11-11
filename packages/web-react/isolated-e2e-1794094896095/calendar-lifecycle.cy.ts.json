@@ -1,0 +1,9 @@
+{
+  "spec": "calendar-lifecycle.cy.ts",
+  "status": "finished",
+  "tests": 34,
+  "passed": 34,
+  "failed": 0,
+  "pending": 0,
+  "skipped": 0
+}

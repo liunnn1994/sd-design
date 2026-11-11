@@ -647,8 +647,8 @@ export function createLiquidGlassLogoRenderer(
 
   const resizeObserver = new ResizeObserver(resize);
   resizeObserver.observe(canvas);
-  const visibility = new IntersectionObserver(([entry]) => {
-    visible = entry?.isIntersecting ?? true;
+  const visibility = new IntersectionObserver((entries) => {
+    visible = entries.at(-1)?.isIntersecting ?? true;
     last = 0;
     if (visible) request();
   });

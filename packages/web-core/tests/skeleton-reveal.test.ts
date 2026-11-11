@@ -102,6 +102,9 @@ function fixture() {
     setOverlay(value: boolean) {
       hasOverlay = value;
     },
+    enterBatch(values: boolean[]) {
+      intersect(values.map((isIntersecting) => ({ isIntersecting })));
+    },
     enter(value: boolean) {
       intersect([{ isIntersecting: value }]);
     },
@@ -263,4 +266,17 @@ test('resize tolerance, option changes, stale completions and disposal preserve 
   assert.ok(f.calls.every((call) => call.cancelled));
   await f.foundation.replay();
   assert.equal(f.adapter.state, 'complete');
+});
+
+test('batched intersections use the latest visibility for autoplay and leaving the viewport', async () => {
+  const f = fixture();
+  f.foundation.connect();
+  f.enterBatch([false, true]);
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(f.adapter.state, 'drawing');
+  f.enterBatch([true, false]);
+  assert.equal(f.adapter.state, 'complete');
+  assert.equal(f.finishes, 1);
+  f.foundation.dispose();
 });

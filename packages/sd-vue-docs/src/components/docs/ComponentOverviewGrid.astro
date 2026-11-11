@@ -3,6 +3,8 @@ import { Card, CardGrid } from "@astrojs/starlight/components";
 import { getCollection } from "astro:content";
 
 import { docsSidebar } from "../../generated/docs-sidebar";
+import { frameworkHref, getDocsFramework } from '../../utils/framework-navigation';
+const framework = getDocsFramework(Astro.url.pathname);
 
 const componentDocEntries = await getCollection("docs");
 const componentSection = docsSidebar.find(
@@ -34,10 +36,10 @@ const fallbackDescription = (groupLabel: string) =>
       <CardGrid stagger>
         {group.items.map((item) => (
           <Card title={item.label}>
-            {descriptionBySlug.get(item.slug) ||
+            {descriptionBySlug.get(framework === 'react' ? `react/${item.slug}` : item.slug) ||
               fallbackDescription(group.label)}
             <p>
-              <a href={`/${item.slug}/`}>查看文档</a>
+              <a href={frameworkHref(item.slug, framework, import.meta.env.BASE_URL)}>查看文档</a>
             </p>
           </Card>
         ))}

@@ -211,6 +211,9 @@ export function createWatermark(adapter: {
     mutations: handleMutations,
     dispose() {
       renderId++;
+      for (const [container, watermark] of watermarkMap) {
+        if (container.contains(watermark)) container.removeChild(watermark);
+      }
       watermarkMap.clear();
     },
   };

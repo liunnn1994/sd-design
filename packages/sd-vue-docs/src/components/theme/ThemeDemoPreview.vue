@@ -3,10 +3,19 @@
 
   import { computed, onErrorCaptured, shallowRef, watch } from 'vue';
 
+  import type { DocsFramework } from '../../utils/framework-navigation';
+
   import { demosFor, loadDemo } from './demo-registry';
-  const { theme, component = 'button' } = defineProps<{
+  import ReactThemePreview from './ReactThemePreview.vue';
+  import { getThemePreset } from './theme-playground';
+  const {
+    theme,
+    framework = 'vue',
+    component = 'button',
+  } = defineProps<{
     theme: SdThemeConfig;
     component?: string;
+    framework?: DocsFramework;
   }>();
   const demo = shallowRef('');
   const failure = shallowRef('');
@@ -48,10 +57,21 @@
           aria-label="预览缩放"
           :options="['75', '100', '125'].map((value) => ({ value, label: `${value}%` }))"
         />
-        <sd-link class="docs-link" :href="`/components/${component}/`">组件文档 ↗</sd-link>
+        <sd-link
+          class="docs-link"
+          :href="`${framework === 'react' ? '/react' : ''}/components/${component}/`"
+          >组件文档 ↗</sd-link
+        >
       </sd-space>
       <div class="demo-surface" :style="{ zoom: Number(zoom) / 100 }" data-testid="theme-demo">
         <sd-alert v-if="failure" type="error">示例加载失败：{{ failure }}</sd-alert>
+        <ReactThemePreview
+          v-else-if="framework === 'react' && current"
+          kind="demo"
+          :preset="getThemePreset('default')"
+          :theme="theme"
+          :path="demo"
+        />
         <component :is="current" v-else-if="current" :key="demo" />
         <sd-empty
           v-else

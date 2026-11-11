@@ -9,5 +9,5 @@
       "@sdata/web-vue/es/icon/index.js": ["../web-vue/components/icon/index.ts"]
     }
   },
-  "exclude": ["dist", "src/types/sdata-web-vue-vue-tsc.d.ts"]
+  "exclude": ["dist", "src/types/sdata-web-vue-vue-tsc.d.ts", "src/components/react/**"]
 }

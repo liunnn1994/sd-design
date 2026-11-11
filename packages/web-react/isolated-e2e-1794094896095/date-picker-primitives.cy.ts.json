@@ -1,0 +1,9 @@
+{
+  "spec": "date-picker-primitives.cy.ts",
+  "status": "finished",
+  "tests": 24,
+  "passed": 24,
+  "failed": 0,
+  "pending": 0,
+  "skipped": 0
+}

@@ -34,41 +34,4 @@
     >
   </div>
 </template>
-<style lang="scss" scoped>
-  .home-content-example {
-    display: grid;
-    gap: 24px;
-    justify-items: start;
-  }
-
-  .home-content-example__heading {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    width: 100%;
-    color: var(--sd-color-text-1);
-    font-size: 14px;
-  }
-
-  .home-content-example__heading strong {
-    margin-right: auto;
-    font-weight: 500;
-  }
-
-  .home-content-example :deep(.sd-timeline) {
-    width: 100%;
-  }
-
-  .home-content-example :deep(.sd-timeline-item-content) strong {
-    color: var(--sd-color-text-1);
-    font-weight: 500;
-    font-size: 13px;
-  }
-
-  .home-content-example p {
-    margin: 6px 0 0;
-    color: var(--sd-color-text-2);
-    font-size: 12px;
-    line-height: 1.8;
-  }
-</style>
+<style lang="scss" src="./HomeContentExample.scss"></style>

@@ -1,11 +1,15 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue';
 
+  import { frameworkHref, type DocsFramework } from '../../utils/framework-navigation';
+  import ReactThemePreview from '../theme/ReactThemePreview.vue';
   import {
     buildThemeRuntimePayload,
     getThemePreset,
     themePresets,
   } from '../theme/theme-playground';
+  const { framework = 'vue' } = defineProps<{ framework?: DocsFramework }>();
+
   import ThemePreviewPanel from '../theme/ThemePreviewPanel.vue';
 
   const activeThemeKey = ref(themePresets[0].key);
@@ -47,7 +51,7 @@
       </button>
 
       <div class="theme-preview__doc-links">
-        <a href="/guides/theme-editor/">查看主题 JSON 约定</a>
+        <a :href="frameworkHref('/guides/theme-editor/', framework)">查看主题 JSON 约定</a>
       </div>
     </aside>
 
@@ -63,7 +67,15 @@
           <sd-tag color="blue">{{ activeTheme.summary }}</sd-tag>
         </div>
 
+        <ReactThemePreview
+          v-if="framework === 'react'"
+          :preset="activeTheme"
+          :theme="activeRuntimePayload.theme"
+          :theme-mode="activeRuntimePayload.mode"
+          compact
+        />
         <ThemePreviewPanel
+          v-else
           :preset="activeTheme"
           :theme="activeRuntimePayload.theme"
           :theme-mode="activeRuntimePayload.mode"
@@ -75,125 +87,4 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-  .theme-preview {
-    display: grid;
-    grid-template-columns: 240px minmax(0, 1fr);
-    gap: 32px;
-  }
-
-  .theme-preview__aside,
-  .theme-preview__surface {
-    min-width: 0;
-  }
-
-  .theme-preview__aside {
-    display: grid;
-    gap: 8px;
-    align-content: start;
-  }
-
-  .theme-preview__option {
-    display: grid;
-    gap: 6px;
-    padding: 16px;
-    color: var(--sd-color-text-1);
-    text-align: left;
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    transition:
-      background 160ms ease-out,
-      border-color 160ms ease-out;
-  }
-
-  .theme-preview__option strong {
-    font-size: 14px;
-  }
-
-  .theme-preview__option span,
-  .theme-preview__option small {
-    color: var(--sd-color-text-2);
-    font-size: 12px;
-    line-height: 1.6;
-  }
-
-  .theme-preview__option:hover {
-    background: var(--sd-color-fill-1);
-  }
-
-  .theme-preview__option.is-active {
-    background: var(--sd-color-primary-light-1);
-    border-color: var(--sd-color-border-2);
-  }
-
-  .theme-preview__option:focus-visible {
-    outline: 2px solid rgb(var(--sd-primary-6));
-    outline-offset: 2px;
-  }
-
-  .theme-preview__doc-links {
-    margin-top: 16px;
-    padding-inline: 16px;
-  }
-
-  .theme-preview__doc-links a {
-    color: rgb(var(--sd-primary-7));
-    font-size: 13px;
-    text-decoration: none;
-  }
-
-  .theme-preview__surface {
-    display: grid;
-    gap: 24px;
-    padding: 24px;
-    color: var(--home-preview-text);
-    background: var(--home-preview-surface);
-    border: 1px solid var(--home-preview-border);
-    border-radius: 12px;
-  }
-
-  .theme-preview__summary {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: space-between;
-  }
-
-  .theme-preview__summary h3 {
-    margin: 0;
-    font-weight: 600;
-    font-size: 20px;
-  }
-
-  .theme-preview__summary p {
-    margin: 8px 0 0;
-    color: var(--home-preview-text-muted);
-    font-size: 13px;
-    line-height: 1.75;
-  }
-
-  .theme-preview__summary .theme-preview__eyebrow {
-    margin: 0 0 8px;
-    color: var(--home-preview-accent);
-    font-size: 12px;
-  }
-
-  @media (width < 50rem) {
-    .theme-preview {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    .theme-preview__surface {
-      padding: 16px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .theme-preview__option {
-      transition: none;
-    }
-  }
-</style>
+<style lang="scss" src="./HomeThemePreview.scss"></style>

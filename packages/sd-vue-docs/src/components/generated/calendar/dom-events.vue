@@ -156,7 +156,21 @@
       const ev = sanitized.event as { title?: string };
       sanitized.event = `"${ev.title || 'untitled'}"`;
     }
-    logs.value.unshift({ name, args: JSON.stringify(sanitized, null, 2) });
+    const seen = new WeakSet<object>();
+    const args = JSON.stringify(
+      sanitized,
+      (_key, value: unknown) => {
+        if (value instanceof Node || value instanceof Event)
+          return '[' + value.constructor.name + ']';
+        if (value && typeof value === 'object') {
+          if (seen.has(value)) return '[Circular]';
+          seen.add(value);
+        }
+        return value;
+      },
+      2,
+    );
+    logs.value.unshift({ name, args });
     if (logs.value.length > 50) logs.value.pop();
   };
 

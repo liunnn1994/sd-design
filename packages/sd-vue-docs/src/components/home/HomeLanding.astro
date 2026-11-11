@@ -1,16 +1,20 @@
 ---
+import ReactPreviewGrid from '../react/home/HomePreviewGrid';
+import { getDocsFramework, frameworkHref } from '../../utils/framework-navigation';
 import HomeHero from './HomeHero.astro';
-import HomeAIExamples from './HomeAIExamples.vue';
+import HomeAIExamples from './HomeAIExamples.astro';
 import HomePreviewGrid from './HomePreviewGrid.vue';
 import HomeSection from './HomeSection.astro';
 import HomeThemePreview from './HomeThemePreview.vue';
+const framework = getDocsFramework(Astro.url.pathname);
+const href = (path: string) => frameworkHref(path, framework, import.meta.env.BASE_URL);
 ---
 <div class="home-landing not-content">
-  <HomeHero />
-  <HomeSection id="ai-examples" title="从输入，到回答。" description="" href="/mcp/" linkLabel="接入 MCP"><HomeAIExamples client:load /></HomeSection>
-  <HomeSection id="components" title="先动手，再开始。" description="输入、选择、切换，直接试试真实组件。" href="/components/" linkLabel="全部组件"><HomePreviewGrid client:load /></HomeSection>
-  <HomeSection id="theme" title="同一套组件，你的风格。" description="切换预设，查看控件与页面如何一起变化。" href="/guides/theme-editor/" linkLabel="打开主题编辑器"><HomeThemePreview client:visible /></HomeSection>
-  <footer class="home-landing__footer"><span>SD Design · 为 AI 而生</span><a href="/guides/start/">把想法变成界面 →</a></footer>
+  <HomeHero framework={framework} />
+  <HomeSection id="ai-examples" title="从输入，到回答。" description="" href={href('/mcp/')} linkLabel="接入 MCP"><HomeAIExamples framework={framework} /></HomeSection>
+  <HomeSection id="components" title="先动手，再开始。" description="输入、选择、切换，直接试试真实组件。" href={href('/components/')} linkLabel="全部组件">{framework === 'react' ? <ReactPreviewGrid client:only="react" /> : <HomePreviewGrid client:load />}</HomeSection>
+  <HomeSection id="theme" title="同一套组件，你的风格。" description="切换预设，查看控件与页面如何一起变化。" href={href('/guides/theme-editor/')} linkLabel="打开主题编辑器"><HomeThemePreview framework={framework} client:visible /></HomeSection>
+  <footer class="home-landing__footer"><span>SD Design · 为 AI 而生</span><a href={href('/guides/start/')}>把想法变成界面 →</a></footer>
 </div>
 <style lang="scss">
   .home-landing { max-width: 1120px; margin-inline: auto; padding-bottom: 32px; }

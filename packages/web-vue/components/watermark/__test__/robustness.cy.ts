@@ -4,6 +4,14 @@ import { useMutationObserver } from '../hooks/use-mutation-observer';
 import Watermark from '../index';
 
 describe('Watermark robustness', () => {
+  it('removes its generated layer from the retained root when unmounted', () => {
+    cy.mount(Watermark, { props: { content: 'Owned layer' } });
+    cy.get('.sd-watermark').then(($root) => {
+      expect($root[0].children).to.have.length(1);
+      cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
+      cy.then(() => expect($root[0].children).to.have.length(0));
+    });
+  });
   it('renders an empty content array without invalid canvas dimensions', () => {
     cy.mount(Watermark, { props: { content: [] } });
     cy.get('.sd-watermark').should(($element) => {

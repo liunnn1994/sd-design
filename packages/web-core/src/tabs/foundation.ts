@@ -3,9 +3,9 @@ import type { TabItem, TabKey } from './types.js';
 import { isUndefined } from '../_utils/is.js';
 import { KEYBOARD_KEY } from '../_utils/keyboard.js';
 
-export function createTabsFoundation<T extends TabItem>(adapter: {
-  readonly registry: Map<number, T>;
-  readonly order: number[];
+export function createTabsFoundation<T extends TabItem, Id = number>(adapter: {
+  readonly registry: Map<Id, T>;
+  readonly order: Id[];
   readonly keys: TabKey[];
   readonly value: TabKey | undefined;
   readonly inner: TabKey | undefined;
@@ -59,10 +59,10 @@ export function createTabsFoundation<T extends TabItem>(adapter: {
     click,
     add,
     remove,
-    register(id: number, data: T) {
+    register(id: Id, data: T) {
       adapter.registry.set(id, data);
     },
-    unregister(id: number) {
+    unregister(id: Id) {
       adapter.registry.delete(id);
     },
   };

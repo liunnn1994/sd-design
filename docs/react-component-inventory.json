@@ -1,0 +1,1055 @@
+{
+  "baseline": "packages/web-vue/components/index.ts",
+  "note": "Presence checks only. Every component still requires props/events/render props/ref/style/controlled behavior review and runtime acceptance.",
+  "components": [
+    {
+      "name": "affix",
+      "vueExports": ["Affix"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "alert",
+      "vueExports": ["Alert"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "anchor",
+      "vueExports": ["Anchor", "AnchorLink"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "auto-complete",
+      "vueExports": ["AutoComplete"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "avatar",
+      "vueExports": ["Avatar", "AvatarGroup"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "back-top",
+      "vueExports": ["BackTop"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "badge",
+      "vueExports": ["Badge"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "basic-crud-table",
+      "vueExports": ["BasicCrudTable"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "bloom-menu",
+      "vueExports": ["BloomMenu"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "border-beam",
+      "vueExports": ["BorderBeam"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "breadcrumb",
+      "vueExports": ["Breadcrumb", "BreadcrumbItem"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "button",
+      "vueExports": ["Button", "ButtonGroup"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "calendar",
+      "vueExports": ["Calendar"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "card",
+      "vueExports": ["Card", "CardGrid", "CardMeta"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "carousel",
+      "vueExports": ["Carousel", "CarouselItem"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "cascader",
+      "vueExports": ["Cascader", "CascaderPanel"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "checkbox",
+      "vueExports": ["Checkbox", "CheckboxGroup"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "clamp",
+      "vueExports": ["LineClamp", "InlineClamp", "RichLineClamp", "WrapClamp"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "collapse",
+      "vueExports": ["Collapse", "CollapseItem"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "color-picker",
+      "vueExports": ["ColorPicker"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "comment",
+      "vueExports": ["Comment"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "config-provider",
+      "vueExports": ["ConfigProvider"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "copy",
+      "vueExports": ["Copy"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "cropper",
+      "vueExports": ["Cropper"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "date-picker",
+      "vueExports": [
+        "DatePicker",
+        "MonthPicker",
+        "QuarterPicker",
+        "WeekPicker",
+        "YearPicker",
+        "RangePicker"
+      ],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "descriptions",
+      "vueExports": ["Descriptions", "DescriptionsItem"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "divider",
+      "vueExports": ["Divider"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "drawer",
+      "vueExports": ["Drawer"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "dropdown",
+      "vueExports": ["Dropdown", "Dgroup", "Doption", "DropdownButton", "Dsubmenu"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "ellipsis",
+      "vueExports": ["Ellipsis", "PerformantEllipsis"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "empty",
+      "vueExports": ["Empty"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "file-previewer",
+      "vueExports": ["FilePreviewer"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "form",
+      "vueExports": ["Form", "FormItem"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "grid",
+      "vueExports": ["Grid", "Col", "Row", "GridItem"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "icon-component",
+      "vueExports": ["Icon"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "image",
+      "vueExports": ["Image", "ImagePreviewAction", "ImagePreview", "ImagePreviewGroup"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "input",
+      "vueExports": ["Input", "InputGroup", "InputPassword", "InputSearch"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "input-mask",
+      "vueExports": [
+        "InputMask",
+        "defaultInputMaskFormatChars",
+        "formatInputMask",
+        "inputMaskPresets"
+      ],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "input-number",
+      "vueExports": ["InputNumber"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "input-tag",
+      "vueExports": ["InputTag"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "json-form",
+      "vueExports": ["JsonForm", "A2UI_0_9_1", "defineJsonFormComponents", "defineJsonFormSchemas"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "kv-list",
+      "vueExports": ["KvList"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "layout",
+      "vueExports": ["Layout", "LayoutContent", "LayoutFooter", "LayoutHeader", "LayoutSider"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "link",
+      "vueExports": ["Link"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "liquid-glass-logo",
+      "vueExports": [
+        "LiquidGlassLogo",
+        "liquidGlassLogoDefaults",
+        "liquidGlassLogoDuration",
+        "liquidGlassLogoThemes",
+        "liquidGlassLogoNoteLogo",
+        "liquidGlassLogoReferenceMark"
+      ],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "list",
+      "vueExports": ["List", "ListItem", "ListItemMeta"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "markdown-render",
+      "vueExports": ["MarkdownRender"],
+      "missingReactExports": ["MarkdownRender"],
+      "reactSource": true,
+      "reactSubpath": false,
+      "reactStyle": true,
+      "reactDocs": false,
+      "behaviorVerified": false
+    },
+    {
+      "name": "mention",
+      "vueExports": ["Mention"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "menu",
+      "vueExports": ["Menu", "MenuItem", "MenuItemGroup", "SubMenu"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "message",
+      "vueExports": ["Message"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "modal",
+      "vueExports": ["Modal"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "model-selector",
+      "vueExports": [
+        "ModelSelector",
+        "ModelSelectorContent",
+        "ModelSelectorDialog",
+        "ModelSelectorEmpty",
+        "ModelSelectorGroup",
+        "ModelSelectorInput",
+        "ModelSelectorItem",
+        "ModelSelectorList",
+        "ModelSelectorLogo",
+        "ModelSelectorLogoGroup",
+        "ModelSelectorName",
+        "ModelSelectorSeparator",
+        "ModelSelectorShortcut",
+        "ModelSelectorTrigger",
+        "MODEL_SELECTOR_PROVIDERS"
+      ],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "notification",
+      "vueExports": ["Notification"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "number-flow",
+      "vueExports": ["NumberFlow", "NumberFlowGroup", "continuous", "useCanAnimate"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "page-header",
+      "vueExports": ["PageHeader"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "pagination",
+      "vueExports": ["Pagination"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "panel-group",
+      "vueExports": ["PanelGroup", "Panel", "PanelSeparator"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "popconfirm",
+      "vueExports": ["Popconfirm"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "popover",
+      "vueExports": ["Popover"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "progress",
+      "vueExports": ["Progress"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "qr-code",
+      "vueExports": ["QrCode"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "radio",
+      "vueExports": ["Radio", "RadioGroup"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "rate",
+      "vueExports": ["Rate"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "regex-vis",
+      "vueExports": ["RegexVis"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "result",
+      "vueExports": ["Result"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "rich-text-editor",
+      "vueExports": [
+        "RichTextEditor",
+        "$createInlineComponentNode",
+        "$isInlineComponentNode",
+        "InlineComponentNode",
+        "RICH_TEXT_EDITOR_BUILT_IN_NODE_NAMES",
+        "RICH_TEXT_EDITOR_JSON_FORM_NODE_NAMES"
+      ],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "scrollbar",
+      "vueExports": ["Scrollbar"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "secret",
+      "vueExports": ["Secret"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "select",
+      "vueExports": ["Select"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "selectable-card",
+      "vueExports": ["SelectableCard"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "sender",
+      "vueExports": ["Sender", "RecorderCore", "SenderHeader", "SenderSwitch"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "skeleton",
+      "vueExports": ["Skeleton", "SkeletonLine", "SkeletonShape"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "skeleton-reveal",
+      "vueExports": ["SkeletonReveal"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "slider",
+      "vueExports": ["Slider"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "space",
+      "vueExports": ["Space"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "spin",
+      "vueExports": ["Spin"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "statistic",
+      "vueExports": ["Statistic", "Countdown"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "steps",
+      "vueExports": ["Steps", "Step"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "switch",
+      "vueExports": ["Switch"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "table",
+      "vueExports": ["Table", "Thead", "Td", "Th", "Tr", "Tbody", "TableColumn"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "tabs",
+      "vueExports": ["Tabs", "TabPane"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "tag",
+      "vueExports": ["Tag"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "tag-group",
+      "vueExports": ["TagGroup"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "textarea",
+      "vueExports": ["Textarea"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "theme-provider",
+      "vueExports": ["ThemeProvider"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "thinking-orb",
+      "vueExports": ["ThinkingOrb"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "time-picker",
+      "vueExports": ["TimePicker"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "timeline",
+      "vueExports": ["Timeline", "TimelineItem"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "toolbar",
+      "vueExports": ["Toolbar"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "tooltip",
+      "vueExports": ["Tooltip"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "tour",
+      "vueExports": ["Tour"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "transfer",
+      "vueExports": ["Transfer"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "tree",
+      "vueExports": ["Tree"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "tree-select",
+      "vueExports": ["TreeSelect"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "trigger",
+      "vueExports": ["Trigger"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "typography",
+      "vueExports": ["Typography", "TypographyParagraph", "TypographyText", "TypographyTitle"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "upload",
+      "vueExports": ["Upload"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "verification-code",
+      "vueExports": ["VerificationCode"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "voice-glow",
+      "vueExports": [
+        "VoiceGlow",
+        "useVoiceMicrophone",
+        "voiceDefaults",
+        "voiceTypePresets",
+        "resolveVoiceDefaults",
+        "resolveVoiceStyle"
+      ],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    },
+    {
+      "name": "watermark",
+      "vueExports": ["Watermark"],
+      "missingReactExports": [],
+      "reactSource": true,
+      "reactSubpath": true,
+      "reactStyle": true,
+      "reactDocs": true,
+      "behaviorVerified": false
+    }
+  ]
+}

@@ -149,6 +149,11 @@ test('JsonForm component policy preserves explicit placeholders, classes and slo
   );
   const input = {};
   assert.equal(resolveJsonFormComponent({ input }, 'missing'), input);
+  for (const type of ['__proto__', 'constructor', 'toString']) {
+    assert.equal(resolveJsonFormComponent({ input }, type), input);
+  }
+  const custom = {};
+  assert.equal(resolveJsonFormComponent({ input, constructor: custom }, 'constructor'), custom);
 });
 
 test('A2UI traversal preserves order, cycle prevention, duplicate-id precedence and lazy prefixes', () => {

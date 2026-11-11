@@ -1,15 +1,6 @@
 import type { CalendarDragHost, CalendarDragAdapter } from './drag-host.js';
-import type { CalendarEvent, CalendarEventMeta, CalendarId, CalendarCell } from './types.js';
+import type { CalendarEvent, CalendarId, CalendarCell, CalendarDragData } from './types.js';
 type CalendarDragEvent = DragEvent;
-interface CalendarDragData extends Partial<
-  Pick<CalendarEvent, 'id' | 'title' | 'schedule' | 'allDay'>
-> {
-  start?: Date;
-  end?: Date;
-  duration?: number;
-  _?: Partial<CalendarEventMeta>;
-  [key: string]: unknown;
-}
 
 import { eventRangeViolatesAllowEvents } from './special-hours-allow-events.js';
 import { pxToPercentage, percentageToMinutes } from './utils/conversions.js';
@@ -54,8 +45,18 @@ export function createCalendarDragSession(
     const { config, view, eventsManager, emit, uid: calendarUid } = calendar;
     const prefixCls = calendar.prefixCls;
     let disposed = false;
+    let dragVisualTimer: ReturnType<typeof setTimeout> | undefined;
+    let dragElement: HTMLElement | null = null;
+    function clearDragVisual() {
+      clearTimeout(dragVisualTimer);
+      dragVisualTimer = undefined;
+      dragElement?.classList.remove(`${prefixCls}__event--dragging-original`);
+      dragElement?.classList.remove(`${prefixCls}__event--dragging-ghost`);
+      dragElement = null;
+    }
     adapter.onDispose(() => {
       disposed = true;
+      clearDragVisual();
       if (dragOverCell.calendarUid === calendarUid || dragging.fromCalendar === calendarUid)
         clearDragHover();
       if (dragging.fromCalendar === calendarUid) {
@@ -203,10 +204,13 @@ export function createCalendarDragSession(
       });
 
       // Add CSS class to the event clone and original for styling while dragging.
+      clearDragVisual();
       const eventDomNode = (e.target as HTMLElement).closest<HTMLElement>(`.${prefixCls}__event`);
+      dragElement = eventDomNode;
       eventDomNode!.classList.add(`${prefixCls}__event--dragging-ghost`); // Add a class to the dragging clone.
       // Update classes right after the dragging clone is created.
-      setTimeout(() => {
+      dragVisualTimer = setTimeout(() => {
+        dragVisualTimer = undefined;
         eventDomNode!.classList.add(`${prefixCls}__event--dragging-original`); // Add a class to the original event.
         eventDomNode!.classList.remove(`${prefixCls}__event--dragging-ghost`); // Remove the ghost class.
       }, 0);
@@ -228,9 +232,7 @@ export function createCalendarDragSession(
       clearDragHover();
       dragging.eventId = null;
 
-      (e.target as HTMLElement)
-        .closest(`.${prefixCls}__event`)!
-        .classList.remove(`${prefixCls}__event--dragging-original`);
+      clearDragVisual();
 
       // When dropping the event, cancel view change if no cell received the event (in cellDragDrop).
       if (viewChanged && cancelViewChange && viewBeforeDrag.id) {

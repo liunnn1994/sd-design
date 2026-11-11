@@ -32,6 +32,40 @@ export function createTourPopover(adapter: {
 }) {
   let refreshFrame: number | undefined;
   let disconnect: (() => void) | undefined;
+  let regions: {
+    name: 'title' | 'description' | 'footer' | 'progress';
+    nodes: ChildNode[];
+    display: string;
+    active: boolean;
+  }[] = [];
+  function syncSlots() {
+    const current = adapter.popover;
+    if (!current?.wrapper.isConnected) return;
+    let changed = false;
+    for (const region of regions) {
+      const active =
+        Boolean(adapter.slots[region.name]) &&
+        (region.name !== 'progress' || !adapter.slots.footer);
+      if (active === region.active) continue;
+      region.active = active;
+      changed = true;
+      const target = current[region.name];
+      if (active) {
+        // Keep native nodes and their event handlers available when the slot is removed.
+        region.nodes.forEach((node) => node.remove());
+        target.style.display = region.name === 'footer' ? 'flex' : 'block';
+      } else {
+        target.append(...region.nodes);
+        target.style.display = region.display;
+      }
+    }
+    if (adapter.slots.footer || adapter.slots.progress) current.footer.style.display = 'flex';
+    else {
+      const footer = regions.find((region) => region.name === 'footer');
+      if (footer) current.footer.style.display = footer.display;
+    }
+    if (changed) scheduleRefresh();
+  }
   function scheduleRefresh() {
     if (refreshFrame !== undefined) return;
     const refresh = () => {
@@ -53,16 +87,18 @@ export function createTourPopover(adapter: {
       return;
     }
     if (current === adapter.popover) return;
-    for (const name of ['title', 'description', 'footer', 'progress'] as const) {
-      if (!adapter.slots[name] || (name === 'progress' && adapter.slots.footer)) continue;
-      current[name].replaceChildren();
-      current[name].style.display = name === 'footer' ? 'flex' : 'block';
-      if (name === 'progress') current.footer.style.display = 'flex';
-    }
+    regions = (['title', 'description', 'footer', 'progress'] as const).map((name) => ({
+      name,
+      nodes: Array.from(current[name].childNodes),
+      display: current[name].style.display,
+      active: false,
+    }));
     adapter.popover = current;
+    syncSlots();
     scheduleRefresh();
   }
   return {
+    syncSlots,
     scheduleRefresh,
     connect() {
       disconnect = adapter.observe(syncPopover);

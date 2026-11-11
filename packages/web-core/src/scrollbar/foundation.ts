@@ -18,6 +18,7 @@ export function createScrollbar(adapter: {
   };
   readonly outer: HTMLElement | undefined;
   readonly container: HTMLElement | undefined;
+  readonly viewport?: HTMLElement | undefined;
   readonly normalizedStyle: Record<string, unknown>;
   readonly mergedOptions: ReturnType<typeof getScrollbarOptions>;
   instance: OverlayScrollbarsInstance | null;
@@ -97,7 +98,9 @@ export function createScrollbar(adapter: {
     }
 
     adapter.instance = (adapter.createInstance ?? OverlayScrollbars)(
-      adapter.container,
+      adapter.viewport
+        ? { target: adapter.container, elements: { viewport: adapter.viewport } }
+        : adapter.container,
       adapter.mergedOptions as Parameters<typeof OverlayScrollbars>[1],
       {
         initialized: (instance) => {

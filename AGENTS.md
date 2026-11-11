@@ -70,6 +70,14 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 - When changing a component's behavior, API, or styles, update or add the related E2E and Cypress component tests in the same change, including shared tests that assert that component's behavior or styles. Keep assertions aligned with the intended behavior and run the affected tests before considering the change complete.
 
+## Vue / React Documentation Parity
+
+- Vue and React component documentation must align 1:1: the same component pages, feature coverage, example scenarios and ordering, and equivalent API documentation. Update both frameworks in the same change.
+- Keep common content in `packages/sd-vue-docs/src/content/shared`; use framework-specific blocks for actual differences. Generate the output pages instead of editing `src/content/docs` directly.
+- React documentation must use the actual React exports, TSX, props, callbacks, render props, Context and ref APIs; never reuse Vue-only syntax, registration, slots or AppContext instructions as React usage. Verify each framework against its implementation.
+- Framework-specific guides, configuration and difference explanations need not match 1:1; add or remove them according to the actual framework support.
+- Run documentation parity tests, generation checks and the documentation build after changing these sources or their generator.
+
 ## typescript
 
 Type-checking runs on **typescript-native-bridge** (TNB) — a drop-in `typescript` package whose checker is tsgo (TypeScript 7, Go-native), behind the classic `typescript` API. It is pinned exactly in `pnpm-workspace.yaml` (both `catalog:` and `overrides:` — update both, exact version, no caret) and covers `vue-tsc`, `tsc`, and `build:dts`. Editors need `js/ts.tsdk.path` in `.vscode/settings.json` plus "TypeScript: Select TypeScript Version → Use Workspace Version".

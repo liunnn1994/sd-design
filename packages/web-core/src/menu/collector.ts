@@ -36,9 +36,11 @@ export function createMenuCollector(adapter: {
   readonly data: MenuData;
   readonly parent: Readonly<MenuCollectorContext> | undefined;
   replace(value: MenuData): void;
+  onChange?(): void;
 }) {
   const props = adapter.options;
   const { key, type } = props;
+  let mounted = false;
   const context: MenuCollectorContext = {
     collectSubMenu(key, children, isReport = false) {
       const item = {
@@ -56,14 +58,15 @@ export function createMenuCollector(adapter: {
         adapter.replace([...adapter.data, item]);
       }
 
-      // 当接收到了更新数据，除了 menu，继续向上更新
-      if (isReport) {
+      // Defer upward reports until registration; replacements must update ancestor aliases too.
+      if (mounted) {
         if (type === 'popupMenu') {
           adapter.parent?.reportMenuData(adapter.data);
         } else if (type === 'subMenu' && !isUndefined(props.key)) {
           adapter.parent?.collectSubMenu(props.key, adapter.data, true);
         }
       }
+      adapter.onChange?.();
     },
     removeSubMenu(key) {
       adapter.data.splice(
@@ -71,9 +74,11 @@ export function createMenuCollector(adapter: {
         adapter.data.length,
         ...adapter.data.filter((item) => item.key !== key),
       );
+      adapter.onChange?.();
     },
     collectMenuItem(key) {
       adapter.data.push({ key });
+      adapter.onChange?.();
     },
     removeMenuItem(key) {
       adapter.data.splice(
@@ -81,21 +86,25 @@ export function createMenuCollector(adapter: {
         adapter.data.length,
         ...adapter.data.filter((item) => item.key !== key),
       );
+      adapter.onChange?.();
     },
     reportMenuData(reportData) {
       adapter.replace(reportData);
       // 继续向上更新，注意：只有 popup submenu 会接收到 report
-      if (type === 'subMenu' && !isUndefined(key)) {
+      if (mounted && type === 'subMenu' && !isUndefined(key)) {
         adapter.parent?.collectSubMenu(key, adapter.data, true);
       }
+      adapter.onChange?.();
     },
   };
 
   function mount() {
+    mounted = true;
     if (type === 'subMenu' && !isUndefined(key)) adapter.parent?.collectSubMenu(key, adapter.data);
     else if (type === 'popupMenu') adapter.parent?.reportMenuData(adapter.data);
   }
   function unmount() {
+    mounted = false;
     if (type === 'subMenu' && !isUndefined(key)) adapter.parent?.removeSubMenu(key);
   }
   return { context, mount, unmount };

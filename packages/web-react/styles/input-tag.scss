@@ -1,0 +1,4 @@
+@use '@sdata/web-core/styles/style/index.scss';
+@use './tag.scss';
+@use './tooltip.scss';
+@forward '@sdata/web-core/styles/input-tag/style/index.scss';

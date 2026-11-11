@@ -3,6 +3,15 @@ import { defineComponent, h, ref } from 'vue';
 import Checkbox from '../index';
 
 describe('Checkbox', () => {
+  it('keeps its icon valid inside a text paragraph without changing its visible box', () => {
+    cy.mount(defineComponent({ setup: () => () => h('p', [h(Checkbox, { modelValue: true })]) }));
+    cy.get('p .sd-checkbox-icon').should('have.prop', 'tagName', 'SPAN');
+    cy.get('p div').should('not.exist');
+    cy.get('p .sd-checkbox-icon').should(($icon) => {
+      expect($icon[0].getBoundingClientRect().width).to.be.greaterThan(0);
+      expect($icon[0].getBoundingClientRect().height).to.be.greaterThan(0);
+    });
+  });
   it('should emit change event', () => {
     cy.mount(Checkbox, { props: { value: 'test' }, slots: { default: 'Label' } });
     cy.get('.sd-checkbox').click();

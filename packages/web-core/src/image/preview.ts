@@ -103,7 +103,7 @@ export function createImagePreview<Handle>(adapter: {
         adapter.focusAfterRender();
       }
     },
-    maskClick(event: MouseEvent) {
+    maskClick(event: Pick<MouseEvent, 'target' | 'currentTarget'>) {
       adapter.focusOnMaskClick();
       if (adapter.maskClosable && event.target === event.currentTarget) close();
     },

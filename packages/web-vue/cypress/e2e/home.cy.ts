@@ -163,13 +163,13 @@ describe('首页与线框入场', () => {
     cy.get('.home-workbench__result').should('not.exist');
   });
 
-  it('框架文字自动循环切换，标签颜色区分状态', () => {
+  it('框架文字自动循环切换，React 为 Alpha 并保持原有框架颜色', () => {
     cy.viewport(1440, 1000);
     cy.visit('/');
     cy.get('.home-framework__window', { timeout: 60000 }).should('contain.text', 'Vue');
     cy.get('.home-framework__window', { timeout: 6000 })
       .should('contain.text', 'React')
-      .and('contain.text', '即将到来');
+      .and('contain.text', 'Alpha');
     cy.get('.home-framework button').should('not.exist');
     cy.get('.home-framework .sd-tag')
       .invoke('css', 'background-color')

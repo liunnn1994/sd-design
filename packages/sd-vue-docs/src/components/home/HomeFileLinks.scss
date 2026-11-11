@@ -1,0 +1,47 @@
+.home-file-links__preview {
+  --sd-file-previewer-size-inline-min-height: 0px;
+
+  box-sizing: border-box;
+  width: min(480px, calc(100vw - 32px), calc(var(--sd-trigger-available-height, 80dvh) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--sd-color-bg-popup);
+  border: 1px solid var(--sd-color-border-2);
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
+}
+
+.home-file-links__preview--pdf,
+.home-file-links__preview--markdown {
+  width: min(
+    480px,
+    calc(100vw - 32px),
+    calc((100dvh - 96px) * 210 / 297),
+    calc(var(--sd-trigger-available-height, 80dvh) * 210 / 297)
+  );
+  aspect-ratio: 210 / 297;
+}
+
+.home-file-links__preview--image {
+  width: min(
+    640px,
+    var(--preview-width, 360px),
+    calc(100vw - 32px),
+    calc((100dvh - 96px) * var(--preview-ratio, 1)),
+    calc(var(--sd-trigger-available-height, 80dvh) * var(--preview-ratio, 1))
+  );
+  aspect-ratio: var(--preview-ratio, 1);
+}
+
+.home-file-links__preview--pdf .sd-file-previewer-pdf-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+.home-file-links__markdown {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 12px;
+  overflow: auto;
+}

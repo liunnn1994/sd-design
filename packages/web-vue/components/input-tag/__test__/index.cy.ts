@@ -1,6 +1,23 @@
 import InputTag from '../index';
 
 describe('InputTag', () => {
+  it('updates mapped labels after a partial field mapping changes', () => {
+    cy.mount(InputTag, {
+      props: {
+        modelValue: [
+          { value: 'id', label: 'Default label', title: 'Mapped label', closable: true },
+        ],
+      },
+    });
+    cy.get('.sd-tag').should('contain.text', 'Default label');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ fieldNames: { label: 'title' } }));
+    cy.get('.sd-tag').should('contain.text', 'Mapped label');
+    cy.get('.sd-tag-close-btn').click({ force: true });
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:modelValue')![0][0]).to.deep.equal([]);
+    });
+  });
+
   it('should emit change on enter', () => {
     cy.mount(InputTag);
     cy.get('input').type('test{enter}');

@@ -1,6 +1,13 @@
 import { isObject } from '../_utils/is.js';
 import { InputTagFieldNames, TagData, TagDataInfo } from './types.js';
 
+export const DEFAULT_INPUT_TAG_FIELD_NAMES = {
+  value: 'value',
+  label: 'label',
+  closable: 'closable',
+  tagProps: 'tagProps',
+};
+
 export const getValueData = <P>(
   value: Array<string | number | TagData<P>>,
   fieldNames: Required<InputTagFieldNames>,

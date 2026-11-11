@@ -6,6 +6,8 @@
 <script setup lang="ts">
   import { computed, toRefs, provide, reactive, watchEffect, PropType } from 'vue';
 
+  import { getGridStyle } from '@sdata/web-core/grid/layout';
+
   import { getPrefixCls } from '../_utils/global-config';
   import { GridContextInjectionKey, GridDataCollectorInjectionKey } from './context';
   import { useResponsiveState } from './hook/use-responsive-state';
@@ -74,12 +76,7 @@
   const resRowGap = useResponsiveState(propRowGap, 0);
   const prefixCls = getPrefixCls('grid');
   const classNames = computed(() => [prefixCls]);
-  const style = computed(() => [
-    {
-      'gap': `${resRowGap.value}px ${resColGap.value}px`,
-      'grid-template-columns': `repeat(${resCols.value}, minmax(0px, 1fr))`,
-    },
-  ]);
+  const style = computed(() => getGridStyle(resCols.value, resRowGap.value, resColGap.value));
   const itemDataMap = reactive(new Map<number, { index: number; data: GridItemData }>());
   const itemEntries = computed(() => [...itemDataMap.values()].sort((a, b) => a.index - b.index));
   const gridContext = reactive<{

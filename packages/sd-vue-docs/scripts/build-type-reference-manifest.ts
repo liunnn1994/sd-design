@@ -1,16 +1,23 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import ts from 'typescript';
 
 const declarationKinds = ['interface', 'type', 'enum'];
 
 export async function buildTypeReferenceManifest({
   workspaceRoot,
   webVueRoot,
+  entryPath,
+  packageName = '@sdata/web-vue',
 }: {
   workspaceRoot: string;
-  webVueRoot: string;
+  webVueRoot?: string;
+  entryPath?: string;
+  packageName?: string;
 }) {
-  const publicTypesEntryPath = path.resolve(webVueRoot, 'components', 'index.ts');
+  const publicTypesEntryPath =
+    entryPath ?? (webVueRoot && path.resolve(webVueRoot, 'components', 'index.ts'));
+  if (!publicTypesEntryPath) throw new Error('A public type entry is required');
   const exportedTypes = await collectPublicTypeExports(publicTypesEntryPath);
   const manifestEntries = [];
   const seenNames = new Set<string>();
@@ -42,7 +49,7 @@ export async function buildTypeReferenceManifest({
 
   return {
     generatedAt: new Date().toISOString(),
-    packageName: '@sdata/web-vue',
+    packageName,
     types: Object.fromEntries(
       manifestEntries.map((entry) => [
         entry.name,
@@ -324,6 +331,18 @@ function consumeStringQuote(currentQuote: string, char: string, previousChar: st
 }
 
 async function resolveModulePath(fromFilePath: string, specifier: string) {
+  if (!specifier.startsWith('.') && !specifier.startsWith('@sdata/web-core/')) {
+    const resolved = ts.resolveModuleName(
+      specifier,
+      fromFilePath,
+      {
+        moduleResolution: ts.ModuleResolutionKind.Bundler,
+        module: ts.ModuleKind.ESNext,
+      },
+      ts.sys,
+    ).resolvedModule;
+    if (resolved) return resolved.resolvedFileName;
+  }
   const resolvedBasePath = specifier.startsWith('@sdata/web-core/')
     ? path.resolve(
         import.meta.dirname,
@@ -335,6 +354,7 @@ async function resolveModulePath(fromFilePath: string, specifier: string) {
   const candidatePaths = [
     resolvedBasePath,
     resolvedBasePath.replace(/\.js$/, '.ts'),
+    resolvedBasePath.replace(/\.js$/, '.tsx'),
     `${resolvedBasePath}.ts`,
     `${resolvedBasePath}.tsx`,
     path.resolve(resolvedBasePath, 'index.ts'),

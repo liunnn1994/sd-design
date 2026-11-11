@@ -1,12 +1,11 @@
 import type { SetRequired } from 'type-fest';
 
-import type { VoiceGeometry, VoiceTypeStyle } from './presets.js';
-import type { VoiceGlowProps, VoiceThemeColors } from './types.js';
+import type { VoiceGlowProps } from './types.js';
 
 import { toTriple } from './color.js';
 import { resolveVoiceDefaults, resolveVoiceStyle } from './presets.js';
 import { themePresets, generateVoiceBeamCSS } from './styles.js';
-import { registerVoiceInstance, type VoiceDriverConfig } from './voiceDriver.js';
+import { registerVoiceInstance } from './voiceDriver.js';
 export type VoiceGlowFoundationProps = SetRequired<
   VoiceGlowProps,
   | 'type'
@@ -25,6 +24,23 @@ export type VoiceGlowFoundationProps = SetRequired<
   | 'paused'
   | 'staticColors'
 >;
+export const voiceGlowPropDefaults = {
+  type: 'default',
+  theme: 'auto',
+  colorVariant: 'colorful',
+  level: 0,
+  sensitivity: 3.1,
+  threshold: 0.015,
+  attack: 0.325,
+  release: 0.86,
+  breatheDuration: 5.2,
+  bands: true,
+  processing: false,
+  processingEase: 0.6,
+  active: true,
+  paused: false,
+  staticColors: false,
+} as const satisfies Partial<VoiceGlowProps>;
 export interface VoiceGlowState {
   readonly id: string;
   readonly props: VoiceGlowFoundationProps;
@@ -34,19 +50,6 @@ export interface VoiceGlowState {
   detectedRadius: number;
   readonly systemTheme: 'dark' | 'light';
   readonly reducedMotion: boolean;
-  readonly resolvedTheme: 'dark' | 'light';
-  readonly defaults: VoiceGeometry;
-  readonly geometry: VoiceGeometry;
-  readonly palette: VoiceThemeColors;
-  readonly typeStyle: VoiceTypeStyle;
-  readonly scale: number;
-  readonly coreLight: number;
-  readonly distortion: number;
-  readonly distortionDetail: number;
-  readonly radius: number;
-  readonly bandColors: VoiceDriverConfig['bandColors'];
-  readonly css: string;
-  readonly driverConfig: VoiceDriverConfig;
 }
 export function supportsVoiceCanvasFilter() {
   return (
@@ -58,57 +61,56 @@ export function createVoiceGlowFoundation(
   state: VoiceGlowState,
   callbacks: { level(value: number): void; activate(): void; deactivate(): void },
 ) {
-  const props = state.props,
-    id = state.id;
-  state.isActive = props.active;
+  const id = state.id;
+  state.isActive = state.props.active;
   function getResolvedTheme() {
-    return props.theme === 'auto' ? state.systemTheme : props.theme;
+    return state.props.theme === 'auto' ? state.systemTheme : state.props.theme;
   }
 
   function getDefaults() {
-    return resolveVoiceDefaults(props.type, state.resolvedTheme);
+    return resolveVoiceDefaults(state.props.type, getResolvedTheme());
   }
 
   function getPalette() {
-    return themePresets[state.resolvedTheme];
+    return themePresets[getResolvedTheme()];
   }
 
   function getTypeStyle() {
-    return resolveVoiceStyle(props.type, state.resolvedTheme);
+    return resolveVoiceStyle(state.props.type, getResolvedTheme());
   }
 
   function getScale() {
-    return Math.max(0.05, props.scale ?? state.defaults.scale);
+    return Math.max(0.05, state.props.scale ?? getDefaults().scale);
   }
 
   function getGeometry() {
-    const result = { ...state.defaults };
+    const result = { ...getDefaults() };
     for (const key of Object.keys(result) as (keyof typeof result)[]) {
-      const override = props[key];
+      const override = state.props[key];
       if (typeof override === 'number') result[key] = override;
     }
     return result;
   }
 
   function getCoreLight() {
-    return Math.max(0, Math.min(3, state.geometry.coreLight));
+    return Math.max(0, Math.min(3, getGeometry().coreLight));
   }
 
   function getDistortion() {
-    return state.geometry.distortion;
+    return getGeometry().distortion;
   }
 
   function getDistortionDetail() {
-    return state.geometry.distortionDetail / state.scale;
+    return getGeometry().distortionDetail / getScale();
   }
 
   function getRadius() {
-    return props.borderRadius ?? state.detectedRadius;
+    return state.props.borderRadius ?? state.detectedRadius;
   }
 
   function getBandColors() {
     const defaults =
-      state.resolvedTheme === 'dark'
+      getResolvedTheme() === 'dark'
         ? {
             core: '255, 255, 255',
             above: '255, 70, 80',
@@ -122,65 +124,65 @@ export function createVoiceGlowFoundation(
             below: '45, 255, 171',
           };
     return {
-      core: toTriple(props.bandColors?.core ?? '') ?? defaults.core,
-      above: toTriple(props.bandColors?.above ?? '') ?? defaults.above,
-      mid: toTriple(props.bandColors?.mid ?? '') ?? defaults.mid,
-      below: toTriple(props.bandColors?.below ?? '') ?? defaults.below,
+      core: toTriple(state.props.bandColors?.core ?? '') ?? defaults.core,
+      above: toTriple(state.props.bandColors?.above ?? '') ?? defaults.above,
+      mid: toTriple(state.props.bandColors?.mid ?? '') ?? defaults.mid,
+      below: toTriple(state.props.bandColors?.below ?? '') ?? defaults.below,
     };
   }
 
   function getCss() {
-    const g = state.geometry;
+    const g = getGeometry();
     return (
       generateVoiceBeamCSS({
         id,
-        borderRadius: state.radius,
+        borderRadius: getRadius(),
         borderWidth: 1,
-        strokeOpacity: state.palette.strokeOpacity * g.strokeOpacity,
-        innerOpacity: state.palette.innerOpacity * g.innerOpacity,
-        bloomOpacity: state.palette.bloomOpacity * g.bloomOpacity,
-        innerShadow: state.palette.innerShadow,
-        colorVariant: props.colorVariant,
-        colors: props.colors,
-        brightness: props.brightness ?? state.typeStyle.brightness ?? state.palette.brightness,
-        saturation: props.saturation ?? state.typeStyle.saturation ?? state.palette.saturation,
-        theme: state.resolvedTheme,
-        hueBase: state.palette.hueBase,
-        glowSize: g.glowSize * state.scale,
-        glowWidth: g.glowWidth * state.scale,
-        glowHeight: g.glowHeight * state.scale,
+        strokeOpacity: getPalette().strokeOpacity * g.strokeOpacity,
+        innerOpacity: getPalette().innerOpacity * g.innerOpacity,
+        bloomOpacity: getPalette().bloomOpacity * g.bloomOpacity,
+        innerShadow: getPalette().innerShadow,
+        colorVariant: state.props.colorVariant,
+        colors: state.props.colors,
+        brightness: state.props.brightness ?? getTypeStyle().brightness ?? getPalette().brightness,
+        saturation: state.props.saturation ?? getTypeStyle().saturation ?? getPalette().saturation,
+        theme: getResolvedTheme(),
+        hueBase: getPalette().hueBase,
+        glowSize: g.glowSize * getScale(),
+        glowWidth: g.glowWidth * getScale(),
+        glowHeight: g.glowHeight * getScale(),
         strokeScale: g.strokeScale,
         innerScale: g.innerScale,
         innerHeight: g.innerHeight,
         bloomScale: g.bloomScale,
         bloomHeight: g.bloomHeight,
-        coreSize: g.coreSize * state.scale,
-        coreLight: state.coreLight,
+        coreSize: g.coreSize * getScale(),
+        coreLight: getCoreLight(),
         coreLightWidth: g.coreLightWidth,
         coreLightHeight: g.coreLightHeight,
-        rangeWidth: g.rangeWidth * state.scale,
-        rangeHeight: g.rangeHeight * state.scale,
+        rangeWidth: g.rangeWidth * getScale(),
+        rangeHeight: g.rangeHeight * getScale(),
         softness: g.softness,
-        distortion: state.distortion > 0,
-        scale: state.scale,
-      }) + (props.css ? `\n${props.css.replaceAll('{id}', id)}` : '')
+        distortion: getDistortion() > 0,
+        scale: getScale(),
+      }) + (state.props.css ? `\n${state.props.css.replaceAll('{id}', id)}` : '')
     );
   }
 
   function getDriverConfig() {
-    const g = state.geometry;
-    const sc = state.scale;
+    const g = getGeometry();
+    const sc = getScale();
     return {
       id,
-      sensitivity: props.sensitivity,
-      threshold: props.threshold,
-      attack: props.attack,
-      release: props.release,
+      sensitivity: state.props.sensitivity,
+      threshold: state.props.threshold,
+      attack: state.props.attack,
+      release: state.props.release,
       idle: g.idle,
-      breatheDuration: props.breatheDuration,
+      breatheDuration: state.props.breatheDuration,
       reach: g.reach,
       spread: g.spread,
-      bands: props.bands,
+      bands: state.props.bands,
       flow: g.flow * sc,
       lobeSpacing: g.lobeSpacing * sc,
       bend: g.bend * sc,
@@ -198,24 +200,24 @@ export function createVoiceGlowFoundation(
       bandAberration: g.bandAberration,
       rangeWidth: g.rangeWidth * sc,
       rangeHeight: g.rangeHeight * sc,
-      theme: state.resolvedTheme,
-      bandColors: state.bandColors,
-      distortion: state.distortion,
-      coreLight: state.coreLight,
+      theme: getResolvedTheme(),
+      bandColors: getBandColors(),
+      distortion: getDistortion(),
+      coreLight: getCoreLight(),
       scale: sc,
-      radius: state.radius,
-      processing: props.processing,
+      radius: getRadius(),
+      processing: state.props.processing,
       processingDuration: g.processingDuration,
       processingLevel: g.processingLevel,
-      processingEase: props.processingEase,
+      processingEase: state.props.processingEase,
       processingTravel: g.processingTravel,
       processingCurve: g.processingCurve,
       cornerFollow: g.cornerFollow,
-      hueRange: props.hueRange ?? state.palette.hueRange ?? 24,
-      hueDuration: props.hueDuration ?? state.palette.hueDuration ?? 12,
-      staticColors: props.colorVariant === 'mono' || props.staticColors,
+      hueRange: state.props.hueRange ?? getPalette().hueRange ?? 24,
+      hueDuration: state.props.hueDuration ?? getPalette().hueDuration ?? 12,
+      staticColors: state.props.colorVariant === 'mono' || state.props.staticColors,
       reducedMotion: state.reducedMotion,
-      paused: props.paused,
+      paused: state.props.paused,
     };
   }
 
@@ -254,10 +256,11 @@ export function createVoiceGlowFoundation(
     if (!state.wrapper || !(state.isActive || state.isFading)) return;
     const cleanup = registerVoiceInstance(
       state.wrapper,
-      state.driverConfig,
+      getDriverConfig(),
       {
-        stream: props.stream,
-        getLevel: () => (typeof props.level === 'function' ? props.level() : props.level),
+        stream: state.props.stream,
+        getLevel: () =>
+          typeof state.props.level === 'function' ? state.props.level() : state.props.level,
       },
       (level) => {
         callbacks.level(level);
@@ -274,7 +277,7 @@ export function createVoiceGlowFoundation(
 
   function mountStyle() {
     styleElement = document.createElement('style');
-    styleElement.textContent = state.css;
+    styleElement.textContent = getCss();
     state.wrapper?.before(styleElement);
   }
 

@@ -3,6 +3,21 @@ import { h } from 'vue';
 import { PerformantEllipsis } from '../index';
 
 describe('PerformantEllipsis first click', () => {
+  it('retains a click arriving while hover activation is pending', () => {
+    const onClick = cy.spy().as('clicked');
+    cy.mount(PerformantEllipsis, {
+      props: { tooltip: false, expandTrigger: 'click' },
+      attrs: { style: 'width: 150px', onClick },
+      slots: { default: 'Long text '.repeat(30) },
+    });
+    cy.get('.sd-ellipsis').then(($root) => {
+      $root[0].dispatchEvent(new MouseEvent('mouseenter'));
+      $root[0].click();
+    });
+    cy.get('.sd-ellipsis--expanded').should('exist');
+    cy.get('@clicked').should('have.been.calledOnce');
+  });
+
   it('expands after activation without emitting a second external click', () => {
     const onClick = cy.spy().as('clicked');
     cy.mount(PerformantEllipsis, {

@@ -216,6 +216,20 @@ export function createCropper(adapter: {
   }
 
   function bindImageEvents(image: CropperImage) {
+    // Cropper 2.3 skips its persistent load listener when the initial image is cached.
+    addTrackedListener(image.$image, 'load', () => {
+      if (
+        destroyed ||
+        !image.parentNode ||
+        (image.clientWidth === image.$image.naturalWidth &&
+          image.clientHeight === image.$image.naturalHeight)
+      )
+        return;
+      const parent = image.parentNode;
+      const next = image.nextSibling;
+      image.remove();
+      parent.insertBefore(image, next);
+    });
     addTrackedListener(image, 'transform', (event) => {
       adapter.imageTransform(
         (event as CustomEvent).detail as { matrix: number[]; oldMatrix: number[] },

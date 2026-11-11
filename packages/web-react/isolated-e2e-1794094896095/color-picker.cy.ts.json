@@ -1,0 +1,9 @@
+{
+  "spec": "color-picker.cy.ts",
+  "status": "finished",
+  "tests": 42,
+  "passed": 41,
+  "failed": 1,
+  "pending": 0,
+  "skipped": 0
+}

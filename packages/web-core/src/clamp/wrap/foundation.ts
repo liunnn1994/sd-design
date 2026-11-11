@@ -463,8 +463,12 @@ export function createWrapClampFoundation(options: WrapClampFoundationOptions) {
   }
   const requestRecompute = createCoalescingRunner(async () => {
     isRecomputing = true;
+    const initialWidth = rootRef.value?.getBoundingClientRect().width ?? 0;
     try {
       await recompute();
+      // A render awaited by the final candidate can also commit an external resize.
+      const currentWidth = rootRef.value?.getBoundingClientRect().width ?? 0;
+      if (Math.abs(currentWidth - initialWidth) > layoutTolerance) requestRecompute();
       lastLayoutSignature = layoutSignature();
     } finally {
       isRecomputing = false;

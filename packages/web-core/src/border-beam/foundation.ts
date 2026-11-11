@@ -4,18 +4,10 @@ import type {
   BorderBeamColorVariant,
   BorderBeamFlowCoordinate,
   BorderBeamFlowPoint,
-  ThemeColors,
-  SizeConfig,
 } from './types.js';
 
 import { registerPulseInstance } from './pulseDriver.js';
-import {
-  sizePresets,
-  sizeThemePresets,
-  generateBeamCSS,
-  getPulseDriverConfig,
-  type PulseDriverConfig,
-} from './styles.js';
+import { sizePresets, sizeThemePresets, generateBeamCSS, getPulseDriverConfig } from './styles.js';
 export interface BorderBeamState {
   readonly id: string;
   readonly props: {
@@ -45,18 +37,6 @@ export interface BorderBeamState {
   flowBox: { width: number; height: number };
   flowSeed: number;
   readonly systemTheme: 'dark' | 'light';
-  readonly resolvedTheme: 'dark' | 'light';
-  readonly themeConfig: ThemeColors;
-  readonly sizeConfig: SizeConfig;
-  readonly isPulse: boolean;
-  readonly finalBorderRadius: number;
-  readonly finalDuration: number;
-  readonly finalSaturation: number;
-  readonly finalBrightness: number;
-  readonly finalHueRange: number;
-  readonly finalStaticColors: boolean;
-  readonly cssStyles: string;
-  readonly driverConfig: PulseDriverConfig | null;
 }
 export function createBorderBeamFoundation(
   state: BorderBeamState,
@@ -139,7 +119,7 @@ export function createBorderBeamFoundation(
   }
 
   function getFlowColors() {
-    const isDark = state.resolvedTheme === 'dark';
+    const isDark = getResolvedTheme() === 'dark';
     const variants = {
       colorful: isDark
         ? { accent: '#65d8ff', edge: '#b060ff' }
@@ -370,7 +350,7 @@ export function createBorderBeamFoundation(
   }
 
   function getThemeConfig() {
-    return sizeThemePresets[props.size][state.resolvedTheme];
+    return sizeThemePresets[props.size][getResolvedTheme()];
   }
 
   function getSizeConfig() {
@@ -382,7 +362,7 @@ export function createBorderBeamFoundation(
   }
 
   function getFinalBorderRadius() {
-    return props.borderRadius ?? state.detectedRadius ?? state.sizeConfig.borderRadius;
+    return props.borderRadius ?? state.detectedRadius ?? getSizeConfig().borderRadius;
   }
 
   function getDefaultDuration(size: BorderBeamSize, isPulse: boolean): number {
@@ -392,15 +372,15 @@ export function createBorderBeamFoundation(
   }
 
   function getFinalDuration() {
-    return props.duration ?? getDefaultDuration(props.size, state.isPulse);
+    return props.duration ?? getDefaultDuration(props.size, getIsPulse());
   }
 
   function getFinalSaturation() {
-    return props.saturation ?? state.themeConfig.saturation;
+    return props.saturation ?? getThemeConfig().saturation;
   }
 
   function getFinalBrightness() {
-    return props.brightness ?? state.themeConfig.brightness ?? 1.3;
+    return props.brightness ?? getThemeConfig().brightness ?? 1.3;
   }
 
   function getFinalHueRange() {
@@ -414,21 +394,21 @@ export function createBorderBeamFoundation(
   function getCssStyles() {
     return generateBeamCSS({
       id,
-      borderRadius: state.finalBorderRadius,
-      borderWidth: state.sizeConfig.borderWidth,
-      duration: state.finalDuration,
-      strokeOpacity: state.themeConfig.strokeOpacity,
-      innerOpacity: state.themeConfig.innerOpacity,
-      bloomOpacity: state.themeConfig.bloomOpacity,
-      innerShadow: state.themeConfig.innerShadow,
+      borderRadius: getFinalBorderRadius(),
+      borderWidth: getSizeConfig().borderWidth,
+      duration: getFinalDuration(),
+      strokeOpacity: getThemeConfig().strokeOpacity,
+      innerOpacity: getThemeConfig().innerOpacity,
+      bloomOpacity: getThemeConfig().bloomOpacity,
+      innerShadow: getThemeConfig().innerShadow,
       size: props.size,
       colorVariant: props.colorVariant,
-      staticColors: state.finalStaticColors,
-      brightness: state.finalBrightness,
-      saturation: state.finalSaturation,
-      hueRange: state.finalHueRange,
-      theme: state.resolvedTheme,
-      hairlineOpacity: state.themeConfig.hairlineOpacity,
+      staticColors: getFinalStaticColors(),
+      brightness: getFinalBrightness(),
+      saturation: getFinalSaturation(),
+      hueRange: getFinalHueRange(),
+      theme: getResolvedTheme(),
+      hairlineOpacity: getThemeConfig().hairlineOpacity,
     });
   }
 
@@ -444,7 +424,7 @@ export function createBorderBeamFoundation(
   }
 
   function mountStyle() {
-    ensureStyleEl().textContent = state.cssStyles;
+    ensureStyleEl().textContent = getCssStyles();
   }
 
   function syncCss(css: string) {
@@ -457,13 +437,13 @@ export function createBorderBeamFoundation(
   }
 
   function getDriverConfig() {
-    return state.isPulse
+    return getIsPulse()
       ? getPulseDriverConfig(
           props.size,
-          state.resolvedTheme,
-          state.finalDuration,
-          state.finalHueRange,
-          state.finalStaticColors,
+          getResolvedTheme(),
+          getFinalDuration(),
+          getFinalHueRange(),
+          getFinalStaticColors(),
           id,
         )
       : null;
@@ -477,7 +457,8 @@ export function createBorderBeamFoundation(
       unregisterPulse = null;
     }
 
-    if (!state.driverConfig) return;
+    const config = getDriverConfig();
+    if (!config) return;
     if (!(state.isActive || state.isFading) || !state.isVisible) return;
 
     const el = state.wrapper;
@@ -490,7 +471,7 @@ export function createBorderBeamFoundation(
       return;
     }
 
-    unregisterPulse = registerPulseInstance(el, state.driverConfig);
+    unregisterPulse = registerPulseInstance(el, config);
   }
 
   function mountPulse() {

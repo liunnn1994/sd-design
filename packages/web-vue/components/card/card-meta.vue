@@ -72,12 +72,9 @@
   const context = inject(cardInjectionKey, undefined);
   const hasTitle = () => Boolean(slots.title ?? props.title);
   const hasDescription = () => Boolean(slots.description ?? props.description);
+  let unregister: (() => void) | undefined;
   onMounted(() => {
-    if (context) {
-      context.metaCount++;
-    }
+    unregister = context?.registerMeta();
   });
-  onBeforeUnmount(() => {
-    if (context) context.metaCount--;
-  });
+  onBeforeUnmount(() => unregister?.());
 </script>

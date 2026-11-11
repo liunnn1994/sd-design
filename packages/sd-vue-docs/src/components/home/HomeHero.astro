@@ -1,4 +1,7 @@
 ---
+import { Button as ReactButton } from '@sdata/web-react';
+import ReactWorkbench from '../react/home/HomeAIWorkbench';
+import { frameworkHref, type DocsFramework } from '../../utils/framework-navigation';
 import { Button } from '@sdata/web-vue';
 import { docsSidebar } from '../../generated/docs-sidebar';
 import HomeAIWorkbench from './HomeAIWorkbench.vue';
@@ -6,6 +9,9 @@ import HomeFramework from './HomeFramework.vue';
 type Entry = { slug?: string; label: string; items?: Entry[] };
 const collect = (entries: Entry[]): { label: string; href: string }[] => entries.flatMap((entry) => entry.items ? collect(entry.items) : entry.slug?.startsWith('components/') ? [{ label: entry.label, href: `/${entry.slug}/` }] : []);
 const components = collect(docsSidebar);
+const { framework = 'vue' } = Astro.props as { framework?: DocsFramework };
+const href = (path: string) => frameworkHref(path, framework, import.meta.env.BASE_URL);
+const ActionButton = framework === 'react' ? ReactButton : Button;
 ---
 <section class="home-hero" aria-labelledby="home-title">
   <div class="home-hero__copy">
@@ -14,13 +20,13 @@ const components = collect(docsSidebar);
     <p class="home-hero__description" data-home-enter>从一句提问，到完整的产品体验。<br class="home-hero__mobile-break" /> {components.length} 个可组合组件，让你专注创造下一种可能。</p>
     <div data-home-enter><HomeFramework client:load /></div>
     <div class="home-hero__actions" data-home-enter>
-      <Button type="primary" href="/guides/start/">开始使用</Button>
-      <Button href="/components/">浏览组件</Button>
+      <ActionButton type="primary" href={href('/guides/start/')}>开始使用</ActionButton>
+      <ActionButton href={href('/components/')}>浏览组件</ActionButton>
     </div>
   </div>
-  <div class="home-hero__workbench" data-home-enter><HomeAIWorkbench client:load /></div>
+  <div class="home-hero__workbench" data-home-enter>{framework === 'react' ? <ReactWorkbench client:only="react" /> : <HomeAIWorkbench client:load />}</div>
   <nav class="home-hero__shortcuts" aria-label="快速入口">
-    <a href="/components/sender/">AI 对话 ↗</a><a href="/components/skeleton-reveal/">线框入场 ↗</a><a href="/guides/theme-editor/">主题编辑器 ↗</a><a href="/mcp/">接入 MCP ↗</a>
+    <a href={href('/components/sender/')}>AI 对话 ↗</a><a href={href('/components/skeleton-reveal/')}>线框入场 ↗</a><a href={href('/guides/theme-editor/')}>主题编辑器 ↗</a><a href={href('/mcp/')}>接入 MCP ↗</a>
   </nav>
 </section>
 

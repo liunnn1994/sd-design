@@ -61,6 +61,8 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import { getKvListFieldProps, getKvListKeyProps } from '@sdata/web-core/kv-list/fields';
+
   import type {
     KvListFieldSlotProps,
     KvListItem,
@@ -77,7 +79,6 @@
   import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
   import Input, { InputPassword } from '../input';
   import { useI18n } from '../locale';
-  import { COMMON_HTTP_HEADERS } from './constants';
 
   defineOptions({ name: 'KvListRow' });
 
@@ -119,17 +120,12 @@
     get: () => item.value,
     set: (value: string) => updateValue(value),
   });
-  const mergedKeyProps = computed<Record<string, unknown>>(() => ({
-    placeholder: t('kvList.keyPlaceholder'),
-    ...(type === 'http-header' ? { data: [...COMMON_HTTP_HEADERS] } : {}),
-    ...keyProps,
-    disabled: disabled || Boolean(keyProps?.disabled),
-  }));
-  const mergedValueProps = computed<Record<string, unknown>>(() => ({
-    placeholder: t('kvList.valuePlaceholder'),
-    ...valueProps,
-    disabled: disabled || Boolean(valueProps?.disabled),
-  }));
+  const mergedKeyProps = computed(() =>
+    getKvListKeyProps(keyProps, disabled, t('kvList.keyPlaceholder'), type),
+  );
+  const mergedValueProps = computed(() =>
+    getKvListFieldProps(valueProps, disabled, t('kvList.valuePlaceholder')),
+  );
 
   function updateKey(value: string) {
     emit('update', { ...item, key: value });

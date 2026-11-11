@@ -339,6 +339,40 @@ test('load-more deduplicates pending work then rechecks freshly modeled descenda
   );
 });
 
+test('late load results cannot expand replacement nodes or clear their newer request', async () => {
+  const { state, actions, events } = fixture();
+  const releases: (() => void)[] = [];
+  state.loader = () => new Promise<void>((resolve) => releases.push(resolve));
+  const old = actions.loadMore('root');
+  state.nodes = getKey2TreeNode(getFlattenTreeData(generateTreeData([{ key: 'root' }], options)));
+  const fresh = actions.loadMore('root');
+  assert.equal(releases.length, 2);
+  releases[0]();
+  await old;
+  assert.deepEqual(state.loading, ['root']);
+  assert.deepEqual(events, []);
+  releases[1]();
+  await fresh;
+  assert.deepEqual(state.loading, []);
+  assert.deepEqual(state.expanded, ['root']);
+});
+
+test('cancelled loading stays ignored even when the same raw node starts another request', async () => {
+  const { state, actions, events } = fixture();
+  const releases: (() => void)[] = [];
+  state.loader = () => new Promise<void>((resolve) => releases.push(resolve));
+  const old = actions.loadMore('root');
+  actions.cancelPendingLoads();
+  const fresh = actions.loadMore('root');
+  releases[0]();
+  await old;
+  assert.deepEqual(state.loading, ['root']);
+  assert.deepEqual(events, []);
+  releases[1]();
+  await fresh;
+  assert.deepEqual(state.expanded, ['root']);
+});
+
 test('load failures clear only their loading key and use the adapter error sink', async () => {
   const { state, actions, events } = fixture();
   const error = new Error('load failed');

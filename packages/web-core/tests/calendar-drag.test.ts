@@ -144,6 +144,22 @@ test('Calendar drag serializes dates and metadata and rejects resize/text drags'
   assert.equal(state.touch.isDraggingEvent, false);
 });
 
+for (const finish of ['end', 'dispose'] as const) {
+  test(`Calendar clears pending drag visuals on ${finish}`, async (context) => {
+    context.mock.timers.enable({ apis: ['setTimeout'] });
+    const state = fixture(undefined, 'source', [{ start: date('10:00'), end: date('11:00') }]);
+    const source = state.config.events[0];
+    const native = dragEvent();
+    state.dnd.eventDragStart(native.event, source);
+    assert.equal(native.classes.has('sd-calendar__event--dragging-ghost'), true);
+    if (finish === 'end') state.dnd.eventDragEnd(native.event, source);
+    else state.dispose();
+    context.mock.timers.tick(1);
+    assert.equal(native.classes.has('sd-calendar__event--dragging-ghost'), false);
+    assert.equal(native.classes.has('sd-calendar__event--dragging-original'), false);
+  });
+}
+
 test('Calendar internal drop preserves object identity, numeric schedule id and refreshed metadata', async () => {
   const state = fixture(undefined, 'source', [
     { start: date('10:00'), end: date('11:00'), schedule: 1 },

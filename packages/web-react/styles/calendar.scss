@@ -1,0 +1,4 @@
+@use '@sdata/web-core/styles/style/index.scss' as base;
+@use './scrollbar.scss';
+@use './ellipsis.scss';
+@forward '@sdata/web-core/styles/calendar/style/index.scss';

@@ -61,8 +61,9 @@ export function createAffix(adapter: {
     if (!adapter.wrapper || !adapter.target) return;
     const { offsetTop, offsetBottom } = adapter.props;
     const wrapperRect = adapter.wrapper.getBoundingClientRect();
+    const viewportHeight = document.documentElement.clientHeight;
     const targetRect = isWindow(adapter.target)
-      ? { top: 0, bottom: window.innerHeight }
+      ? { top: 0, bottom: viewportHeight }
       : adapter.target.getBoundingClientRect();
     const result = getAffixPosition({
       offsetTop,
@@ -73,7 +74,7 @@ export function createAffix(adapter: {
       wrapperHeight: adapter.wrapper.offsetHeight,
       contentHeight: adapter.fixed && adapter.content ? adapter.content.offsetHeight : undefined,
       fixed: adapter.fixed,
-      viewportHeight: isUndefined(adapter.props.offsetBottom) ? 0 : window.innerHeight,
+      viewportHeight,
     });
     if (result.fixed !== adapter.fixed) {
       adapter.setFixed(result.fixed);

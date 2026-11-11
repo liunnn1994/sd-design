@@ -46,6 +46,15 @@ export function getMenuFocusTarget(mode: MenuMode, key: string, current: number,
   if (key === KEYBOARD_KEY.END) return length - 1;
   return current < 0 ? 0 : forward ? Math.min(current + 1, length - 1) : Math.max(current - 1, 0);
 }
+export function getMenuFocusItems(container: HTMLElement) {
+  return Array.from(container.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter(
+    (element) =>
+      element.tabIndex === 0 &&
+      element.offsetParent !== null &&
+      element.getAttribute('aria-hidden') !== 'true' &&
+      element.ownerDocument.defaultView?.getComputedStyle(element).visibility === 'visible',
+  );
+}
 export function isMenuNavigationKey(mode: MenuMode, key: string) {
   return getMenuFocusTarget(mode, key, 0, 1) !== undefined;
 }

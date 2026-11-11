@@ -55,9 +55,11 @@ export const createCalendarTexts = (
 
   // Weekday names — reordered from dayjs Sun-first to calendar Mon-first.
   const weekDays = reorderSunToMon(localeData.weekdays || []);
-  const weekDaysShort = reorderSunToMon(localeData.weekdaysShort || []);
+  const shortNames =
+    localeData.weekdaysShort || localeData.weekdays?.map((day) => day.slice(0, 3)) || [];
+  const weekDaysShort = reorderSunToMon(shortNames);
   const weekDaysMin = reorderSunToMon(
-    localeData.weekdaysMin || localeData.weekdaysShort?.map((d) => d.slice(0, 2)) || [],
+    localeData.weekdaysMin || shortNames.map((day) => day.slice(0, 2)),
   );
 
   // Month names (already 0-indexed Jan–Dec in dayjs).

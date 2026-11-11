@@ -1,0 +1,16 @@
+.home-workbench {
+  min-width: 0;
+  text-align: left;
+}
+
+.home-workbench__file {
+  display: none;
+}
+
+.home-workbench__below {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 8px;
+}

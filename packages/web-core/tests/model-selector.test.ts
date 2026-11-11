@@ -370,6 +370,8 @@ test('global shortcut guards do not read current keys; matching chooses first en
     f.foundation.registerItem(row);
   f.foundation.handleShortcut(key('k', { ctrlKey: true, type: 'keyup' }).event);
   f.foundation.handleShortcut(key('k', { ctrlKey: true, repeat: true }).event);
+  f.foundation.handleShortcut(key('k', { ctrlKey: true, isComposing: true }).event);
+  f.foundation.handleShortcut(key('k', { ctrlKey: true, defaultPrevented: true }).event);
   f.state.innerVisible = false;
   f.foundation.handleShortcut(key('k', { ctrlKey: true }).event);
   assert.equal(f.currentKeyReads, 0);

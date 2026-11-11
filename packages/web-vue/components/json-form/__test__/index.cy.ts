@@ -9,6 +9,14 @@ import JsonForm, { A2UI_0_9_1 } from '../index';
 import JsonFormItem from '../json-form-item.vue';
 
 describe('JsonForm', () => {
+  it('falls back to Input for unknown component names that match prototype properties', () => {
+    const model = { value: '' };
+    cy.mount(JsonForm, {
+      props: { modelValue: model, schemas: [{ field: 'value', type: 'constructor' }] },
+    });
+    cy.get('input').type('fallback');
+    cy.wrap(model).should('have.property', 'value', 'fallback');
+  });
   it('renders the default schema and updates a nested model', () => {
     const model = { user: { name: '' } };
     cy.mount(JsonForm, {

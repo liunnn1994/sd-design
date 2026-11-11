@@ -37,7 +37,16 @@
 
 <script lang="ts" setup>
   import type { PropType, StyleValue, VNodeChild } from 'vue';
-  import { computed, defineComponent, inject, nextTick, ref, useTemplateRef, watch } from 'vue';
+  import {
+    computed,
+    defineComponent,
+    inject,
+    nextTick,
+    onBeforeUnmount,
+    ref,
+    useTemplateRef,
+    watch,
+  } from 'vue';
 
   import {
     createQrCode,
@@ -287,6 +296,8 @@
       svgMarkup.value = markup;
     },
   });
+
+  onBeforeUnmount(foundation.dispose);
 
   watch(
     () => [

@@ -1,0 +1,17 @@
+---
+import VueInput from './HomeInputExample.vue';
+import VueContent from './HomeContentExample.vue';
+import VueFeedback from './HomeFeedbackExample.vue';
+import ReactInput from '../react/home/HomeInputExample';
+import ReactContent from '../react/home/HomeContentExample';
+import ReactFeedback from '../react/home/HomeFeedbackExample';
+import { frameworkHref, type DocsFramework } from '../../utils/framework-navigation';
+import './HomeAIExamples.scss';
+const { framework = 'vue' } = Astro.props as { framework?: DocsFramework };
+const href = (path: string) => frameworkHref(path, framework, import.meta.env.BASE_URL);
+---
+<div class="home-ai-examples">
+  <article><header><span>01 / 输入</span><a href={href('/components/sender/')}>发送器 ↗</a></header><div class="home-ai-examples__stage">{framework === 'react' ? <ReactInput client:only="react" /> : <VueInput client:load />}</div></article>
+  <article><header><span>02 / 呈现</span><a href={href('/components/timeline/')}>时间轴 ↗</a></header><div class="home-ai-examples__stage">{framework === 'react' ? <ReactContent client:only="react" /> : <VueContent client:load />}</div></article>
+  <article><header><span>03 / 反馈</span><a href={href('/components/skeleton-reveal/')}>骨架过渡 ↗</a></header><div class="home-ai-examples__stage">{framework === 'react' ? <ReactFeedback client:only="react" /> : <VueFeedback client:load />}</div></article>
+</div>

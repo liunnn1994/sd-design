@@ -64,6 +64,7 @@ function fixture() {
   const ready = deferred<HTMLImageElement>();
   const canvas = new ElementStub();
   const image = Object.assign(new ElementStub(), {
+    $image: loaded,
     clientWidth: 320,
     clientHeight: 180,
     src: '',
@@ -332,7 +333,7 @@ test('cropper ready fit uses scaled image client dimensions and explicit zero co
     [f.selection.x, f.selection.y, f.selection.width, f.selection.height],
     [0, 0, 638, 538],
   );
-  assert.equal(f.loaded.count(), 1);
+  assert.equal(f.loaded.count(), 2);
   f.image.clientWidth = 400;
   f.loaded.emit('load');
   await f.flush();
@@ -372,4 +373,35 @@ test('cropper source sync writes current native image, falls back before initial
   assert.equal(f.source.src, '');
   assert.equal(f.constructions, 1);
   assert.equal(f.controller.getInstance(), null);
+});
+
+test('cached image replacement reconnects only stale dimensions and removes the load listener on destroy', async () => {
+  const f = fixture();
+  const sibling = {};
+  const calls: string[] = [];
+  Object.assign(f.loaded, { naturalWidth: 640, naturalHeight: 360 });
+  Object.assign(f.image, {
+    parentNode: {
+      insertBefore(image: unknown, next: unknown) {
+        assert.equal(image, f.image);
+        assert.equal(next, sibling);
+        calls.push('insert');
+        f.image.clientWidth = 640;
+        f.image.clientHeight = 360;
+      },
+    },
+    nextSibling: sibling,
+    remove: () => calls.push('remove'),
+  });
+  await f.controller.mount();
+  await f.flush();
+  f.loaded.emit('load');
+  assert.deepEqual(calls, ['remove', 'insert']);
+  f.loaded.emit('load');
+  assert.equal(calls.length, 2);
+  f.controller.destroy();
+  f.image.clientWidth = 1;
+  f.loaded.emit('load');
+  assert.equal(calls.length, 2);
+  assert.equal(f.loaded.count(), 0);
 });

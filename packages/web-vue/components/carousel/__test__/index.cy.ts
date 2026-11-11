@@ -1,3 +1,6 @@
+import { defineComponent, h, ref } from 'vue';
+
+import ConfigProvider from '../../config-provider';
 import Carousel from '../index';
 
 const { Item } = Carousel;
@@ -281,5 +284,64 @@ describe('Carousel', () => {
     cy.wait(600);
     vm().then((carousel) => carousel.prev());
     activeIndicator(2);
+  });
+
+  it('isolates nested items with another prefix when navigating and reordering', () => {
+    const values = ref([1, 2, 3]);
+    cy.mount(
+      defineComponent({
+        setup: () => () =>
+          h(
+            Carousel,
+            {
+              'moveSpeed': 0,
+              'data-testid': 'outer',
+              'style': 'width: 600px; height: 300px',
+            },
+            {
+              default: () =>
+                values.value.map((value) =>
+                  h(
+                    Item,
+                    { 'key': value, 'data-slide': value },
+                    {
+                      default: () => [
+                        h('span', String(value)),
+                        value === 1
+                          ? h(
+                              ConfigProvider,
+                              { prefixCls: 'custom' },
+                              {
+                                default: () =>
+                                  h(
+                                    Carousel,
+                                    { 'moveSpeed': 0, 'data-testid': 'inner' },
+                                    {
+                                      default: () => [
+                                        h(Item, null, () => 'A'),
+                                        h(Item, null, () => 'B'),
+                                      ],
+                                    },
+                                  ),
+                              },
+                            )
+                          : null,
+                      ],
+                    },
+                  ),
+                ),
+            },
+          ),
+      }),
+    );
+    cy.get('[data-testid="inner"]').should('have.class', 'custom-carousel');
+    cy.get('[data-slide="2"]').should('have.attr', 'aria-label', '第 2 张,共 3 张');
+    cy.get('[data-testid="outer"] > .sd-carousel-arrow .sd-carousel-arrow-right').click();
+    cy.get('[data-slide="2"]').should('have.attr', 'aria-hidden', 'false');
+    cy.then(() => {
+      values.value = [3, 2, 1];
+    });
+    cy.get('[data-slide="3"]').should('have.attr', 'aria-label', '第 1 张,共 3 张');
+    cy.get('[data-slide="1"]').should('have.attr', 'aria-label', '第 3 张,共 3 张');
   });
 });

@@ -1,4 +1,4 @@
-@use 'driver.js/dist/driver.css';
+@use '@sdata/web-core/styles/tour/style/vendor.scss';
 @use '../../style/theme/index.scss' as global;
 @use './token.scss' as *;
 @use '../../button/style/token.scss' as button;

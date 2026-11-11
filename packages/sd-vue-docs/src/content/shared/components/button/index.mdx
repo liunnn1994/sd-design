@@ -1,0 +1,132 @@
+---
+title: 按钮 Button
+description: 按钮是一种命令组件，可发起一个即时操作。
+---
+
+### 基本用法
+
+按钮分为 `primary` - **主要按钮**、`secondary` - **次要按钮（默认）**、`dashed` - **虚线按钮**、`outline` - **线形按钮**、`text` - **文本按钮**五种类型。
+
+<Demo id="button/basic" />
+
+### 禁用状态
+
+按钮的禁用状态。
+
+<Demo id="button/disabled" />
+
+### 组合按钮
+
+通过 `<sd-button-group>` 组件使按钮以组合方式出现。可用在同级多项操作中。
+
+<Demo id="button/group" />
+
+### 图标按钮
+
+按钮可以嵌入图标。在只设置图标时，按钮的宽高相等。
+
+<Demo id="button/icon" />
+
+### 加载中状态
+
+通过设置 `loading` 可以让按钮处于加载中状态。处于加载中状态的按钮不会触发点击事件。
+
+<Demo id="button/loading" />
+
+### 长按钮
+
+通过设置 `long` 属性，使按钮的宽度跟随容器的宽度。
+
+<Demo id="button/long" />
+
+### 按钮形状
+
+按钮分为 `square` - **长方形（默认）**、`circle` - **圆形**、`round` - **全圆角**三种形状。
+
+<Demo id="button/shape" />
+
+### 按钮尺寸
+
+按钮分为 `mini`、`small`、`medium`、`large` 四种尺寸。高度分别为：`24px`、`28px`、`32px`、`40px`。推荐（默认）尺寸为 `medium`。可在不同场景及不同业务需求选择适合尺寸。
+
+<Demo id="button/size" />
+
+### 按钮状态
+
+按钮的状态分为 `normal` - **正常（默认）**、`success` - **成功**、`warning` - **警告**、`danger` - **危险**四种，可以与按钮类型同时使用。
+
+<Demo id="button/status" />
+
+### 省略内容
+
+与 Link 一致，默认内容开启单行省略，鼠标悬停在被省略的内容上时显示完整内容。通过 `:ellipsis="false"` 可关闭省略。
+
+可通过 `ellipsis-line-clamp` 配置行数、`ellipsis-expand-trigger="click"` 点击展开、`ellipsis-tooltip` 关闭或配置省略提示。多行或展开时需按内容设置按钮高度（例如 `height: auto`）。原有 `tooltip` 属性和插槽仍用于整个按钮的文字气泡，设置后会抑制省略提示，避免重复弹出。键盘聚焦按钮时也会展示省略提示，焦点仍保留在按钮上；省略提示的自定义内容通过 `ellipsis-tooltip` 插槽配置。
+
+<Demo id="button/ellipsis" />
+
+### 文字提示
+
+通过 `tooltip` 属性可以为按钮添加文字气泡。传入字符串时作为气泡内容；传入对象时可完整继承 [Tooltip](/docs/components/tooltip) 组件的所有属性；也可以通过 `tooltip` 插槽自定义气泡内容。
+
+<Demo id="button/tooltip" />
+
+## API
+
+### `<button>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| type | 按钮的类型，分为五种：次要按钮、主要按钮、虚框按钮、线性按钮、文字按钮。 | `ButtonTypes` | `'secondary'` |
+| shape | 按钮的形状 | `BorderShape` | `-` |
+| status | 按钮的状态 | `'normal' \| 'warning' \| 'success' \| 'danger'` | `'normal'` |
+| size | 按钮的尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `'medium'` |
+| long | 按钮的宽度是否随容器自适应。 | `boolean` | `false` |
+| ellipsis | 是否开启默认内容省略 | `boolean` | `true` |
+| ellipsis-line-clamp | 默认内容省略的最大显示行数 | `number \| string` | `-` |
+| ellipsis-expand-trigger | 省略内容的展开触发方式 | `'click'` | `-` |
+| ellipsis-tooltip | 省略时是否展示提示，可传入 Tooltip 属性 | `boolean \| EllipsisTooltipProps` | `true` |
+| loading | 按钮是否为加载中状态 | `boolean` | `false` |
+| disabled | 按钮是否禁用 | `boolean` | `false` |
+| html-type | 设置 `button` 的原生 `type` 属性，可选值参考 [HTML标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type '_blank') | `HTMLButtonElement['type']` | `'button'` |
+| autofocus | 设置 `button` 的原生 `autofocus` 属性，可选值参考 [HTML标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type '_blank') | `boolean` | `false` |
+| href | 设置跳转链接。设置此属性时，按钮渲染为a标签。 | `string` | `-` |
+| tooltip | 按钮的文字气泡配置。传入字符串时作为气泡内容；传入对象时可完整继承 [Tooltip](/docs/components/tooltip) 的所有属性。 | `string \| TooltipProps` | `-` |
+
+### `<button>` 事件
+
+| 事件名 | 描述           | 参数             |
+| ------ | -------------- | ---------------- |
+| click  | 点击按钮时触发 | ev: `MouseEvent` |
+
+### `<button>` 插槽
+
+| 插槽名           |                             描述                             | 参数 |
+| ---------------- | :----------------------------------------------------------: | ---- |
+| icon             |                             图标                             | -    |
+| ellipsis-tooltip |        自定义省略提示内容，仅在开启 `ellipsis` 时生效        | -    |
+| tooltip          | 自定义文字气泡内容，详见 [Tooltip](/docs/components/tooltip) | -    |
+
+### `<button-group>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | :-: |
+| type | 按钮的类型，分为五种：次要按钮、主要按钮、虚框按钮、线性按钮、文字按钮。 | `ButtonTypes` | `-` |
+| status | 按钮的状态 | `'normal' \| 'warning' \| 'success' \| 'danger'` | `-` |
+| shape | 按钮的形状 | `BorderShape` | `-` |
+| size | 按钮的尺寸 | `'mini' \| 'small' \| 'medium' \| 'large'` | `-` |
+| disabled | 全部子按钮是否禁用 | `boolean` | `false` |
+
+## 无框架规则
+
+<Framework only="vue">
+
+点击守卫与双汉字文本识别分别由 `@sdata/web-core/interaction/pressable` 和 `@sdata/web-core/button/text` 提供。Vue 继续管理 Form/ButtonGroup 注入、tooltip/插槽组合、DOM 文本读取及挂载/更新时机。
+
+</Framework>
+
+<Framework only="react">
+
+点击守卫与双汉字文本识别分别由 `@sdata/web-core/interaction/pressable` 和 `@sdata/web-core/button/text` 提供。React 适配器连接状态、Context、DOM 引用、内容渲染与生命周期。
+
+</Framework>

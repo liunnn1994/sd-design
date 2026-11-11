@@ -169,6 +169,85 @@ test('collector traversal retains empty submenus and duplicate leaf keys', () =>
   );
 });
 
+test('collector notifies non-reactive adapters after every mutation and report', () => {
+  let data: MenuData = [];
+  const snapshots: MenuData[] = [];
+  const collector = createMenuCollector({
+    options: { type: 'menu' },
+    parent: undefined,
+    get data() {
+      return data;
+    },
+    replace(value) {
+      data = value;
+    },
+    onChange() {
+      snapshots.push(structuredClone(data));
+    },
+  }).context;
+  collector.collectMenuItem('leaf');
+  collector.collectSubMenu('branch', []);
+  collector.collectSubMenu('branch', [{ key: 'nested' }], true);
+  collector.removeMenuItem('leaf');
+  collector.removeSubMenu('branch');
+  collector.reportMenuData([{ key: 'popup' }]);
+  assert.deepEqual(snapshots, [
+    [{ key: 'leaf' }],
+    [{ key: 'leaf' }, { key: 'branch', children: [] }],
+    [{ key: 'leaf' }, { key: 'branch', children: [{ key: 'nested' }] }],
+    [{ key: 'branch', children: [{ key: 'nested' }] }],
+    [],
+    [{ key: 'popup' }],
+  ]);
+});
+
+test('nested popup reports wait for registration and dynamic submenus replace parent aliases', () => {
+  function collector(
+    options: Parameters<typeof createMenuCollector>[0]['options'],
+    parent?: ReturnType<typeof createMenuCollector>['context'],
+  ) {
+    let data: MenuData = [];
+    const foundation = createMenuCollector({
+      options,
+      parent,
+      get data() {
+        return data;
+      },
+      replace(value) {
+        data = value;
+      },
+    });
+    return {
+      ...foundation,
+      get data() {
+        return data;
+      },
+    };
+  }
+  const root = collector({ type: 'menu' });
+  const branch = collector({ type: 'subMenu', key: 'branch' }, root.context);
+  const popup = collector({ type: 'popupMenu' }, branch.context);
+  popup.context.collectMenuItem('leaf');
+  popup.mount();
+  assert.deepEqual(root.data, []);
+  branch.mount();
+  root.mount();
+  assert.deepEqual(root.data, [{ key: 'branch', children: [{ key: 'leaf' }] }]);
+  const nested = collector({ type: 'subMenu', key: 'late' }, popup.context);
+  nested.context.collectMenuItem('nested-leaf');
+  nested.mount();
+  assert.deepEqual(root.data, [
+    {
+      key: 'branch',
+      children: [{ key: 'leaf' }, { key: 'late', children: [{ key: 'nested-leaf' }] }],
+    },
+  ]);
+  nested.unmount();
+  assert.deepEqual(root.data, [{ key: 'branch', children: [{ key: 'leaf' }] }]);
+  branch.unmount();
+  assert.deepEqual(root.data, []);
+});
+
 test('root actions preserve selection array separation and open publication identity', () => {
   let local: string[] = [];
   let openValue: string[] = [];

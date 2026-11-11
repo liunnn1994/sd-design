@@ -1,0 +1,72 @@
+---
+title: 数字动效 NumberFlow
+description: 使用本地化格式和逐位过渡展示会变化的数字。
+---
+
+当数值变化本身需要被关注时使用 NumberFlow；静态统计卡片仍建议使用 Statistic。
+
+### 基本用法
+
+传入数值即可使用，也可以通过 `Intl.NumberFormat` 选项展示百分比和货币。
+
+<Demo id="number-flow/basic" />
+
+### 本地化格式
+
+通过 `locales` 和 `format` 控制分组、小数位、紧凑计数等格式。
+
+<Demo id="number-flow/format" />
+
+### 交互更新
+
+修改 `value` 会触发逐位过渡。`continuous` 插件会让低位数字在跨位变化时保持连续滚动。
+
+<Demo id="number-flow/interactive" />
+
+### 自定义前后缀
+
+`prefix` 和 `suffix` 插槽适合放置带样式的标签或单位；插槽存在时优先展示插槽内容。
+
+<Demo id="number-flow/custom" />
+
+## API
+
+### `<number-flow>` 属性
+
+| 参数名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| value | 当前数值 | `number \| string` | - |
+| locales | `Intl.NumberFormat` 的区域设置 | `Intl.LocalesArgument` | - |
+| format | 数字格式选项，不支持科学计数和工程计数 | `NumberFlowFormat` | - |
+| prefix | 文本前缀 | `string` | - |
+| suffix | 文本后缀 | `string` | - |
+| trend | 数字滚动方向，正数向上、负数向下 | `number \| ((oldValue, value) => number)` | 自动判断 |
+| plugins | 数字过渡插件 | `NumberFlowPlugin[]` | - |
+| animated | 是否开启动画 | `boolean` | `true` |
+| transform-timing | 布局与数字过渡配置 | `KeyframeAnimationOptions` | `{ duration: 900, ... }` |
+| spin-timing | 单独设置数字滚动配置 | `KeyframeAnimationOptions` | - |
+| opacity-timing | 淡入淡出配置 | `KeyframeAnimationOptions` | `{ duration: 450, ... }` |
+| respect-motion-preference | 是否遵循系统减少动态效果设置 | `boolean` | `true` |
+| digits | 指定数位的最大数字 | `Record<number, { max?: number }>` | - |
+| will-change | 是否为频繁更新启用 `will-change` | `boolean` | `false` |
+| nonce | 动态样式元素的 CSP nonce | `string` | - |
+
+### `<number-flow>` 事件
+
+| 事件名           | 描述               | 参数 |
+| ---------------- | ------------------ | ---- |
+| animationsstart  | 数字动画开始时触发 | -    |
+| animationsfinish | 数字动画结束时触发 | -    |
+
+### `<number-flow>` 插槽
+
+| 插槽名 | 描述                             | 参数 |
+| ------ | -------------------------------- | ---- |
+| prefix | 自定义前缀，优先于 `prefix` 属性 | -    |
+| suffix | 自定义后缀，优先于 `suffix` 属性 | -    |
+
+### `<number-flow-group>` 插槽
+
+| 插槽名  | 描述                           | 参数 |
+| ------- | ------------------------------ | ---- |
+| default | 需要组合展示的 NumberFlow 组件 | -    |

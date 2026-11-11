@@ -184,6 +184,22 @@ test('InputMask selection restore waits two injected renders and reads the curre
   queue.shift()!();
   assert.equal(current.calls.length, 1);
 });
+test('InputMask ignores an older queued selection after a newer input', () => {
+  const { state, foundation, env, queue } = fixture({ mask: '9999' });
+  const target = input(1);
+  env.input = target.element;
+  state.focused = true;
+  foundation.handleModelUpdate('1');
+  queue.shift()!();
+  target.element.selectionStart = 2;
+  foundation.handleModelUpdate('12');
+  queue.shift()!();
+  assert.deepEqual(target.calls, []);
+  queue.shift()!();
+  queue.shift()!();
+  assert.deepEqual(target.calls, [[2, 2]]);
+});
+
 test('InputMask rejected preset insertion keeps the previous value and corrects mid-string cursor', () => {
   const { state, foundation, env } = fixture({ preset: 'ip', defaultValue: '25.1' });
   env.input = input(2).element;

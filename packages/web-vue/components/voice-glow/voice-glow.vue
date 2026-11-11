@@ -65,6 +65,7 @@
   import {
     createVoiceGlowFoundation,
     supportsVoiceCanvasFilter,
+    voiceGlowPropDefaults,
   } from '@sdata/web-core/voice-glow/foundation';
 
   import type { VoiceGlowProps } from './types';
@@ -75,23 +76,7 @@
 
   defineOptions({ name: 'VoiceGlow', inheritAttrs: false });
 
-  const props = withDefaults(defineProps<VoiceGlowProps>(), {
-    type: 'default',
-    theme: 'auto',
-    colorVariant: 'colorful',
-    level: 0,
-    sensitivity: 3.1,
-    threshold: 0.015,
-    attack: 0.325,
-    release: 0.86,
-    breatheDuration: 5.2,
-    bands: true,
-    processing: false,
-    processingEase: 0.6,
-    active: true,
-    paused: false,
-    staticColors: false,
-  });
+  const props = withDefaults(defineProps<VoiceGlowProps>(), voiceGlowPropDefaults);
   const emit = defineEmits<{
     /**
      * @zh 当前平滑音量
@@ -150,45 +135,6 @@
       get reducedMotion() {
         return reducedMotion.value;
       },
-      get resolvedTheme() {
-        return resolvedTheme.value;
-      },
-      get defaults() {
-        return defaults.value;
-      },
-      get palette() {
-        return palette.value;
-      },
-      get typeStyle() {
-        return typeStyle.value;
-      },
-      get scale() {
-        return scale.value;
-      },
-      get geometry() {
-        return geometry.value;
-      },
-      get coreLight() {
-        return coreLight.value;
-      },
-      get distortion() {
-        return distortion.value;
-      },
-      get distortionDetail() {
-        return distortionDetail.value;
-      },
-      get radius() {
-        return radius.value;
-      },
-      get bandColors() {
-        return bandColors.value;
-      },
-      get css() {
-        return css.value;
-      },
-      get driverConfig() {
-        return driverConfig.value;
-      },
     },
     {
       level: (value) => emit('level', value),
@@ -196,19 +142,12 @@
       deactivate: () => emit('deactivate'),
     },
   );
-  const resolvedTheme = computed(foundation.getResolvedTheme);
-  const defaults = computed(foundation.getDefaults);
   const palette = computed(foundation.getPalette);
   const typeStyle = computed(foundation.getTypeStyle);
-  const scale = computed(foundation.getScale);
-  const geometry = computed(foundation.getGeometry);
   const coreLight = computed(foundation.getCoreLight);
   const distortion = computed(foundation.getDistortion);
   const distortionDetail = computed(foundation.getDistortionDetail);
-  const radius = computed(foundation.getRadius);
-  const bandColors = computed(foundation.getBandColors);
   const css = computed(foundation.getCss);
-  const driverConfig = computed(foundation.getDriverConfig);
   watch(() => props.active, foundation.syncActive);
   const { handleAnimationEnd } = foundation;
   onMounted(foundation.mountRadius);

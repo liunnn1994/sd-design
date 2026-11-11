@@ -90,6 +90,8 @@
 </template>
 
 <script setup lang="ts">
+  import type { KvListOptions } from '@sdata/web-core/kv-list/types';
+
   import { computed, onBeforeUnmount, ref, watch } from 'vue';
 
   import { createListSort } from '@sdata/web-core/drag-sort/list';
@@ -100,7 +102,6 @@
     KvListItem,
     KvListKeyProps,
     KvListRowActionsSlotProps,
-    KvListType,
     KvListValueProps,
     KvListWorkingItem,
   } from './types';
@@ -123,33 +124,7 @@
     valueProps,
     disabled = false,
     bulkEditable,
-  } = defineProps<{
-    /**
-     * @zh 编辑器类型。默认使用两个 Input
-     * @en Editor type. Uses two Input components by default
-     */
-    type?: KvListType;
-    /**
-     * @zh 透传给键编辑组件的属性
-     * @en Props passed through to the key editor
-     */
-    keyProps?: KvListKeyProps;
-    /**
-     * @zh 透传给值编辑组件的属性
-     * @en Props passed through to the value editor
-     */
-    valueProps?: KvListValueProps;
-    /**
-     * @zh 是否禁用编辑和结构操作
-     * @en Whether editing and structural actions are disabled
-     */
-    disabled?: boolean;
-    /**
-     * @zh 是否允许 Bulk 编辑。secret 类型默认关闭，其他类型默认开启
-     * @en Whether bulk editing is available. Disabled by default for secret type
-     */
-    bulkEditable?: boolean;
-  }>();
+  } = defineProps<KvListOptions<KvListKeyProps, KvListValueProps>>();
 
   const jsonModel = defineModel<KvListItem[]>('json', { default: () => [] });
   const bulkModel = defineModel<string>('bulk', { default: '' });

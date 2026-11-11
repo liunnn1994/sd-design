@@ -57,8 +57,8 @@
   import { computed, onBeforeUpdate, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
 
   import { activateMenuItem, activateMenuItemKey } from '@sdata/web-core/menu/foundation';
+  import { scrollMenuItemIntoView } from '@sdata/web-core/menu/scroll';
   import { createReusableTemplate } from '@vueuse/core';
-  import scrollIntoView from 'scroll-into-view-if-needed';
 
   import { omit } from '../_utils/omit';
   import Ellipsis from '../ellipsis';
@@ -124,13 +124,7 @@
 
   const scrollTo = () => {
     if (menuContext.autoScrollIntoView && refItemElement.value && isSelected.value) {
-      scrollIntoView(refItemElement.value, {
-        behavior: 'smooth',
-        block: 'nearest',
-        scrollMode: 'if-needed',
-        boundary: document.documentElement,
-        ...menuContext.scrollConfig,
-      });
+      scrollMenuItemIntoView(refItemElement.value, menuContext.scrollConfig);
     }
   };
 

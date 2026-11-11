@@ -1,1 +1,1 @@
-export * from 'markstream-vue/utils/safeRaf';
+export * from '@sdata/web-core/markdown/safe-raf';

@@ -40,6 +40,7 @@ export function createInputMaskFoundation(
   },
 ) {
   const props = state.props;
+  let selectionRevision = 0;
   function getPresetDefinition(): InputMaskPresetDefinition | undefined {
     return props.preset ? state.presets[props.preset] : undefined;
   }
@@ -125,6 +126,7 @@ export function createInputMaskFoundation(
   }
 
   const commitValue = (rawValue: string) => {
+    const revision = ++selectionRevision;
     const input = getInputElement();
     const rawCursor = input?.selectionStart ?? rawValue.length;
     const previousState: InputMaskState = {
@@ -193,7 +195,7 @@ export function createInputMaskFoundation(
       // applied after that restore or it is overwritten.
       callbacks.afterRender(() => {
         const element = getInputElement();
-        if (state.focused && element && nextState.selection) {
+        if (revision === selectionRevision && state.focused && element && nextState.selection) {
           element.setSelectionRange(nextState.selection.start, nextState.selection.end);
         }
       });

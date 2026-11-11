@@ -82,6 +82,14 @@ export const docsSidebar = [
             label: '链接 Link',
           },
           {
+            slug: 'components/icon',
+            label: '图标 Icon',
+          },
+          {
+            slug: 'components/icon-component',
+            label: '自定义图标 IconFont',
+          },
+          {
             slug: 'components/markdown-render',
             label: 'Markdown 渲染 MarkdownRender',
           },

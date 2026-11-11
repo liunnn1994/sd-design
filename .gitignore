@@ -113,6 +113,7 @@ pnpm-global
 dist/
 
 packages/sd-vue-docs/public/vendor/
+packages/sd-vue-docs/src/content/docs/
 
 # Serverless directories
 .serverless/
@@ -141,3 +142,4 @@ graphify-out/cost.json
 .codex/config.toml
 packages/web-vue/cypress/downloads/
 packages/web-vue/cypress/screenshots/
+packages/web-react/cypress/screenshots/

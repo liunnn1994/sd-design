@@ -47,6 +47,7 @@ test('scroll foundations preserve native geometry, state and cleanup contracts',
     }
   }
   const root = new Element();
+  Object.assign(root, { clientHeight: 785 });
   const elements = new Map<string, Element>();
   const win = Object.assign(new EventTarget(), {
     innerHeight: 800,
@@ -126,6 +127,40 @@ test('scroll foundations preserve native geometry, state and cleanup contracts',
       });
     },
   );
+
+  await t.test('Affix bottom positioning excludes horizontal scrollbar height', () => {
+    const wrapper = new Element();
+    wrapper.rect.bottom = 790;
+    const target = new Element();
+    target.rect.bottom = 500;
+    elements.set('#bottom-target', target);
+    for (const selector of ['#bottom-target', undefined]) {
+      let style: unknown;
+      const f = createAffix({
+        props: { offsetTop: 0, offsetBottom: 15, target: selector },
+        wrapper: asElement(wrapper),
+        content: undefined,
+        fixed: false,
+        target: undefined,
+        setFixed() {},
+        onChange() {},
+        setPlaceholder() {},
+        setStyle(value) {
+          style = value;
+        },
+      });
+      const cleanup = f.bindTarget();
+      f.update();
+      frame();
+      assert.deepEqual(style, {
+        position: 'fixed',
+        bottom: selector ? '300px' : '15px',
+        width: '200px',
+      });
+      cleanup();
+      f.dispose();
+    }
+  });
 
   await t.test('Affix publishes change before styles and dedupes unchanged fixed state', () => {
     const wrapper = new Element();

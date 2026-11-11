@@ -1,0 +1,1 @@
+import '../../styles/textarea.scss';
