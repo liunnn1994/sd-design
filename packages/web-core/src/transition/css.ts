@@ -27,8 +27,9 @@ export function runCssTransition(
     options.finish();
     return cleanup;
   }
-  element.classList.add(from, active);
+  element.classList.add(from);
   element.getBoundingClientRect();
+  element.classList.add(active);
   frame = requestAnimationFrame(() => {
     frame = requestAnimationFrame(() => {
       element.classList.remove(from);

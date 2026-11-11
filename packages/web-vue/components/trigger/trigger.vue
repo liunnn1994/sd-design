@@ -255,7 +255,10 @@
   const floatingReference = computed<ReferenceElement | null>(() =>
     props.alignPoint ? pointReference : (firstElement.value ?? null),
   );
-  const floatingElement = computed(() => (computedVisible.value ? popupRef.value : null));
+  const isAnimation = ref(false);
+  const floatingElement = computed(() =>
+    computedVisible.value || isAnimation.value ? popupRef.value : null,
+  );
   const legacyMiddleware = computed(() => createTriggerMiddleware(props, arrowRef.value));
   const defaultWhileElementsMounted: NonNullable<FloatingOptions['whileElementsMounted']> = (
     reference,
@@ -608,7 +611,6 @@
       scrollElements = undefined;
     }
   });
-  const isAnimation = ref(false);
   const onAnimationStart = foundation.animationStart;
   const handleShow = foundation.show;
   const handleHide = foundation.hide;
@@ -633,7 +635,9 @@
         'class': [`${prefixCls}-popup`, `${prefixCls}-position-${popupPosition.value}`],
         'style': {
           ...mergedPopupStyle.value,
-          ...(isPositioned.value && !referenceHidden.value && !parentPopupHidden.value
+          ...((!computedVisible.value || isPositioned.value) &&
+          !referenceHidden.value &&
+          !parentPopupHidden.value
             ? {}
             : { visibility: 'hidden' }),
           zIndex: zIndex.value,
