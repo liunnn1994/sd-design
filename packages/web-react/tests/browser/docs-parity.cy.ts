@@ -26,7 +26,7 @@ describe('shared documentation experience', () => {
     it(`${framework}: categorized navigation, pagination and scoped search`, () => {
       cy.visit(`${origin}${prefix}/components/button/`);
       cy.get('.sidebar-content').should('contain.text', '开始使用').and('contain.text', '主题');
-      cy.get('.pagination-links a').each((link) => {
+      cy.get('.pagination-links a').each<HTMLAnchorElement>((link) => {
         expect(new URL(link[0].href).pathname.startsWith('/react/')).to.equal(
           framework === 'react',
         );
@@ -35,7 +35,7 @@ describe('shared documentation experience', () => {
       cy.get('site-search input[type="text"]').type('Button');
       cy.get('.pagefind-ui__result a', { timeout: 30000 })
         .should('have.length.at.least', 1)
-        .each((link) => {
+        .each<HTMLAnchorElement>((link) => {
           expect(new URL(link[0].href).pathname.startsWith('/react/')).to.equal(
             framework === 'react',
           );
@@ -106,3 +106,5 @@ describe('shared documentation experience', () => {
     cy.get('[data-framework="react"] [data-sd-theme="dark"]').should('exist');
   });
 });
+
+export {};
