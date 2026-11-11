@@ -16,6 +16,8 @@ import {
 
 import { useItemIndex } from '../_shared/use-item-index.js';
 import { usePrefix } from '../config-provider/index.js';
+import { IconCheck } from '../icon/icon-check.js';
+import { IconClose } from '../icon/icon-close.js';
 import { useI18n } from '../locale/index.js';
 
 export type { StepData, StepStatus, StepsType };
@@ -178,24 +180,10 @@ export function Step({
   const data = { step, status: resolvedStatus };
   const renderNode = (value: StepRender) => (typeof value === 'function' ? value(data) : value);
   const defaultIcon =
-    resolvedStatus === 'finish' || resolvedStatus === 'error' ? (
-      <svg
-        viewBox="0 0 48 48"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-        width="1em"
-        height="1em"
-        aria-hidden="true"
-      >
-        <path
-          d={
-            resolvedStatus === 'finish'
-              ? 'M41.678 11.05 19.05 33.678 6.322 20.95'
-              : 'm12 12 24 24M12 36l24-24'
-          }
-        />
-      </svg>
+    resolvedStatus === 'finish' ? (
+      <IconCheck aria-hidden="true" />
+    ) : resolvedStatus === 'error' ? (
+      <IconClose aria-hidden="true" />
     ) : (
       step
     );

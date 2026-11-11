@@ -11,6 +11,14 @@ export function StepsFixture() {
   const [lineLess, setLineLess] = useState(false);
   return (
     <section>
+      {[false, true].map((small) => (
+        <Steps key={String(small)} data-testid={`icon-steps-${small}`} small={small} current={2}>
+          <Step title="已成功" />
+          <Step title="处理中" />
+          <Step title="错误" status="error" />
+          <Step title="等待中" />
+        </Steps>
+      ))}
       <Button onClick={() => setCurrent(current === 1 ? 2 : 1)}>外部切换步骤</Button>
       <Button onClick={() => setItems(['C', 'A'])}>重排步骤</Button>
       <Button onClick={() => setError(!error)}>切换步骤错误</Button>
