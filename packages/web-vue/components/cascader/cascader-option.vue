@@ -9,6 +9,7 @@
 
   <li v-bind="$attrs">
     <button
+      ref="buttonRef"
       type="button"
       :disabled="option.disabled"
       :aria-haspopup="!option.isLeaf"
@@ -54,9 +55,10 @@
 <script setup lang="ts">
   import type { CascaderOptionCheckedStatus } from '@sdata/web-core/cascader/option';
 
-  import { computed, inject, toRef, type PropType } from 'vue';
+  import { computed, inject, onBeforeUnmount, ref, toRef, watch, type PropType } from 'vue';
 
   import { createCascaderOptionFoundation } from '@sdata/web-core/cascader/option';
+  import { createHoverIntent } from '@sdata/web-core/trigger/hover-intent';
   import { createReusableTemplate } from '@vueuse/core';
 
   import type { TagProps } from '../tag';
@@ -81,6 +83,7 @@
       required: true,
     },
     active: Boolean,
+    expanded: Boolean,
     multiple: Boolean,
     checkStrictly: Boolean,
     searchOption: Boolean,
@@ -119,11 +122,33 @@
   const checkedStatus = computed(foundation.getCheckedStatus);
   const pathOptionLabel = computed(foundation.getPathOptionLabel);
 
-  const {
-    handleMouseenter,
-    handleMouseleave,
-    handleClick,
-    handleCheckboxChange,
-    handleRadioChange,
-  } = foundation;
+  const buttonRef = ref<HTMLButtonElement>();
+  const hoverIntent = createHoverIntent({
+    getReference: () => buttonRef.value,
+    getFloating: () =>
+      props.expanded && !props.option.isLeaf
+        ? (buttonRef.value?.closest('[data-sd-cascader-column]')
+            ?.nextElementSibling as HTMLElement | null)
+        : null,
+  });
+  onBeforeUnmount(hoverIntent.cancel);
+  watch([() => props.expanded, () => cascaderCtx.expandTrigger, option], () =>
+    hoverIntent.cancel(),
+  );
+  const handleMouseenter = (event: MouseEvent) => {
+    if (cascaderCtx.expandTrigger === 'hover')
+      hoverIntent.enter(event, foundation.handleMouseenter);
+    else foundation.handleMouseenter();
+  };
+  const handleMouseleave = (event: MouseEvent) => {
+    foundation.handleMouseleave();
+    if (cascaderCtx.expandTrigger === 'hover') hoverIntent.leave(event, () => {});
+    else hoverIntent.cancel();
+  };
+  const handleClick = () => {
+    hoverIntent.cancel();
+    if (cascaderCtx.expandTrigger === 'hover') foundation.handleMouseenter();
+    foundation.handleClick();
+  };
+  const { handleCheckboxChange, handleRadioChange } = foundation;
 </script>

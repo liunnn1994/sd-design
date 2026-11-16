@@ -1,5 +1,6 @@
 <template>
   <div
+    data-sd-cascader-column
     :class="[
       `${prefixCls}-panel-column`,
       { [`${prefixCls}-panel-column-ellipsis`]: cascaderCtx?.ellipsis !== false },
@@ -11,6 +12,7 @@
       <CascaderOption
         :option="item"
         :active="selectedPath.includes(item.key) || item.key === activeKey"
+        :expanded="selectedPath.includes(item.key)"
         :multiple="multiple"
         :check-strictly="checkStrictly"
       />

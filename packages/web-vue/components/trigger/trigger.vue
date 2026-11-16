@@ -76,6 +76,7 @@
   import { autoUpdate, useFloating } from '@floating-ui/vue';
   import { createTriggerMiddleware } from '@sdata/web-core/trigger/floating';
   import { createTriggerFoundation } from '@sdata/web-core/trigger/foundation';
+  import { createHoverIntent } from '@sdata/web-core/trigger/hover-intent';
   import {
     toFloatingPlacement,
     fromFloatingPlacement,
@@ -340,7 +341,16 @@
     immediate: true,
   });
   let windowListener = false;
+  const hoverIntent = createHoverIntent({
+    getReference: () => firstElement.value,
+    getFloating: () => popupRef.value,
+    contains: (node) => getChildElements().some((element) => element.contains(node)),
+  });
+  watch(computedVisible, (visible) => {
+    if (!visible) hoverIntent.cancel();
+  });
   const foundation = createTriggerFoundation({
+    hoverIntent,
     get options() {
       return props;
     },

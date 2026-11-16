@@ -1,4 +1,5 @@
 import type { TriggerEvent } from '../_utils/constant.js';
+import type { createHoverIntent } from './hover-intent.js';
 
 import { KEYBOARD_KEY } from '../_utils/keyboard.js';
 
@@ -17,6 +18,7 @@ export interface TriggerOptions {
   scrollToCloseDistance: number;
 }
 export interface TriggerAdapter {
+  readonly hoverIntent?: ReturnType<typeof createHoverIntent>;
   readonly options: TriggerOptions;
   readonly visible: boolean;
   readonly methods: TriggerEvent[];
@@ -45,6 +47,7 @@ export interface TriggerAdapter {
 export function createTriggerFoundation(adapter: TriggerAdapter) {
   let delayTimer = 0;
   const cleanDelayTimer = () => {
+    adapter.hoverIntent?.cancel();
     if (delayTimer) {
       adapter.clearTimer(delayTimer);
       delayTimer = 0;
@@ -87,12 +90,21 @@ export function createTriggerFoundation(adapter: TriggerAdapter) {
     adapter.onNativeMouseenter(event);
     if (adapter.options.disabled || !adapter.methods.includes('hover')) return;
     updateMousePosition(event);
-    changeVisible(true, adapter.options.mouseEnterDelay);
+    const open = () => changeVisible(true, adapter.options.mouseEnterDelay);
+    if (adapter.hoverIntent) adapter.hoverIntent.enter(event, open);
+    else open();
   };
   const handleMouseLeave = (event: MouseEvent) => {
     adapter.onNativeMouseleave(event);
     if (adapter.options.disabled || !adapter.methods.includes('hover')) return;
-    changeVisible(false, adapter.options.mouseLeaveDelay);
+    const close = () => changeVisible(false, adapter.options.mouseLeaveDelay);
+    if (adapter.visible && adapter.hoverIntent) {
+      cleanDelayTimer();
+      adapter.hoverIntent.leave(event, close);
+    } else {
+      adapter.hoverIntent?.cancel();
+      close();
+    }
   };
   const handleFocusin = (event: FocusEvent) => {
     adapter.onNativeFocusin(event);

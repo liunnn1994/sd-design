@@ -53,6 +53,7 @@
     "@lexical/rich-text": "^0.52.0",
     "@types/qrcode": "^1.5.6",
     "@videojs/html": "^10.1.0",
+    "@zag-js/rect-utils": "1.47.0",
     "b-tween": "^0.3.3",
     "b-validate": "^1.5.3",
     "chroma-js": "^3.2.0",

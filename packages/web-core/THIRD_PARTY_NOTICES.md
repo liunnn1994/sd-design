@@ -1,5 +1,9 @@
 # Third-party notices
 
+## Zag rectangle utilities
+
+Hover intent uses `getElementPolygon` and `isPointInPolygon` directly from the MIT-licensed `@zag-js/rect-utils` 1.47.0 dependency (https://github.com/chakra-ui/zag/tree/main/packages/utilities/rect). The shared DOM controller connects these utilities to popup and Cascader lifecycles.
+
 ## Markstream
 
 The manual performance monitor statistics, history limits and report behavior in `src/markdown/performance-monitor.ts` are adapted from markstream-vue 2.0.18.

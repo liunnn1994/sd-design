@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
 import type { TriggerEvent } from '../src/_utils/constant.ts';
-import type { TriggerOptions } from '../src/trigger/foundation.ts';
+import type { TriggerAdapter, TriggerOptions } from '../src/trigger/foundation.ts';
 
 import { createTriggerFoundation } from '../dist/trigger/foundation.js';
 import {
@@ -12,7 +12,7 @@ import {
 } from '../dist/trigger/position.js';
 import { getScrollElements, getTransformOrigin, isScrollElement } from '../dist/trigger/utils.js';
 
-function setup() {
+function setup(hoverIntent?: TriggerAdapter['hoverIntent']) {
   const options: TriggerOptions = {
     disabled: false,
     alignPoint: false,
@@ -46,6 +46,7 @@ function setup() {
     native?.();
   };
   const foundation = createTriggerFoundation({
+    hoverIntent,
     options,
     get visible() {
       return state.controlled ?? state.inner;
@@ -142,6 +143,31 @@ test('hover leave cancels a pending open without publishing a redundant close', 
   s.foundation.mouseleave(mouse);
   assert.deepEqual(s.events, [['enter'], ['leave'], ['cancel', 1], ['reset']]);
   assert.equal(s.timers.size, 0);
+});
+
+test('leaving an unopened trigger cancels activation deferred by another corridor', () => {
+  let deferred: (() => void) | undefined;
+  const s = setup({
+    enter(_event, open) {
+      deferred = open;
+    },
+    leave(_event, close) {
+      close();
+    },
+    cancel() {
+      deferred = undefined;
+    },
+    blocks: () => false,
+    defer: () => {},
+    remove: () => {},
+  });
+  s.foundation.mouseenter(mouse);
+  assert.equal(typeof deferred, 'function');
+  s.foundation.mouseleave(mouse);
+  deferred?.();
+  assert.equal(s.timers.size, 0);
+  assert.equal(s.state.inner, false);
+  assert.deepEqual(s.events, [['enter'], ['leave']]);
 });
 
 test('delayed commits retain timer identity and same-value retry behavior', () => {

@@ -2,6 +2,7 @@ import type { HTMLAttributes, Ref } from 'react';
 
 import { createPopupEntry } from '@sdata/web-core/popup/manager';
 import { createTriggerFoundation } from '@sdata/web-core/trigger/foundation';
+import { createHoverIntent } from '@sdata/web-core/trigger/hover-intent';
 import { resolvePopupContainer } from '@sdata/web-core/trigger/popup-container';
 import {
   fromFloatingPlacement,
@@ -170,8 +171,16 @@ export function Trigger({
     onResize,
     zIndex,
   };
+  const [hoverIntent] = useState(() =>
+    createHoverIntent({
+      getReference: () => live.current.reference,
+      getFloating: () => live.current.popup,
+      contains: (node) => [...descendants.current].some((element) => element.contains(node)),
+    }),
+  );
   const [foundation] = useState(() =>
     createTriggerFoundation({
+      hoverIntent,
       get options() {
         return live.current.options;
       },
@@ -235,6 +244,9 @@ export function Trigger({
     return entry.close;
   }, [visible, entry]);
   useLayoutEffect(() => () => foundation.cleanDelayTimer(), [foundation]);
+  useLayoutEffect(() => {
+    if (!visible) hoverIntent.cancel();
+  }, [visible, hoverIntent]);
   const methodKey = methods.join(',');
   useLayoutEffect(() => {
     foundation.cleanDelayTimer();

@@ -46,12 +46,14 @@ export function CascaderColumn({
       key={option.key}
       option={option}
       active={selectedPath.includes(option.key) || activeKey === option.key}
+      expanded={selectedPath.includes(option.key)}
       multiple={multiple}
       checkStrictly={checkStrictly}
     />
   );
   return (
     <div
+      data-sd-cascader-column
       {...attrs}
       className={[
         `${prefix}-panel-column`,
