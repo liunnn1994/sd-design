@@ -159,12 +159,32 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
       target: ts.ScriptTarget.ESNext,
       module: ts.ModuleKind.ESNext,
       moduleResolution: ts.ModuleResolutionKind.Bundler,
+      paths: {
+        '@sdata/web-core': [path.resolve(webVue, '../web-core/src/index.ts')],
+        '@sdata/web-core/*': [path.resolve(webVue, '../web-core/src/*')],
+      },
       strict: true,
       skipLibCheck: true,
     },
     host,
   );
   const checker = program.getTypeChecker();
+  const defaultOf = (expression: ts.Expression, seen = new Set<ts.Node>()): string => {
+    if (seen.has(expression)) return expression.getText();
+    seen.add(expression);
+    if (ts.isIdentifier(expression) || ts.isPropertyAccessExpression(expression)) {
+      let symbol = checker.getSymbolAtLocation(expression);
+      if (symbol && symbol.flags & ts.SymbolFlags.Alias) symbol = checker.getAliasedSymbol(symbol);
+      const declaration = symbol?.valueDeclaration;
+      if (
+        declaration &&
+        (ts.isVariableDeclaration(declaration) || ts.isPropertyAssignment(declaration)) &&
+        declaration.initializer
+      )
+        return defaultOf(declaration.initializer, seen);
+    }
+    return expression.getText();
+  };
   const exportsOf = (file: string) => {
     const source = program.getSourceFile(file);
     const symbol = source && checker.getSymbolAtLocation(source);
@@ -363,7 +383,7 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
               (entry) => entry.name?.getText() === 'default',
             );
             if (prop && value && ts.isPropertyAssignment(value))
-              prop.default = value.initializer.getText();
+              prop.default = defaultOf(value.initializer);
           }
         }
       }

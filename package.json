@@ -32,7 +32,7 @@
     "lint:ci": "pnpm run lint:all",
     "lint:fix": "oxlint . --fix",
     "typecheck": "run-s typecheck:prepare typecheck:source typecheck:scripts typecheck:vue typecheck:packages",
-    "typecheck:prepare": "pnpm run build:core && pnpm --filter @sdata/web-vue run icongen",
+    "typecheck:prepare": "pnpm --filter @sdata/web-react... run build && pnpm --filter @sdata/web-vue run icongen",
     "typecheck:vue": "run-s typecheck:vue:web-vue typecheck:vue:web-vue-debug typecheck:vue:docs",
     "typecheck:vue:web-vue": "pnpm --filter @sdata/web-vue run typecheck",
     "typecheck:vue:web-vue-debug": "pnpm --filter @sd-design/web-vue-debug run typecheck",

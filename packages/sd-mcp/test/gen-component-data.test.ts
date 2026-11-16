@@ -73,6 +73,11 @@ test('calendar, trigger and upstream props survive extraction without losing typ
   assert.equal(calendar.props.length, 44);
   assert.equal(calendar.props.find((prop) => prop.name === 'events')?.type, 'CalendarEventInput[]');
   assert.equal(calendar.props.find((prop) => prop.name === 'time-step')?.default, '60');
+  assert.equal(calendar.props.find((prop) => prop.name === 'time')?.default, 'true');
+  assert.equal(calendar.props.find((prop) => prop.name === 'all-day-events')?.default, 'false');
+  assert.equal(calendar.props.find((prop) => prop.name === 'theme')?.default, "'default'");
+  assert.equal(calendar.props.find((prop) => prop.name === 'locale')?.default, "''");
+  assert.equal(calendar.props.find((prop) => prop.name === 'time-to')?.default, '24 * 60');
   assert.ok(calendar.events.some((event) => event.name === 'event-created'));
   assert.ok(calendar.slots.some((slot) => slot.name === 'cell'));
 

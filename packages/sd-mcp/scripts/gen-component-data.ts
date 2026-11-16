@@ -263,7 +263,7 @@ export const buildApiMap = async () => {
           )
             ? descriptor.type
             : prop.type,
-        default: descriptor?.default || prop.default,
+        default: prop.default || descriptor?.default || '',
         description:
           prop.description.en || prop.description.zh
             ? prop.description
