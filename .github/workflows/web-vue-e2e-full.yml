@@ -29,5 +29,8 @@ jobs:
           corepack enable
           pnpm run install:ci
 
+      - name: Build workspace dependencies for docs previews
+        run: pnpm --filter @sdata/web-react... run build
+
       - name: Run full component test suite
         run: pnpm --filter @sdata/web-vue run test
