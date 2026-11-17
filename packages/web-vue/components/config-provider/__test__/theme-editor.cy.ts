@@ -1,5 +1,6 @@
 import { defineComponent, h } from 'vue';
 
+import ThemeDemoPreview from '../../../../sd-vue-docs/src/components/theme/ThemeDemoPreview.vue';
 import ThemeEditor from '../../../../sd-vue-docs/src/components/theme/ThemeEditorPlayground.vue';
 import Button from '../../button';
 import Input from '../../input';
@@ -8,6 +9,12 @@ import { normalizeTheme } from '../theme';
 import { parseThemeConfig } from '../theme-config';
 
 describe('主题架构与编辑器', () => {
+  it('在 Vue 主题编辑器中渲染 React TSX 示例', () => {
+    cy.mount(ThemeDemoPreview, { props: { theme: {}, framework: 'react', component: 'button' } });
+    cy.get('[data-framework="react"] .sd-btn').should('be.visible');
+    cy.get('[data-testid="theme-demo"]').should('not.contain.text', '示例加载失败');
+  });
+
   beforeEach(() =>
     cy.document().then((document) => {
       for (const element of [document.body, document.documentElement]) {

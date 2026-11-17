@@ -1,5 +1,4 @@
 import vue from '@vitejs/plugin-vue';
-import vueJsx from '@vitejs/plugin-vue-jsx';
 import { defineConfig } from 'cypress';
 import { createRequire } from 'node:module';
 import path from 'node:path';
@@ -105,7 +104,8 @@ export default defineConfig({
           __VUE_OPTIONS_API__: 'true',
           __VUE_PROD_DEVTOOLS__: 'false',
         },
-        plugins: [vueScriptLangTransform(), vue(), vueJsx()],
+        // Vue TSX script blocks are handled above; standalone TSX belongs to React docs.
+        plugins: [vueScriptLangTransform(), vue()],
         server: {
           fs: { allow: [toPosix(root), toPosix(docsRoot)] },
         },
