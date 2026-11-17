@@ -66,7 +66,7 @@ description: 使用 SD 主题显示 Markdown、流式内容与自定义节点。
 | 能力     | 包                  | 装上后是否需要配置                            |
 | -------- | ------------------- | --------------------------------------------- |
 | Mermaid  | `mermaid`           | 否，装上即用（默认已启用）                    |
-| 数学公式 | `katex`             | 否，装上即用（默认已启用）                    |
+| 数学公式 | `katex`             | 需导入 KaTeX CSS；引擎默认已启用              |
 | D2       | `@terrastruct/d2`   | 否，装上即用（默认已启用）                    |
 | 信息图   | `@antv/infographic` | **是**，默认关闭且无自动加载，必须提供 loader |
 
@@ -102,6 +102,14 @@ pnpm add mermaid katex @terrastruct/d2 @antv/infographic
 SD 根入口提供 `setD2Loader`、`enableD2` / `disableD2` 等实际导出的工具。未配置引擎时对应节点使用上游降级行为。Vue 专属的 loader 配置不适用于 React。
 
 </Framework>
+
+Vue 和 React 启用数学公式时，都需要在应用入口额外导入 KaTeX 的官方样式。公式引擎只生成 HTML，不会自动加载公式排版和字体：
+
+```ts
+import 'katex/dist/katex.min.css';
+```
+
+保留 SD 组件库样式；构建工具会将 KaTeX CSS 引用的本地字体一起打包，无需 CDN，可离线部署。本页已在文档站入口加载该样式。
 
 ### 跟随主题
 

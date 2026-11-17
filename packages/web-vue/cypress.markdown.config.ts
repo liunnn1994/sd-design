@@ -9,7 +9,7 @@ export default defineConfig({
   viewportHeight: 1000,
   e2e: {
     baseUrl: 'http://127.0.0.1:4351',
-    specPattern: 'cypress/e2e/markdown-docs.cy.ts',
+    specPattern: ['cypress/e2e/markdown-docs.cy.ts', 'cypress/e2e/katex-docs.cy.ts'],
     supportFile: false,
     setupNodeEvents(on) {
       on('file:preprocessor', async (file) => {

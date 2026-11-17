@@ -168,6 +168,7 @@ export default defineConfig({
         './src/styles/sd-vue.scss',
         './src/styles/site.css',
         './src/styles/starlight.scss',
+        'katex/dist/katex.min.css',
       ],
       head: [
         {
