@@ -1,3 +1,10 @@
+## [7.9.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.9.1...web-vue-v7.9.2) (2026-11-17)
+
+
+### Bug Fixes
+
+* restore React trusted publishing and verify release authentication ([8490a75](https://github.com/liunnn1994/sd-design/commit/8490a75f234b8a72b71f7b1b916a5e1189b3ce32))
+
 ## [7.9.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.9.0...web-vue-v7.9.1) (2026-11-17)
 
 
