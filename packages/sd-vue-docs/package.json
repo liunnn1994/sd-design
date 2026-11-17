@@ -12,6 +12,7 @@
     "build:site": "pnpm run docs:vendor && astro build",
     "build:site:prepared": "astro build",
     "typecheck": "vue-tsc --noEmit -p tsconfig.vue-tsc.json && tsc --noEmit -p src/components/react/tsconfig.json",
+    "pretest:dev": "pnpm run docs:pages",
     "test:dev": "node --test scripts/jsx-refresh.test.ts scripts/framework-navigation.test.ts scripts/framework-docs.test.ts scripts/react-repl.test.ts scripts/react-api.test.ts scripts/browser-chat.test.ts",
     "migrate:generated-demos": "node ./scripts/migrate-generated-demo-conventions.ts",
     "verify:theme-runtime": "node ./scripts/verify-theme-runtime-paths.ts",
