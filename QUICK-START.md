@@ -153,6 +153,8 @@ Node 24 可直接运行 `node scripts/upgradeEngines.ts` 这类脚本。原生�
 
 ## 测试与验证
 
+发布 CI 自动选择受影响的 Vue/Core 组件及其传递依赖者。可在根目录用 `pnpm --filter @sdata/web-vue run test:affected -- --base <基线提交> --head HEAD` 查看结果；`--all` 显式选择全量。仅文档依赖、开发命令或发布版本号变化不会强制全量。
+
 组件测试使用 Cypress（Chrome），工具脚本和生产模式回归使用 Node 内置测试运行器。`pnpm run test` 依次执行 Markdown 导出检查、ModelSelector 生产模式插槽回归和 Cypress 组件测试。
 
 - **运行组件库测试**：

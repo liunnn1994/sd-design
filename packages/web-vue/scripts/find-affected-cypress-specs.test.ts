@@ -45,6 +45,34 @@ test('runs all tests for shared infrastructure changes', () => {
   assert.equal(select(['pnpm-lock.yaml']).mode, 'all');
 });
 
+test('dependency-only docs changes preserve component selection after dependency comparison', () => {
+  const result = selectAffectedSpecs({
+    changedFiles: [
+      'package.json',
+      'pnpm-lock.yaml',
+      'packages/web-core/package.json',
+      'packages/web-vue/package.json',
+      'packages/web-vue/components/button/button.vue',
+    ],
+    componentDependencies,
+    componentSpecs,
+    dependencyChanges: false,
+  });
+  assert.deepEqual(result.components, ['button']);
+  assert.equal(result.mode, 'affected');
+});
+
+test('docs E2E files and configs do not invalidate component tests', () => {
+  assert.equal(
+    select([
+      'packages/web-vue/cypress/e2e/livecodes-docs.cy.ts',
+      'packages/web-vue/cypress.markdown.config.ts',
+      'packages/web-vue/cypress.theme.config.ts',
+    ]).mode,
+    'none',
+  );
+});
+
 test('skips Cypress for unrelated repository changes', () => {
   assert.deepEqual(select(['README.md']), { mode: 'none', components: [], specs: [] });
 });
@@ -127,27 +155,79 @@ test('does not expand runtime dependents through type-only imports', (t) => {
     select: "import Scrollbar from '../scrollbar';",
     table: "import Scrollbar from '@components/scrollbar';",
     input: `import type { ScrollbarProps } from '../scrollbar';
-export type { ScrollbarProps } from '@components/scrollbar';`,
+export type { ScrollbarProps } from '@components/scrollbar';
+import { type ScrollbarProps as Props } from '../scrollbar';
+// import Scrollbar from '../scrollbar';
+const example = "import Scrollbar from '../scrollbar'";`,
+    button: `export { default as Scrollbar } from '../scrollbar';`,
+    card: `<script setup lang="ts">import Scrollbar from '../scrollbar';</script>
+<template><div>import Input from '../input'</div></template>
+<style lang="scss">/* @use '../input'; */ @use '../scrollbar/style/index.scss';</style>`,
+    popover: `const load = () => import( /* lazy */ \`../scrollbar\` ); const render = () => <div />;`,
   };
   for (const [name, source] of Object.entries(sources)) {
     const directory = path.join(root, 'components', name);
     mkdirSync(path.join(directory, '__test__'), { recursive: true });
-    writeFileSync(path.join(directory, 'index.ts'), source);
+    writeFileSync(
+      path.join(
+        directory,
+        name === 'card' ? 'index.vue' : name === 'popover' ? 'index.tsx' : 'index.ts',
+      ),
+      source,
+    );
     writeFileSync(path.join(directory, '__test__', 'index.cy.ts'), '');
   }
   const result = selectAffectedSpecs({
     ...discoverMetadata(root),
     changedFiles: ['packages/web-vue/components/scrollbar/scrollbar.vue'],
   });
-  assert.deepEqual(result.components, ['scrollbar', 'select', 'table']);
+  assert.deepEqual(result.components, [
+    'button',
+    'card',
+    'popover',
+    'scrollbar',
+    'select',
+    'table',
+  ]);
 });
 
-test('shared foundation, Sass and generation changes invalidate component consumers', () => {
+test('scopes Core component changes and retains full runs for shared infrastructure', () => {
+  assert.deepEqual(select(['packages/web-core/styles/button/style/token.scss']).components, [
+    'button',
+  ]);
+  assert.deepEqual(select(['packages/web-core/src/input/foundation.ts']).components, [
+    'form',
+    'input',
+  ]);
   for (const file of [
-    'packages/web-core/src/table/query.ts',
-    'packages/web-core/styles/button/style/token.scss',
+    'packages/web-core/src/_utils/query.ts',
+    'packages/web-core/styles/style/token.scss',
     'packages/web-core/scripts/theme-catalog.ts',
-    'packages/web-core/package.json',
   ])
     assert.equal(select([file]).mode, 'all', file);
+});
+
+test('tracks cross-component Core runtime and stylesheet imports', (t) => {
+  const temp = mkdtempSync(path.join(tmpdir(), 'affected-core-specs-'));
+  t.after(() => rmSync(temp, { recursive: true, force: true }));
+  const root = path.join(temp, 'web-vue');
+  for (const name of ['checkbox', 'select', 'table']) {
+    const directory = path.join(root, 'components', name, '__test__');
+    mkdirSync(directory, { recursive: true });
+    writeFileSync(path.join(directory, 'index.cy.ts'), '');
+  }
+  for (const [file, source] of Object.entries({
+    'src/select/foundation.ts': "import { x } from '@sdata/web-core/checkbox/foundation';",
+    'styles/table/style/index.scss': "@use '../../select/style/index.scss';",
+  })) {
+    const target = path.join(temp, 'web-core', file);
+    mkdirSync(path.dirname(target), { recursive: true });
+    writeFileSync(target, source);
+  }
+  const result = selectAffectedSpecs({
+    ...discoverMetadata(root),
+    changedFiles: ['packages/web-core/styles/checkbox/style/index.scss'],
+  });
+  assert.equal(result.mode, 'affected');
+  assert.deepEqual(result.components, ['checkbox', 'select', 'table']);
 });

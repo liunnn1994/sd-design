@@ -10,6 +10,7 @@ import semanticRelease from 'semantic-release';
 
 import { bootstrapCoreRelease } from './bootstrap-core-release.ts';
 import { createReleaseConfig, releasePackages } from './release-config.ts';
+import { sharedDependenciesChanged } from './release-dependencies.ts';
 
 test('all publishable workspace packages declare the repository required by npm provenance', async (t) => {
   const root = fileURLToPath(new URL('../../../', import.meta.url));
@@ -59,7 +60,7 @@ async function fixture(t: TestContext) {
   }
   await writeFile(
     path.join(root, 'package.json'),
-    JSON.stringify({ private: true, type: 'module' }),
+    JSON.stringify({ name: 'release-fixture', private: true, type: 'module' }),
   );
   await mkdir(path.join(root, 'packages/web-vue/scripts'), { recursive: true });
   const script = path.join(root, 'packages/web-vue/scripts/prepare-release-package.ts');
@@ -117,6 +118,53 @@ async function fixture(t: TestContext) {
     },
   };
 }
+
+test('dependency comparison ignores root scripts and docs dependencies, but detects toolchain changes', async (t) => {
+  const { root, git, lock } = await fixture(t);
+  const base = git('rev-parse', 'HEAD');
+  const paths = ['', 'packages/web-vue/', 'packages/web-core/'];
+  await writeFile(
+    path.join(root, 'package.json'),
+    JSON.stringify({
+      name: 'release-fixture',
+      private: true,
+      type: 'module',
+      scripts: { dev: 'node --version' },
+    }),
+  );
+  lock.importers['packages/sd-vue-docs'].dependencies.astro.version = '5.1.0';
+  await writeFile(path.join(root, 'pnpm-lock.yaml'), stringifyYAML(lock));
+  git('add', '.');
+  git('commit', '--quiet', '-m', 'chore: docs dependencies');
+  assert.equal(sharedDependenciesChanged(root, 'HEAD', paths, base), false);
+  await writeFile(
+    path.join(root, 'package.json'),
+    JSON.stringify({ name: 'release-fixture', type: 'module', engines: { node: '>=26' } }),
+  );
+  git('add', '.');
+  git('commit', '--quiet', '-m', 'build: change Node engine');
+  assert.equal(sharedDependenciesChanged(root, 'HEAD', paths, base), true);
+});
+
+test('dependency history before package creation does not parse unrelated historical YAML', async (t) => {
+  const { root, git } = await fixture(t);
+  for (const name of releasePackages) await rm(path.join(root, 'packages', name, 'package.json'));
+  await writeFile(path.join(root, 'pnpm-lock.yaml'), '---\nold: first\n---\nold: second\n');
+  git('add', '.');
+  git('commit', '--quiet', '-m', 'chore: historical multi-document YAML');
+  assert.equal(
+    sharedDependenciesChanged(root, 'HEAD', ['packages/web-core/', 'packages/web-react/']),
+    true,
+  );
+  const absent = git('rev-parse', 'HEAD');
+  await writeFile(path.join(root, 'pnpm-lock.yaml'), '---\nold: third\n---\nold: fourth\n');
+  git('add', '.');
+  git('commit', '--quiet', '-m', 'fix: another historical dependency update');
+  assert.equal(
+    sharedDependenciesChanged(root, 'HEAD', ['packages/web-core/', 'packages/web-react/'], absent),
+    false,
+  );
+});
 
 for (const scenario of [
   { dependency: 'vue', file: 'pnpm-workspace.yaml', expected: [null, '8.1.1', null] },
@@ -309,10 +357,23 @@ for (const scenario of [
   });
 }
 
-test('React without a stable release tag starts at 1.0.0', async (t) => {
+test('React first release tolerates historical YAML from before Core and React existed', async (t) => {
   const { root, git, commit } = await fixture(t);
   git('tag', '-d', 'web-react-v2.4.0');
   git('push', '--quiet', 'origin', ':refs/tags/web-react-v2.4.0');
+  const baseline = git('rev-parse', 'HEAD');
+  git('rm', 'packages/web-core/package.json', 'packages/web-react/package.json');
+  await writeFile(path.join(root, 'pnpm-lock.yaml'), '---\nold: first\n---\nold: second\n');
+  git('add', '.');
+  git('commit', '--quiet', '-m', 'fix: historical dependency update before package creation');
+  git(
+    'checkout',
+    baseline,
+    '--',
+    'packages/web-core/package.json',
+    'packages/web-react/package.json',
+    'pnpm-lock.yaml',
+  );
   await commit('packages/web-react/first.ts', 'feat: first React release');
   const config = createReleaseConfig('web-react');
   const result = await semanticRelease(
