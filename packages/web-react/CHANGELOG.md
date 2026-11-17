@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/liunnn1994/sd-design/compare/web-react-v1.0.0...web-react-v1.0.1) (2026-11-17)
+
+
+### Bug Fixes
+
+* restore React trusted publishing and verify release authentication ([8490a75](https://github.com/liunnn1994/sd-design/commit/8490a75f234b8a72b71f7b1b916a5e1189b3ce32))
+
 # 1.0.0 (2026-11-17)
 
 
