@@ -57,6 +57,8 @@ Tour 基于 driver.js 封装，直接沿用原生配置与实例方法，并通�
 
 发布 CI 按改动组件及其传递依赖者选择 Cypress spec；Vue/Core 的运行时依赖使用 Oxc、Vue SFC 和 PostCSS SCSS 解析器分析。文档依赖、开发命令与发布版本号的变化不会单独触发全量组件测试，共享基础设施变化仍保留全量验证。
 
+正式发布在安装和测试前检查三个 npm 包的 OIDC token exchange；可信发布配置不匹配时立即停止，避免检查完成后才发现认证失败并留下未发布的版本标签。
+
 完整的命令及解释请参考 `QUICK-START.md`，这里列出日常最高频的命令：
 
 ```bash
@@ -318,8 +320,7 @@ React 适配包要求 React、ReactDOM 及对应类型包版本满足 `^19.3.0`�
 
 文档站在同一个 Astro 应用中同时使用 Vue 和 React。React 示例位于 `src/components/react/`，使用独立的 React JSX tsconfig；开发编译通过 `src/integrations/scoped-react-refresh.ts` 将 Fast Refresh 限定到 React 客户端 TSX，避免污染 Vue SFC 和服务端模块，不修改第三方插件源码。
 
-本地构建先执行 `mise exec -- pnpm run build:core`，再执行 `mise exec -- pnpm --filter @sdata/web-react build`。React 渲染检查使用 `mise exec -- pnpm --filter @sdata/web-react test`。
-Card 的 Vue/React 适配共享 `web-core/card/foundation` 的尺寸、滚动模式和 Meta/Grid 注册规则；迁移进度见 [React 对齐清单](docs/react-parity.md)。
+本地构建先执行 `mise exec -- pnpm run build:core`，再执行 `mise exec -- pnpm --filter @sdata/web-react build`。React 渲染检查使用 `mise exec -- pnpm --filter @sdata/web-react test`。Card 的 Vue/React 适配共享 `web-core/card/foundation` 的尺寸、滚动模式和 Meta/Grid 注册规则；迁移进度见 [React 对齐清单](docs/react-parity.md)。
 
 Skeleton 系列复用共享 SCSS，SkeletonLine 的行宽、高度和间距由 core `skeleton/foundation` 统一计算。
 

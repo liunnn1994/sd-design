@@ -155,6 +155,8 @@ Node 24 可直接运行 `node scripts/upgradeEngines.ts` 这类脚本。原生�
 
 发布 CI 自动选择受影响的 Vue/Core 组件及其传递依赖者。可在根目录用 `pnpm --filter @sdata/web-vue run test:affected -- --base <基线提交> --head HEAD` 查看结果；`--all` 显式选择全量。仅文档依赖、开发命令或发布版本号变化不会强制全量。
 
+正式发布会先检查三个包的 npm OIDC 认证。每个包的可信发布必须绑定 `liunnn1994/sd-design`、`release.yml`，不设置 environment（当前 job 未使用 environment）；本地登录后可用 `npm trust list @sdata/web-react` 核对。新连接必须在两天内完成首次 OIDC 发布，过期后需要重建。如果发布失败时已经创建 Git tag，重跑 semantic-release 不会补发该版本；应从该 tag 补发缺失版本，或显式发布后续修复版本，不能将 tag 存在视为 npm 发布成功。
+
 组件测试使用 Cypress（Chrome），工具脚本和生产模式回归使用 Node 内置测试运行器。`pnpm run test` 依次执行 Markdown 导出检查、ModelSelector 生产模式插槽回归和 Cypress 组件测试。
 
 - **运行组件库测试**：
@@ -417,8 +419,7 @@ React 适配包要求 React、ReactDOM 及对应类型包版本满足 `^19.3.0`�
 
 `packages/web-react` 是 ESM React Adapter/View 包，复用 `packages/web-core` 的 Foundation 和 SCSS。当前 Vue 公开的 100 个组件组均已有对应 React 入口、样式和文档；SD 自有实现的验收结果与验证边界见 [React 对齐清单](docs/react-parity.md)。
 
-本地构建先执行 `mise exec -- pnpm run build:core`，再执行 `mise exec -- pnpm --filter @sdata/web-react build`。React 渲染检查使用 `mise exec -- pnpm --filter @sdata/web-react test`。
-React 的 `Card`、`CardMeta`、`CardGrid` 从 `@sdata/web-react` 导入，按需样式入口为 `@sdata/web-react/styles/card.scss`；其尺寸、滚动模式和子组件注册逻辑与 Vue 共享 core Foundation。
+本地构建先执行 `mise exec -- pnpm run build:core`，再执行 `mise exec -- pnpm --filter @sdata/web-react build`。React 渲染检查使用 `mise exec -- pnpm --filter @sdata/web-react test`。React 的 `Card`、`CardMeta`、`CardGrid` 从 `@sdata/web-react` 导入，按需样式入口为 `@sdata/web-react/styles/card.scss`；其尺寸、滚动模式和子组件注册逻辑与 Vue 共享 core Foundation。
 
 React 的 `Skeleton`、`SkeletonLine`、`SkeletonShape` 同样从 `@sdata/web-react` 导入；按需加载 `@sdata/web-react/styles/skeleton.scss`。`loading` 为 false 时渲染 `content`，否则渲染 `children` 占位内容。
 

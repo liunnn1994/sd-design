@@ -53,6 +53,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@sdata'
 
+      - name: Verify npm trusted publishing before validation and tagging
+        if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
+        run: node packages/web-vue/scripts/verify-npm-publishing.ts
+
       - name: Install dependencies
         run: |
           corepack enable
@@ -71,7 +75,7 @@ jobs:
         run: pnpm run test:affected:unit
 
       - name: Validate independent package releases
-        run: node --test packages/web-vue/scripts/release-packages.test.ts
+        run: node --test packages/web-vue/scripts/release-packages.test.ts packages/web-vue/scripts/verify-npm-publishing.test.ts
 
       - name: Test React adapters
         run: pnpm --filter @sdata/web-react test

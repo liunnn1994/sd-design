@@ -500,6 +500,8 @@ Tooltip/Popover 使用 trigger/compat-state 的 createPopupWrapperFoundation：�
 
 Core、Vue、React 使用独立版本协议：`release.yml` 监听三个包，从仓库根目录按 Core→Vue→React 顺序运行各自的 semantic-release 配置。共享发布配置位于 `packages/web-vue/scripts/release-config.ts`，插件沿用现有 Vue 包的开发依赖，不增加运行时依赖。各包使用 `web-core-v${version}`、`web-vue-v${version}`、`web-react-v${version}` tag，单独更新自身清单和 CHANGELOG。提交分析与发布说明都按文件路径及共享依赖变更影响过滤；默认/命名 catalog 按包清单解析，锁文件按包的 importer 与可达依赖快照比较，docs 专属依赖变更不触发这些包发版；两个适配包同时接收 Core 变更，并保守继承其 major/minor/patch 级别，适配包修改不反向传播。MCP 按构建输入过滤提交，resolver 保持独立路径过滤。
 
+正式运行在安装依赖前由 `verify-npm-publishing.ts` 请求 GitHub OIDC 身份，并逐包调用 npm 官方 token exchange；认证不通过时在构建、提交和打 tag 之前失败。手动 dry-run 跳过该检查；凭据仅保存在内存中，不写入文件或日志。新连接需在两天内完成首次 OIDC 发布，否则必须重建。由于 semantic-release 在 npm 发布前创建 tag，已有 tag 但 npm 缺失的版本需要从对应 tag 补发，或显式发布后续修复版本，不能依赖直接重跑恢复。
+
 首次迁移由 `bootstrap-core-release.ts` 在最新可达的 Vue 联合发布提交上校验 Core 清单版本，并创建对应 Core 基线 tag；已有 Core tag 时不重复迁移。React 尚无正式发布 tag，首版遵循 semantic-release 的 `1.0.0` 规则。发布准备脚本只修改当前包，Core 先发布并写回版本后，pnpm 将 Vue 的 `workspace:^` / React 的 `workspace:*` 转换为该 Core 的版本范围 / 精确版本。同步 main 在安装、检查和构建前完成，避免构建后引入未经验证的源码；每次发布只提交当前包的清单和 CHANGELOG。发布测试在本地临时 Git 远端执行真实 dry-run，验证版本隔离、依赖传播、历史迁移和无发布副作用；GitHub 鉴权及 npm OIDC 发布仍由 CI 验证。
 
 Clamp 的四个 Foundation 还管理测量内核之外的完整流程：Inline 持有宽度/字形提示历史、测量失效与取消；Line 持有行拟合缓存、原生/测量选择和提交；RichLine 持有可见/探测游标、克隆安全回退、密度提示和探测树同步；Wrap 持有宽度历史、分块物化与增长/收缩验证及最终计数收敛。控制器只读取结构化 value cell、属性 getter 和调度端口，不导入 Vue；Vue 保留 ref/computed、VNode/slot、post-flush 队列、nextTick 实现和生命周期接线。Wrap 的 itemKey 函数/字段/索引回退也由 Core 共享，原回调 receiver、继承字段和假值 key 语义保持。`TextClampLayoutInput.simpleLineFit` 显式接纳 undefined，以匹配已有调用与严格 optional 类型消费。

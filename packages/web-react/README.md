@@ -1,5 +1,7 @@
 # SD Design React
 
+发布由仓库根目录的 `release.yml` 执行。npm trusted publisher 必须绑定 `liunnn1994/sd-design` 和该工作流，且不设置 environment。新连接需要在两天内完成首次 OIDC 发布；过期后应重建连接。如果 Git 标签已经创建但 npm 发布失败，需要补发对应版本或发布后续修复版本，直接重跑不会自动补发。
+
 React 适配包正在与 Vue 版本逐项对齐，目前提供 Divider、Comment、Space、Switch、Button/ButtonGroup、Link、Empty、Spin、Tag、Avatar/AvatarGroup、NumberFlow/NumberFlowGroup、Badge、Trigger、Scrollbar、Tooltip、Popover、Popconfirm、Alert、Card/CardMeta/CardGrid、Skeleton/SkeletonLine/SkeletonShape、Result、PageHeader、Descriptions/DescriptionsItem、Grid/Row/Col/GridItem、Drawer、Collapse/CollapseItem、Timeline/TimelineItem、Steps/Step、Breadcrumb/BreadcrumbItem、Dropdown/Doption/Dgroup/Dsubmenu/DropdownButton、Layout/Header/Content/Footer/Sider、Ellipsis/PerformantEllipsis、LineClamp/InlineClamp/RichLineClamp/WrapClamp 和基础 ConfigProvider/ThemeProvider。全量能力仍在建设中，详见仓库 `docs/react-parity.md`。
 
 应用入口导入 `@sdata/web-react/styles/index.scss`，加载基础 token、图标规则和当前组件样式；需要消费端支持 Sass。各组件的单独 SCSS 入口适用于已加载基础样式的按需使用场景。
@@ -26,11 +28,7 @@ export function Example() {
 }
 ```
 
-`direction` 默认为 `horizontal`，也可设为 `vertical`。垂直分割线不显示文字。
-`orientation` 支持 `left`、`center`（默认）、`right`。
-`type` 支持 `solid`、`dashed`、`dotted`、`double`。
-`size` 是像素宽度；`margin` 支持像素数值或 CSS 长度。数值 `0` 会保留。
-支持原生 div 属性、`ref`、`className` 和 `style`。
+`direction` 默认为 `horizontal`，也可设为 `vertical`。垂直分割线不显示文字。 `orientation` 支持 `left`、`center`（默认）、`right`。 `type` 支持 `solid`、`dashed`、`dotted`、`double`。 `size` 是像素宽度；`margin` 支持像素数值或 CSS 长度。数值 `0` 会保留。支持原生 div 属性、`ref`、`className` 和 `style`。
 
 ## Comment 评论
 
@@ -54,9 +52,7 @@ export function Example() {
 }
 ```
 
-`author`、`datetime`、`content`、`actions` 接受 React 内容。
-`avatar` 为字符串时作为图片 URL，也支持自定义 React 内容。
-`children` 渲染嵌套评论。`align` 默认为 `left`；传 `right` 同时调整时间与操作区，也可使用对象分别指定，未指定项默认靠左。
+`author`、`datetime`、`content`、`actions` 接受 React 内容。 `avatar` 为字符串时作为图片 URL，也支持自定义 React 内容。 `children` 渲染嵌套评论。`align` 默认为 `left`；传 `right` 同时调整时间与操作区，也可使用对象分别指定，未指定项默认靠左。
 
 Affix 支持 `offsetTop` / `offsetBottom`（后者优先）、`target` / `targetContainer`、`onChange` 和 `ref.updatePosition()`，复用共享滚动与尺寸观察驱动；按需样式为 `styles/affix.scss`。目标可以是选择器、HTMLElement 或 Window，SSR 输出未固定的内容。
 
@@ -125,9 +121,7 @@ Slider 提供单值/范围、横竖方向、刻度/标记、格式化提示和�
 
 ## DatePicker 日期选择器
 
-从 `@sdata/web-react` 或 `@sdata/web-react/date-picker` 导入 DatePicker、WeekPicker、MonthPicker、QuarterPicker、YearPicker、RangePicker，按需导入 `@sdata/web-react/styles/date-picker.scss`。各子组件也挂载于 DatePicker。支持受控输入与弹层、日期时间范围、确认、禁用规则、时区、快捷项及内嵌/自定义面板；`ConfigProvider.datePicker` 设置全局默认项。完整属性、回调和交互示例见 `/react/components/date-picker/`。
-`Cropper` 提供根入口和 `@sdata/web-react/cropper` 子路径，样式为 `@sdata/web-react/styles/cropper.scss`。复用 Core 裁剪引擎，支持动态图片、选区几何回写、比例与画布配置、事件及 ref；真实裁剪输出和完整 API 见 `/react/components/cropper/`。
-`ThemeProvider` 支持局部/全局主题、嵌套浮层继承及 `tag` 根标签；从根入口或 `@sdata/web-react/theme-provider` 导入。局部容器透传原生属性，并使用 ConfigProvider 的类名前缀；无主题或 global 模式不增加包装节点。详见 `/react/components/theme-provider/`。
+从 `@sdata/web-react` 或 `@sdata/web-react/date-picker` 导入 DatePicker、WeekPicker、MonthPicker、QuarterPicker、YearPicker、RangePicker，按需导入 `@sdata/web-react/styles/date-picker.scss`。各子组件也挂载于 DatePicker。支持受控输入与弹层、日期时间范围、确认、禁用规则、时区、快捷项及内嵌/自定义面板；`ConfigProvider.datePicker` 设置全局默认项。完整属性、回调和交互示例见 `/react/components/date-picker/`。 `Cropper` 提供根入口和 `@sdata/web-react/cropper` 子路径，样式为 `@sdata/web-react/styles/cropper.scss`。复用 Core 裁剪引擎，支持动态图片、选区几何回写、比例与画布配置、事件及 ref；真实裁剪输出和完整 API 见 `/react/components/cropper/`。 `ThemeProvider` 支持局部/全局主题、嵌套浮层继承及 `tag` 根标签；从根入口或 `@sdata/web-react/theme-provider` 导入。局部容器透传原生属性，并使用 ConfigProvider 的类名前缀；无主题或 global 模式不增加包装节点。详见 `/react/components/theme-provider/`。
 
 Cascader/CascaderPanel（也可用 `Cascader.CascaderPanel`）复用 Core 的层级选项、父子选择、搜索、键盘与异步加载规则。支持单选/多选、pathMode、checkStrictly、fieldNames/valueKey、受控弹层和 Form 集成；使用 `value` / `onValueChange` 更新选择，ref 提供 `focus()` / `blur()`。按需入口为 `@sdata/web-react/cascader`，样式为 `@sdata/web-react/styles/cascader.scss`；完整示例见 React Cascader 文档。
 
