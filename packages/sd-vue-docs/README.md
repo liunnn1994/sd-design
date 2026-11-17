@@ -14,7 +14,7 @@ packages/sd-vue-docs/
 │   │                               # generated 示例自动转换脚本
 │   └── sync-vendor.ts              # 同步在线示例运行时依赖
 ├── src/
-│   ├── browser-repl/                # Vue REPL 使用的浏览器模块桥接
+│   ├── browser-repl/                # Vue / React 共用的 LiveCodes 配置
 │   ├── components/
 │   │   ├── docs/                    # 文档专用组件，如 DemoBlock / DemoEditor
 │   │   └── generated/               # 迁移脚本输出的示例 Vue 组件

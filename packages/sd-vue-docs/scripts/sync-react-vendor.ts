@@ -1,6 +1,5 @@
-import { existsSync, globSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
-import { dirname, resolve } from 'node:path';
+import { globSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import { build } from 'vite';
@@ -11,7 +10,6 @@ const docsRoot = resolve(import.meta.dirname, '..');
 const workspaceRoot = resolve(docsRoot, '../..');
 const reactRoot = resolve(workspaceRoot, 'packages/web-react');
 const vendorRoot = resolve(docsRoot, 'public/vendor/sd-web-react');
-const require = createRequire(import.meta.url);
 const manifest = JSON.parse(readFileSync(resolve(reactRoot, 'package.json'), 'utf8')) as {
   exports: Record<string, string | { import?: string }>;
 };
@@ -156,36 +154,6 @@ await build({
 mkdirSync(vendorRoot, { recursive: true });
 writeFileSync(resolve(vendorRoot, 'import-map.json'), `${JSON.stringify({ imports }, null, 2)}\n`);
 
-const types: Record<string, string> = {};
-function addDeclarations(directory: string, destination: string) {
-  for (const file of globSync('**/*.d.ts', { cwd: directory, exclude: ['node_modules/**'] })) {
-    types[`${destination}/${file.replaceAll('\\', '/')}`] = readFileSync(
-      resolve(directory, file),
-      'utf8',
-    );
-  }
-}
-addDeclarations(resolve(reactRoot, 'dist'), 'node_modules/@sdata/web-react');
-addDeclarations(resolve(workspaceRoot, 'packages/web-core/dist'), 'node_modules/@sdata/web-core');
-for (const specifier of ['@types/react', '@types/react-dom', 'csstype', 'type-fest', 'lexical']) {
-  const packageJson = require.resolve
-    .paths(specifier)
-    ?.map((searchPath) => resolve(searchPath, specifier, 'package.json'))
-    .find(existsSync);
-  if (!packageJson) throw new Error(`Cannot locate declaration package ${specifier}`);
-  const packageRoot = dirname(packageJson);
-  addDeclarations(packageRoot, `node_modules/${specifier}`);
-  const pkgPath = resolve(packageRoot, 'package.json');
-  if (existsSync(pkgPath)) {
-    const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as { types?: string; typings?: string };
-    const entry = pkg.types ?? pkg.typings;
-    if (entry && entry.replace(/^\.\//, '') !== 'index.d.ts') {
-      types[`node_modules/${specifier}/index.d.ts`] =
-        `export * from './${entry.replace(/\.d\.ts$/, '')}';`;
-    }
-  }
-}
-writeFileSync(resolve(vendorRoot, 'types.json'), JSON.stringify(types));
 const typeManifest = await buildTypeReferenceManifest({
   workspaceRoot,
   entryPath: resolve(reactRoot, 'src/index.ts'),
@@ -193,5 +161,5 @@ const typeManifest = await buildTypeReferenceManifest({
 });
 writeFileSync(resolve(vendorRoot, 'type-reference-manifest.json'), JSON.stringify(typeManifest));
 console.log(
-  `React REPL: ${Object.keys(imports).length} browser modules, ${Object.keys(types).length} type files, ${Object.keys(typeManifest.types).length} public types.`,
+  `React playground: ${Object.keys(imports).length} browser modules, ${Object.keys(typeManifest.types).length} public types.`,
 );

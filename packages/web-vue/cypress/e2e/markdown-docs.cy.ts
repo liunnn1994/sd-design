@@ -105,8 +105,13 @@ describe('Markdown 文档实际页面', () => {
       .scrollIntoView()
       .within(() => {
         cy.contains('button', '在线编辑', { timeout: 20000 }).click();
-        cy.get('iframe', { timeout: 30000 }).should(($frame) => {
-          expect($frame[0].contentDocument?.body?.textContent ?? '').to.contain('Markdown 排版');
+        cy.get('iframe', { timeout: 90000 }).should(($frame) => {
+          const app =
+            $frame[0].contentDocument?.querySelector<HTMLIFrameElement>(
+              'iframe[name="app"]',
+            )?.contentDocument;
+          const preview = app?.querySelector<HTMLIFrameElement>('#result iframe')?.contentDocument;
+          expect(preview?.querySelector('h1')?.textContent).to.contain('Markdown 排版');
         });
       });
   });

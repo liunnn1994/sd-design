@@ -1,0 +1,77 @@
+/* Match LiveCodes' :root.light specificity in both themes. */
+:root:root,
+:root:root body {
+  --darker-bg-color: var(--sd-color-bg-2);
+  --darker-bg-active: var(--sd-color-fill-2);
+  --darker-color: var(--sd-color-text-2);
+  --darker-active: var(--sd-color-text-1);
+  --dark-bg-color: var(--sd-color-border-2);
+  --dark-bg-active: var(--sd-color-fill-2);
+  --dark-color: var(--sd-color-text-2);
+  --dark-active: var(--sd-color-text-1);
+  --link: var(--sd-color-text-1);
+  --light: var(--sd-color-text-2);
+  --console-bg: var(--sd-color-bg-2);
+  --dropdown: var(--sd-color-bg-5);
+  --layout: var(--sd-color-fill-1);
+  --modal: var(--sd-color-bg-5);
+  --rs: var(--sd-border-radius-small);
+  --btn-height: 32px;
+  --btn-border-radius: var(--sd-border-radius-medium);
+  --btn-color: var(--sd-color-text-1);
+  --btn-active: var(--sd-color-text-1);
+  --btn-modal-color: var(--sd-color-text-1);
+  --btn-modal-active: var(--sd-color-text-1);
+  --input-bg-color: var(--sd-color-fill-2);
+  --input-bg-active: var(--sd-color-fill-2);
+  --input-border-color: var(--sd-color-border-2);
+  --input-border-active: rgb(var(--sd-primary-6));
+  --input-color: var(--sd-color-text-1);
+  --input-active: var(--sd-color-text-1);
+  --input-switch-active: rgb(var(--sd-primary-6));
+  --editor-title-bg-color: var(--sd-color-fill-1);
+  --editor-title-bg-active: var(--sd-color-primary-light-1);
+  --editor-title-border-color: var(--sd-color-fill-1);
+  --editor-title-border-active: rgb(var(--sd-primary-6));
+  --editor-title-color: var(--sd-color-text-2);
+  --editor-title-active: rgb(var(--sd-primary-6));
+  --gutter-split-bg-color: var(--sd-color-border-2);
+  --gutter-split-bg-handle: var(--sd-color-text-3);
+  --menu-split-color: var(--sd-color-border-2);
+  --modal-title-bg: var(--sd-color-fill-2);
+  --modal-title-color: var(--sd-color-text-1);
+  --modal-text-color: var(--sd-color-text-1);
+  --modal-close-color: var(--sd-color-text-1);
+  --toolspane-bar-text-color: var(--sd-color-text-1);
+  --toolspane-buttons-text-color: var(--sd-color-text-1);
+  --toolspane-button-color: var(--sd-color-text-1);
+  --toolspane-color: var(--sd-color-text-1);
+  --toolspane-active: var(--sd-color-text-1);
+  --text-help-bg-color: var(--sd-color-fill-1);
+  --text-help-border: 1px solid var(--sd-color-border-2);
+  --text-help-color: var(--sd-color-text-1);
+  --custom-editor-background-color: var(--sd-color-bg-2);
+  --custom-editor-loading-color: var(--sd-color-text-2);
+
+  color: var(--sd-color-text-1);
+  font-family: var(--sl-font);
+  background: var(--sd-color-bg-2);
+}
+
+:root #toolbar #logo {
+  pointer-events: none;
+}
+
+:root .monaco-editor {
+  /* stylelint-disable custom-property-pattern -- Monaco defines these variable names. */
+  --vscode-editor-background: var(--sd-color-bg-2);
+  --vscode-editor-foreground: var(--sd-color-text-1);
+  --vscode-editorGutter-background: var(--sd-color-bg-2);
+  --vscode-editorLineNumber-foreground: var(--sd-color-text-3);
+  --vscode-editorLineNumber-activeForeground: var(--sd-color-text-1);
+  --vscode-editorCursor-foreground: rgb(var(--sd-primary-6));
+  --vscode-editor-selectionBackground: var(--sd-color-primary-light-2);
+  --vscode-editor-inactiveSelectionBackground: var(--sd-color-fill-2);
+  --vscode-editor-lineHighlightBackground: var(--sd-color-fill-1);
+  /* stylelint-enable custom-property-pattern */
+}

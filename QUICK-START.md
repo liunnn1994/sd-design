@@ -548,4 +548,4 @@ Vue 的 buildKaTeXCDNWorkerSource / createKaTeXWorkerFromCDN 与 buildMermaidCDN
 
 文档正文只维护 `packages/sd-vue-docs/src/content/shared/`。`<Demo id="component/scenario" />` 关联 `src/components/generated/` 下的 Vue 示例和 `src/components/react/generated/` 下的真实 React 示例；框架专属代码使用 `<Framework only="vue|react">`。不要手改 `src/content/docs/` 中带生成标记的页面。
 
-Astro 启动与构建自动生成两套路由和共享场景清单；`docs:pages` 可手动生成，`docs:check` 检查缺失场景、API 映射与过期输出。在线编辑器共享外壳，分别使用 Vue REPL 与 React TSX 运行器。首页布局、主题编辑控件和数据共享，预览按当前框架渲染；LLMs 文本分别位于 `/llms/` 与 `/react/llms/`。
+Astro 启动与构建自动生成两套路由和共享场景清单；`docs:pages` 可手动生成，`docs:check` 检查缺失场景、API 映射与过期输出。Vue 和 React 在线示例统一使用 LiveCodes（Monaco），提供简体中文界面、单文件编辑、实时预览和内置外部资源配置；编辑器主题复用 SD CSS 变量，组件类型使用本地打包声明。`docs:vendor:only` 缓存并准备官方 LiveCodes v49 静态资源，首次准备需要访问 GitHub；编译器和运行沙箱需要联网。静态部署须为 `/vendor/*` 设置 `Access-Control-Allow-Origin: *`，供隔离沙箱读取组件模块；开发、预览及支持 `_headers` 的托管平台已配置。首页布局、主题编辑控件和数据共享，预览按当前框架渲染；LLMs 文本分别位于 `/llms/` 与 `/react/llms/`。

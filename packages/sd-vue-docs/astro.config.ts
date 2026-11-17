@@ -90,8 +90,8 @@ export default defineConfig({
   // hand-written .astro components; revisit when adopting the new default.
   compressHTML: true,
   vite: {
+    preview: { headers: { 'Access-Control-Allow-Origin': '*' } },
     resolve: {
-      noExternal: ['@vue/repl'],
       alias: [
         {
           find: /^@sdata\/web-vue$/,
@@ -118,10 +118,11 @@ export default defineConfig({
     optimizeDeps: {
       // pdf.js and Shiki are already ESM. Keep their lazy imports out of the optimizer so
       // pre-bundling cannot invalidate URLs retained by hydrated islands.
-      exclude: ['@vue/repl', 'pdfjs-dist', 'shiki'],
+      exclude: ['pdfjs-dist', 'shiki'],
       // Pre-bundle lazy renderers before the first demo opens. Discovering these
       // on demand invalidates URLs already held by hydrated Vue islands.
       include: [
+        'livecodes',
         '@mlc-ai/web-llm',
         ...dayjsLocaleDependencies,
         '@sdata/web-vue > cropperjs',

@@ -13,16 +13,16 @@
     "build:site:prepared": "astro build",
     "typecheck": "vue-tsc --noEmit -p tsconfig.vue-tsc.json && tsc --noEmit -p src/components/react/tsconfig.json",
     "pretest:dev": "pnpm run docs:pages",
-    "test:dev": "node --test scripts/jsx-refresh.test.ts scripts/framework-navigation.test.ts scripts/framework-docs.test.ts scripts/react-repl.test.ts scripts/react-api.test.ts scripts/browser-chat.test.ts",
+    "test:dev": "node --test scripts/jsx-refresh.test.ts scripts/framework-navigation.test.ts scripts/framework-docs.test.ts scripts/livecodes.test.ts scripts/react-api.test.ts scripts/browser-chat.test.ts",
     "migrate:generated-demos": "node ./scripts/migrate-generated-demo-conventions.ts",
     "verify:theme-runtime": "node ./scripts/verify-theme-runtime-paths.ts",
     "preview": "pnpm run docs:vendor && astro preview",
     "astro": "astro",
-    "docs:prepare": "pnpm --filter @sdata/web-vue run build:module && pnpm --filter @sdata/web-vue run jsongen && pnpm --filter @sdata/web-react build",
+    "docs:prepare": "pnpm --filter @sdata/web-vue run build:module && pnpm --filter @sdata/web-vue run build:dts && pnpm --filter @sdata/web-vue run jsongen && pnpm --filter @sdata/web-react build",
     "docs:pages": "node ./scripts/framework-docs.ts",
     "docs:check": "node ./scripts/framework-docs.ts --check",
     "docs:vendor": "pnpm run docs:prepare && pnpm run docs:vendor:only",
-    "docs:vendor:only": "node ./scripts/sync-vendor.ts && node ./scripts/sync-react-vendor.ts"
+    "docs:vendor:only": "node ./scripts/sync-vendor.ts && node ./scripts/sync-react-vendor.ts && node ./scripts/sync-playground-types.ts && node ./scripts/sync-livecodes.ts"
   },
   "dependencies": {
     "@antv/infographic": "^0.2.20",
@@ -36,13 +36,11 @@
     "@sdata/web-vue": "workspace:*",
     "@tailwindcss/vite": "^4.3.3",
     "@terrastruct/d2": "^0.1.33",
-    "@vue/repl": "^4.7.2",
     "@vueuse/core": "catalog:",
     "astro": "^7.3.8",
-    "es-module-lexer": "^3.0.4",
     "katex": "^0.19.0",
+    "livecodes": "^0.14.1",
     "mermaid": "^12.1.0",
-    "monaco-editor": "^0.57.0",
     "motion-v": "^2.6.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -50,7 +48,6 @@
     "remark-gfm": "^4.0.1",
     "sharp": "^0.35.5",
     "shiki": "^4.5.0",
-    "sucrase": "^3.35.1",
     "tailwindcss": "^4.3.3",
     "unist-util-visit": "^5.1.0",
     "vite": "catalog:",
@@ -58,6 +55,7 @@
   },
   "devDependencies": {
     "rolldown": "^1.2.13",
+    "tsdown": "catalog:",
     "vue-tsc": "^3.3.13"
   }
 }

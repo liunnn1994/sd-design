@@ -1,0 +1,2 @@
+/vendor/*
+  Access-Control-Allow-Origin: *

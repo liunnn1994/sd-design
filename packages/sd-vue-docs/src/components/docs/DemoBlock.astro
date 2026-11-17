@@ -8,10 +8,9 @@ interface Props {
   framework?: DocsFramework;
   source: string;
   mainFile: string;
-  files?: Record<string, string>;
 }
 
-const { id, framework = 'vue', source, mainFile, files } = Astro.props;
+const { id, framework = 'vue', source, mainFile } = Astro.props;
 ---
 
 <div class="demo-block not-content" data-example={id} data-framework={framework} data-deferred>
@@ -29,7 +28,7 @@ const { id, framework = 'vue', source, mainFile, files } = Astro.props;
     </div>
     <div class="demo-block__preview-content"></div>
   </div>
-  <DemoEditor client:only="vue" framework={framework} source={source} mainFile={mainFile} files={files} />
+  <DemoEditor client:only="vue" framework={framework} source={source} mainFile={mainFile} />
   <template class="demo-block__deferred-island">
     <slot />
   </template>

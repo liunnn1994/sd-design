@@ -6,6 +6,7 @@ type BrowserBinding = {
 
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { build as rolldownBuild } from 'rolldown';
 import { build as viteBuild } from 'vite';
 
@@ -37,6 +38,10 @@ async function resetVendorRoot() {
 }
 
 async function syncVendorAssets() {
+  await fs.copyFile(
+    fileURLToPath(import.meta.resolve('vue/dist/vue.runtime.esm-browser.js')),
+    path.resolve(publicVendorRoot, 'vue.runtime.esm-browser.js'),
+  );
   const webVueEsRoot = path.resolve(webVueRoot, 'es');
   const styleEntryCandidates = [path.resolve(webVueRoot, 'components', 'index.scss')];
   const styleEntryPath = await resolveFirstExistingPath(styleEntryCandidates);
@@ -273,6 +278,8 @@ async function bundleVendorDependencies(vendorDependencyOutputs: Record<string, 
 async function collectVendorDependencyOutputs(webVueEsRoot: string) {
   const sourceFiles = await collectFiles(webVueEsRoot);
   const specifiers = new Set<string>();
+  // The icon gallery imports this data directly; components do not import it.
+  specifiers.add('@sdata/web-core/icon/icons/catalog');
 
   for (const filePath of sourceFiles) {
     if (!filePath.endsWith('.js')) {

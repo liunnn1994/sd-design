@@ -9,9 +9,8 @@
       source: string;
       mainFile: string;
       framework?: DocsFramework;
-      files?: Record<string, string>;
     }>(),
-    { framework: 'vue', files: () => ({}) },
+    { framework: 'vue' },
   );
 
   const expanded = shallowRef(false);
@@ -27,10 +26,7 @@
     loading.value = true;
     loadError.value = '';
     try {
-      const module =
-        props.framework === 'react'
-          ? await import('./ReactReplPanel.vue')
-          : await import('./VueReplPanel.vue');
+      const module = await import('./LiveCodesPanel.vue');
       if (!disposed) panel.value = module.default;
     } catch (error) {
       if (!disposed) loadError.value = error instanceof Error ? error.message : '编辑器加载失败';
@@ -65,7 +61,13 @@
         role="alert"
         >{{ loadError }}</div
       >
-      <component :is="panel" v-if="panel" :source="source" :main-file="mainFile" :files="files" />
+      <component
+        :is="panel"
+        v-if="panel"
+        :framework="framework"
+        :source="source"
+        :main-file="mainFile"
+      />
     </div>
   </div>
 </template>
