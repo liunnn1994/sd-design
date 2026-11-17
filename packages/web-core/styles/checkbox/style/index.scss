@@ -47,6 +47,7 @@
 
   &-icon {
     position: relative;
+    display: block;
     box-sizing: border-box;
     width: $checkbox-mask-height;
     height: $checkbox-mask-height;

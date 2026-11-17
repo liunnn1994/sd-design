@@ -8,8 +8,8 @@ describe('Checkbox', () => {
     cy.get('p .sd-checkbox-icon').should('have.prop', 'tagName', 'SPAN');
     cy.get('p div').should('not.exist');
     cy.get('p .sd-checkbox-icon').should(($icon) => {
-      expect($icon[0].getBoundingClientRect().width).to.be.greaterThan(0);
-      expect($icon[0].getBoundingClientRect().height).to.be.greaterThan(0);
+      expect($icon[0].getBoundingClientRect().width).to.equal(14);
+      expect($icon[0].getBoundingClientRect().height).to.equal(14);
     });
   });
   it('should emit change event', () => {
