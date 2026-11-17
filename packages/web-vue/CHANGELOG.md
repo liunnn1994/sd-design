@@ -1,3 +1,10 @@
+## [7.9.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.9.0...web-vue-v7.9.1) (2026-11-17)
+
+
+### Bug Fixes
+
+* 🐛 修复错误的测试用例 ([78c0f34](https://github.com/liunnn1994/sd-design/commit/78c0f34fdad8eb07b778402f9b307bd91bbb82b6))
+
 # [7.9.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.8.2...web-vue-v7.9.0) (2026-11-17)
 
 
