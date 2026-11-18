@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.0.1...web-react-v1.1.0) (2026-11-18)
+
+
+### Bug Fixes
+
+* 🐛 修复 PerformantEllipsis 的 tooltip 残留 ([0556151](https://github.com/liunnn1994/sd-design/commit/0556151f2594a37f1019706b851ebaf76caba15b))
+
+
+### Features
+
+* 🆕 优化拖拽排序 ([525ecdf](https://github.com/liunnn1994/sd-design/commit/525ecdf22e0d082015976cce30163c6abbc94c8c))
+
 ## [1.0.1](https://github.com/liunnn1994/sd-design/compare/web-react-v1.0.0...web-react-v1.0.1) (2026-11-17)
 
 
