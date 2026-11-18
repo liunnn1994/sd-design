@@ -144,6 +144,8 @@ describe('Tour driver.js wrapper', () => {
 
   it('cleans up active DOM and listeners on unmount even with a destroy override', () => {
     const visible = shallowRef(true);
+    const onHighlighted = cy.spy().as('highlighted');
+    const onDestroyStarted = cy.spy().as('destroyStarted');
     const onDestroyed = cy.spy().as('destroyed');
     cy.mount(
       defineComponent({
@@ -152,21 +154,21 @@ describe('Tour driver.js wrapper', () => {
           onMounted(() => tour.value?.drive());
           return () =>
             visible.value
-              ? h(
-                  Tour,
-                  { ref: tour, steps, animate: false, onDestroyStarted: () => {}, onDestroyed },
-                  () => h('button', { id: 'tour-step-a' }, 'A'),
+              ? h(Tour, { ref: tour, steps, onHighlighted, onDestroyStarted, onDestroyed }, () =>
+                  h('button', { id: 'tour-step-a' }, 'A'),
                 )
               : null;
         },
       }),
     );
     cy.get('.driver-popover').should('exist');
+    cy.get('@highlighted').should('have.been.calledOnce');
     cy.then(() => {
       visible.value = false;
     });
     cy.get('.driver-popover, .driver-overlay').should('not.exist');
     cy.get('body').should('not.have.class', 'driver-active');
+    cy.get('@destroyStarted').should('not.have.been.called');
     cy.get('@destroyed').should('have.been.calledOnce');
   });
 });
