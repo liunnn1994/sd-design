@@ -1,5 +1,6 @@
 import { h } from 'vue';
 
+import { moveMouseAway, moveMouseTo } from '../../../../web-core/tests/browser/hover-intent';
 import { PerformantEllipsis } from '../../ellipsis';
 import Link from '../index';
 
@@ -71,13 +72,14 @@ describe('Link', () => {
   // 副本自身的 text-overflow: ellipsis 会虚增 scrollWidth，导致未截断的链接误弹 tooltip。
   it('does not show the ellipsis tooltip for content that fits its shrink-to-fit width', () => {
     cy.mount(Link, { slots: { default: () => '10' } });
-    cy.get('.sd-link').trigger('mouseenter');
+    moveMouseTo('.sd-link-content');
     // 等 PerformantEllipsis 惰性激活并完成首次 clamp 测量
     cy.get('[data-ellipsis-measure]').should('exist');
     cy.wait(200);
     cy.get('body').then(($body) => {
       expect($body.find('[role="tooltip"]').length).to.equal(0);
     });
+    moveMouseAway();
   });
 
   it('does not emit click when disabled', () => {

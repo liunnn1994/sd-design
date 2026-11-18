@@ -1,3 +1,4 @@
+import { moveMouseTo } from '../../../../web-core/tests/browser/hover-intent';
 import Select from '../index';
 
 describe('Select option tooltip lifecycle', () => {
@@ -16,11 +17,7 @@ describe('Select option tooltip lifecycle', () => {
           attrs: { style: 'width: 150px; margin: 100px;' },
         });
         cy.get('.sd-select-view').click();
-        cy.get('.sd-select-option')
-          .first()
-          .find('.sd-ellipsis, .sd-performant-ellipsis')
-          .first()
-          .trigger('mouseenter');
+        moveMouseTo('.sd-select-option :is(.sd-ellipsis, .sd-performant-ellipsis)');
         cy.get('[role="tooltip"]').should('be.visible');
         cy.get('[role="tooltip"]').then(($tooltip) => {
           const doc = $tooltip[0].ownerDocument;

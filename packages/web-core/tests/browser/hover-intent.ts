@@ -33,6 +33,21 @@ function moveMouse(x: number, y: number) {
   });
 }
 
+export function moveMouseTo(selector: string) {
+  return cy
+    .get(selector)
+    .first()
+    .scrollIntoView()
+    .then(($target) => {
+      const rect = $target[0].getBoundingClientRect();
+      return moveMouse(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    });
+}
+
+export function moveMouseAway() {
+  return cy.window().then((win) => moveMouse(win.innerWidth - 5, win.innerHeight - 5));
+}
+
 export function hoverIntentTests(setup: (mode: IntentMode) => void) {
   function expectSiblingHidden() {
     cy.get('body').should(($body) => {

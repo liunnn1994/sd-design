@@ -1,5 +1,6 @@
 import { h, ref } from 'vue';
 
+import { moveMouseAway, moveMouseTo } from '../../../../web-core/tests/browser/hover-intent';
 import ConfigProvider from '../../config-provider';
 import { PerformantEllipsis } from '../../ellipsis';
 import IconPlus from '../../icon/icon-plus';
@@ -50,11 +51,12 @@ describe('Button ellipsis', () => {
         });
       };
       checkLayout();
-      cy.get('.sd-btn-content').trigger('mouseenter');
+      moveMouseTo('.sd-btn-content');
       cy.get('[data-ellipsis-measure]').should('exist');
       checkLayout();
       cy.wait(250);
       cy.get('[role="tooltip"]').should('not.exist');
+      moveMouseAway();
     });
 
     it(`keeps a lone default-slot icon centered after ${href ? 'anchor' : 'native'} focus`, () => {
@@ -140,8 +142,9 @@ describe('Button ellipsis', () => {
         );
       });
       cy.get('.sd-btn-icon').should('have.css', 'flex-shrink', '0');
-      cy.get('.sd-btn-content').trigger('mouseenter');
+      moveMouseTo('.sd-btn-content');
       cy.get('[role="tooltip"]').should('be.visible').and('contain', text);
+      moveMouseAway();
     });
   }
 
@@ -210,17 +213,19 @@ describe('Button ellipsis', () => {
       props: { ellipsisTooltip: { position: 'bottom', mini: true } },
       slots: { 'default': text, 'ellipsis-tooltip': '自定义省略提示' },
     });
-    cy.get('.sd-btn-content').trigger('mouseenter');
+    moveMouseTo('.sd-btn-content');
     cy.get('[role="tooltip"]').should('be.visible').and('contain', '自定义省略提示');
     cy.get('.sd-tooltip-content').should('have.class', 'sd-tooltip-mini');
+    moveMouseAway();
   });
 
   it('does not show a tooltip for text that fits', () => {
     cy.mount(Button, { slots: { default: '确认' } });
-    cy.get('.sd-btn-content').trigger('mouseenter');
+    moveMouseTo('.sd-btn-content');
     cy.get('[data-ellipsis-measure]').should('exist');
     cy.wait(200);
     cy.get('[role="tooltip"]').should('not.exist');
+    moveMouseAway();
   });
 
   it('keeps the loading icon and suppresses clicks on truncated content', () => {

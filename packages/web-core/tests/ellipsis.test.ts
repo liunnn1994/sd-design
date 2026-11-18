@@ -25,7 +25,12 @@ function globalValue(t: TestContext, key: string, value: unknown) {
 class Target {
   parent: Target | undefined;
   interactive = false;
+  hovered = true;
   events: unknown[][] = [];
+  matches(selector: string) {
+    assert.equal(selector, ':hover');
+    return this.hovered;
+  }
   closest() {
     let target: Target | undefined = this;
     while (target) {
@@ -419,6 +424,21 @@ test('hover replay retains native event order and bubbling while focus replay us
   state.triggerElement = replacement.element;
   controller.replayInteraction('focus');
   assert.deepEqual(replacement.events, [['focus']]);
+});
+test('hover activation skips replay when the replacement trigger is no longer hovered', async (t) => {
+  const { controller, root, state, measurement, reachMeasurement } = performant(t);
+  const replayHover = t.mock.fn();
+  state.replayHover = replayHover;
+  const pending = controller.activate('hover');
+  await reachMeasurement();
+  const replacement = new Target();
+  replacement.hovered = false;
+  state.triggerElement = replacement.element;
+  measurement.resolve();
+  await pending;
+  assert.equal(replayHover.mock.callCount(), 0);
+  assert.deepEqual(root.events, []);
+  assert.deepEqual(replacement.events, []);
 });
 test('missing measurement and a removed trigger finish activation without replay', async (t) => {
   const { controller, state, events, reachMeasurement } = performant(t);

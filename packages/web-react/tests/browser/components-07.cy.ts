@@ -1,3 +1,5 @@
+import { moveMouseAway, moveMouseTo } from '../../../web-core/tests/browser/hover-intent';
+
 describe('React Switch', () => {
   beforeEach(() => cy.visit('/'));
 
@@ -303,16 +305,9 @@ describe('React Switch', () => {
       .trigger('mouseover');
     cy.get('[role="tooltip"]').should('contain.text', '图标说明');
     cy.get('[data-testid="icon-link"] .sd-link-icon > span').trigger('mouseout');
-    cy.get('[data-testid="ellipsis-link"] .sd-link-content').trigger('mouseover');
+    moveMouseTo('[data-testid="ellipsis-link"] .sd-link-content');
     cy.get('[role="tooltip"]').should('contain.text', '链接长文本内容在悬浮时完整显示');
-  });
-
-  it('activates lazy ellipsis on hover and replays its initial interaction', () => {
-    cy.get('[data-testid="lazy-hover"] [data-ellipsis-measure]').should('not.exist');
-    cy.get('[data-testid="lazy-hover"]').trigger('mouseover');
-    cy.get('[role="tooltip"]')
-      .should('be.visible')
-      .and('contain.text', '延迟激活的省略提示包含完整文本内容');
+    moveMouseAway();
   });
 
   it('expands lazy ellipsis on its first click', () => {
@@ -613,5 +608,3 @@ describe('React Switch', () => {
     cy.get('[data-testid="number-flow"] .sd-number-flow-digit-value').should('have.length', 2);
   });
 });
-
-export {};

@@ -1,5 +1,6 @@
 import { h, ref } from 'vue';
 
+import { moveMouseTo } from '../../../../web-core/tests/browser/hover-intent';
 import Modal from '../modal.vue';
 
 describe('Modal footer tooltip', () => {
@@ -23,7 +24,7 @@ describe('Modal footer tooltip', () => {
     cy.get('.sd-modal-footer .sd-btn').first().should('be.focused');
     cy.wait(600);
     cy.get('[role="tooltip"]').should('not.exist');
-    cy.get('.sd-modal-footer .sd-btn-content').first().trigger('mouseenter');
+    moveMouseTo('.sd-modal-footer .sd-btn-content');
     cy.wait(250);
     cy.get('[role="tooltip"]').should('not.exist');
   });

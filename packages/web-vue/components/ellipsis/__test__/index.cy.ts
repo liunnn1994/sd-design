@@ -1,5 +1,6 @@
 import { h } from 'vue';
 
+import { moveMouseAway, moveMouseTo } from '../../../../web-core/tests/browser/hover-intent';
 import Ellipsis, { PerformantEllipsis } from '../index';
 
 const overflowing =
@@ -331,13 +332,59 @@ describe('PerformantEllipsis', () => {
       .should('have.class', 'sd-ellipsis--expanded')
       .and('have.attr', 'aria-expanded', 'true');
   });
-  it('shows the tooltip after hover activation once measurement settles', () => {
+  it('does not open a tooltip after the pointer leaves during activation', () => {
+    const enterDelay = 200;
+    cy.clock(Date.now(), ['setTimeout', 'clearTimeout']);
     cy.mount(PerformantEllipsis, {
-      props: { tooltip: { mouseEnterDelay: 0, mouseLeaveDelay: 0 } },
-      attrs: { style: 'max-width: 80px; display: block;' },
+      props: { tooltip: { mouseEnterDelay: enterDelay } },
+      attrs: { style: 'max-width: 80px; display: block; margin: 40px;' },
       slots: { default: overflowing },
     });
-    cy.get('.sd-ellipsis').trigger('mouseenter');
+    let resumeFrames: () => Promise<void>;
+    cy.window().then((win) => {
+      const requestFrame = win.requestAnimationFrame.bind(win);
+      const frames: FrameRequestCallback[] = [];
+      // Hold activation at its render frame until the native pointer has left.
+      const stub = cy
+        .stub(win, 'requestAnimationFrame')
+        .callsFake((callback) => frames.push(callback));
+      resumeFrames = () =>
+        new Promise((resolve) => {
+          stub.restore();
+          frames.forEach((callback) => requestFrame(callback));
+          requestFrame(() => resolve());
+        });
+    });
+    moveMouseAway();
+    moveMouseTo('.sd-ellipsis');
+    cy.get('.sd-ellipsis[data-part="root"]').should(($trigger) => {
+      expect($trigger[0].matches(':hover')).to.equal(true);
+    });
+    moveMouseAway();
+    cy.get('.sd-ellipsis[data-part="root"]').should(($trigger) => {
+      expect($trigger[0].matches(':hover')).to.equal(false);
+    });
+    const enterAfterLeave = cy.spy().as('enterAfterLeave');
+    cy.get('.sd-ellipsis[data-part="root"]').then(($trigger) => {
+      $trigger[0].addEventListener('mouseenter', enterAfterLeave);
+    });
+    cy.then(() => resumeFrames());
+    cy.get('@vue').then(({ wrapper }) => wrapper.findComponent(Ellipsis).vm.waitForMeasurement());
+    cy.tick(enterDelay);
+    cy.get('@enterAfterLeave').should('not.have.been.called');
+    cy.get('[role="tooltip"]').should('not.exist');
+  });
+
+  it('shows the tooltip after hover activation and closes it when the pointer leaves', () => {
+    cy.mount(PerformantEllipsis, {
+      props: { tooltip: { mouseEnterDelay: 0, mouseLeaveDelay: 0 } },
+      attrs: { style: 'max-width: 80px; display: block; margin: 40px;' },
+      slots: { default: overflowing },
+    });
+    moveMouseAway();
+    moveMouseTo('.sd-ellipsis');
     cy.get('[role="tooltip"]').should('be.visible');
+    moveMouseAway();
+    cy.get('[role="tooltip"]').should('not.be.visible');
   });
 });

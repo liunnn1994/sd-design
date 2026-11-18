@@ -36,9 +36,15 @@ describe('Tooltip reference lifecycle', () => {
             ),
           ]),
       });
-      cy.get('.sd-ellipsis, .sd-performant-ellipsis, .plain-reference')
-        .first()
-        .trigger('mouseenter');
+      const reference = '.sd-ellipsis, .sd-performant-ellipsis, .plain-reference';
+      if (component === PerformantEllipsis) {
+        cy.get(reference).first().trigger('mouseenter');
+        cy.get('.sd-ellipsis[data-part="root"]').should('exist');
+        cy.get('@vue').then(({ wrapper }) =>
+          wrapper.findComponent(Ellipsis).vm.waitForMeasurement(),
+        );
+      }
+      cy.get(reference).first().trigger('mouseenter');
       cy.get('[role="tooltip"]').should('be.visible');
       cy.then(() => {
         hidden.value = true;
@@ -49,9 +55,7 @@ describe('Tooltip reference lifecycle', () => {
       });
       cy.get('.reference-content').first().should('be.visible');
       cy.get('[role="tooltip"]').should('not.be.visible');
-      cy.get('.sd-ellipsis, .sd-performant-ellipsis, .plain-reference')
-        .first()
-        .trigger('mouseenter');
+      cy.get(reference).first().trigger('mouseenter');
       cy.get('[role="tooltip"]').should('be.visible');
     });
   }

@@ -19,6 +19,7 @@ export function createPerformantEllipsisFoundation(state: PerformantEllipsisStat
     }
 
     if (type === 'hover') {
+      if (!triggerElement.matches(':hover')) return;
       if (state.replayHover) {
         state.replayHover(triggerElement);
         return;

@@ -336,9 +336,10 @@ function App() {
   );
 }
 
+const fixture = location.pathname === '/clamp' ? <ClampFixture /> : <App />;
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {location.pathname === '/calendar-root' ? <CalendarRootFixture /> : <App />}
+    {location.pathname === '/calendar-root' ? <CalendarRootFixture /> : fixture}
   </StrictMode>,
 );
 import { IconFixture } from './icon-fixture';
