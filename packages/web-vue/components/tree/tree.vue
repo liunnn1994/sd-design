@@ -2,7 +2,6 @@
   <div ref="rootEl" :class="classNames" :style="treeStyle" role="tree">
     <VirtualList
       v-if="virtualListProps"
-      :key="virtualListKey"
       ref="virtualListRef"
       v-bind="resolvedVirtualListProps"
       :items="visibleTreeNodeList"
@@ -23,17 +22,7 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    computed,
-    nextTick,
-    provide,
-    reactive,
-    PropType,
-    toRefs,
-    ref,
-    watch,
-    useSlots,
-  } from 'vue';
+  import { computed, nextTick, provide, reactive, PropType, toRefs, ref, useSlots } from 'vue';
 
   import { createTreeDragFoundation } from '@sdata/web-core/tree/drag';
   import { createTreeFoundation } from '@sdata/web-core/tree/foundation';
@@ -612,8 +601,6 @@
   });
   const virtualListRef = ref<VirtualListRef | null>(null);
   const rootEl = ref<HTMLElement | null>(null);
-  const virtualListVersion = ref(0);
-  const virtualListKey = computed(() => `tree-virtual-list-${virtualListVersion.value}`);
 
   const switcherIcon = usePickSlots(slots, 'switcher-icon');
   const loadingIcon = usePickSlots(slots, 'loading-icon');
@@ -725,17 +712,6 @@
     reactive({
       value: propExpandedKeys,
     }),
-  );
-
-  watch(
-    () => mergedExpandedKeys.value.join(','),
-    () => {
-      if (!virtualListProps!.value || enableVirtualExpandAnimation.value) {
-        return;
-      }
-
-      virtualListVersion.value += 1;
-    },
   );
 
   const currentExpandKeys = ref<TreeNodeKey[]>([]);

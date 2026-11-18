@@ -161,6 +161,44 @@ describe('TreeSelect', () => {
     });
   });
 
+  for (const virtual of [true, false]) {
+    it(`stays at the bottom when collapsing a branch in a ${virtual ? 'virtual' : 'regular'} popup`, () => {
+      const data = Array.from({ length: 31 }, (_, index) => ({
+        key: `root-${index}`,
+        title: `Root ${index}`,
+        children: index === 30 ? titleData[0]!.children : undefined,
+      }));
+      cy.mount(TreeSelect, {
+        global: { stubs: { transition: false } },
+        props: {
+          data,
+          defaultPopupVisible: true,
+          treeProps: { defaultExpandedKeys: ['root-30'] },
+          ...(virtual ? { virtualListProps: { height: 160, itemSize: 32, fixedSize: true } } : {}),
+        },
+      });
+      const scroller = virtual
+        ? '.sd-tree-select-popup .sd-virtual-list-scroller'
+        : '.sd-tree-select-tree-wrapper [data-overlayscrollbars-viewport]';
+      cy.get('[data-key="root-0"]').should('be.visible');
+      cy.get(scroller).scrollTo('bottom');
+      cy.get('[data-key="leaf-2"]').should('be.visible');
+      cy.get(scroller).then(([viewport]) => {
+        const oldHeight = viewport.scrollHeight;
+        expect(viewport.scrollTop).to.be.greaterThan(0);
+        cy.get('[data-key="root-30"] .sd-tree-node-switcher-icon').click({ scrollBehavior: false });
+        cy.get('[data-key="root-30"]').should('have.attr', 'aria-expanded', 'false');
+        cy.get(scroller).should(([nextViewport]) => {
+          expect(nextViewport.scrollHeight).to.be.lessThan(oldHeight);
+          expect(nextViewport.scrollTop).to.be.greaterThan(0);
+          expect(nextViewport.scrollTop).to.equal(
+            nextViewport.scrollHeight - nextViewport.clientHeight,
+          );
+        });
+      });
+    });
+  }
+
   it('supports explicitly enabling virtual scrolling with the virtualScroll alias', () => {
     cy.mount(TreeSelect, {
       props: {
