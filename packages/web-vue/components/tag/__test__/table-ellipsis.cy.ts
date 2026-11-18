@@ -1,5 +1,6 @@
 import { h } from 'vue';
 
+import { moveMouseAway, moveMouseTo } from '../../../../web-core/tests/browser/hover-intent';
 import Table from '../../table';
 import Tag from '../index';
 
@@ -58,8 +59,9 @@ describe('Tag ellipsis in Table', () => {
             const tag = $close[0].closest('.sd-tag')!.getBoundingClientRect();
             expect($close[0].getBoundingClientRect().right).to.be.at.most(tag.right);
           });
-        cy.get('.sd-tag-text').first().trigger('mouseenter');
+        moveMouseTo('.sd-tag-text');
         cy.get('[role="tooltip"]').should('be.visible').and('contain.text', longText);
+        moveMouseAway();
         cy.get('.sd-tag')
           .last()
           .should(($tag) => {

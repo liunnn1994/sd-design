@@ -4,7 +4,8 @@
       v-if="virtualListProps"
       ref="virtualListRef"
       v-bind="resolvedVirtualListProps"
-      :items="visibleTreeNodeList"
+      :items="virtualRows.items"
+      :shift="virtualRows.shift"
       @scroll-end="focusPendingNode"
     >
       <template #item="{ item: node }">
@@ -724,6 +725,23 @@
       filter: filterTreeNode?.value,
     }),
   );
+
+  const virtualRows = computed<{ items: Node[]; shift: boolean }>((previous) => {
+    const items = visibleTreeNodeList.value;
+    const oldItems = previous?.items;
+    if (!virtualListProps?.value?.shift || !oldItems || oldItems.length === items.length) {
+      return { items, shift: false };
+    }
+
+    // Virtua applies shift to the entire length change, so the unchanged rows must form a suffix.
+    const [shorter, longer] =
+      oldItems.length < items.length ? [oldItems, items] : [items, oldItems];
+    const offset = longer.length - shorter.length;
+    return {
+      items,
+      shift: shorter.every((node, index) => node.key === longer[offset + index].key),
+    };
+  });
 
   // ============ 键盘导航（WAI-ARIA tree，roving tabindex） ============
   // 活动节点：默认选中节点或首个可见节点；用户用方向键后跟踪当前焦点。

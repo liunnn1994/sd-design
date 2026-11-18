@@ -1,5 +1,6 @@
 import { defineComponent, h, ref } from 'vue';
 
+import { moveMouseAway, moveMouseTo } from '../../../../web-core/tests/browser/hover-intent';
 import Tag from '../index';
 
 describe('Tag dynamic slots and keyboard', () => {
@@ -44,8 +45,9 @@ describe('Tag dynamic slots and keyboard', () => {
       cy.get('.sd-tag-text').then(() => {
         show.value = true;
       });
-      cy.get('.sd-tag-text').trigger('mouseenter');
+      moveMouseTo('.sd-tag-text');
       cy.get('[role=tooltip]').should('be.visible').and('contain.text', 'Added tip');
+      moveMouseAway();
     });
   }
 

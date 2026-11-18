@@ -48,6 +48,64 @@ describe('Tree virtual list', () => {
     cy.get('[data-key="parent-0"]').should('have.attr', 'aria-expanded', 'true');
   });
 
+  it('keeps the viewport and scroll offset when expanding and collapsing with shift enabled', () => {
+    const children = Array.from({ length: 20 }, (_, index) => ({
+      key: `child-${index}`,
+      title: `Child ${index}`,
+    }));
+    const data = treeOptions.map((node, index) => (index === 0 ? { ...node, children } : node));
+    cy.mount(Tree, {
+      props: {
+        data,
+        defaultExpandAll: false,
+        virtualListProps: { height: 160, itemSize: 32, fixedSize: true, shift: true },
+      },
+    });
+
+    const scroller = '.sd-virtual-list-scroller';
+    cy.get(scroller).then(([viewport]) => {
+      const height = viewport.scrollHeight;
+      cy.get('[data-key="parent-0"] .sd-tree-node-switcher-icon').click({ scrollBehavior: false });
+      cy.get(scroller).should(([current]) => {
+        expect(current).to.equal(viewport);
+        expect(current.scrollHeight).to.equal(height + 20 * 32);
+        expect(current.scrollTop).to.equal(0);
+      });
+      cy.get('[data-key="child-0"]').should('be.visible');
+
+      cy.get(scroller).scrollTo(0, 64);
+      cy.get(scroller).should('have.prop', 'scrollTop', 64);
+      cy.get('@vue').then(({ wrapper }) => wrapper.vm.expandNode('parent-0', false));
+      cy.get(scroller).should(([current]) => {
+        expect(current).to.equal(viewport);
+        expect(current.scrollHeight).to.equal(height);
+        expect(current.scrollTop).to.equal(64);
+      });
+    });
+  });
+
+  it('compensates for rows added to and removed from the head when shift is enabled', () => {
+    cy.mount(Tree, {
+      props: {
+        data: treeOptions,
+        defaultExpandAll: false,
+        virtualListProps: { height: 160, itemSize: 32, fixedSize: true, shift: true },
+      },
+    });
+
+    const scroller = '.sd-virtual-list-scroller';
+    cy.get('[data-key="parent-0"]').should('be.visible');
+    cy.get(scroller).scrollTo(0, 64);
+    cy.get(scroller).should('have.prop', 'scrollTop', 64);
+    cy.get('@vue').then(({ wrapper }) =>
+      wrapper.setProps({ data: [{ key: 'prepended', title: 'Prepended' }, ...treeOptions] }),
+    );
+    cy.get(scroller).should('have.prop', 'scrollTop', 96);
+    flush();
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ data: treeOptions }));
+    cy.get(scroller).should('have.prop', 'scrollTop', 64);
+  });
+
   for (const extraRows of [0, 12]) {
     it(`preserves scroll when collapsing a branch with ${extraRows} rows below it`, () => {
       const data = Array.from({ length: 31 + extraRows }, (_, index) => ({

@@ -1,5 +1,6 @@
 import { h } from 'vue';
 
+import { moveMouseAway, moveMouseTo } from '../../../../web-core/tests/browser/hover-intent';
 import ConfigProvider from '../../config-provider';
 import Ellipsis, { PerformantEllipsis } from '../../ellipsis';
 import Tag from '../index';
@@ -330,8 +331,9 @@ describe('Tag', () => {
         },
         slots: { default: 'Short' },
       });
-      cy.get('.sd-tag-text').trigger('mouseenter');
+      moveMouseTo('.sd-tag-text');
       cy.get('[role="tooltip"]').should('be.visible').and('contain.text', 'perf tip');
+      moveMouseAway();
     });
 
     it('respects ellipsis-tooltip=false even with a custom tooltip', () => {
