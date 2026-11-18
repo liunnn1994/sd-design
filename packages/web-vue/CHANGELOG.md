@@ -1,3 +1,17 @@
+# [7.10.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.9.2...web-vue-v7.10.0) (2026-11-18)
+
+
+### Bug Fixes
+
+* 🐛 修复 PerformantEllipsis 的 tooltip 残留 ([0556151](https://github.com/liunnn1994/sd-design/commit/0556151f2594a37f1019706b851ebaf76caba15b))
+* 🐛 修复意外的全量刷新 ([1637975](https://github.com/liunnn1994/sd-design/commit/1637975e048d73065d29de49b5c8a2604191167f))
+* 修复悬停的问题 ([dfd6511](https://github.com/liunnn1994/sd-design/commit/dfd65114f53ada6e6b6ede76e59ecb6e3472ca4c))
+
+
+### Features
+
+* 🆕 优化拖拽排序 ([525ecdf](https://github.com/liunnn1994/sd-design/commit/525ecdf22e0d082015976cce30163c6abbc94c8c))
+
 ## [7.9.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.9.1...web-vue-v7.9.2) (2026-11-17)
 
 
