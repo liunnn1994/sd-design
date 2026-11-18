@@ -270,7 +270,7 @@ describe('Table features', () => {
     cy.get('.my-pg-right').should('have.text', 'Right');
   });
 
-  it('emits cell/row/header click, dblclick, contextmenu and mouseenter/leave events', () => {
+  it('emits cell/row/header click, dblclick and contextmenu events', () => {
     cy.mount(Table, {
       props: {
         columns: JSONCopy(demoColumns),
@@ -283,8 +283,6 @@ describe('Table features', () => {
         onCellContextmenu: cy.spy().as('onCellContextmenu'),
         onRowContextmenu: cy.spy().as('onRowContextmenu'),
         onHeaderClick: cy.spy().as('onHeaderClick'),
-        onCellMouseEnter: cy.spy().as('onCellMouseEnter'),
-        onCellMouseLeave: cy.spy().as('onCellMouseLeave'),
       },
     });
     cy.get('.sd-table-tbody .sd-table-td').first().click();
@@ -315,16 +313,43 @@ describe('Table features', () => {
     cy.get('@onHeaderClick').should((spy) => {
       expect((spy.firstCall.args[0] as TableColumnData).dataIndex).to.equal('name');
     });
-    cy.get('.sd-table-tbody .sd-table-td').first().trigger('mouseenter');
-    cy.wait(60);
-    cy.get('@onCellMouseEnter').should((spy) => {
-      expect((spy.firstCall.args[0] as TableData).name).to.equal('Jane Doe1');
+  });
+
+  it('emits mouseenter and mouseleave with the hovered cell', () => {
+    const onCellMouseEnter = cy.spy();
+    const onCellMouseLeave = cy.spy();
+    cy.mount(Table, {
+      props: {
+        columns: JSONCopy(demoColumns),
+        data: JSONCopy(demoData),
+        pagination: false,
+        onCellMouseEnter,
+        onCellMouseLeave,
+      },
     });
-    cy.get('.sd-table-tbody .sd-table-td').first().trigger('mouseleave');
-    cy.wait(60);
-    cy.get('@onCellMouseLeave').should((spy) => {
-      // dblclick/rightclick 会产生额外的 enter/leave 对，只断言至少触发一次
-      expect(spy.callCount).to.be.at.least(1);
+
+    cy.clock(undefined, ['setTimeout', 'clearTimeout']).then((clock) => {
+      cy.contains('.sd-table-tbody .sd-table-td', 'Jane Doe1').then(([$cell]) => {
+        // Flush both debounced callbacks before native pointer events can replace them.
+        const mouseEnter = new MouseEvent('mouseenter');
+        const mouseLeave = new MouseEvent('mouseleave');
+        $cell.dispatchEvent(mouseEnter);
+        $cell.dispatchEvent(mouseLeave);
+        clock.tick(30);
+
+        const row = Cypress.sinon.match({ name: 'Jane Doe1' });
+        const column = Cypress.sinon.match({ dataIndex: 'name' });
+        expect(onCellMouseEnter).to.have.been.calledWith(
+          row,
+          column,
+          Cypress.sinon.match.same(mouseEnter),
+        );
+        expect(onCellMouseLeave).to.have.been.calledWith(
+          row,
+          column,
+          Cypress.sinon.match.same(mouseLeave),
+        );
+      });
     });
   });
 });
