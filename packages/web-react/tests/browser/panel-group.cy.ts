@@ -22,7 +22,9 @@ describe('PanelGroup React', { scrollBehavior: false }, () => {
     cy.get(grip)
       .should('have.attr', 'aria-orientation', 'vertical')
       .and('have.css', 'cursor', 'col-resize');
-    cy.get(`${grip} .sd-resizebox-trigger-icon-wrapper`).should('have.css', 'width', '6px');
+    cy.get(`${grip} .sd-resizebox-trigger-icon-wrapper`)
+      .should('have.css', 'width', '6px')
+      .and('be.empty');
     cy.get('[data-testid="panel-nested"]').should('have.css', 'overflow', 'visible');
     button('read-refs');
     cy.get('[data-testid="panel-refs"]').should('have.text', 'SECTION|sd-panel-content|separator');

@@ -2,6 +2,7 @@
 import type { TableColumnData, TableData } from '@sdata/web-react';
 
 import { Table } from '@sdata/web-react';
+import { IconDragDotVertical } from '@sdata/web-react/icon';
 import { useState } from 'react';
 
 export default function Example() {
@@ -49,7 +50,6 @@ export default function Example() {
     },
   ]);
   const handleChange = (_data: TableData[]) => {
-    console.log(_data);
     setData(_data);
   };
 
@@ -60,6 +60,7 @@ export default function Example() {
         data={data}
         onChange={handleChange}
         draggable={{ type: 'handle', width: 40 }}
+        dragHandleIcon={<IconDragDotVertical />}
       />
     </>
   );

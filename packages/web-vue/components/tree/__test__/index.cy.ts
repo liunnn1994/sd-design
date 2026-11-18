@@ -452,9 +452,10 @@ describe('Tree', () => {
     cy.get('.sd-tree-node-switcher-icon .custom-switcher-icon').should('exist');
   });
 
-  it('renders the drag icon for draggable nodes, preferring the drag-icon slot', () => {
+  it('uses a grab cursor and only renders a drag icon when provided', () => {
     cy.mount(Tree, { props: { data: treeData, draggable: true } });
-    cy.get('.sd-tree-node-drag-icon').should('exist');
+    cy.get('.sd-tree-node-title-draggable').first().should('have.css', 'cursor', 'grab');
+    cy.get('.sd-tree-node-drag-icon').should('not.exist');
     cy.mount(Tree, {
       props: { data: treeData, draggable: true },
       slots: { 'drag-icon': () => h('span', { class: 'custom-drag-icon' }) },
@@ -467,6 +468,7 @@ describe('Tree', () => {
       props: { data: navData, defaultExpandAll: true, draggable: true },
     });
     startDrag('[data-key="a1"] .sd-tree-node-title');
+    cy.get('.sd-tree .sd-tree-node-title-dragging').should('have.css', 'cursor', 'grabbing');
     moveDrag('[data-key="a2"] .sd-tree-node-title', 0.5, false);
     cy.get('[data-key="a2"] .sd-tree-node-title-highlight').should('exist');
     moveDrag('[data-key="a2"] .sd-tree-node-title');

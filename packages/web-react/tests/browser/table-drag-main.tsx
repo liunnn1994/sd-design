@@ -47,6 +47,14 @@ function Fixture() {
           draggable={enabled ? {} : undefined}
           pagination={query.has('page') ? { defaultCurrent: 2, defaultPageSize: 2 } : false}
           defaultExpandAllRows={query.has('nested')}
+          expandable={
+            query.has('details')
+              ? {
+                  defaultExpandedRowKeys: [0],
+                  expandedRowRender: (row) => <span>Details {row.key}</span>,
+                }
+              : undefined
+          }
           virtualListProps={
             query.has('virtual') ? { height: 240, itemSize: 40, fixedSize: true } : undefined
           }

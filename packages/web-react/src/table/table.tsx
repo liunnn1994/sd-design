@@ -408,10 +408,13 @@ export function Table(props: TableProps) {
             : rowIndex,
         ];
     const source = drag.sourceKey === record.key;
+    const dropTarget = drag.dragging && !source && path.toString() === drag.targetPath.toString();
     return (
       <Fragment key={record.key}>
         <Tr
           data-table-drag-path={draggable && allowDrag ? JSON.stringify(path) : undefined}
+          data-drag-sort-key={draggable ? JSON.stringify(record.key) : undefined}
+          data-table-drop-after={(dropTarget && drag.dropAfter) || undefined}
           component={trComponent}
           renderTr={renderTr}
           rowIndex={rowIndex}
@@ -420,8 +423,7 @@ export function Table(props: TableProps) {
           className={tableClassName(
             {
               [`${prefix}-tr-drag`]: source,
-              [`${prefix}-tr-drop-target`]:
-                drag.dragging && !source && path.toString() === drag.targetPath.toString(),
+              [`${prefix}-tr-drop-target`]: dropTarget,
             },
             typeof rowClass === 'function' ? rowClass(record.raw, rowIndex) : rowClass,
           )}
@@ -488,7 +490,10 @@ export function Table(props: TableProps) {
               )
             )
           ) : content ? (
-            <Tr expand>
+            <Tr
+              expand
+              data-drag-sort-key={draggable ? JSON.stringify([record.key, 'expand']) : undefined}
+            >
               <Td
                 colSpan={totalColumns}
                 isFixedExpand={fixed.left || fixed.right}

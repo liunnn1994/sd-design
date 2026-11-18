@@ -15,7 +15,6 @@ import type { RowKey, TableDataWithRaw, TableOperationColumn } from './types.js'
 
 import { Checkbox } from '../checkbox/index.js';
 import { usePrefix } from '../config-provider/index.js';
-import IconDragDotVertical from '../icon/icon-drag-dot-vertical.js';
 import { Radio } from '../radio/index.js';
 import { TableContext } from './context.js';
 import { renderTableContent, tableClassName } from './utils.js';
@@ -160,7 +159,7 @@ export function OperationTd({
           ) : name === 'expand' && hasExpand ? (
             renderExpandBtn?.(record)
           ) : name === 'drag-handle' ? (
-            (dragHandleIcon ?? <IconDragDotVertical />)
+            dragHandleIcon
           ) : null)}
       </span>
     </div>

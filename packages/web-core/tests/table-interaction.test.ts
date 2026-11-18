@@ -62,6 +62,7 @@ function setup() {
     sourceKey: undefined,
     sourcePath: [],
     targetPath: [],
+    dropAfter: false,
     data: {},
   };
   return { state, calls, adapter, drag, foundation: createTableChangeFoundation(state, adapter) };
@@ -245,7 +246,12 @@ test('table drag marks committing before aggregate reorder and clears the drag s
     },
   });
   f.start([0]);
-  f.over([1]);
+  const target = { top: 40, height: 40 };
+  f.over([1], 50, target);
+  f.end(false);
+  assert.equal(notified, 0);
+  f.start([0]);
+  f.over([1], 70, target);
   f.end(false);
   assert.equal(notified, 1);
   assert.deepEqual(
@@ -258,6 +264,7 @@ test('table drag marks committing before aggregate reorder and clears the drag s
     sourceKey: undefined,
     sourcePath: [],
     targetPath: [],
+    dropAfter: false,
     data: {},
   });
 });

@@ -10,6 +10,16 @@ $calendar-css-prefix: string.unquote('--#{theme.$prefix}-calendar');
   right: 0;
   left: 0;
 
+  &[draggable='true'] {
+    cursor: grab;
+  }
+
+  &--dragging,
+  &--dragging-ghost,
+  &[draggable='true']:active {
+    cursor: grabbing;
+  }
+
   &--resizing {
     z-index: 100;
   }

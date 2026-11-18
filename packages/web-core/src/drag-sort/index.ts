@@ -1,6 +1,14 @@
 import Sortable, { type SortableEvent } from 'sortablejs';
 
-/** Keep Vue (including virtualized lists) in charge of DOM order. */
+const dragSortRoot = 'data-drag-sort-root';
+const dragCursor = 'data-sd-dragging';
+
+export function getDragRowRect(row: HTMLElement) {
+  const element = getComputedStyle(row).display === 'contents' ? row.firstElementChild : row;
+  return (element ?? row).getBoundingClientRect();
+}
+
+/** Keep the framework (including virtualized lists) in charge of DOM order. */
 export function createDragSort(
   root: HTMLElement,
   options: {
@@ -17,6 +25,8 @@ export function createDragSort(
   let restoreSelection: (() => void) | undefined;
   let restoreLayout: (() => void) | undefined;
   let lastEvent: DragEvent;
+  let animationFrame = 0;
+  const rowAnimations = new Set<Animation>();
   const originalEvent = (event: SortableEvent) =>
     (event as SortableEvent & { originalEvent: Event }).originalEvent;
 
@@ -71,7 +81,7 @@ export function createDragSort(
       item = Array.from(root.querySelectorAll<HTMLElement>(options.draggable))
         .reverse()
         .find((row) => {
-          const rect = row.getBoundingClientRect();
+          const rect = getDragRowRect(row);
           return (
             rect.width > 0 &&
             rect.height > 0 &&
@@ -86,10 +96,14 @@ export function createDragSort(
   }
 
   function keydown(event: KeyboardEvent) {
-    if (event.key === 'Escape') cancelled = true;
+    if (event.key === 'Escape') {
+      cancelled = true;
+      document.body.removeAttribute(dragCursor);
+    }
   }
 
   function cleanup() {
+    if (active) document.body.removeAttribute(dragCursor);
     active = false;
     restoreSelection?.();
     fallbackElement?.remove();
@@ -98,6 +112,46 @@ export function createDragSort(
     document.removeEventListener('pointermove', over, true);
     document.removeEventListener('touchmove', over, true);
     document.removeEventListener('keydown', keydown, true);
+  }
+
+  function measureRows() {
+    const rows = new Map<string, { top: number; elements: Element[] }>();
+    for (const row of root.querySelectorAll<HTMLElement>('[data-drag-sort-key]')) {
+      if (row.closest(`[${dragSortRoot}]`) !== root) continue;
+      // Table rows using display: contents have no box of their own.
+      const elements = getComputedStyle(row).display === 'contents' ? [...row.children] : [row];
+      const rect = elements[0]?.getBoundingClientRect();
+      if (rect?.height) rows.set(row.dataset.dragSortKey!, { top: rect.top, elements });
+    }
+    return rows;
+  }
+
+  function animateReorder() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const before = measureRows();
+    // Measure again after the framework applies the controlled drop update.
+    animationFrame = requestAnimationFrame(() => {
+      for (const [key, { top, elements }] of measureRows()) {
+        const previous = before.get(key);
+        if (!previous || previous.top === top) continue;
+        for (const element of elements) {
+          const animation = element.animate(
+            [{ translate: `0 ${previous.top - top}px` }, { translate: 'none' }],
+            { duration: 150, easing: 'ease-out' },
+          );
+          rowAnimations.add(animation);
+          animation.onfinish = animation.oncancel = () => {
+            rowAnimations.delete(animation);
+          };
+        }
+      }
+    });
+  }
+
+  function stopAnimations() {
+    cancelAnimationFrame(animationFrame);
+    for (const animation of rowAnimations) animation.cancel();
+    rowAnimations.clear();
   }
 
   let sortable: Sortable | undefined;
@@ -120,6 +174,7 @@ export function createDragSort(
     },
     onStart(event) {
       active = true;
+      document.body.setAttribute(dragCursor, '');
       window.getSelection()?.removeAllRanges();
       fallbackElement = document.querySelector<HTMLElement>('.sortable-fallback');
       cancelled = false;
@@ -131,12 +186,13 @@ export function createDragSort(
       document.addEventListener('keydown', keydown, true);
     },
     onEnd(event) {
-      over(originalEvent(event));
+      const release = originalEvent(event);
+      over(release);
       cleanup();
-      options.onEnd(
-        dragEvent('dragend', originalEvent(event) ?? lastEvent),
-        cancelled || originalEvent(event)?.type === 'touchcancel',
-      );
+      const dropCancelled =
+        cancelled || release?.type === 'touchcancel' || release?.type === 'pointercancel';
+      if (!dropCancelled) animateReorder();
+      options.onEnd(dragEvent('dragend', release ?? lastEvent), dropCancelled);
     },
   };
   // Virtualizers wrap each row. Bind to its actual parent at gesture start,
@@ -146,6 +202,7 @@ export function createDragSort(
     const handle = event.target.closest(options.handle);
     const item = handle?.closest<HTMLElement>(options.draggable);
     if (item && root?.contains(item) && item.parentElement) {
+      stopAnimations();
       restoreLayout?.();
       restoreLayout = undefined;
       const style = getComputedStyle(item);
@@ -165,17 +222,28 @@ export function createDragSort(
       }
       if (sortable?.el !== item.parentElement) {
         sortable?.destroy();
-        sortable = new Sortable(item.parentElement, sortOptions);
+        const instance = new Sortable(item.parentElement, sortOptions) as Sortable & {
+          _emulateDragOver(): void;
+        };
+        const emulateDragOver = instance._emulateDragOver;
+        // shortcut: Sortable 1.15 dereferences the detached source row; remove when upstream guards it.
+        instance._emulateDragOver = () => {
+          if (Sortable.dragged?.isConnected) emulateDragOver.call(instance);
+        };
+        sortable = instance;
       }
     }
   }
+  root.setAttribute(dragSortRoot, '');
   root.addEventListener('pointerdown', prepare, true);
   return {
     destroy() {
       root.removeEventListener('pointerdown', prepare, true);
+      root.removeAttribute(dragSortRoot);
       sortable?.destroy();
       restoreLayout?.();
       cleanup();
+      stopAnimations();
     },
   };
 }

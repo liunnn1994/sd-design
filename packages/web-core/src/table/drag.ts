@@ -6,6 +6,7 @@ export interface TableDragState {
   sourceKey: RowKey | undefined;
   sourcePath: number[];
   targetPath: number[];
+  dropAfter: boolean;
   data: Record<string, unknown>;
 }
 export function createTableDragFoundation<
@@ -40,13 +41,20 @@ export function createTableDragFoundation<
     state.targetPath = [];
     state.data = record.raw;
   }
-  function over(path: number[]) {
+  function over(path: number[], y?: number, rect?: Pick<DOMRect, 'top' | 'height'>) {
     const source = state.sourcePath;
-    state.targetPath =
+    const targetPath =
       path.length === source.length &&
       path.slice(0, -1).toString() === source.slice(0, -1).toString()
         ? path
         : [];
+    const offset = y !== undefined && rect ? y - Math.floor(rect.top + rect.height / 2) : 0;
+    const dropAfter = offset ? offset > 0 : (path.at(-1) ?? -1) > (source.at(-1) ?? -1);
+    if (targetPath.toString() === state.targetPath.toString() && dropAfter === state.dropAfter)
+      return false;
+    state.targetPath = targetPath;
+    state.dropAfter = dropAfter;
+    return true;
   }
   function end(cancelled: boolean) {
     if (
@@ -56,14 +64,21 @@ export function createTableDragFoundation<
       state.targetPath.length &&
       state.targetPath.toString() !== state.sourcePath.toString()
     ) {
-      state.committing = true;
-      adapter.onChange();
+      const source = state.sourcePath.at(-1)!;
+      const target = state.targetPath.at(-1)!;
+      const index = target + Number(state.dropAfter) - Number(source < target);
+      if (index !== source) {
+        state.targetPath = [...state.targetPath.slice(0, -1), index];
+        state.committing = true;
+        adapter.onChange();
+      }
     }
     state.committing = false;
     state.dragging = false;
     state.sourceKey = undefined;
     state.sourcePath = [];
     state.targetPath = [];
+    state.dropAfter = false;
     state.data = {};
   }
   return { recordAtPath, start, over, end };

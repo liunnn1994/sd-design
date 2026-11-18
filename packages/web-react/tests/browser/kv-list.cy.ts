@@ -189,7 +189,17 @@ describe('KvList React', () => {
     cy.document().trigger('click', { eventConstructor: 'MouseEvent' });
   };
   it('reorders through real DOM drag events and edits the moved row', () => {
+    cy.get(`${rows} .sd-kv-list-drag-handle button`)
+      .first()
+      .should('have.css', 'cursor', 'grab')
+      .find('svg')
+      .should('exist');
     startDrag();
+    cy.get(`${rows}.sd-kv-list-row--chosen .sd-kv-list-drag-handle button`).should(
+      'have.css',
+      'cursor',
+      'grabbing',
+    );
     moveDrag();
     endDrag();
     cy.get('[data-testid="kv-json"]').should(

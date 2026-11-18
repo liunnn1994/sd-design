@@ -14,9 +14,11 @@ export function checkComponentDocs(component: string) {
   cy.get('.demo-block')
     .first()
     .scrollIntoView()
-    .find('.demo-block__preview-content > astro-island')
-    .should('not.have.attr', 'ssr');
-  cy.get('nav[aria-label="文档框架"]').contains('a', 'Vue').click();
+    .find('.demo-block__preview-content > astro-island:not([ssr])', { timeout: 20000 })
+    .should('exist');
+  const frameworkSwitch = '[role="radiogroup"][aria-label="文档框架"]';
+  cy.get(frameworkSwitch).closest('astro-island').should('not.have.attr', 'ssr');
+  cy.get(frameworkSwitch).contains('label', 'Vue').click();
   cy.location('pathname').should('equal', '/' + page.slug + '/');
   cy.get('h1').should('exist');
 }

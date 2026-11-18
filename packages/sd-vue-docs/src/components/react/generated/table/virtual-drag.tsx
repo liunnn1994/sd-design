@@ -2,6 +2,7 @@
 import type { TableColumnData, TableData } from '@sdata/web-react';
 
 import { Table } from '@sdata/web-react';
+import { IconDragDotVertical } from '@sdata/web-react/icon';
 import { useState } from 'react';
 
 export default function Example() {
@@ -23,6 +24,7 @@ export default function Example() {
         data={data}
         pagination={false}
         draggable={{ width: 40 }}
+        dragHandleIcon={<IconDragDotVertical />}
         virtualListProps={{ height: 280, estimatedSize: 40 }}
         onChange={handleChange}
       />

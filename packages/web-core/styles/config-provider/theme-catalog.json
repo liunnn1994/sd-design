@@ -10602,12 +10602,6 @@
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
-          "key": "panel-separator-color-icon",
-          "name": "panel-separator-color-icon",
-          "value": "var(--sd-color-text-1)",
-          "dependencies": ["sd-cssvars-prefix"]
-        },
-        {
           "key": "panel-separator-hit-size",
           "name": "panel-separator-hit-size",
           "value": "14px",

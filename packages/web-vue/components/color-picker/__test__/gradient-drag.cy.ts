@@ -11,6 +11,7 @@ describe('ColorPicker gradient pointer dragging', () => {
     });
     cy.get('.sd-color-picker-gradient-thumb')
       .first()
+      .should('have.css', 'cursor', 'grab')
       .then(($thumb) => {
         const thumb = $thumb[0];
         const win = thumb.ownerDocument.defaultView!;

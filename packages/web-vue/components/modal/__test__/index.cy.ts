@@ -536,7 +536,9 @@ describe('Modal', () => {
     });
     // Move down-right by (+60, +40): within the drag bounds (default viewport
     // 1000x660, modal width 520), so the offset is applied unclamped.
-    cy.get('.sd-modal-header').trigger('mousedown', { force: true, clientX: 500, clientY: 300 });
+    cy.get('.sd-modal-header')
+      .should('have.css', 'cursor', 'grab')
+      .trigger('mousedown', { force: true, clientX: 500, clientY: 300 });
     cy.get('.sd-modal-header').trigger('mousemove', { force: true, clientX: 560, clientY: 340 });
     // 拖拽行为以 moved class 为准（transform 数值受 alignCenter 定位路径影响，不直接断言）
     cy.get('.sd-modal-wrapper').should('have.class', 'sd-modal-wrapper-moved');

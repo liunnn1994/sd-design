@@ -1,6 +1,6 @@
 import type { TableDragState } from '@sdata/web-core/table/drag';
 
-import { createDragSort } from '@sdata/web-core/drag-sort/index';
+import { createDragSort, getDragRowRect } from '@sdata/web-core/drag-sort/index';
 import { createTableDragFoundation } from '@sdata/web-core/table/drag';
 import { useLayoutEffect, useReducer, useRef, useState } from 'react';
 
@@ -24,6 +24,7 @@ export function useTableDrag(options: {
     sourceKey: undefined,
     sourcePath: [],
     targetPath: [],
+    dropAfter: false,
     data: {},
   }));
   const [foundation] = useState(() =>
@@ -46,9 +47,17 @@ export function useTableDrag(options: {
         foundation.start(JSON.parse(item.dataset.tableDragPath!));
         render();
       },
-      onOver: (item) => {
-        foundation.over(item ? JSON.parse(item.dataset.tableDragPath!) : []);
-        render();
+      onOver: (item, event) => {
+        if (
+          item
+            ? foundation.over(
+                JSON.parse(item.dataset.tableDragPath!),
+                event.clientY,
+                getDragRowRect(item),
+              )
+            : foundation.over([])
+        )
+          render();
       },
       onEnd: (_, cancelled) => {
         foundation.end(cancelled);

@@ -12,7 +12,6 @@ import { usePrefix } from '../config-provider/index.js';
 import { Ellipsis } from '../ellipsis/index.js';
 import { PerformantEllipsis } from '../ellipsis/performant.js';
 import IconCaretDown from '../icon/icon-caret-down.js';
-import IconDragDotVertical from '../icon/icon-drag-dot-vertical.js';
 import IconFile from '../icon/icon-file.js';
 import IconLoading from '../icon/icon-loading.js';
 
@@ -132,6 +131,7 @@ export function TreeNodeView<T extends TreeNodeData>({
       data-key={node.key}
       data-key-type={typeof node.key}
       data-tree-draggable={node.draggable || undefined}
+      data-drag-sort-key={JSON.stringify(node.key)}
       role="treeitem"
       tabIndex={activeKey === node.key ? 0 : -1}
       aria-level={node.level + 1}
@@ -264,15 +264,9 @@ export function TreeNodeView<T extends TreeNodeData>({
           ) : (
             (node.title as ReactNode)
           )}
-          {node.draggable && (
+          {node.draggable && (raw.dragIcon || renderDragIcon) && (
             <span className={`${prefix}-icon ${prefix}-drag-icon`}>
-              {raw.dragIcon ? (
-                raw.dragIcon(status)
-              ) : renderDragIcon ? (
-                renderDragIcon(raw, status)
-              ) : (
-                <IconDragDotVertical />
-              )}
+              {raw.dragIcon ? raw.dragIcon(status) : renderDragIcon?.(raw, status)}
             </span>
           )}
         </span>

@@ -1,9 +1,79 @@
-import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
+import { h, ref } from 'vue';
+
+import { dropOnBottomIndicator, startDrag, moveDrag } from '../../../cypress/support/drag-sort';
 import Tree from '../tree.vue';
 
 const data = Array.from({ length: 200 }, (_, key) => ({ key, title: `Node ${key}` }));
 
 describe('Tree drag sorting boundaries', () => {
+  it('keeps the grabbing cursor over another title and accepts release on its insertion line', () => {
+    const drop = cy.spy().as('drop');
+    cy.mount(Tree, {
+      props: {
+        data: data.slice(0, 3),
+        draggable: true,
+        allowDrop: ({ dropNode, dropPosition }) => dropNode.key === 1 && dropPosition === 1,
+        onDrop: drop,
+      },
+    });
+    const target = '[data-key="1"] .sd-tree-node-title';
+    startDrag('[data-key="0"] .sd-tree-node-title');
+    moveDrag(target, 0.9, false);
+    cy.get(target).should('have.class', 'sd-tree-node-title-gap-bottom');
+    cy.get(target).should('have.css', 'cursor', 'grabbing');
+    dropOnBottomIndicator(target);
+    cy.get('@drop').should('have.been.calledOnce');
+    cy.then(() => {
+      expect(drop.firstCall.args[0].dropNode.key).to.equal(1);
+      expect(drop.firstCall.args[0].dropPosition).to.equal(1);
+    });
+    cy.get(target).should('have.css', 'cursor', 'grab');
+  });
+
+  for (const reduced of [false, true]) {
+    it(`updates node order with reduced motion ${reduced ? 'enabled' : 'disabled'}`, () => {
+      cy.then(() =>
+        Cypress.automation('remote:debugger:protocol', {
+          command: 'Emulation.setEmulatedMedia',
+          params: {
+            features: [
+              { name: 'prefers-reduced-motion', value: reduced ? 'reduce' : 'no-preference' },
+            ],
+          },
+        }),
+      );
+      const nodes = ref([data[0]!, { ...data[1]!, draggable: false }, data[2]!]);
+      cy.mount(() =>
+        h(Tree, {
+          data: nodes.value,
+          draggable: true,
+          onDrop: () => {
+            const [first, second, third] = nodes.value;
+            nodes.value = [second!, third!, first!];
+          },
+        }),
+      );
+      cy.get('[data-key="1"]').then(([node]) => {
+        cy.spy(node!, 'animate').as('nodeAnimation');
+      });
+      startDrag('[data-key="0"] .sd-tree-node-title');
+      moveDrag('[data-key="2"] .sd-tree-node-title', 0.9);
+      cy.get('[role="treeitem"]').first().should('have.attr', 'data-key', '1');
+      if (reduced) {
+        cy.window().then(
+          (win) => new Promise<void>((resolve) => win.requestAnimationFrame(() => resolve())),
+        );
+      }
+      cy.get('@nodeAnimation').should(reduced ? 'not.have.been.called' : 'have.been.called');
+      cy.then(() =>
+        Cypress.automation('remote:debugger:protocol', {
+          command: 'Emulation.setEmulatedMedia',
+          params: { features: [] },
+        }),
+      );
+    });
+  }
+
   it('drops between nodes in a scrolled virtual list with numeric keys', () => {
     cy.mount(Tree, {
       props: {
@@ -52,6 +122,7 @@ describe('Tree drag sorting boundaries', () => {
     cy.mount(Tree, { props: { data: data.slice(0, 3), draggable: true } });
     startDrag('[data-key="0"] .sd-tree-node-title');
     cy.document().trigger('keydown', { key: 'Escape' });
+    cy.get('body').should('not.have.attr', 'data-sd-dragging');
     moveDrag('[data-key="2"] .sd-tree-node-title');
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('drop')).to.equal(undefined);

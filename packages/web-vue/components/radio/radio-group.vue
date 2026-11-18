@@ -20,16 +20,7 @@
   import type { RadioValue } from '@sdata/web-core/radio/types';
 
   import type { PropType, VNode } from 'vue';
-  import {
-    computed,
-    defineComponent,
-    getCurrentInstance,
-    provide,
-    reactive,
-    ref,
-    toRef,
-    watch,
-  } from 'vue';
+  import { computed, defineComponent, provide, reactive, ref, toRef, useId, watch } from 'vue';
 
   import { normalizeChoiceOptions } from '@sdata/web-core/_utils/choice-options';
   import { createRadioGroupFoundation } from '@sdata/web-core/radio/foundation';
@@ -175,7 +166,7 @@
     radioGroupKey,
     reactive({
       name: 'SDRadioGroup' as const,
-      inputName: `${prefixCls}-${getCurrentInstance()!.uid}`,
+      inputName: `${prefixCls}-${useId()}`,
       value: computedValue,
       size: mergedSize,
       type: toRef(props, 'type'),

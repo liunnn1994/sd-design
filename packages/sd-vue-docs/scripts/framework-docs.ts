@@ -1,6 +1,8 @@
 import { createProcessor } from '@mdx-js/mdx';
+import { execFileSync } from 'node:child_process';
 import { existsSync, globSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
 
@@ -10,6 +12,8 @@ import { adaptReactContent, type ApiGap } from './react-document-content.ts';
 
 const processor = createProcessor({ remarkPlugins: [remarkFrontmatter, remarkGfm] });
 export const docsRoot = resolve(import.meta.dirname, '..');
+const workspaceRoot = resolve(docsRoot, '../..');
+const oxfmt = fileURLToPath(new URL('./bin/oxfmt', import.meta.resolve('oxfmt/package.json')));
 const posix = (path: string) => path.replaceAll('\\', '/');
 
 type Node = {
@@ -190,7 +194,12 @@ export function generateFrameworkDocs({ root = docsRoot, check = false, validate
     );
   }
   const manifestPath = resolve(root, 'src/generated/docs-manifest.json');
-  expected.set(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  const formattedManifest = execFileSync(
+    process.execPath,
+    [oxfmt, '--config', resolve(workspaceRoot, '.oxfmtrc.jsonc'), '--stdin-filepath', manifestPath],
+    { cwd: workspaceRoot, encoding: 'utf8', input: JSON.stringify(manifest, null, 2) },
+  );
+  expected.set(manifestPath, formattedManifest);
   const changed: string[] = [];
   for (const [file, content] of expected) {
     if (existsSync(file) && readFileSync(file, 'utf8') === content) continue;

@@ -4,12 +4,16 @@
     :data="data"
     @change="handleChange"
     :draggable="{ type: 'handle', width: 40 }"
-  />
+  >
+    <template #drag-handle-icon><IconDragDotVertical /></template>
+  </sd-table>
 </template>
 <script setup lang="ts">
   import type { TableColumnData, TableData } from '@sdata/web-vue';
 
   import { reactive, ref } from 'vue';
+
+  import { IconDragDotVertical } from '@sdata/web-vue/es/icon/index.js';
   const columns = reactive<TableColumnData[]>([
     { title: '姓名', dataIndex: 'name' },
     { title: '薪资', dataIndex: 'salary' },
@@ -54,7 +58,6 @@
     },
   ]);
   const handleChange = (_data: TableData[]) => {
-    console.log(_data);
     data.value = _data;
   };
 </script>

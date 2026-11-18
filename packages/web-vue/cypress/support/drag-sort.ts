@@ -61,3 +61,16 @@ export function moveDrag(selector: string, position = 0.5, end = true) {
       }
     });
 }
+
+export function dropOnBottomIndicator(selector: string) {
+  cy.get(selector).then(([title]) => {
+    const rect = title.getBoundingClientRect();
+    const view = title.ownerDocument.defaultView!;
+    const offset = parseFloat(view.getComputedStyle(title, '::before').height) / 2;
+    expect(offset).to.be.greaterThan(0);
+    expect(
+      title.ownerDocument.elementFromPoint(rect.left + rect.width / 2, rect.bottom + offset),
+    ).to.equal(title);
+    moveDrag(selector, 1 + offset / rect.height);
+  });
+}

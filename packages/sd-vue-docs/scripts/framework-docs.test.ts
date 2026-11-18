@@ -84,6 +84,8 @@ test('generation is deterministic and check detects changes without writing', (t
   mkdirSync(resolve(root, 'src/content/shared'), { recursive: true });
   writeFileSync(resolve(root, 'src/content/shared/index.mdx'), source);
   generateFrameworkDocs({ root, validate: false });
+  const manifest = readFileSync(resolve(root, 'src/generated/docs-manifest.json'), 'utf8');
+  assert.match(manifest, /"demos": \["button\/basic", "button\/disabled"\]/);
   assert.equal(generateFrameworkDocs({ root, validate: false }).changed.length, 0);
   const output = resolve(root, 'src/content/docs/react/index.mdx');
   writeFileSync(output, 'changed');

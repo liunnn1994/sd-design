@@ -26,9 +26,10 @@
         :is="getRenderFunction(renderExpandBtn(record))"
         v-else-if="!summary && operationColumn.name === 'expand' && hasExpand && renderExpandBtn"
       />
-      <slot v-else-if="!summary && operationColumn.name === 'drag-handle'" name="drag-handle-icon">
-        <IconDragDotVertical />
-      </slot>
+      <slot
+        v-else-if="!summary && operationColumn.name === 'drag-handle'"
+        name="drag-handle-icon"
+      />
     </span>
   </div>
 </template>
@@ -44,7 +45,6 @@
 
   import { getPrefixCls } from '../_utils/global-config';
   import Checkbox from '../checkbox';
-  import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
   import Radio from '../radio';
   import { tableInjectionKey } from './context';
   import { getGridSpanStyle, getOperationFixedCls, getOperationStyle } from './utils';

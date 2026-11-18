@@ -4,6 +4,7 @@
     :data-level="level"
     :data-key="nodekey"
     :data-tree-draggable="draggable || undefined"
+    :data-drag-sort-key="JSON.stringify(nodekey)"
     :data-key-type="typeof nodekey"
     role="treeitem"
     :tabindex="treeContext.activeKey === nodekey ? 0 : -1"
@@ -125,7 +126,10 @@
         </component>
         <template v-else>{{ title }}</template>
 
-        <span v-if="draggable" :class="[`${prefixCls}-icon`, `${prefixCls}-drag-icon`]">
+        <span
+          v-if="draggable && ($slots['drag-icon'] || dragIcon || treeDragIcon)"
+          :class="[`${prefixCls}-icon`, `${prefixCls}-drag-icon`]"
+        >
           <!-- 拖拽图标 -->
           <slot v-if="$slots['drag-icon']" name="drag-icon" v-bind="nodeStatus" />
           <component v-else-if="dragIcon" :is="dragIcon" v-bind="nodeStatus" />
@@ -135,7 +139,6 @@
             :node="treeNodeData"
             v-bind="nodeStatus"
           />
-          <IconDragDotVertical v-else />
         </span>
       </span>
     </span>
@@ -153,7 +156,6 @@
   import { getPrefixCls } from '../_utils/global-config';
   import Checkbox from '../checkbox';
   import Ellipsis, { PerformantEllipsis } from '../ellipsis';
-  import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
   import useDraggable from './hooks/use-draggable';
   import useNodeKey from './hooks/use-node-key';
   import useTreeContext from './hooks/use-tree-context';

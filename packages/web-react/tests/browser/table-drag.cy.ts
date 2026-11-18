@@ -3,9 +3,18 @@ import { startDrag, moveDrag } from '../../../web-vue/cypress/support/drag-sort'
 describe('React Table drag integration', () => {
   it('commits reordered page and all-row data while retaining framework DOM ownership', () => {
     cy.visit('/table-drag.html');
-    startDrag('[data-table-drag-path="[0]"] .sd-table-drag-handle');
-    moveDrag('[data-table-drag-path="[2]"]');
+    const cell = '[data-table-drag-path="[0]"] .sd-table-drag-handle';
+    cy.get(cell).should('have.css', 'cursor', 'grab').find('svg').should('not.exist');
+    cy.window().then((win) => {
+      cy.spy(win.Element.prototype, 'animate').as('rowAnimation');
+    });
+    startDrag(cell);
+    const target = '[data-table-drag-path="[2]"] .sd-table-td-content';
+    moveDrag(target, 0.5, false);
+    cy.get(target).should('have.css', 'cursor', 'grabbing');
+    moveDrag(target);
     cy.get('[data-testid="count"]').should('have.text', '1');
+    cy.get('@rowAnimation').should('have.been.called');
     cy.get('[data-testid="result"]').should(
       'have.text',
       '{"type":"drag","target":0,"page":[1,2,0,3,4,5],"all":[1,2,0,3,4,5]}',
@@ -22,6 +31,32 @@ describe('React Table drag integration', () => {
     );
     cy.get('.sd-table-dragging').should('not.exist');
     cy.get('.sortable-fallback').should('not.exist');
+    cy.get(target).should('not.have.css', 'cursor', 'grabbing');
+  });
+  it('animates the expanded detail and its main row by the same offset', () => {
+    cy.visit('/table-drag.html?details');
+    const source = '[data-table-drag-path="[0]"] .sd-table-drag-handle';
+    const detail = '.sd-table-tr-expand .sd-table-td';
+    cy.get(source).then(([element]) => {
+      cy.spy(element!, 'animate').as('mainAnimation');
+    });
+    cy.get(detail)
+      .should('contain.text', 'Details 0')
+      .then(([element]) => {
+        const detailAnimation = cy.spy(element!, 'animate');
+        startDrag(source);
+        moveDrag('[data-table-drag-path="[2]"]');
+        cy.get('[data-table-drag-path="[2]"]').should('contain.text', 'Row 0');
+        cy.wrap(detailAnimation)
+          .should('have.been.calledOnce')
+          .then(() => {
+            cy.get('@mainAnimation').should(
+              'have.been.calledWith',
+              ...detailAnimation.firstCall.args,
+            );
+          });
+        cy.get(detail).should('contain.text', 'Details 0');
+      });
   });
   it('uses full sorted-data paths for a paginated window', () => {
     cy.visit('/table-drag.html?page');
@@ -84,6 +119,17 @@ describe('React Table drag integration', () => {
     cy.get('.sd-table-body').should('contain.text', 'Row 199');
     cy.get('.sd-virtual-list-scroller').scrollTo('top');
     cy.get('.sd-table-body').should('contain.text', 'Row 0');
+  });
+  it('inserts before the third virtual row when released in its upper half', () => {
+    cy.visit('/table-drag.html?virtual');
+    const third = '[data-table-drag-path="[2]"]';
+    startDrag('[data-table-drag-path="[0]"] .sd-table-drag-handle');
+    moveDrag(third, 0.15, false);
+    cy.get(third)
+      .should('have.class', 'sd-table-tr-drop-target')
+      .and('not.have.attr', 'data-table-drop-after');
+    moveDrag(third, 0.15);
+    cy.get('[data-testid="result"]').should('contain.text', '"page":[1,0,2,3');
   });
   it('cancels an active drag when draggable is disabled', () => {
     cy.visit('/table-drag.html');

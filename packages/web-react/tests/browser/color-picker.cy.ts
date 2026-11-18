@@ -165,7 +165,11 @@ describe('React ColorPicker gradient pointer adapter', () => {
       });
   });
   it('removes a stop by keyboard while retaining at least two stops', () => {
-    cy.get('.sd-color-picker-gradient-thumb').eq(1).focus().trigger('keydown', { key: 'Delete' });
+    cy.get('.sd-color-picker-gradient-thumb')
+      .eq(1)
+      .should('have.css', 'cursor', 'grab')
+      .focus()
+      .trigger('keydown', { key: 'Delete' });
     cy.get('.sd-color-picker-gradient-thumb').should('have.length', 2);
     cy.get('.sd-color-picker-gradient-thumb')
       .first()

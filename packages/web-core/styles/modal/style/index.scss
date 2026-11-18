@@ -76,7 +76,11 @@ $modal-prefix-cls: string.unquote('#{theme.$prefix}-modal');
 
   &-draggable {
     .#{$modal-prefix-cls}-header {
-      cursor: move;
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
     }
   }
 

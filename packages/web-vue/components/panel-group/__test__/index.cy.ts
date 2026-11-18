@@ -71,7 +71,7 @@ describe('PanelGroup', () => {
   });
 
   for (const orientation of ['horizontal', 'vertical'] as const) {
-    it(`keeps the legacy resizebox-trigger appearance in ${orientation} groups`, () => {
+    it(`renders a divider without a grip icon in ${orientation} groups`, () => {
       mountGroup({}, { style: 'width: 800px; height: 300px' }, { orientation });
       const vertical = orientation === 'horizontal';
       cy.get('.sd-panel-separator-grip')
@@ -80,9 +80,8 @@ describe('PanelGroup', () => {
       cy.get('.sd-resizebox-trigger-icon-wrapper')
         .should('be.visible')
         .and('have.css', vertical ? 'width' : 'height', '6px')
-        .and('have.css', 'font-size', '12px')
         .and('not.have.css', 'background-color', 'rgba(0, 0, 0, 0)');
-      cy.get('svg.sd-resizebox-trigger-icon').should('be.visible');
+      cy.get('svg.sd-resizebox-trigger-icon').should('not.exist');
     });
   }
 

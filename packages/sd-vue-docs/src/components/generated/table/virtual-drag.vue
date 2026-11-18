@@ -3,6 +3,8 @@
 
   import { ref } from 'vue';
 
+  import { IconDragDotVertical } from '@sdata/web-vue/es/icon/index.js';
+
   const columns: TableColumnData[] = [
     { title: '名称', dataIndex: 'name' },
     { title: '编号', dataIndex: 'key' },
@@ -23,5 +25,7 @@
     :draggable="{ width: 40 }"
     :virtual-list-props="{ height: 280, estimatedSize: 40 }"
     @change="handleChange"
-  />
+  >
+    <template #drag-handle-icon><IconDragDotVertical /></template>
+  </sd-table>
 </template>

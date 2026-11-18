@@ -24,6 +24,7 @@
     mergeProps as _mergeProps,
   } from 'vue';
 
+  import { getDragRowRect } from '@sdata/web-core/drag-sort/index';
   import {
     collectRawKeys,
     collectRowKeys,
@@ -958,6 +959,7 @@
     sourceKey: undefined as TableDataWithRaw['key'] | undefined,
     sourcePath: [] as number[],
     targetPath: [] as number[],
+    dropAfter: false,
     data: {} as TableData,
   });
   const tableDrag = createTableDragFoundation<TableDataWithRaw>(dragState, {
@@ -975,8 +977,14 @@
     onStart(item) {
       tableDrag.start(JSON.parse(item.dataset.tableDragPath!));
     },
-    onOver(item) {
-      tableDrag.over(item ? JSON.parse(item.dataset.tableDragPath!) : []);
+    onOver(item, event) {
+      if (item)
+        tableDrag.over(
+          JSON.parse(item.dataset.tableDragPath!),
+          event.clientY,
+          getDragRowRect(item),
+        );
+      else tableDrag.over([]);
     },
     onEnd(_event, cancelled) {
       tableDrag.end(cancelled);
@@ -1521,8 +1529,11 @@
       return _createVNode(
         Tr,
         {
-          key: `${record.key}-expand`,
-          expand: true,
+          'key': `${record.key}-expand`,
+          'expand': true,
+          'data-drag-sort-key': props.draggable
+            ? JSON.stringify([record.key, 'expand'])
+            : undefined,
         },
         {
           default: () => [
@@ -1569,6 +1580,10 @@
     const expandContent = renderExpandContent(record);
     const showExpand = expandedRowKeys.value.includes(currentKey);
     const isDragTarget = dragState.sourceKey === record.key;
+    const isDropTarget =
+      dragState.dragging &&
+      !isDragTarget &&
+      currentPath.toString() === dragState.targetPath.toString();
     return _createVNode(_Fragment, null, [
       _createVNode(
         Tr,
@@ -1576,13 +1591,12 @@
           'key': currentKey,
           'data-table-drag-path':
             props.draggable && allowDrag ? JSON.stringify(currentPath) : undefined,
+          'data-drag-sort-key': props.draggable ? JSON.stringify(currentKey) : undefined,
+          'data-table-drop-after': (isDropTarget && dragState.dropAfter) || undefined,
           'class': [
             {
               [`${prefixCls}-tr-drag`]: isDragTarget,
-              [`${prefixCls}-tr-drop-target`]:
-                dragState.dragging &&
-                currentPath.toString() === dragState.targetPath.toString() &&
-                !isDragTarget,
+              [`${prefixCls}-tr-drop-target`]: isDropTarget,
             },
             isFunction(props.rowClass) ? props.rowClass(record.raw, rowIndex) : props.rowClass,
           ],

@@ -5,7 +5,9 @@
       cy.get('[data-testid="event-registered"]').should('have.text', 'true');
       cy.get('.sd-calendar__event-title').should('have.text', 'Planning');
       cy.get('.sd-calendar__event-content').should('have.text', 'Discuss scope');
-      cy.get('.sd-calendar__event').should('have.attr', 'draggable', 'true');
+      cy.get('.sd-calendar__event')
+        .should('have.attr', 'draggable', 'true')
+        .and('have.css', 'cursor', 'grab');
       cy.get('.sd-calendar__event-resizer').should('exist');
       cy.contains('button', 'Edit permission').click();
       cy.get('.sd-calendar__event').should('not.have.attr', 'draggable');

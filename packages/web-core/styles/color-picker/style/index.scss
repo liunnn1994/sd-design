@@ -139,8 +139,12 @@ $token-vars: map.merge(meta.module-variables('inputToken'), meta.module-variable
     border-radius: global.$border-radius-circle;
     box-shadow: 0 1px 3px rgb(0 0 0 / 14%);
     transform: translateX(-50%);
-    cursor: pointer;
+    cursor: grab;
     touch-action: none;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 
   .#{$color-picker-prefix-cls}-gradient-thumb-active {

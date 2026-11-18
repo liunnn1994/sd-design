@@ -5,8 +5,6 @@ import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 import type { PanelSeparatorProps } from './types.js';
 
 import { usePrefix } from '../config-provider/index.js';
-import IconDragDotVertical from '../icon/icon-drag-dot-vertical.js';
-import IconDragDot from '../icon/icon-drag-dot.js';
 import { useI18n } from '../locale/index.js';
 import { usePanelGroup } from './context.js';
 
@@ -42,7 +40,6 @@ export function PanelSeparator({
       : end
         ? 'insetBlockEnd'
         : 'insetBlockStart';
-  const GripIcon = axes.separator === 'horizontal' ? IconDragDot : IconDragDotVertical;
   return (
     <div
       className={own ? `${prefix}-edge` : prefix}
@@ -78,11 +75,7 @@ export function PanelSeparator({
         aria-orientation={axes.separator}
         aria-label={ariaLabel ?? attrs['aria-label'] ?? t('a11y.resize')}
       >
-        {children ?? (
-          <div className={`${trigger}-icon-wrapper`} aria-hidden="true">
-            <GripIcon className={`${trigger}-icon`} />
-          </div>
-        )}
+        {children ?? <div className={`${trigger}-icon-wrapper`} aria-hidden="true" />}
       </div>
     </div>
   );

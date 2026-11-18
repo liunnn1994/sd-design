@@ -12,10 +12,7 @@
       :aria-label="ariaLabel"
     >
       <slot>
-        <div :class="`${triggerCls}-icon-wrapper`" aria-hidden="true">
-          <IconDragDot v-if="axes.separator === 'horizontal'" :class="`${triggerCls}-icon`" />
-          <IconDragDotVertical v-else :class="`${triggerCls}-icon`" />
-        </div>
+        <div :class="`${triggerCls}-icon-wrapper`" aria-hidden="true" />
       </slot>
     </div>
   </div>
@@ -32,10 +29,7 @@
       :aria-label="ariaLabel"
     >
       <slot>
-        <div :class="`${triggerCls}-icon-wrapper`" aria-hidden="true">
-          <IconDragDot v-if="axes.separator === 'horizontal'" :class="`${triggerCls}-icon`" />
-          <IconDragDotVertical v-else :class="`${triggerCls}-icon`" />
-        </div>
+        <div :class="`${triggerCls}-icon-wrapper`" aria-hidden="true" />
       </slot>
     </div>
   </div>
@@ -47,8 +41,6 @@
   import type { PanelController } from './core/panel';
 
   import { getPrefixCls } from '../_utils/global-config';
-  import IconDragDot from '../icon/icon-drag-dot';
-  import IconDragDotVertical from '../icon/icon-drag-dot-vertical';
   import { useI18n } from '../locale';
   import { usePanelGroup } from './context';
   import { edgeSize } from './core/env';

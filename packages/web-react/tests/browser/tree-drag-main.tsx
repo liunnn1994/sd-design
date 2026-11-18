@@ -17,25 +17,30 @@ function Fixture() {
   const [allowed, setAllowed] = useState(true);
   const [draggable, setDraggable] = useState(true);
   const [events, setEvents] = useState<string[]>([]);
-  const data = useTreeData({
-    draggable,
-    treeData: [
-      { key: 0, title: 'Root', children: [{ key: 'child', title: 'Child' }] },
-      { key: 'target', title: 'Target' },
-      { key: 'fixed', title: 'Fixed', draggable: false },
-    ],
-  });
+  const [treeData, setTreeData] = useState([
+    { key: 0, title: 'Root', children: [{ key: 'child', title: 'Child' }] },
+    { key: 'target', title: 'Target' },
+    { key: 'fixed', title: 'Fixed', draggable: false },
+  ]);
+  const data = useTreeData({ draggable, treeData });
   const record = (name: string) => setEvents((old) => [...old, name]);
   const dragState = useTreeDrag({
     root,
     nodes: data.key2TreeNode,
-    allowDrop: () => allowed,
+    allowDrop: ({ dropNode, dropPosition }) =>
+      allowed &&
+      (!new URLSearchParams(location.search).has('edge') ||
+        (dropNode.key === 'target' && dropPosition === 1)),
     events: {
       start: (event, node) => record(`start:${node.key}:${event instanceof DragEvent}`),
       leave: (_event, node) => record(`leave:${node.key}`),
       end: (_event, node) => record(`end:${node.key}`),
-      drop: ({ dragNode, dropNode, dropPosition }) =>
-        record(`drop:${dragNode.key}:${dropNode.key}:${dropPosition}`),
+      drop: ({ dragNode, dropNode, dropPosition }) => {
+        record(`drop:${dragNode.key}:${dropNode.key}:${dropPosition}`);
+        if (new URLSearchParams(location.search).has('reorder')) {
+          setTreeData(([first, second, fixed]) => [second!, first!, fixed!]);
+        }
+      },
     },
   });
   return (

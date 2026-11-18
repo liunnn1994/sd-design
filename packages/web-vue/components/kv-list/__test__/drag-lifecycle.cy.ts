@@ -17,7 +17,17 @@ describe('KvList drag lifecycle', () => {
         template: '<KvList v-model:json="json" :disabled="disabled" />',
       }),
     );
+    cy.get('.sd-kv-list-drag-handle button')
+      .first()
+      .should('have.css', 'cursor', 'grab')
+      .find('svg')
+      .should('exist');
     startDrag('.sd-kv-list-drag-handle');
+    cy.get('.sd-kv-list-rows .sd-kv-list-row--chosen .sd-kv-list-drag-handle button').should(
+      'have.css',
+      'cursor',
+      'grabbing',
+    );
     moveDrag('.sd-kv-list-rows > .sd-kv-list-row', 0.95, false);
     cy.get('.sd-kv-list-rows > .sd-kv-list-row')
       .last()

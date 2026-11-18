@@ -59,11 +59,18 @@ $kv-list-prefix-cls: string.unquote('#{theme.$prefix}-kv-list');
 
   &-drag-handle {
     color: $kv-list-color-drag;
-    cursor: grab;
 
-    &:active {
-      cursor: grabbing;
+    .#{theme.$prefix}-btn:enabled {
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
     }
+  }
+
+  &-row--chosen &-drag-handle .#{theme.$prefix}-btn:enabled {
+    cursor: grabbing;
   }
 
   &-key,
