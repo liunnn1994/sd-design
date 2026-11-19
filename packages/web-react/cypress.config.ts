@@ -11,6 +11,18 @@ export default defineConfig({
     excludeSpecPattern: docsE2eSpecs,
     supportFile: false,
     setupNodeEvents(on) {
+      on('before:browser:launch', (browser, launchOptions) => {
+        if (
+          process.platform === 'linux' &&
+          browser.family === 'chromium' &&
+          browser.name !== 'electron' &&
+          browser.isHeadless
+        ) {
+          // Match the desktop hover capability used by Vue's Linux headless runs.
+          launchOptions.args.push('--blink-settings=primaryHoverType=2,availableHoverTypes=2');
+        }
+        return launchOptions;
+      });
       // Cypress's ts-loader requests one source map; TNB emits maps for every spec in the program.
       on('file:preprocessor', async (file) => {
         const result = await build({

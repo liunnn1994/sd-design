@@ -6,9 +6,9 @@ const common = {
   'font-size': '12px',
   'line-height': '18px',
   'padding-top': '8px',
-  'padding-right': '6.59766px',
+  'padding-right': '1ch',
   'padding-bottom': '8px',
-  'padding-left': '41.5859px',
+  'padding-left': 'calc(6ch + 2px)',
   'max-height': '500px',
   'white-space': 'pre-wrap',
   'overflow-wrap': 'anywhere',
@@ -30,7 +30,7 @@ const captured = {
       'padding-top': '12px',
       'padding-right': '12px',
       'padding-bottom': '12px',
-      'padding-left': '62.0078px',
+      'padding-left': 'calc(5ch + 14px)',
       'max-height': '150px',
       'background-color': 'rgb(18, 18, 18)',
       'color': 'rgba(219, 215, 202, 0.933)',
@@ -43,7 +43,7 @@ const captured = {
   'scroll': {
     styles: {
       ...common,
-      'padding-left': '6.59766px',
+      'padding-left': '1ch',
       'white-space': 'pre',
       'overflow-wrap': 'normal',
       'overflow-x': 'auto',
@@ -53,7 +53,7 @@ const captured = {
     header: true,
   },
   'bare': {
-    styles: { ...common, 'padding-left': '6.59766px' },
+    styles: { ...common, 'padding-left': '1ch' },
     height: 88,
     lines: 0,
     header: false,
@@ -65,13 +65,23 @@ function expectGeometry(scenario: keyof typeof captured) {
   cy.get('pre.code-pre-fallback').should(($pre) => {
     const node = $pre[0],
       style = node.ownerDocument.defaultView!.getComputedStyle(node);
+    // Resolve ch against the browser's actual monospace font.
+    const probe = node.ownerDocument.createElement('span');
+    probe.style.cssText = 'position:absolute; visibility:hidden; font:inherit';
+    node.append(probe);
+    const probeStyle = node.ownerDocument.defaultView!.getComputedStyle(probe);
+    const padding = Object.entries(expected.styles)
+      .filter(([key]) => key.startsWith('padding-'))
+      .map(([key, value]) => {
+        probe.style.paddingLeft = value;
+        return [key, Number.parseFloat(probeStyle.paddingLeft)] as const;
+      });
+    probe.remove();
+    for (const [key, value] of padding) {
+      expect(Number.parseFloat(style.getPropertyValue(key)), key).to.be.closeTo(value, 0.02);
+    }
     for (const [key, value] of Object.entries(expected.styles)) {
-      if (key.startsWith('padding-'))
-        expect(Number.parseFloat(style.getPropertyValue(key)), key).to.be.closeTo(
-          Number.parseFloat(value),
-          0.02,
-        );
-      else expect(style.getPropertyValue(key), key).to.equal(value);
+      if (!key.startsWith('padding-')) expect(style.getPropertyValue(key), key).to.equal(value);
     }
     expect(node.getBoundingClientRect().height).to.be.closeTo(expected.height, 0.02);
     expect(node.querySelector('code')?.textContent).to.equal(markdownPreNode.code.slice(0, -1));

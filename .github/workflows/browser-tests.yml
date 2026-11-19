@@ -54,6 +54,8 @@ jobs:
               case "$file" in
                 .github/workflows/browser-tests.yml|scripts/select-browser-specs.ts|.npmrc|package.json|pnpm-lock.yaml|pnpm-workspace.yaml)
                   BASE=; vue=true; react=true; docs=true ;;
+                .github/workflows/vue-browser-shards.yml)
+                  BASE=; vue=true ;;
                 packages/web-vue/scripts/find-affected-cypress-specs.ts|packages/web-vue/scripts/browser-source-imports.ts|scripts/browser-dependency-graph.ts)
                   BASE=; vue=true; react=true ;;
                 packages/web-core/*)
@@ -86,57 +88,12 @@ jobs:
         run: node scripts/select-browser-specs.ts
 
   vue:
-    name: Vue browser tests (${{ matrix.initials }})
     needs: select
     if: needs.select.outputs.vue != '[]'
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include: ${{ fromJSON(needs.select.outputs.vue) }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: 'package.json'
-
-      - name: Restore Vue E2E cache
-        id: cache
-        uses: actions/cache/restore@v6
-        with:
-          path: |
-            .pnpm-store
-            ~/.cache/Cypress
-          key: e2e-vue-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('pnpm-lock.yaml', 'pnpm-workspace.yaml', 'package.json') }}
-
-      - name: Install dependencies
-        run: |
-          corepack enable
-          pnpm install --frozen-lockfile --store-dir .pnpm-store
-
-      - name: Save Vue E2E cache
-        if: matrix.initials == fromJSON(needs.select.outputs.vue)[0].initials && steps.cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v6
-        with:
-          path: |
-            .pnpm-store
-            ~/.cache/Cypress
-          key: ${{ steps.cache.outputs.cache-primary-key }}
-
-      - name: Build Vue test dependencies
-        run: |
-          pnpm --filter @sdata/web-react... run build
-          pnpm --filter @sdata/web-vue run icongen
-
-      - name: Run Vue browser tests
-        working-directory: packages/web-vue
-        shell: bash
-        env:
-          SPECS: ${{ matrix.specs }}
-        run: pnpm run cypress:run --posix-exit-codes --spec "$SPECS"
+    uses: ./.github/workflows/vue-browser-shards.yml
+    with:
+      ref: ${{ github.sha }}
+      shards: ${{ needs.select.outputs.vue }}
 
   prepare-react:
     name: Prepare React cache and docs preview
@@ -226,7 +183,7 @@ jobs:
         run: |
           trap 'jobs -pr | xargs -r kill || true' EXIT
           if [ "$DOCS_PREVIEW" = true ]; then
-            pnpm --filter @sd-design/sd-vue-docs exec astro preview --host 127.0.0.1 --port 5188 &
+            pnpm --filter @sd-design/sd-vue-docs run astro preview --host 127.0.0.1 --port 5188 &
             curl --retry 60 --retry-delay 1 --retry-connrefused --max-time 5 -fsS http://127.0.0.1:5188/ -o /dev/null
           fi
 

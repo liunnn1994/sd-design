@@ -34,7 +34,53 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  select:
+    name: Select release browser tests
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.specs.outputs.ref }}
+      vue: ${{ steps.specs.outputs.vue }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - run: git pull --rebase origin main
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: 'package.json'
+      - name: Verify npm trusted publishing before validation and tagging
+        if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
+        run: node packages/web-vue/scripts/verify-npm-publishing.ts
+      - name: Select affected component shards
+        id: specs
+        env:
+          BASE: ${{ github.event.before }}
+          VUE: 'true'
+          CYPRESS_INSTALL_BINARY: '0'
+        run: |
+          if [ -n "$BASE" ] && git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            corepack enable
+            pnpm run install:ci
+          else
+            export BASE=
+          fi
+          echo "ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          node scripts/select-browser-specs.ts
+
+  vue:
+    needs: select
+    if: needs.select.outputs.vue != '[]'
+    uses: ./.github/workflows/vue-browser-shards.yml
+    with:
+      ref: ${{ needs.select.outputs.ref }}
+      shards: ${{ needs.select.outputs.vue }}
+
   release:
+    needs: [select, vue]
+    if: ${{ !cancelled() && needs.select.result == 'success' && (needs.vue.result == 'success' || (needs.vue.result == 'skipped' && needs.select.outputs.vue == '[]')) }}
     runs-on: ubuntu-latest
 
     steps:
@@ -42,9 +88,10 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          ref: ${{ needs.select.outputs.ref }}
 
-      - name: Sync with latest main before validation
-        run: git pull --rebase origin main
+      - name: Attach the validated commit to the release branch
+        run: git switch -c "$GITHUB_REF_NAME"
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -53,11 +100,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@sdata'
 
-      - name: Verify npm trusted publishing before validation and tagging
-        if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
-        run: node packages/web-vue/scripts/verify-npm-publishing.ts
-
       - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: '0'
         run: |
           corepack enable
           node -v
@@ -80,27 +125,6 @@ jobs:
       - name: Test React adapters
         run: pnpm --filter @sdata/web-react test
 
-      - name: Select affected component tests
-        id: affected-tests
-        working-directory: packages/web-vue
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            pnpm run test:affected -- --all
-          else
-            pnpm run test:affected -- --base "${{ github.event.before }}" --head HEAD
-          fi
-
-      - name: Test affected components
-        if: steps.affected-tests.outputs.mode != 'none'
-        working-directory: packages/web-vue
-        # 全量（mode=all）在 2 核 runner 上偶发 Vite dev server 过载，曾出现单次
-        # 运行卡住 2h+ 直到 6h job 上限。大规模测试补齐扫描后 affected ≈ 215 个
-        # spec，45min 已不足（连续两次超时），放宽到 90min 吸收重试与慢节点波动，
-        # 同时避免一次卡死长时间占用整个并发组。
-        timeout-minutes: 90
-        env:
-          AFFECTED_SPECS: ${{ steps.affected-tests.outputs.specs }}
-        run: pnpm exec cypress run --component --browser chrome --spec "$AFFECTED_SPECS"
       - name: Build release package
         env:
           NODE_OPTIONS: '--max-old-space-size=6144'

@@ -157,10 +157,15 @@ describe('React ColorPicker gradient pointer adapter', () => {
         cy.get('.sd-color-picker-gradient-thumb-active').should(($node) =>
           expect($node[0]).to.equal(thumb),
         );
+        const expectActiveThumbAt = (left: string) =>
+          cy.get('.sd-color-picker-gradient-thumb-active').should(($node) => {
+            expect($node[0]).to.equal(thumb);
+            expect(thumb.style.left).to.equal(left);
+          });
         cy.then(() => win.dispatchEvent(pointer(win, 'pointermove', rect.right + 40)));
-        cy.wrap(thumb).should('have.attr', 'style').and('contain', 'left: 100%');
+        expectActiveThumbAt('100%');
         cy.then(() => win.dispatchEvent(pointer(win, 'pointermove', rect.left - 40)));
-        cy.wrap(thumb).should('have.attr', 'style').and('contain', 'left: 0%');
+        expectActiveThumbAt('0%');
         cy.then(() => win.dispatchEvent(pointer(win, 'pointerup', rect.left)));
       });
   });

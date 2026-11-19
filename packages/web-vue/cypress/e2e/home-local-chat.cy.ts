@@ -3,7 +3,10 @@ describe('首页真实本地模型', () => {
     cy.viewport(1200, 700);
     cy.visit('/', {
       onBeforeLoad(win) {
-        Object.defineProperty(win.navigator, 'gpu', { configurable: true, value: {} });
+        Object.defineProperty(win.navigator, 'gpu', {
+          configurable: true,
+          value: { requestAdapter: async () => ({ features: new Set(['shader-f16']) }) },
+        });
         const worker = {
           onmessage: null as ((message: unknown) => void) | null,
           addEventListener() {},
@@ -19,6 +22,7 @@ describe('首页真实本地模型', () => {
       },
     });
     cy.get('#ai-examples astro-island', { timeout: 60000 }).should('not.have.attr', 'ssr');
+    cy.scrollTo('top');
     cy.get('#ai-examples').should(($example) => {
       expect($example[0].getBoundingClientRect().top).to.be.greaterThan(700);
     });

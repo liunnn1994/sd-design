@@ -25,7 +25,9 @@ describe('shared React Markdown documentation', () => {
       });
   });
   it('preserves the matching Vue page', () => {
-    cy.get('nav[aria-label="文档框架"]').contains('a', 'Vue').click();
+    const frameworkSwitch = '[role="radiogroup"][aria-label="文档框架"]';
+    cy.get(frameworkSwitch).closest('astro-island').should('not.have.attr', 'ssr');
+    cy.get(frameworkSwitch).contains('label', 'Vue').click();
     cy.location('pathname').should('eq', '/components/markdown-render/');
   });
 });

@@ -35,6 +35,9 @@ describe('PanelGroup React', { scrollBehavior: false }, () => {
   });
   it('widens only the divider while the pointer is over its grip', () => {
     const divider = `${grip} .sd-resizebox-trigger-icon-wrapper`;
+    cy.window().should((win) => {
+      expect(win.matchMedia('(hover: hover)').matches).to.equal(true);
+    });
     moveMouseTo(grip);
     cy.get(divider).should(($divider) => {
       expect($divider[0].getBoundingClientRect().width).to.equal(1.5);

@@ -29,10 +29,15 @@
   }
 
   async function renderHighlightedCode() {
-    const { codeToHtml } = await import('shiki');
+    const [{ codeToHtml }, { default: theme }] = await Promise.all([
+      import('shiki'),
+      isDark.value
+        ? import('shiki/themes/github-dark.mjs')
+        : import('shiki/themes/github-light.mjs'),
+    ]);
     highlightedHtml.value = await codeToHtml(props.entry.code, {
       lang: 'ts',
-      theme: isDark.value ? 'github-dark' : 'github-light',
+      theme,
     });
   }
 

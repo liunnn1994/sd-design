@@ -26,6 +26,13 @@ export default defineConfig({
     ],
     supportFile: false,
     setupNodeEvents(on) {
+      on('before:browser:launch', (browser, launchOptions) => {
+        if (process.platform === 'linux' && browser.name === 'chrome' && browser.isHeadless) {
+          // Documentation tests exercise WebGL and WebGPU on runners without a GPU.
+          launchOptions.args.push('--enable-unsafe-swiftshader', '--enable-unsafe-webgpu');
+        }
+        return launchOptions;
+      });
       // This standalone route spec has no module imports. Strip its types only;
       // the default webpack loader otherwise includes unrelated component specs
       // in its TNB emit program and fails with duplicate source-map outputs.

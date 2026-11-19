@@ -20,11 +20,9 @@ export interface BrowserChatSnapshot {
   replying: boolean;
 }
 
-const modelId = 'SmolLM2-135M-Instruct-q4f16_1-MLC';
 // Keep the model weights, WASM and WebLLM version in sync for both view adapters.
-const modelUrl = `https://modelscope.cn/models/mlc-ai/${modelId}/resolve/ef2811e091465a80a2eb737fb46e91c4197a43fa/`;
-const modelLibUrl =
-  'https://cdn.jsdelivr.net/gh/mlc-ai/binary-mlc-llm-libs@00fe7a40e57e5e8eb9fef87526a4bf28ad5846c0/web-llm-models/v0_2_86/base/SmolLM2-135M-Instruct-q4f16_1_cs1k-webgpu.wasm';
+const modelLibBase =
+  'https://cdn.jsdelivr.net/gh/mlc-ai/binary-mlc-llm-libs@146ed9cd4b4062e967b017fd2291f7106b50599f/web-llm-models/v0_2_87/base';
 
 function getDocContext(index: string, question: string, framework: DocsFramework) {
   const terms = (question.toLowerCase().match(/[a-z][a-z0-9-]*|[一-鿿]{2,}/g) || []).flatMap(
@@ -154,8 +152,22 @@ export function createBrowserChat(framework: DocsFramework = 'vue') {
             throw new Error('Cannot load llms.txt (' + response.status + '): ' + response.url);
           docIndex = await Promise.race([response.text(), aborted]);
         }
-        const { WebWorkerMLCEngine } = await Promise.race([import('@mlc-ai/web-llm'), aborted]);
+        const [{ WebWorkerMLCEngine }, adapter] = await Promise.race([
+          Promise.all([
+            import('@mlc-ai/web-llm'),
+            navigator.gpu.requestAdapter({ powerPreference: 'high-performance' }),
+          ]),
+          aborted,
+        ]);
         if (request.signal.aborted || !current()) return;
+        if (!adapter) throw new Error('No WebGPU adapter available');
+        const shaderF16 = adapter.features.has('shader-f16');
+        const quantization = shaderF16 ? 'q4f16_1' : 'q4f32_1';
+        const model = `SmolLM2-135M-Instruct-${quantization}`;
+        const modelId = `${model}-MLC`;
+        const revision = shaderF16
+          ? 'ef2811e091465a80a2eb737fb46e91c4197a43fa'
+          : '72b483449ac59d39238d9e63d4c363d746f75a13';
         worker = new Worker(new URL('./local-chat.worker.ts', import.meta.url), { type: 'module' });
         const failed = new Promise<never>((_resolve, reject) => {
           worker!.addEventListener('error', () => reject(new Error('Worker failed')), {
@@ -167,9 +179,9 @@ export function createBrowserChat(framework: DocsFramework = 'vue') {
             model_list: [
               {
                 model_id: modelId,
-                model: modelUrl,
-                model_lib: modelLibUrl,
-                required_features: ['shader-f16'],
+                model: `https://modelscope.cn/models/mlc-ai/${modelId}/resolve/${revision}/`,
+                model_lib: `${modelLibBase}/${model}_cs1k-webgpu.wasm`,
+                required_features: shaderF16 ? ['shader-f16'] : [],
                 overrides: { context_window_size: 2048 },
               },
             ],

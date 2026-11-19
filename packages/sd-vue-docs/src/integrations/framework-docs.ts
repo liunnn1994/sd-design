@@ -14,6 +14,7 @@ export function frameworkDocs(): AstroIntegration {
     name: 'sd-design:shared-framework-docs',
     hooks: {
       'astro:config:setup': async ({ command, logger }) => {
+        if (command === 'preview') return;
         generateFrameworkDocs();
         const root = resolve(import.meta.dirname, '../..');
         if (

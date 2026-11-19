@@ -504,8 +504,16 @@ describe('React Switch', () => {
     cy.contains('悬浮弹层内容').should('not.exist');
     cy.tick(1);
     cy.contains('悬浮弹层内容').should('be.visible');
-    cy.contains('button', '悬浮弹层').trigger('mouseout');
-    cy.tick(100);
+    cy.contains('button', '悬浮弹层').trigger('mouseout', { eventConstructor: 'MouseEvent' });
+    cy.get('body').trigger('mousemove', {
+      eventConstructor: 'MouseEvent',
+      clientX: 0,
+      clientY: 0,
+      force: true,
+    });
+    cy.tick(99);
+    cy.contains('悬浮弹层内容').should('be.visible');
+    cy.tick(1);
     cy.contains('悬浮弹层内容').should('not.exist');
     cy.contains('button', '悬浮弹层').focus();
     cy.contains('悬浮弹层内容').should('be.visible');

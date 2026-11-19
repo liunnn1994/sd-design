@@ -514,6 +514,7 @@
     }
 
     .editor-controls :deep(.sd-input),
+    .editor-controls :deep(.value-input input),
     .editor-controls :deep(.sd-textarea) {
       font-size: 16px;
     }

@@ -115,7 +115,7 @@ describe('液态玻璃标志文档预览', () => {
       const program = gl.getParameter(gl.CURRENT_PROGRAM) as WebGLProgram;
       const time = gl.getUniformLocation(program, 'uTime');
       cy.wrap(null, { timeout: 10000 }).should(() => {
-        expect(Number(gl.getUniform(program, time))).to.be.at.least(3.3);
+        expect(Number(gl.getUniform(program, time))).to.be.at.least(Math.fround(3.3));
       });
     });
     cy.screenshot('liquid-glass-page-header', { capture: 'viewport' });

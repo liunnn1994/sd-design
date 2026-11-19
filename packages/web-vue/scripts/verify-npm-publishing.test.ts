@@ -12,14 +12,14 @@ const env = {
 
 test('workflow authenticates before installation and skips authentication only for dry runs', async () => {
   const workflow = parseYAML<{
-    jobs: { release: { steps: { name: string; if?: string; run?: string }[] } };
+    jobs: { select: { steps: { id?: string; if?: string; run?: string }[] } };
   }>(await readFile(new URL('../../../.github/workflows/release.yml', import.meta.url), 'utf8'));
-  const steps = workflow.jobs.release.steps;
+  const steps = workflow.jobs.select.steps;
   const preflight = steps.findIndex(
     (step) => step.run === 'node packages/web-vue/scripts/verify-npm-publishing.ts',
   );
   assert.ok(preflight >= 0);
-  assert.ok(preflight < steps.findIndex((step) => step.name === 'Install dependencies'));
+  assert.ok(preflight < steps.findIndex((step) => step.id === 'specs'));
   assert.equal(steps[preflight].if, "github.event_name != 'workflow_dispatch' || !inputs.dry_run");
 });
 
