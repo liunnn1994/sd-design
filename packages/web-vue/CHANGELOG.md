@@ -1,3 +1,10 @@
+# [7.11.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.10.0...web-vue-v7.11.0) (2026-11-19)
+
+
+### Features
+
+* 🆕 优化 panel-group ([5e5cdb9](https://github.com/liunnn1994/sd-design/commit/5e5cdb971b40ec35a414ab5417ca590b370c2438))
+
 # [7.10.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.9.2...web-vue-v7.10.0) (2026-11-18)
 
 
