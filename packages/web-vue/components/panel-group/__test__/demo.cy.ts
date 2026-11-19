@@ -11,6 +11,25 @@ runDemoTests('panel-group', demos, () => {
 });
 
 describe('单内容面板基本用法', () => {
+  it('由贴边的伸缩杆替代右侧和底部边框', () => {
+    cy.wrap(demos['../../../../sd-vue-docs/src/components/generated/panel-group/basic.vue']()).then(
+      (mod) => cy.mount(mod.default),
+    );
+    cy.get('.single-panel-demo-content')
+      .should('have.css', 'border-right-color', 'rgba(0, 0, 0, 0)')
+      .and('have.css', 'border-bottom-color', 'rgba(0, 0, 0, 0)')
+      .then(($content) => {
+        const { right, bottom } = $content[0].getBoundingClientRect();
+        const line = '.sd-resizebox-trigger-icon-wrapper';
+        cy.get(`.sd-resizebox-trigger-vertical > ${line}`).should(($line) => {
+          expect($line[0].getBoundingClientRect().right).to.equal(right);
+        });
+        cy.get(`.sd-resizebox-trigger-horizontal > ${line}`).should(($line) => {
+          expect($line[0].getBoundingClientRect().bottom).to.equal(bottom);
+        });
+      });
+  });
+
   it('拖拽高度期间右侧伸缩杆实时等高，取消后一起恢复', () => {
     cy.wrap(demos['../../../../sd-vue-docs/src/components/generated/panel-group/basic.vue']()).then(
       (mod) => cy.mount(mod.default),

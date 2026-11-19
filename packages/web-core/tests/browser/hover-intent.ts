@@ -10,7 +10,11 @@ export const intentOptions = [
 export const intentModes = ['trigger', 'menu', 'dropdown', 'cascader', 'panel', 'popover'] as const;
 export type IntentMode = (typeof intentModes)[number];
 
-function moveMouse(x: number, y: number) {
+function atViewportPoint<T>(
+  x: number,
+  y: number,
+  action: (x: number, y: number) => PromiseLike<T>,
+) {
   return cy.window().then((win) => {
     // CDP uses the top-level viewport; component tests run inside the AUT iframe.
     let current: Window = win;
@@ -26,9 +30,28 @@ function moveMouse(x: number, y: number) {
       y = rect.top + (y * rect.height) / frame.clientHeight;
       current = current.parent;
     }
-    return Cypress.automation('remote:debugger:protocol', {
+    return action(x, y);
+  });
+}
+
+function moveMouse(x: number, y: number) {
+  return atViewportPoint(x, y, (x, y) =>
+    Cypress.automation('remote:debugger:protocol', {
       command: 'Input.dispatchMouseEvent',
       params: { type: 'mouseMoved', x, y, button: 'none', pointerType: 'mouse' },
+    }),
+  );
+}
+
+export function tapAt(x: number, y: number) {
+  return atViewportPoint(x, y, async (x, y) => {
+    await Cypress.automation('remote:debugger:protocol', {
+      command: 'Input.dispatchTouchEvent',
+      params: { type: 'touchStart', touchPoints: [{ x, y }] },
+    });
+    await Cypress.automation('remote:debugger:protocol', {
+      command: 'Input.dispatchTouchEvent',
+      params: { type: 'touchEnd', touchPoints: [] },
     });
   });
 }

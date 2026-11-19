@@ -1,3 +1,4 @@
+import { moveMouseAway, moveMouseTo } from '../../../web-core/tests/browser/hover-intent';
 import { checkComponentDocs } from './docs-contract';
 
 describe('PanelGroup React', { scrollBehavior: false }, () => {
@@ -23,7 +24,7 @@ describe('PanelGroup React', { scrollBehavior: false }, () => {
       .should('have.attr', 'aria-orientation', 'vertical')
       .and('have.css', 'cursor', 'col-resize');
     cy.get(`${grip} .sd-resizebox-trigger-icon-wrapper`)
-      .should('have.css', 'width', '6px')
+      .should('have.css', 'width', '1px')
       .and('be.empty');
     cy.get('[data-testid="panel-nested"]').should('have.css', 'overflow', 'visible');
     button('read-refs');
@@ -31,6 +32,19 @@ describe('PanelGroup React', { scrollBehavior: false }, () => {
     button('custom');
     cy.get('[data-testid="panel-custom-grip"]').should('be.visible');
     cy.get(`${grip} .sd-resizebox-trigger-icon-wrapper`).should('not.exist');
+  });
+  it('widens only the divider while the pointer is over its grip', () => {
+    const divider = `${grip} .sd-resizebox-trigger-icon-wrapper`;
+    moveMouseTo(grip);
+    cy.get(divider).should(($divider) => {
+      expect($divider[0].getBoundingClientRect().width).to.equal(1.5);
+    });
+    cy.get(sized).should('have.css', 'width', '200px');
+    cy.get(`${main} > .sd-panel-fill`).should('have.css', 'width', '400px');
+    moveMouseAway();
+    cy.get(divider).should(($divider) => {
+      expect($divider[0].getBoundingClientRect().width).to.equal(1);
+    });
   });
   it('resizes by arrow and shifted arrow keys and clamps at both bounds', () => {
     cy.get(grip).trigger('keydown', { key: 'ArrowRight' });
@@ -206,4 +220,25 @@ describe('PanelGroup React', { scrollBehavior: false }, () => {
 describe('PanelGroup documentation', () => {
   it('documents shared panel-group scenes and framework navigation', () =>
     checkComponentDocs('panel-group'));
+
+  it('uses the resize lines as the basic example frame edges', () => {
+    const origin = Cypress.expose('docsOrigin') ?? 'http://127.0.0.1:5188';
+    cy.visit(origin + '/react/components/panel-group/');
+    cy.get('[data-example="panel-group/basic"]')
+      .scrollIntoView()
+      .find('.demo-block__preview-content > astro-island:not([ssr])', { timeout: 20000 })
+      .find('.single-panel-demo')
+      .should(($demo) => {
+        const demo = $demo[0];
+        const content = demo.querySelector('.single-panel-demo-content')!;
+        const line = '.sd-resizebox-trigger-icon-wrapper';
+        const rightGrip = demo.querySelector(`.sd-resizebox-trigger-vertical > ${line}`)!;
+        const bottomGrip = demo.querySelector(`.sd-resizebox-trigger-horizontal > ${line}`)!;
+        const bounds = content.getBoundingClientRect();
+        expect(Cypress.$(content)).to.have.css('border-right-color', 'rgba(0, 0, 0, 0)');
+        expect(Cypress.$(content)).to.have.css('border-bottom-color', 'rgba(0, 0, 0, 0)');
+        expect(rightGrip.getBoundingClientRect().right).to.equal(bounds.right);
+        expect(bottomGrip.getBoundingClientRect().bottom).to.equal(bounds.bottom);
+      });
+  });
 });

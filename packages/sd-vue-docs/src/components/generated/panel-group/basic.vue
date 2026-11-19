@@ -45,10 +45,22 @@
 <style scoped lang="scss">
   .single-panel-demo {
     height: 360px;
+    --component-panel-group-panel-separator-color-background: var(--sd-color-border-2);
 
     // 空白填充面板只用于提供伸缩空间，右侧伸缩杆与内容面板等高。
     :deep(> .sd-panel-group > .sd-panel > .sd-panel-separator-edge) {
       height: var(--panel-height);
+    }
+
+    // 伸缩杆沿边显示，代替右侧和底部的边框。
+    :deep(.sd-resizebox-trigger-vertical > .sd-resizebox-trigger-icon-wrapper) {
+      inset-inline: auto 0;
+      translate: 0 -50%;
+    }
+
+    :deep(.sd-resizebox-trigger-horizontal > .sd-resizebox-trigger-icon-wrapper) {
+      inset-block: auto 0;
+      translate: -50% 0;
     }
   }
 
@@ -57,6 +69,8 @@
     padding: 12px;
     overflow: hidden;
     border: 1px solid var(--sd-color-border-2);
+    border-inline-end-color: transparent;
+    border-block-end-color: transparent;
     text-align: center;
   }
 </style>

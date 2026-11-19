@@ -2,6 +2,7 @@ import { h, ref } from 'vue';
 
 import type { PanelSize } from '../types';
 
+import { moveMouseAway, moveMouseTo, tapAt } from '../../../../web-core/tests/browser/hover-intent';
 import PanelGroup, { Panel, PanelSeparator } from '../index';
 
 // 引擎监听 grip 元素上的 pointer 事件，拖拽阈值 3px
@@ -70,20 +71,128 @@ describe('PanelGroup', () => {
     cy.get('.sd-panel').first().should('have.css', 'width', '320px');
   });
 
-  for (const orientation of ['horizontal', 'vertical'] as const) {
-    it(`renders a divider without a grip icon in ${orientation} groups`, () => {
-      mountGroup({}, { style: 'width: 800px; height: 300px' }, { orientation });
-      const vertical = orientation === 'horizontal';
-      cy.get('.sd-panel-separator-grip')
-        .should('have.class', 'sd-resizebox-trigger')
-        .and('have.class', `sd-resizebox-trigger-${vertical ? 'vertical' : 'horizontal'}`);
-      cy.get('.sd-resizebox-trigger-icon-wrapper')
-        .should('be.visible')
-        .and('have.css', vertical ? 'width' : 'height', '6px')
-        .and('not.have.css', 'background-color', 'rgba(0, 0, 0, 0)');
-      cy.get('svg.sd-resizebox-trigger-icon').should('not.exist');
+  describe('divider appearance', () => {
+    const grip = '.sd-panel-separator-grip';
+    const divider = '.sd-resizebox-trigger-icon-wrapper';
+    const reducedMotion = (value: 'no-preference' | 'reduce') =>
+      cy.then(() =>
+        Cypress.automation('remote:debugger:protocol', {
+          command: 'Emulation.setEmulatedMedia',
+          params: { features: [{ name: 'prefers-reduced-motion', value }] },
+        }),
+      );
+
+    afterEach(() => {
+      cy.then(() =>
+        Cypress.automation('remote:debugger:protocol', {
+          command: 'Emulation.setEmulatedMedia',
+          params: { features: [] },
+        }),
+      );
     });
-  }
+
+    for (const orientation of ['horizontal', 'vertical'] as const) {
+      it(`animates the divider without resizing the panels in ${orientation} groups`, () => {
+        reducedMotion('no-preference');
+        mountGroup(
+          {},
+          { style: 'width: 800px; height: 300px; --sd-primary-6: 12, 34, 56' },
+          { orientation },
+        );
+        const vertical = orientation === 'horizontal';
+        const extent = vertical ? 'width' : 'height';
+        const panelSizes = () =>
+          cy
+            .get('.sd-panel-group > .sd-panel, .sd-panel-group > .sd-panel-fill')
+            .then(($panels) => {
+              expect($panels).to.have.length(2);
+              return Array.from($panels, (panel) => panel.getBoundingClientRect()[extent]);
+            });
+
+        moveMouseAway();
+        cy.get(grip)
+          .should('have.class', 'sd-resizebox-trigger')
+          .and('have.class', `sd-resizebox-trigger-${vertical ? 'vertical' : 'horizontal'}`);
+        cy.get(divider)
+          .should('be.visible')
+          .and('have.css', extent, '1px')
+          .and('not.have.css', 'background-color', 'rgba(0, 0, 0, 0)')
+          .and('have.css', 'transition-property', 'background-color, scale');
+        cy.get('svg.sd-resizebox-trigger-icon').should('not.exist');
+
+        panelSizes().then((before) => {
+          moveMouseTo(grip);
+          cy.get(divider).should(($divider) => {
+            const line = $divider[0].getBoundingClientRect();
+            const hitArea = $divider[0].parentElement!.getBoundingClientRect();
+            const start = vertical ? 'left' : 'top';
+            expect(line[extent]).to.equal(1.5);
+            expect(line[start] + line[extent] / 2).to.equal(hitArea[start] + hitArea[extent] / 2);
+            expect($divider).to.have.css('background-color', 'rgb(12, 34, 56)');
+          });
+          panelSizes().should('deep.equal', before);
+          moveMouseAway();
+          cy.get(divider).should(($divider) => {
+            expect($divider[0].getBoundingClientRect()[extent]).to.equal(1);
+          });
+        });
+
+        reducedMotion('reduce');
+        cy.window().should((win) => {
+          expect(win.matchMedia('(prefers-reduced-motion: reduce)').matches).to.equal(true);
+        });
+        cy.get(divider).should('have.css', 'transition-duration', '0s');
+        moveMouseTo(grip);
+        cy.get(divider).should(($divider) => {
+          expect($divider[0].getBoundingClientRect()[extent]).to.equal(1.5);
+          expect($divider).to.have.css('background-color', 'rgb(12, 34, 56)');
+        });
+        moveMouseAway();
+      });
+    }
+
+    describe('touch input', () => {
+      const emulateTouch = (enabled: boolean) =>
+        cy.then(() =>
+          Cypress.automation('remote:debugger:protocol', {
+            command: 'Emulation.setTouchEmulationEnabled',
+            params: { enabled },
+          }),
+        );
+
+      afterEach(() => {
+        emulateTouch(false);
+      });
+
+      it('keeps the resting color and thickness after tapping the divider', () => {
+        emulateTouch(true);
+        mountGroup(
+          {},
+          {
+            style:
+              'width: 800px; height: 300px; --sd-primary-6: 12, 34, 56; --component-panel-group-panel-separator-color-background: rgb(78, 90, 12)',
+          },
+        );
+        cy.window().should((win) => {
+          expect(win.matchMedia('(hover: none)').matches).to.equal(true);
+        });
+        const release = cy.stub();
+        cy.get(grip).then(($grip) => {
+          $grip[0].addEventListener('pointerup', (event) => release(event.pointerType), {
+            once: true,
+          });
+          const { left, top, width, height } = $grip[0].getBoundingClientRect();
+          return tapAt(left + width / 2, top + height / 2);
+        });
+        cy.wrap(release).should('have.been.calledOnceWith', 'touch');
+        cy.get(grip).should(($grip) => expect($grip[0].matches(':hover')).to.equal(true));
+        cy.get(divider).should(($divider) => {
+          expect($divider[0].getBoundingClientRect().width).to.equal(1);
+          expect($divider).to.have.css('background-color', 'rgb(78, 90, 12)');
+        });
+      });
+    });
+  });
 
   it('replaces the default trigger appearance when a custom slot is provided', () => {
     cy.mount(PanelGroup, {

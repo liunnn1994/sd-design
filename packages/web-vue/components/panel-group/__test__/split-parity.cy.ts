@@ -235,7 +235,7 @@ describe('PanelGroup split capabilities', () => {
       .and('not.have.class', 'sd-resizebox-trigger-vertical')
       .and('have.css', 'cursor', 'row-resize')
       .trigger('keydown', { key: 'ArrowDown' });
-    cy.get('.sd-resizebox-trigger-icon-wrapper').should('have.css', 'height', '6px');
+    cy.get('.sd-resizebox-trigger-icon-wrapper').should('have.css', 'height', '1px');
     cy.get('.sd-panel').should('have.css', 'height', '210px');
     cy.then(() => {
       orientation.value = 'horizontal';
@@ -244,7 +244,7 @@ describe('PanelGroup split capabilities', () => {
     cy.get('.sd-panel-separator-grip')
       .should('have.class', 'sd-resizebox-trigger-vertical')
       .and('not.have.class', 'sd-resizebox-trigger-horizontal');
-    cy.get('.sd-resizebox-trigger-icon-wrapper').should('have.css', 'width', '6px');
+    cy.get('.sd-resizebox-trigger-icon-wrapper').should('have.css', 'width', '1px');
     pressAndMove(220);
     release(220);
     cy.get('.sd-panel').should('have.css', 'width', '440px');

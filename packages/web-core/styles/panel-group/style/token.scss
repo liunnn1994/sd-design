@@ -4,7 +4,7 @@
 @use 'sass:string';
 
 // 分隔线宽度。
-$panel-separator-trigger-size: 6px;
+$panel-separator-trigger-size: 1px;
 $panel-separator-color-background: var(
   string.unquote('#{global.$sd-cssvars-prefix}-color-neutral-3')
 );

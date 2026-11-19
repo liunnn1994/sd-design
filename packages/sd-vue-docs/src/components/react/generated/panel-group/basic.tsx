@@ -71,9 +71,32 @@ export default function Example() {
         </PanelGroup>
       </div>
       <style>
-        {
-          '.single-panel-demo[data-v-e1b318cf] {\n  height: 360px;\n}\n.single-panel-demo[data-v-e1b318cf] > .sd-panel-group > .sd-panel > .sd-panel-separator-edge {\n  height: var(--panel-height);\n}\n.single-panel-demo-content[data-v-e1b318cf] {\n  height: 100%;\n  padding: 12px;\n  overflow: hidden;\n  border: 1px solid var(--sd-color-border-2);\n  text-align: center;\n}'
-        }
+        {`
+          .single-panel-demo[data-v-e1b318cf] {
+            height: 360px;
+            --component-panel-group-panel-separator-color-background: var(--sd-color-border-2);
+          }
+          .single-panel-demo[data-v-e1b318cf] > .sd-panel-group > .sd-panel > .sd-panel-separator-edge {
+            height: var(--panel-height);
+          }
+          .single-panel-demo[data-v-e1b318cf] .sd-resizebox-trigger-vertical > .sd-resizebox-trigger-icon-wrapper {
+            inset-inline: auto 0;
+            translate: 0 -50%;
+          }
+          .single-panel-demo[data-v-e1b318cf] .sd-resizebox-trigger-horizontal > .sd-resizebox-trigger-icon-wrapper {
+            inset-block: auto 0;
+            translate: -50% 0;
+          }
+          .single-panel-demo-content[data-v-e1b318cf] {
+            height: 100%;
+            padding: 12px;
+            overflow: hidden;
+            border: 1px solid var(--sd-color-border-2);
+            border-inline-end-color: transparent;
+            border-block-end-color: transparent;
+            text-align: center;
+          }
+          `}
       </style>
     </>
   );

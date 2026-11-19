@@ -10592,7 +10592,7 @@
         {
           "key": "panel-separator-trigger-size",
           "name": "panel-separator-trigger-size",
-          "value": "6px",
+          "value": "1px",
           "dependencies": []
         },
         {
