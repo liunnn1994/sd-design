@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.2.0...web-react-v1.3.0) (2026-11-19)
+
+
+### Features
+
+* 🆕 优化流水线以及测试用例的运行 ([e67d53c](https://github.com/liunnn1994/sd-design/commit/e67d53c889be56c466e0a19e1ca75dab4f246f8b))
+
 # [1.2.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.1.0...web-react-v1.2.0) (2026-11-19)
 
 
