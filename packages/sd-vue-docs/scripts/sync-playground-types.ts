@@ -74,8 +74,9 @@ for (const framework of ['vue', 'react']) {
           entry: { [name]: file },
           outDir,
           format: 'esm',
+          fixedExtension: false,
           outputOptions: { codeSplitting: false },
-          dts: { dtsInput: true, emitDtsOnly: true, tsconfig: false },
+          dts: { dtsOnly: true, tsconfig: false },
           deps: {
             neverBundle: (id) =>
               !id.startsWith('.') && !isAbsolute(id) && !id.startsWith('@sdata/web-core'),

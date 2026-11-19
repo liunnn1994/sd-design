@@ -42,7 +42,8 @@ describe('Result', () => {
   it('renders inline svg illustrations for the 403, 404 and 500 statuses', () => {
     for (const status of ['403', '404', '500']) {
       cy.mount(Result, { props: { status } });
-      cy.get(`.sd-result-icon-${status} svg`).should('exist');
+      cy.get(`.sd-result-icon-${status}`).should('have.css', 'padding-top', '24px');
+      cy.get(`.sd-result-icon-${status} svg`).should('be.visible');
     }
   });
 

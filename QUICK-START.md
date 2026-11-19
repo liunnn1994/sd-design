@@ -39,7 +39,7 @@ Tour 使用 driver.js，通过 `v-bind="config"` 传入原生配置，挂载后�
 
 在开始之前，请确保你的本地环境满足以下要求：
 
-- 使用仓库 `mise.toml` 固定的 Node.js 24.22.0 与 pnpm 12.6.0；下列 pnpm 命令可通过 `mise exec -- pnpm ...` 执行。
+- 使用仓库 `.mise.toml` 固定的 Node.js 26.13.1 与 pnpm 12.6.0；下列 pnpm 命令可通过 `mise exec -- pnpm ...` 执行。
 
 ## 快速启动
 

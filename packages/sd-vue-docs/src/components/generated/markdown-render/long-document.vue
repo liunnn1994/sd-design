@@ -34,9 +34,7 @@
         ><Text type="secondary">文档节点总数</Text
         ><strong>{{ metrics?.nodeCount ?? '—' }}</strong></div
       >
-      <div
-        ><Text type="secondary">实际挂载节点</Text><strong>{{ dom.slots }}</strong></div
-      >
+      <div><Text type="secondary">实际挂载节点</Text><strong>{{ dom.slots }}</strong></div>
       <div
         ><Text type="secondary">已测量 / 估算</Text
         ><strong
@@ -47,9 +45,7 @@
         ><Text type="secondary">文档总高度</Text
         ><strong>{{ Math.round(metrics?.totalHeight ?? 0) }} px</strong></div
       >
-      <div
-        ><Text type="secondary">DOM 元素总数</Text><strong>{{ dom.elements }}</strong></div
-      >
+      <div><Text type="secondary">DOM 元素总数</Text><strong>{{ dom.elements }}</strong></div>
       <div :class="dom.nestedRenderers > 0 ? 'long-doc-metrics__bad' : 'long-doc-metrics__good'">
         <Text type="secondary">嵌套渲染器</Text><strong>{{ dom.nestedRenderers }}</strong>
       </div>

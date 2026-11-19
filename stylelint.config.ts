@@ -21,6 +21,7 @@ export default {
         'block-no-empty': null,
         'no-invalid-position-at-import-rule': null,
         'scss/declaration-property-value-no-unknown': null,
+        'value-no-invalid': null,
       },
     },
     {
@@ -33,6 +34,7 @@ export default {
         'at-rule-prelude-no-invalid': null,
         'nesting-selector-no-missing-scoping-root': null,
         'scss/declaration-property-value-no-unknown': true,
+        'value-no-invalid': null,
       },
     },
     {
@@ -40,6 +42,7 @@ export default {
       customSyntax: 'postcss-html',
       rules: {
         'scss/declaration-property-value-no-unknown': null,
+        'value-no-invalid': null,
       },
     },
   ],
@@ -55,7 +58,6 @@ export default {
       { groupName: 'Reset', properties: ['all'] },
       ...createRationalOrder(),
     ],
-    'declaration-block-single-line-max-declarations': null,
     'declaration-property-value-keyword-no-deprecated': null,
     'font-family-no-duplicate-names': null,
     'no-empty-source': [

@@ -28,6 +28,14 @@ export function buildMermaidCDNWorkerSource(options: MermaidCDNWorkerOptions): s
 let mermaid = null
 let mermaidLoadError = null
 
+function applyMermaidThemeDirective(code, directive) {
+  const frontmatter = code.match(/^---[^\\S\\r\\n]*(?:\\r\\n?|\\n)[\\s\\S]*?(?:\\r\\n?|\\n)---[^\\S\\r\\n]*(?:\\r\\n?|\\n)/)?.[0] ?? ''
+  const diagram = code.slice(frontmatter.length)
+  if (diagram.trimStart().startsWith('%%{'))
+    return code
+  return frontmatter + directive + diagram
+}
+
 function normalizeMermaidModule(mod) {
   if (!mod)
     return mod
@@ -55,10 +63,7 @@ function normalizeMermaidModule(mod) {
 function applyThemeTo(code, theme) {
   const themeValue = theme === 'dark' ? 'dark' : 'default'
   const themeConfig = \`%%{init: {"theme": "\${themeValue}"}}%%\\n\`
-  const trimmed = (code || '').trimStart()
-  if (trimmed.startsWith('%%{'))
-    return code
-  return themeConfig + code
+  return applyMermaidThemeDirective(code || '', themeConfig)
 }
 
 function getMermaidDiagramKind(code) {
@@ -149,8 +154,14 @@ function escapeSequenceTextSemicolons(code) {
 
 function findHeaderIndex(lines) {
   const headerRe = /^(?:graph|flowchart|flowchart\\s+tb|flowchart\\s+lr|sequenceDiagram|gantt|classDiagram|stateDiagram(?:-v2)?|erDiagram|journey|pie|quadrantChart|timeline|xychart(?:-beta)?)\\b/
+  let inFrontmatter = lines[0]?.trimEnd() === '---'
   for (let i = 0; i < lines.length; i++) {
     const l = (lines[i] || '').trim()
+    if (inFrontmatter) {
+      if (i > 0 && lines[i].trimEnd() === '---')
+        inFrontmatter = false
+      continue
+    }
     if (!l)
       continue
     if (l.startsWith('%%'))
@@ -180,7 +191,7 @@ async function canParse(code, theme) {
 }
 
 async function findLastRenderablePrefix(baseCode, theme) {
-  const lines = String(baseCode || '').split('\\n')
+  const lines = String(baseCode || '').split(/\\r\\n?|\\n/)
   const headerIdx = findHeaderIndex(lines)
   if (headerIdx === -1)
     return null

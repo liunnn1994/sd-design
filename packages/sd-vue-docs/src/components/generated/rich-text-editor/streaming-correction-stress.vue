@@ -33,33 +33,15 @@
     </Space>
 
     <div class="metrics">
-      <div
-        ><span>状态</span><strong>{{ statusText }}</strong></div
-      >
-      <div
-        ><span>完成轮数</span><strong>{{ metrics.completedRounds }} / {{ rounds }}</strong></div
-      >
-      <div
-        ><span>API 调用</span><strong>{{ metrics.calls }}</strong></div
-      >
-      <div
-        ><span>纠错替换</span><strong>{{ metrics.corrections }}</strong></div
-      >
-      <div
-        ><span>change 事件</span><strong>{{ metrics.changeEvents }}</strong></div
-      >
-      <div
-        ><span>平均调用耗时</span><strong>{{ averageDuration }} ms</strong></div
-      >
-      <div
-        ><span>最长调用耗时</span><strong>{{ metrics.maxDuration.toFixed(2) }} ms</strong></div
-      >
-      <div
-        ><span>最长帧阻塞</span><strong>{{ metrics.maxFrameDelay.toFixed(2) }} ms</strong></div
-      >
-      <div
-        ><span>文本长度</span><strong>{{ metrics.textLength }}</strong></div
-      >
+      <div><span>状态</span><strong>{{ statusText }}</strong></div>
+      <div><span>完成轮数</span><strong>{{ metrics.completedRounds }} / {{ rounds }}</strong></div>
+      <div><span>API 调用</span><strong>{{ metrics.calls }}</strong></div>
+      <div><span>纠错替换</span><strong>{{ metrics.corrections }}</strong></div>
+      <div><span>change 事件</span><strong>{{ metrics.changeEvents }}</strong></div>
+      <div><span>平均调用耗时</span><strong>{{ averageDuration }} ms</strong></div>
+      <div><span>最长调用耗时</span><strong>{{ metrics.maxDuration.toFixed(2) }} ms</strong></div>
+      <div><span>最长帧阻塞</span><strong>{{ metrics.maxFrameDelay.toFixed(2) }} ms</strong></div>
+      <div><span>文本长度</span><strong>{{ metrics.textLength }}</strong></div>
       <div>
         <span>一致性</span>
         <Tag :color="metrics.mismatches ? 'red' : 'green'">

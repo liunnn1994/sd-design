@@ -127,12 +127,18 @@ describe('Markdown 文档实际页面', () => {
         cy.get('.demo-block__preview h2.sd-typography')
           .first()
           .should('have.css', 'font-size', '32px');
+        cy.get('.demo-block__preview .paragraph-node')
+          .first()
+          .should('have.css', 'margin-bottom', '8px');
         cy.get('.demo-block__preview blockquote.sd-typography')
           .first()
           .should(($node) =>
             expect(parseFloat(getComputedStyle($node[0]).borderLeftWidth)).to.be.greaterThan(0),
           );
         cy.get('.demo-block__preview table').scrollIntoView().should('be.visible');
+        cy.get('.demo-block__preview .table-node thead th')
+          .first()
+          .should('have.css', 'border-bottom-width', '2px');
         cy.get('.demo-block__preview .sd-image img').scrollIntoView().should('be.visible');
         cy.get('.demo-block__preview dl').should('contain.text', '轻量标记语言');
         cy.contains('.demo-block__preview .sd-btn', 'SD 内容按钮')

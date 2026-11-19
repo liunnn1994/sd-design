@@ -10,9 +10,7 @@
       <template v-if="(range.label ?? '').split('|')[1].startsWith('(')">
         {{ ' ' + (range.label ?? '').split('|')[1] }}
       </template>
-      <template v-else>
-        <br /><em>{{ (range.label ?? '').split('|')[1] }}</em>
-      </template>
+      <template v-else> <br /><em>{{ (range.label ?? '').split('|')[1] }}</em> </template>
     </template>
     <template v-else>
       {{ range.label }}

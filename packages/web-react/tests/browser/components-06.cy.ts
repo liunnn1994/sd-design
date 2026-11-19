@@ -439,6 +439,11 @@ describe('React Switch', () => {
   it('renders shared result illustrations with unique and resolvable SVG references', () => {
     for (const status of ['403', '404', '500']) {
       cy.get('[aria-label="结果状态"]').select(status);
+      cy.get(`[data-testid="result"] .sd-result-icon-${status}`).should(
+        'have.css',
+        'padding-top',
+        '24px',
+      );
       cy.get(`[data-testid="result"] .sd-result-icon-${status} svg`)
         .should('have.attr', 'viewBox', '0 0 213 213')
         .and('be.visible');

@@ -173,6 +173,11 @@ export default defineConfig({
       ],
       head: [
         {
+          // Establish the order before the bundled stylesheets register their layers.
+          tag: 'style',
+          content: '@layer sd-design, theme, base, starlight.base, starlight.reset, markstream;',
+        },
+        {
           tag: 'link',
           attrs: {
             rel: 'apple-touch-icon',

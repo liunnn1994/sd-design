@@ -1,7 +1,5 @@
 <template>
-  <TypographyText v-bind="nodeEvents" code
-    ><slot>{{ node.code }}</slot></TypographyText
-  >
+  <TypographyText v-bind="nodeEvents" code><slot>{{ node.code }}</slot></TypographyText>
 </template>
 <script setup lang="ts">
   import { TypographyText } from '../../typography';

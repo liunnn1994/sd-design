@@ -456,18 +456,18 @@
   "dependencies": {
     "@sdata/web-core": "workspace:*",
     "css-tree": "3.2.1",
-    "framer-motion": "14.0.0",
-    "markstream-react": "2.0.18",
-    "virtua": "0.53.4"
+    "framer-motion": "14.12.0",
+    "markstream-react": "2.0.25",
+    "virtua": "0.54.2"
   },
   "devDependencies": {
     "@types/css-tree": "3.2.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "cypress": "16.1.1",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "sass": "1.105.1",
+    "cypress": "16.3.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sass": "1.108.2",
     "typescript": "catalog:",
     "vite": "catalog:"
   },

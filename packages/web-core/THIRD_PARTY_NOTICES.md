@@ -26,7 +26,7 @@ Diff preview data and incremental matching are delegated to the MIT-licensed mar
 
 The KaTeX worker threshold formulas in `src/markdown/katex-threshold.ts` and native/timer scheduling fallbacks in `src/markdown/safe-raf.ts` are adapted from markstream-vue 2.0.18.
 
-The CDN Worker source builders, types and Blob URL lifecycle in `src/markdown/katex-cdn-worker.ts`, `src/markdown/mermaid-cdn-worker.ts` and `src/markdown/cdn-worker.ts` are adapted from markstream-vue 2.0.18.
+The CDN Worker source builders, types and Blob URL lifecycle in `src/markdown/katex-cdn-worker.ts`, `src/markdown/mermaid-cdn-worker.ts` and `src/markdown/cdn-worker.ts` are adapted from markstream-vue 2.0.18. The Mermaid CDN Worker frontmatter handling is adapted from markstream-vue 2.0.28.
 
 The explicit parser facade in `src/markdown/parser.ts` delegates to the MIT-licensed stream-markdown-parser 1.2.19 dependency without replacing its runtime bindings or global configuration.
 

@@ -16,8 +16,7 @@
     >
       <div v-if="!logs.length" class="sd:text-gray-400">// 与下方日历互动以查看事件日志…</div>
       <div v-for="(log, i) in logs" :key="i" class="sd:mb-1">
-        <span style="color: #3b82f6">{{ log.name }}</span
-        >: {{ log.args }}
+        <span style="color: #3b82f6">{{ log.name }}</span>: {{ log.args }}
       </div>
     </div>
 

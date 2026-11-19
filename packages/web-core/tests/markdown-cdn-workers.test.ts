@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { runInNewContext } from 'node:vm';
 
 import * as katex from '../dist/markdown/katex-cdn-worker.js';
 import * as mermaid from '../dist/markdown/mermaid-cdn-worker.js';
@@ -23,6 +24,13 @@ const waitForMermaid = (source: string) =>
         .replace('  await loadMermaid()\n\n', '')
         .replace('  if (!mermaid) {', '  await loadMermaid()\n\n  if (!mermaid) {')
     : source;
+
+// Compare the rest of the worker verbatim while testing the untranspiled helper through messages.
+const mermaidSourceForComparison = (source: string) =>
+  waitForMermaid(source).replace(
+    /^(?:const |function )applyMermaidThemeDirective\b[\s\S]*?^}\n\n/m,
+    '',
+  );
 
 test('KaTeX classic/module source matches the locked worker protocol byte for byte', async () => {
   const vue = await upstream('katexCdnWorker');
@@ -58,12 +66,59 @@ test('Mermaid classic/module source preserves parsing, theming and prefix recove
       ]) {
         const options = { mermaidUrl, mode, initializeOptions, debug: true };
         assert.equal(
-          mermaid.buildMermaidCDNWorkerSource(options),
-          waitForMermaid(vue.buildMermaidCDNWorkerSource(options)),
+          mermaidSourceForComparison(mermaid.buildMermaidCDNWorkerSource(options)),
+          mermaidSourceForComparison(vue.buildMermaidCDNWorkerSource(options)),
         );
       }
     }
   }
+});
+
+test('Mermaid keeps YAML before theme directives and skips YAML when recovering a prefix', async () => {
+  type Request = {
+    data: { id: number; action: string; payload: { code: string; theme: string } };
+  };
+  const messages: Array<{ ok: boolean; result: unknown }> = [];
+  const parsed: string[] = [];
+  let receive!: (request: Request) => Promise<void>;
+  const frontmatter = '---\ntitle: Example\n# graph metadata\ngraph: data\n---\n';
+  const graph = 'flowchart LR\nA --> B';
+  const directive = '%%{init: {"theme": "dark"}}%%\n';
+
+  runInNewContext(
+    mermaid.buildMermaidCDNWorkerSource({ mermaidUrl: '/engine.js', mode: 'classic' }),
+    {
+      importScripts() {},
+      mermaid: {
+        parse(code: string) {
+          parsed.push(code);
+          assert.ok(code.startsWith(frontmatter + directive + 'flowchart LR'));
+          if (code.endsWith('unfinished')) throw new Error('Incomplete graph');
+        },
+      },
+      addEventListener(_type: string, listener: typeof receive) {
+        receive = listener;
+      },
+      postMessage(message: (typeof messages)[number]) {
+        messages.push(message);
+      },
+    },
+  );
+
+  await receive({
+    data: {
+      id: 1,
+      action: 'canParse',
+      payload: { code: frontmatter + directive + graph, theme: 'dark' },
+    },
+  });
+  assert.equal(messages[0].ok, true);
+  assert.equal(parsed[0], frontmatter + directive + graph);
+
+  const code = (frontmatter + graph + '\nunfinished').replaceAll('\n', '\r\n');
+  await receive({ data: { id: 2, action: 'findPrefix', payload: { code, theme: 'dark' } } });
+  assert.equal(messages[1].ok, true);
+  assert.equal(messages[1].result, frontmatter + graph);
 });
 
 test('CDN factories stay inert on the server while still returning the complete source', () => {
@@ -129,7 +184,7 @@ test('both factories retain native options, debug ordering and URL ownership on 
                     constructor(parts: unknown[], options: BlobPropertyBag) {
                       events.push([
                         'blob',
-                        parts.map((part) => waitForMermaid(String(part))),
+                        parts.map((part) => mermaidSourceForComparison(String(part))),
                         options,
                       ]);
                     }
@@ -182,7 +237,11 @@ test('both factories retain native options, debug ordering and URL ownership on 
                 false,
                 'dispose retains caller ownership of the worker',
               );
-              events.push(['handle', handle.worker !== null, waitForMermaid(handle.source)]);
+              events.push([
+                'handle',
+                handle.worker !== null,
+                mermaidSourceForComparison(handle.source),
+              ]);
             }
             observations.push(events);
           }

@@ -91,9 +91,9 @@ $result-prefix-cls: string.unquote('#{theme.$prefix}-result');
       @include icon-status(warning);
     }
 
-    &-404,
-    &-403,
-    &-500 {
+    &-#{404},
+    &-#{403},
+    &-#{500} {
       padding-top: $result-padding-top;
 
       .#{$result-prefix-cls}-icon-tip {
