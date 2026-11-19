@@ -1,3 +1,10 @@
+# [7.12.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.11.0...web-vue-v7.12.0) (2026-11-19)
+
+
+### Features
+
+* 🆕 优化流水线以及测试用例的运行 ([e67d53c](https://github.com/liunnn1994/sd-design/commit/e67d53c889be56c466e0a19e1ca75dab4f246f8b))
+
 # [7.11.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.10.0...web-vue-v7.11.0) (2026-11-19)
 
 
