@@ -4,10 +4,12 @@ import manifest from '../../../sd-vue-docs/src/generated/docs-manifest.json';
 describe('all shared documentation scenarios', () => {
   const origin = Cypress.expose('docsOrigin') ?? 'http://127.0.0.1:5188';
   const frameworks = (Cypress.expose('docsFrameworks') ?? 'react,vue').split(',');
+  const selectedPages = Cypress.expose('docsPages')?.split('|');
   for (const framework of frameworks) {
     for (const page of manifest.filter(
       (page) =>
         page.demos.length &&
+        (!selectedPages || selectedPages.includes(page.slug)) &&
         (!Cypress.expose('docsPage') || page.slug === Cypress.expose('docsPage')),
     )) {
       it(`${framework}: ${page.slug} (${page.demos.length} scenes)`, () => {

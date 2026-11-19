@@ -4,6 +4,8 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { docsE2eSpecs } from './docs-e2e-specs.ts';
+
 interface Summary {
   spec: string;
   status: string;
@@ -47,12 +49,15 @@ if (mode === '--self-test') {
   console.log('Isolated E2E result validation passed');
 } else if (mode === '--worker') {
   const { default: cypress } = await import('cypress');
+  const spec = `tests/browser/${selected}`;
   try {
     const result = await cypress.run({
       project,
       browser: 'chrome',
-      spec: resolve(project, 'tests/browser', selected!),
-      config: { e2e: { baseUrl: 'http://127.0.0.1:5190' } },
+      spec: resolve(project, spec),
+      ...(docsE2eSpecs.includes(spec)
+        ? { configFile: resolve(project, 'cypress.docs.config.ts') }
+        : { config: { e2e: { baseUrl: 'http://127.0.0.1:5190' } } }),
     });
     const summary: Summary =
       'totalTests' in result

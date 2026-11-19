@@ -146,9 +146,15 @@ importers:
       czg:
         specifier: ^1.14.0
         version: 1.14.0
+      enhanced-resolve:
+        specifier: 5.26.0
+        version: 5.26.0
       fast-glob:
         specifier: ^3.3.3
         version: 3.3.3
+      htmlparser2:
+        specifier: 10.1.0
+        version: 10.1.0
       lint-staged:
         specifier: ^17.6.0
         version: 17.6.0

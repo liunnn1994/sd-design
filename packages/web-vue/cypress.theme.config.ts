@@ -10,6 +10,7 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:4321',
     specPattern: [
+      'cypress/e2e/component-regressions.cy.ts',
       'cypress/e2e/theme-editor.cy.ts',
       'cypress/e2e/docs-styles.cy.ts',
       'cypress/e2e/multiselect-styles.cy.ts',

@@ -43,53 +43,72 @@ describe('shared documentation experience', () => {
     });
   }
 
-  it('edits and executes TSX, restores errors and manages files', () => {
-    cy.visit(`${origin}/react/components/button/`, {
-      onBeforeLoad(win) {
-        Object.defineProperty(win, 'EditContext', { configurable: true, value: undefined });
-      },
-    });
+  it('edits and executes TSX, recovers from errors, and switches source files', () => {
+    cy.visit(`${origin}/react/components/button/`);
     const block = '.demo-block[data-example="button/basic"]';
+    const app = (frame: HTMLIFrameElement) =>
+      frame.contentDocument?.querySelector<HTMLIFrameElement>('iframe[name="app"]')
+        ?.contentDocument;
+    const preview = (frame: HTMLIFrameElement) =>
+      app(frame)?.querySelector<HTMLIFrameElement>('#result iframe')?.contentDocument;
+    const playground = () =>
+      cy.get<HTMLIFrameElement>(`${block} iframe.livecodes`, { timeout: 90000 });
+    const expectButton = (text: string) =>
+      playground().should((frames) => {
+        expect(preview(frames[0])?.body.textContent ?? '', 'LiveCodes preview').to.contain(text);
+      });
+
     cy.get(`${block} .demo-editor__button`).click();
-    cy.get(`${block} .monaco-editor textarea.inputarea`, { timeout: 60000 }).as('code');
-    const replaceCode = (source: string) => {
-      cy.get('@code').focus().trigger('keydown', {
-        key: 'a',
-        code: 'KeyA',
-        keyCode: 65,
-        which: 65,
-        ctrlKey: true,
-        force: true,
-      });
-      cy.get('@code').then((field) => {
-        const win = field[0].ownerDocument.defaultView!;
-        const clipboardData = new win.DataTransfer();
-        clipboardData.setData('text/plain', source);
-        field[0].dispatchEvent(
-          new win.ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true }),
-        );
-      });
-    };
-    replaceCode('export default function Example() { return <button>React 在线编辑成功</button> }');
-    cy.get<HTMLIFrameElement>(`${block} iframe`).should((frame) => {
-      expect(frame[0].contentDocument?.querySelector('button')?.textContent).to.contain(
-        'React 在线编辑成功',
-      );
+    expectButton('主要');
+    playground().then((frames) => {
+      const doc = app(frames[0])!;
+      cy.wrap(doc.defaultView)
+        .its('monaco.editor')
+        .invoke('getEditors')
+        .then((editors) => {
+          const editor = editors.find((candidate: { getDomNode(): HTMLElement }) =>
+            candidate.getDomNode().closest('#script'),
+          );
+          expect(doc.querySelector('#script-selector')?.textContent).to.contain('button-basic.tsx');
+          const original = editor.getValue();
+          editor.setValue(
+            'export default function Example() { return <button>React 在线编辑成功</button> }',
+          );
+          expectButton('React 在线编辑成功').then(() => {
+            editor.setValue('throw new Error("React 在线编辑错误");');
+          });
+          cy.wrap(doc)
+            .find('#console', { timeout: 30000 })
+            .should('contain.text', 'React 在线编辑错误')
+            .then(() => {
+              editor.setValue(original);
+            });
+          expectButton('主要');
+          cy.wrap(doc).find('#style-selector').click();
+          cy.wrap(doc.defaultView)
+            .its('monaco.editor')
+            .invoke('getEditors')
+            .then((editors) => {
+              const style = editors.find((candidate: { getDomNode(): HTMLElement }) =>
+                candidate.getDomNode().closest('#style'),
+              );
+              style.setValue('button { --editor-e2e-value: verified; }');
+            });
+          cy.wrap(doc).find('#script-selector').click();
+          expectButton('主要');
+          playground().should((frames) => {
+            const result = preview(frames[0]);
+            const button = result?.querySelector('button');
+            expect(
+              button &&
+                result?.defaultView
+                  ?.getComputedStyle(button)
+                  .getPropertyValue('--editor-e2e-value')
+                  .trim(),
+            ).to.equal('verified');
+          });
+        });
     });
-    replaceCode('export default <');
-    cy.get(`${block} [role="alert"]`).should('be.visible');
-    cy.contains(`${block} button`, '重置').click();
-    cy.get<HTMLIFrameElement>(`${block} iframe`).should((frame) => {
-      expect(frame[0].contentDocument?.querySelector('button')?.textContent).to.contain('主要');
-    });
-    cy.get(`${block} [aria-label="文件名"]`).type('Helper.tsx');
-    cy.contains(`${block} button`, '新增文件').click();
-    cy.get(`${block} [role="tab"]`).should('have.length', 2);
-    cy.get(`${block} [aria-label="文件名"]`).type('Renamed.tsx');
-    cy.contains(`${block} button`, '重命名').click();
-    cy.get(`${block} [role="tab"][aria-selected="true"]`).should('have.text', 'Renamed.tsx');
-    cy.contains(`${block} button`, '删除文件').click();
-    cy.get(`${block} [role="tab"]`).should('have.length', 1);
   });
 
   it('uses real React components in the shared theme workspace', () => {

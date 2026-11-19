@@ -1,14 +1,13 @@
-import { parseJSON5 } from 'confbox/json5';
 import fg from 'fast-glob';
 import { execFileSync } from 'node:child_process';
-import { appendFileSync, readFileSync } from 'node:fs';
+import { appendFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { list } from 'postcss';
-import { parse as parseScss } from 'postcss-scss';
-import { parseSync, Visitor } from 'vite';
-import { parse as parseSfc } from 'vue/compiler-sfc';
 
+import {
+  affectedBy,
+  buildBrowserDependencyGraph,
+} from '../../../scripts/browser-dependency-graph.ts';
 import { sharedDependenciesChanged } from './release-dependencies.ts';
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -50,59 +49,6 @@ const ignoredRootFiles = [
 ];
 const normalizePath = (value: string) => value.replaceAll('\\', '/').replace(/^\.\//, '');
 
-function imports(file: string, source: string): string[] {
-  if (file.endsWith('.vue')) {
-    const { descriptor, errors } = parseSfc(source, { filename: file });
-    if (errors.length) throw new Error(`Cannot parse ${file}: ${errors.join(', ')}`);
-    return [descriptor.script, descriptor.scriptSetup, ...descriptor.styles].flatMap((block) =>
-      block
-        ? block.src
-          ? [block.src]
-          : imports(
-              `${file}.${block.lang ?? (block.type === 'style' ? 'css' : 'js')}`,
-              block.content,
-            )
-        : [],
-    );
-  }
-  if (file.endsWith('.scss') || file.endsWith('.css')) {
-    const dependencies: string[] = [];
-    parseScss(source, { from: file }).walkAtRules((rule) => {
-      if (!['use', 'forward', 'import'].includes(rule.name)) return;
-      for (const value of list.comma(rule.params)) {
-        const specifier = list.space(value)[0];
-        if (specifier?.startsWith('"') || specifier?.startsWith("'"))
-          dependencies.push(parseJSON5<string>(specifier));
-      }
-    });
-    return dependencies;
-  }
-  const result = parseSync(file, source);
-  if (result.errors.length)
-    throw new Error(
-      `Cannot parse ${file}: ${result.errors.map((error) => error.message).join(', ')}`,
-    );
-  const dependencies = [
-    ...result.module.staticImports
-      .filter((entry) => !entry.entries.length || entry.entries.some((item) => !item.isType))
-      .map((entry) => entry.moduleRequest.value),
-    ...result.module.staticExports.flatMap((entry) =>
-      entry.entries
-        .filter((item) => !item.isType && item.moduleRequest)
-        .map((item) => item.moduleRequest!.value),
-    ),
-  ];
-  new Visitor({
-    ImportExpression(node) {
-      if (node.source.type === 'Literal' && typeof node.source.value === 'string')
-        dependencies.push(node.source.value);
-      else if (node.source.type === 'TemplateLiteral' && !node.source.expressions.length)
-        dependencies.push(node.source.quasis[0].value.cooked!);
-    },
-  }).visit(result.program);
-  return dependencies;
-}
-
 export function selectAffectedSpecs({
   changedFiles,
   componentDependencies,
@@ -110,6 +56,7 @@ export function selectAffectedSpecs({
   forceAll = false,
   additiveFiles = new Set<string>(),
   dependencyChanges = true,
+  browserReverse = new Map<string, Iterable<string>>(),
 }: {
   changedFiles: string[];
   componentDependencies: Map<string, Iterable<string>>;
@@ -117,6 +64,7 @@ export function selectAffectedSpecs({
   forceAll?: boolean;
   additiveFiles?: Set<string>;
   dependencyChanges?: boolean;
+  browserReverse?: ReadonlyMap<string, Iterable<string>>;
 }) {
   const changes = changedFiles.map(normalizePath);
   const additive = new Set([...additiveFiles].map(normalizePath));
@@ -140,6 +88,24 @@ export function selectAffectedSpecs({
     return all();
 
   const changed = new Set<string>();
+  const helpers = changes.filter((file) => file.startsWith('packages/web-core/tests/browser/'));
+  if (helpers.some((file) => !browserReverse.has(file))) return all();
+  const referencedSpecs = new Set<string>();
+  const referencedComponents = new Set<string>();
+  for (const spec of affectedBy(
+    browserReverse,
+    changes.filter(
+      (file) => !additive.has(file) || !barrelInvalidators.some((rule) => rule.test(file)),
+    ),
+  )) {
+    if (!spec.startsWith(packagePrefix)) continue;
+    const relative = spec.slice(packagePrefix.length);
+    const owner = relative.split('/')[1];
+    if (componentSpecs.get(owner)?.includes(relative)) {
+      referencedSpecs.add(relative);
+      referencedComponents.add(owner);
+    }
+  }
   for (const file of changes) {
     const core = file.match(/^packages\/web-core\/(?:src|styles)\/([^/]+)\//);
     if (/^packages\/web-core\/(?:src|styles)\//.test(file)) {
@@ -173,23 +139,30 @@ export function selectAffectedSpecs({
       reverse.set(dependency, dependents);
     }
   }
-  const affected = new Set(changed);
-  const queue = [...changed];
-  while (queue.length) {
-    for (const dependent of reverse.get(queue.shift()!) ?? []) {
-      if (affected.has(dependent)) continue;
-      affected.add(dependent);
-      queue.push(dependent);
-    }
-  }
-  const components = [...affected].sort();
-  const specs = components.flatMap((component) => componentSpecs.get(component) ?? []).sort();
+  const affectedComponents = [...affectedBy(reverse, changed)];
+  const components = [...new Set([...affectedComponents, ...referencedComponents])].sort();
+  const specs = [
+    ...new Set([
+      ...affectedComponents.flatMap((component) => componentSpecs.get(component) ?? []),
+      ...referencedSpecs,
+    ]),
+  ].sort();
   return { mode: specs.length ? 'affected' : 'none', components, specs };
 }
 
-export function discoverMetadata(root = packageRoot) {
-  const componentsRoot = path.join(root, 'components');
-  const specFiles = fg.sync('components/*/__test__/*.cy.ts', { cwd: root }).map(normalizePath);
+export function discoverMetadata(
+  root = repositoryRoot,
+  graph?: ReturnType<typeof buildBrowserDependencyGraph>,
+  tracked = fg.sync(
+    ['packages/web-vue/components/**/*', 'packages/web-core/{src,styles,tests/browser}/**/*'],
+    { cwd: root },
+  ),
+) {
+  const specFiles = tracked
+    .filter((file) =>
+      path.posix.matchesGlob(file, `${packagePrefix}components/**/__test__/*.cy.ts`),
+    )
+    .map((file) => file.slice(packagePrefix.length));
   const componentSpecs = new Map<string, string[]>();
   for (const spec of specFiles) {
     const component = spec.split('/')[1];
@@ -197,7 +170,7 @@ export function discoverMetadata(root = packageRoot) {
   }
   const names = new Set(
     fg
-      .sync('components/*', { cwd: root, onlyDirectories: true })
+      .sync('components/*', { cwd: path.join(root, packagePrefix), onlyDirectories: true })
       .map(normalizePath)
       .map((directory) => directory.split('/')[1])
       .filter((name) => !name.startsWith('_') && name !== 'style'),
@@ -206,35 +179,25 @@ export function discoverMetadata(root = packageRoot) {
     if (!componentSpecs.has(name)) componentSpecs.set(name, []);
   }
   const componentDependencies = new Map([...names].map((name) => [name, new Set<string>()]));
-  for (const sourceRoot of [
-    componentsRoot,
-    path.resolve(root, '../web-core/src'),
-    path.resolve(root, '../web-core/styles'),
-  ]) {
-    const files = fg.sync('**/*.{js,ts,tsx,vue,scss}', {
-      cwd: sourceRoot,
-      ignore: ['**/__test__/**'],
-    });
-    for (const file of files) {
-      const owner = normalizePath(file).split('/')[0];
-      if (!names.has(owner)) continue;
-      const absoluteFile = path.join(sourceRoot, file);
-      for (const specifier of imports(absoluteFile, readFileSync(absoluteFile, 'utf8'))) {
-        let dependency = null;
-        if (specifier.startsWith('@components/')) dependency = specifier.split('/')[1];
-        else if (specifier.startsWith('@sdata/web-core/'))
-          dependency = specifier.replace(/^@sdata\/web-core\/(?:styles\/)?/, '').split('/')[0];
-        else if (specifier.startsWith('.')) {
-          dependency = normalizePath(
-            path.relative(sourceRoot, path.resolve(path.dirname(absoluteFile), specifier)),
-          ).split('/')[0];
-        }
-        if (dependency !== null && names.has(dependency) && dependency !== owner)
-          componentDependencies.get(owner)!.add(dependency);
-      }
+  const { reverse } = graph ?? buildBrowserDependencyGraph(tracked, root, true, false);
+  // Vue runs each affected component's whole spec group.
+  const ownerOf = (file: string) => {
+    const [, workspace, directory, name] = file.split('/');
+    if (
+      (workspace === 'web-vue' && directory === 'components' && !file.includes('/__test__/')) ||
+      (workspace === 'web-core' && (directory === 'src' || directory === 'styles'))
+    )
+      return name;
+  };
+  for (const [file, importers] of reverse) {
+    const dependency = ownerOf(file);
+    if (!dependency || !names.has(dependency)) continue;
+    for (const importer of importers) {
+      const owner = ownerOf(importer);
+      if (owner && owner !== dependency) componentDependencies.get(owner)?.add(dependency);
     }
   }
-  return { componentDependencies, componentSpecs };
+  return { componentDependencies, componentSpecs, browserReverse: reverse };
 }
 
 function parseArguments(argv: string[]) {
@@ -247,17 +210,21 @@ function parseArguments(argv: string[]) {
   return options;
 }
 
-function main() {
-  const options = parseArguments(process.argv.slice(2));
-  const forceAll = options.forceAll || !options.base || /^0+$/.test(options.base);
+export function findAffectedSpecs(
+  base: string,
+  head = 'HEAD',
+  all = false,
+  graph?: ReturnType<typeof buildBrowserDependencyGraph>,
+  tracked?: string[],
+) {
+  const forceAll = all || !base || /^0+$/.test(base);
   const changedFiles = [];
   const additiveFiles = new Set<string>();
   if (!forceAll) {
-    const numstat = execFileSync(
-      'git',
-      ['diff', '--numstat', '--no-renames', options.base, options.head],
-      { cwd: repositoryRoot, encoding: 'utf8' },
-    );
+    const numstat = execFileSync('git', ['diff', '--numstat', '--no-renames', base, head], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+    });
     for (const line of numstat.split(/\r?\n/)) {
       if (!line.trim()) continue;
       const parts = line.split('\t');
@@ -269,8 +236,8 @@ function main() {
       if (parts[1] === '0') additiveFiles.add(normalizePath(filePath));
     }
   }
-  const result = selectAffectedSpecs({
-    ...discoverMetadata(),
+  return selectAffectedSpecs({
+    ...discoverMetadata(repositoryRoot, graph, tracked),
     changedFiles,
     forceAll,
     additiveFiles,
@@ -278,12 +245,17 @@ function main() {
       !forceAll && changedFiles.some((file) => dependencyFiles.test(file))
         ? sharedDependenciesChanged(
             repositoryRoot,
-            options.head,
+            head,
             ['', packagePrefix, 'packages/web-core/'],
-            options.base,
+            base,
           )
         : false,
   });
+}
+
+function main() {
+  const { base, head, forceAll } = parseArguments(process.argv.slice(2));
+  const result = findAffectedSpecs(base, head, forceAll);
   if (process.env.GITHUB_OUTPUT) {
     appendFileSync(
       process.env.GITHUB_OUTPUT,

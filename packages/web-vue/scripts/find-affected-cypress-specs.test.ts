@@ -40,6 +40,22 @@ test('includes reverse dependents transitively', () => {
   ]);
 });
 
+test('includes a cross-component spec that imports changed source', () => {
+  const source = 'packages/web-vue/components/table/table.vue';
+  const tagSpec = 'components/tag/__test__/table-ellipsis.cy.ts';
+  const tableSpec = 'components/table/__test__/index.cy.ts';
+  const result = selectAffectedSpecs({
+    changedFiles: [source],
+    componentDependencies,
+    componentSpecs: new Map([
+      ['tag', [tagSpec, 'components/tag/__test__/index.cy.ts']],
+      ['table', [tableSpec]],
+    ]),
+    browserReverse: new Map([[source, [`packages/web-vue/${tagSpec}`]]]),
+  });
+  assert.deepEqual(result.specs, [tableSpec, tagSpec]);
+});
+
 test('runs all tests for shared infrastructure changes', () => {
   assert.equal(select(['packages/web-vue/cypress/support/component.ts']).mode, 'all');
   assert.equal(select(['pnpm-lock.yaml']).mode, 'all');
@@ -148,8 +164,9 @@ test('does not force a full run when only the selector script changes', () => {
 
 test('does not expand runtime dependents through type-only imports', (t) => {
   // Keep the import graph independent of evolving component implementations.
-  const root = mkdtempSync(path.join(tmpdir(), 'affected-cypress-specs-'));
-  t.after(() => rmSync(root, { recursive: true, force: true }));
+  const temp = mkdtempSync(path.join(tmpdir(), 'affected-cypress-specs-'));
+  t.after(() => rmSync(temp, { recursive: true, force: true }));
+  const root = path.join(temp, 'packages', 'web-vue');
   const sources = {
     scrollbar: 'export default {};',
     select: "import Scrollbar from '../scrollbar';",
@@ -178,7 +195,7 @@ const example = "import Scrollbar from '../scrollbar'";`,
     writeFileSync(path.join(directory, '__test__', 'index.cy.ts'), '');
   }
   const result = selectAffectedSpecs({
-    ...discoverMetadata(root),
+    ...discoverMetadata(temp),
     changedFiles: ['packages/web-vue/components/scrollbar/scrollbar.vue'],
   });
   assert.deepEqual(result.components, [
@@ -210,24 +227,45 @@ test('scopes Core component changes and retains full runs for shared infrastruct
 test('tracks cross-component Core runtime and stylesheet imports', (t) => {
   const temp = mkdtempSync(path.join(tmpdir(), 'affected-core-specs-'));
   t.after(() => rmSync(temp, { recursive: true, force: true }));
-  const root = path.join(temp, 'web-vue');
+  const root = path.join(temp, 'packages', 'web-vue');
   for (const name of ['checkbox', 'select', 'table']) {
     const directory = path.join(root, 'components', name, '__test__');
     mkdirSync(directory, { recursive: true });
     writeFileSync(path.join(directory, 'index.cy.ts'), '');
   }
   for (const [file, source] of Object.entries({
+    'src/checkbox/foundation.ts': 'export const x = 1;',
     'src/select/foundation.ts': "import { x } from '@sdata/web-core/checkbox/foundation';",
+    'styles/select/style/index.scss': "@use '../../checkbox/style/index.scss';",
+    'styles/checkbox/style/index.scss': '',
     'styles/table/style/index.scss': "@use '../../select/style/index.scss';",
+    'tests/browser/hover-intent.ts': 'export const hover = () => {};',
   })) {
-    const target = path.join(temp, 'web-core', file);
+    const target = path.join(temp, 'packages', 'web-core', file);
     mkdirSync(path.dirname(target), { recursive: true });
     writeFileSync(target, source);
   }
+  writeFileSync(
+    path.join(root, 'components', 'checkbox', '__test__', 'index.cy.ts'),
+    "import { hover } from '../../../../web-core/tests/browser/hover-intent'; hover();",
+  );
+  const metadata = discoverMetadata(temp);
   const result = selectAffectedSpecs({
-    ...discoverMetadata(root),
+    ...metadata,
     changedFiles: ['packages/web-core/styles/checkbox/style/index.scss'],
   });
   assert.equal(result.mode, 'affected');
   assert.deepEqual(result.components, ['checkbox', 'select', 'table']);
+  const helperChange = selectAffectedSpecs({
+    ...metadata,
+    changedFiles: ['packages/web-core/tests/browser/hover-intent.ts'],
+  });
+  assert.deepEqual(helperChange.specs, ['components/checkbox/__test__/index.cy.ts']);
+  assert.equal(
+    selectAffectedSpecs({
+      ...metadata,
+      changedFiles: ['packages/web-core/tests/browser/removed-helper.ts'],
+    }).mode,
+    'all',
+  );
 });

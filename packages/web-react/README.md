@@ -64,7 +64,10 @@ Tabs/TabPane（也可用 `Tabs.TabPane`）支持受控与默认激活、六种�
 
 上述样式入口使用共享 SCSS，需要消费端支持 Sass。构建和渲染测试分别使用 `pnpm --filter @sdata/web-react build`、`pnpm --filter @sdata/web-react test`。
 
-完整浏览器回归使用 `pnpm --filter @sdata/web-react serve:e2e` 启动 5190 测试服务，并给 Cypress 配置 `baseUrl=http://127.0.0.1:5190`。该服务使用独立依赖缓存，关闭文件监听和 HMR；修改源码或构建产物后需重启服务。开发时继续使用支持热更新的 `dev:test`（5187）。回归期间保持源码与构建产物不变，源码 SSR 检查需使用独立的临时缓存目录。
+React 浏览器回归分为组件和文档两套入口，均使用 headless Chrome。从仓库根目录运行以下命令。
+
+- 运行**组件测试**时，用 `pnpm --filter @sdata/web-react run serve:e2e` 启动 5190 测试服务，再运行 `pnpm --filter @sdata/web-react run test:e2e --config baseUrl=http://127.0.0.1:5190`。整套组件测试还需要下述文档预览和上传接收器 `node packages/web-react/scripts/serve-upload-test.ts`。开发时可用支持热更新的 `dev:test`（5187）。`serve:e2e` 使用独立依赖缓存，关闭文件监听和 HMR，修改源码或构建产物后需重启。源码 SSR 检查使用独立的临时缓存目录。
+- 运行**文档 E2E** 时，先运行 `pnpm run build:docs`，再用 `pnpm --filter @sd-design/sd-vue-docs exec astro preview --host 127.0.0.1 --port 5188` 启动预览。运行 `pnpm --filter @sdata/web-react run test:docs:e2e` 执行文档一致性和场景测试。此入口包含 LiveCodes 嵌套 iframe 所需的 Cypress 配置。
 
 Menu、MenuItem、MenuItemGroup、SubMenu 支持受控选择/展开、四种模式、嵌套弹出、水平溢出、响应式折叠和 Sider 联动，复用 core 规则。使用唯一字符串 `itemKey`，受控状态通过 `onSelectedKeysChange` / `onOpenKeysChange` 写回；样式入口为 `styles/menu.scss`。完整使用说明见 React Menu 文档。
 

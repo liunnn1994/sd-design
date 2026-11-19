@@ -71,6 +71,15 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - When changing a component's behavior, API, or styles, update or add the related E2E and Cypress component tests in the same change, including shared tests that assert that component's behavior or styles. Keep assertions aligned with the intended behavior and run the affected tests before considering the change complete.
 - All E2E tests must pass in headless Chrome. Run the affected E2E tests in this mode before considering the change complete.
 
+## Browser E2E CI
+
+- Keep `.github/workflows/browser-tests.yml` browser-only. Run Vue component specs, React browser specs, and documentation E2E in headless Chrome. Run the Vue and React non-browser checks in `.github/workflows/non-browser-tests.yml` and keep release validation in the release workflows.
+- For PRs targeting `main` and pushes to `main`, select affected specs from the Git diff. Core changes can affect both Vue and React. Framework-only changes target that framework, and documentation changes target the documentation job. Combine the scopes for mixed changes. Preserve full-suite fallbacks for shared infrastructure changes and unavailable diff bases. Daily scheduled runs and manual dispatch cover all three suites.
+- Keep documentation E2E in one job. Run the React parity and scenario specs through `@sdata/web-react test:docs:e2e` so the LiveCodes iframe settings stay scoped to documentation tests. Documentation changes and full runs include both frameworks. Shard Vue by the first letter of the component directory and the remaining React specs by the first letter of the spec filename. Start only nonempty shards and ensure the full matrix covers each spec exactly once.
+- Share the pnpm store and Cypress binary cache across all shards of the same framework. Use separate cache keys for Vue and React, and keep shard identifiers out of those keys.
+- Use the shared file dependency graph in `scripts/browser-dependency-graph.ts` for both frameworks and reuse it from the Vue release selector. Use Oxc for JS, TS, TSX, and Cypress calls, the Vue SFC compiler for `.vue` blocks, PostCSS for SCSS, an HTML parser for fixture entry points, and the existing module resolver for import paths. Do not extract source references with handwritten regular expressions or maintain a separate dependency graph per framework.
+- Include transitive dependents. Vue runs whole spec groups for affected runtime components and includes individual specs that depend on changed files across component boundaries. React follows browser fixture and documentation dependencies. Build the documentation preview only when a selected suite requires it. When changing selection or sharding, verify representative Git diffs and confirm that the scheduled run still covers every spec exactly once.
+
 ## Vue / React Documentation Parity
 
 - Vue and React component documentation must align 1:1: the same component pages, feature coverage, example scenarios and ordering, and equivalent API documentation. Update both frameworks in the same change.
