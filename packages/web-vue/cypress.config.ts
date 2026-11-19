@@ -92,6 +92,20 @@ export default defineConfig({
   },
   component: {
     experimentalSingleTabRunMode: true,
+    setupNodeEvents(on) {
+      on('before:browser:launch', (browser, launchOptions) => {
+        if (
+          process.platform === 'linux' &&
+          browser.family === 'chromium' &&
+          browser.name !== 'electron' &&
+          browser.isHeadless
+        ) {
+          // Linux headless Chromium reports hover:none by default. Blink's hover-capable value is 2.
+          launchOptions.args.push('--blink-settings=primaryHoverType=2,availableHoverTypes=2');
+        }
+        return launchOptions;
+      });
+    },
     devServer: {
       framework: 'vue',
       bundler: 'vite',

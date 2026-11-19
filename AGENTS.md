@@ -69,6 +69,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ## Component Test Synchronization
 
 - When changing a component's behavior, API, or styles, update or add the related E2E and Cypress component tests in the same change, including shared tests that assert that component's behavior or styles. Keep assertions aligned with the intended behavior and run the affected tests before considering the change complete.
+- All E2E tests must pass in headless Chrome. Run the affected E2E tests in this mode before considering the change complete.
 
 ## Vue / React Documentation Parity
 

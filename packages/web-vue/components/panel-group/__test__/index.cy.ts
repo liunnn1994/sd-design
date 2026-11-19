@@ -94,6 +94,9 @@ describe('PanelGroup', () => {
     for (const orientation of ['horizontal', 'vertical'] as const) {
       it(`animates the divider without resizing the panels in ${orientation} groups`, () => {
         reducedMotion('no-preference');
+        cy.window().should((win) => {
+          expect(win.matchMedia('(hover: hover)').matches).to.equal(true);
+        });
         mountGroup(
           {},
           { style: 'width: 800px; height: 300px; --sd-primary-6: 12, 34, 56' },

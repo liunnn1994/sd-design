@@ -1,5 +1,6 @@
 import { h } from 'vue';
 
+import { moveMouseAway } from '../../../../web-core/tests/browser/hover-intent';
 import Form, { FormItem } from '../../form';
 import Select from '../index';
 
@@ -164,10 +165,14 @@ describe('Select', () => {
     cy.mount(Select, {
       props: { options: Array.from({ length: 30 }, (_, index) => `Option ${index + 1}`) },
     });
-    cy.get('.sd-select-view').click();
-    cy.get('input').focus();
+    moveMouseAway();
+    cy.get('input').focus().type('{enter}');
+    cy.get('.sd-select-option-active').should('have.length', 1).and('contain.text', 'Option 1');
     Cypress._.times(20, () => cy.get('input').type('{downArrow}'));
-    cy.get('.sd-select-option-active').should('contain.text', 'Option 21').and('be.visible');
+    cy.get('.sd-select-option-active')
+      .should('have.length', 1)
+      .and('contain.text', 'Option 21')
+      .and('be.visible');
     cy.get('.sd-select-dropdown [data-overlayscrollbars-viewport]').should(($viewport) => {
       expect($viewport.scrollTop()).to.be.greaterThan(0);
     });

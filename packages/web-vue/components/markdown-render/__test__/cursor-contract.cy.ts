@@ -5,13 +5,17 @@ import { h, ref } from 'vue';
 import MarkdownRender from '..';
 
 const control = (name: string) => cy.contains('button', new RegExp(`^${name}$`)).click();
-const mountCursor = (initialMode: NodeRendererTypewriter = 'precise', fragment = false) =>
+const mountCursor = (
+  initialMode: NodeRendererTypewriter,
+  {
+    initialContent = 'A **bold** opening followed by ordinary text that wraps across several lines. 最后的文字 tail',
+    fragment = false,
+  } = {},
+) =>
   cy.mount(
     {
       setup() {
-        const content = ref(
-          'A **bold** opening followed by ordinary text that wraps across several lines. 最后的文字 tail',
-        );
+        const content = ref(initialContent);
         const mode = ref(initialMode);
         const final = ref(false);
         const supplied = ref(false);
@@ -86,6 +90,7 @@ const mountCursor = (initialMode: NodeRendererTypewriter = 'precise', fragment =
                 : undefined,
               smoothStreaming: false,
               fade: false,
+              renderCodeBlocksAsPre: true,
               batchRendering: false,
               deferNodesUntilVisible: false,
               nodeVirtual: false,
@@ -97,13 +102,15 @@ const mountCursor = (initialMode: NodeRendererTypewriter = 'precise', fragment =
     },
     { global: { stubs: { transition: false } } },
   );
-const geometry = () =>
+const geometry = (tail: string) =>
   cy.get('.markdown-renderer').should(($root) => {
     const root = $root[0];
     const cursor = root.querySelector<HTMLElement>('.typewriter-cursor')!;
-    expect(cursor).not.to.equal(null);
+    expect(cursor, `cursor for "${tail}"`).not.to.equal(null);
     expect(getComputedStyle(cursor).visibility).to.equal('visible');
-    const walker = root.ownerDocument.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const paragraph = Array.from(root.querySelectorAll('[data-node-type="paragraph"]')).at(-1);
+    expect(paragraph?.textContent).to.include(tail);
+    const walker = root.ownerDocument.createTreeWalker(paragraph!, NodeFilter.SHOW_TEXT);
     let last: Text | undefined;
     while (walker.nextNode())
       if (walker.currentNode.textContent?.trim()) last = walker.currentNode as Text;
@@ -114,8 +121,14 @@ const geometry = () =>
     const rect = rects[rects.length - 1];
     const bounds = root.getBoundingClientRect();
     const values = cursor.style.transform.match(/-?\d+(?:\.\d+)?/g)!.map(Number);
-    expect(values[0]).to.be.closeTo(Math.max(0, rect.right - bounds.left + root.scrollLeft), 2);
-    expect(values[1]).to.be.closeTo(Math.max(0, rect.top - bounds.top + root.scrollTop), 2);
+    expect(values[0], `cursor x for "${tail}"`).to.be.closeTo(
+      Math.max(0, rect.right - bounds.left + root.scrollLeft),
+      2,
+    );
+    expect(values[1], `cursor y for "${tail}"`).to.be.closeTo(
+      Math.max(0, rect.top - bounds.top + root.scrollTop),
+      2,
+    );
   });
 describe('Markdown typewriter cursor contracts', () => {
   it('uses a simple text pseudo cursor and switches to native Range positioning', () => {
@@ -127,21 +140,24 @@ describe('Markdown typewriter cursor contracts', () => {
       .and('have.text', 'New paragraph');
     control('Precise');
     cy.get('.typewriter-simple-cursor-target').should('not.exist');
-    geometry();
+    geometry('New paragraph');
     control('Append');
-    geometry();
+    geometry('New paragraph continued');
     control('Finish');
     cy.get('.typewriter-cursor').should('not.exist');
   });
   it('normalizes true to precise and suppresses heavy tails and supplied nodes', () => {
-    mountCursor(true);
-    geometry();
+    // The separate expiry test owns the idle timeout; keep this cursor active while checking layout.
+    cy.clock(undefined, ['setTimeout', 'clearTimeout']);
+    mountCursor(true, { initialContent: 'Plain text tail' });
+    geometry('Plain text tail');
     control('Code tail');
-    cy.get('[data-node-type="code_block"]').should('exist');
+    cy.get('[data-node-type="code_block"]').should('contain.text', 'Heavy code');
     cy.get('.typewriter-cursor').should('not.exist');
     control('Paragraph');
-    geometry();
+    geometry('New paragraph');
     control('Toggle nodes');
+    cy.get('.markdown-renderer').should('have.text', 'Supplied');
     cy.get('.typewriter-cursor').should('not.exist');
   });
   it('expires after three seconds and restarts on ordinary appended text', () => {
@@ -152,7 +168,7 @@ describe('Markdown typewriter cursor contracts', () => {
     cy.get('.typewriter-simple-cursor-target').should('have.length', 1);
   });
   it('does not add cursors to fragment renderers', () => {
-    mountCursor('precise', true);
+    mountCursor('precise', { fragment: true });
     cy.get('.text-node').should('exist');
     cy.get('.typewriter-cursor, .typewriter-simple-cursor-target').should('not.exist');
   });
