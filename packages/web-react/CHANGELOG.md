@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/liunnn1994/sd-design/compare/web-react-v1.4.0...web-react-v1.4.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* 🐛 修复 ci 报错 ([af0c75b](https://github.com/liunnn1994/sd-design/commit/af0c75bcfd26eac7bc6d4dcb22e573a5fdb1edc6))
+
 # [1.4.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.3.0...web-react-v1.4.0) (2026-11-20)
 
 
