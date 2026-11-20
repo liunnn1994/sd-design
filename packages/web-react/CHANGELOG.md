@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.3.0...web-react-v1.4.0) (2026-11-20)
+
+
+### Features
+
+* 🆕 优化测试用例 ([b13aeb2](https://github.com/liunnn1994/sd-design/commit/b13aeb2d522ff5c4209b5e10394b531c88602d74))
+* 🆕 更新依赖 ([692dea6](https://github.com/liunnn1994/sd-design/commit/692dea652a6f1e1b26ef7f25b3a97e0211d758dd))
+* 🆕 更新依赖/测试用例 ([6ad2ad1](https://github.com/liunnn1994/sd-design/commit/6ad2ad119bd994ef2ae0905bb0e134e048bb67ac))
+
 # [1.3.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.2.0...web-react-v1.3.0) (2026-11-19)
 
 
