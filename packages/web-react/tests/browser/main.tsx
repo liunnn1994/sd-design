@@ -1,4 +1,5 @@
 import React, { StrictMode, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 
 import {
@@ -335,11 +336,14 @@ function App() {
 }
 
 const fixture = location.pathname === '/clamp' ? <ClampFixture /> : <App />;
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    {location.pathname === '/calendar-root' ? <CalendarRootFixture /> : fixture}
-  </StrictMode>,
-);
+// Finish mounting before the page load event, even when React's scheduler is delayed.
+flushSync(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      {location.pathname === '/calendar-root' ? <CalendarRootFixture /> : fixture}
+    </StrictMode>,
+  );
+});
 import { IconFixture } from './icon-fixture';
 import { ImageFixture } from './image-fixture';
 import { PanelGroupFixture } from './panel-group-fixture';

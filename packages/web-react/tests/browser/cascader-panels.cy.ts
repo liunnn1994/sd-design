@@ -28,7 +28,7 @@ describe('React Cascader columns and search panel', () => {
   it('virtualizes large columns, scrolls to the last leaf and replaces the item set', () => {
     cy.on('uncaught:exception', (error) => {
       // The same native delivery warning is reproducible with Virtua alone.
-      if (error.message === 'ResizeObserver loop completed with undelivered notifications.')
+      if (error.message.includes('ResizeObserver loop completed with undelivered notifications.'))
         return false;
     });
     cy.visit('/cascader-panels.html?virtual');
