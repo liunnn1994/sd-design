@@ -1,3 +1,10 @@
+## [7.13.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.13.0...web-vue-v7.13.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* 🐛 修复 ci 报错 ([af0c75b](https://github.com/liunnn1994/sd-design/commit/af0c75bcfd26eac7bc6d4dcb22e573a5fdb1edc6))
+
 # [7.13.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.12.0...web-vue-v7.13.0) (2026-11-20)
 
 
