@@ -100,7 +100,13 @@ export function hoverIntentTests(setup: (mode: IntentMode) => void) {
             const rect = $source[0].getBoundingClientRect();
             moveMouse(rect.left + 20, rect.top + rect.height / 2);
           });
-        cy.contains('A child 0').should('be.visible');
+        const child = cy.contains('A child 0').should('be.visible');
+        if (mode === 'cascader' || mode === 'panel') {
+          // The slide changes the geometry of the hover corridor until the column settles.
+          child
+            .closest('[data-sd-cascader-column]')
+            .should('not.have.class', 'cascader-slide-enter-active');
+        }
         cy.clock(Date.now(), ['setTimeout', 'clearTimeout']);
       }
       function crossSibling() {
