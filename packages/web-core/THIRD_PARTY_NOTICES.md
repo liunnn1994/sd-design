@@ -22,7 +22,7 @@ Code geometry, wrapping and diff line counting in `src/markdown/code-height.ts` 
 
 Preformatted code visual options, theme and title resolution, clipboard behavior and tooltip delays in `src/markdown/pre-code.ts`, and the matching shared SCSS in `styles/markdown-render/style/pre-code.scss`, are adapted from markstream-vue 2.0.18.
 
-Diff preview data and incremental matching are delegated to the MIT-licensed markstream-core 2.0.18 dependency. Diff metadata and DOM row measurements in `src/markdown/pre-diff.ts`, and `styles/markdown-render/style/pre-diff.scss`, follow markstream-vue 2.0.18.
+Diff preview data and incremental matching are delegated to the MIT-licensed markstream-core 2.0.29 dependency. Diff metadata and DOM row measurements in `src/markdown/pre-diff.ts`, and `styles/markdown-render/style/pre-diff.scss`, follow markstream-vue 2.0.18.
 
 The KaTeX worker threshold formulas in `src/markdown/katex-threshold.ts` and native/timer scheduling fallbacks in `src/markdown/safe-raf.ts` are adapted from markstream-vue 2.0.18.
 

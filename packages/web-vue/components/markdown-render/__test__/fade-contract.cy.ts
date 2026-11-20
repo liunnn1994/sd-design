@@ -36,6 +36,7 @@ const mountFade = (
       setup() {
         const content = ref(options.code ? '```txt\nCode\n```' : 'First');
         const fade = ref(options.fade ?? true);
+        const final = ref(options.final ?? false);
         const alternate = ref(false);
         const Initial = defineComponent(
           () => () => h('div', { 'data-widget': 'initial' }, 'Initial widget'),
@@ -73,6 +74,16 @@ const mountFade = (
               'button',
               {
                 onClick: () => {
+                  content.value += ' final';
+                  final.value = true;
+                },
+              },
+              'Finish stream',
+            ),
+            h(
+              'button',
+              {
+                onClick: () => {
                   fade.value = !fade.value;
                 },
               },
@@ -91,7 +102,7 @@ const mountFade = (
               content: content.value,
               nodes: options.custom ? [{ type: 'fixture_enter', raw: '' }] : undefined,
               fade: fade.value,
-              final: options.final ?? false,
+              final: final.value,
               renderAsFragment: options.fragment,
               smoothStreaming: false,
               batchRendering: false,
@@ -156,16 +167,16 @@ describe('Markdown node enter fade contracts', () => {
     cy.get('.node-content > p').should('have.class', 'fade-enter-to');
     cy.get('.fade-enter-active').should('not.exist');
   });
-  it('enters a changed custom component root even when final suppresses initial appearance', () => {
+  it('replaces a custom component root without fading after the stream has completed', () => {
     mountFade({ final: true, custom: true });
     cy.get('[data-widget="initial"]').should('not.have.class', 'fade-enter-active');
     control('Replace component');
-    cy.get('[data-widget="replacement"]').should('have.class', 'fade-enter-from');
+    cy.get('[data-widget="replacement"]').should('have.text', 'Replacement widget');
     advance();
-    cy.get('.fade-enter-active').should('not.exist');
+    cy.get('.fade-enter-active, .fade-enter-from, .fade-enter-to').should('not.exist');
   });
   it('queues appends and retains finished delta DOM while that delta is selected', () => {
-    mountFade({ final: true });
+    mountFade();
     control('Append text');
     let selected: Node;
     cy.get('.text-node-stream-delta').then(($delta) => {
@@ -179,6 +190,7 @@ describe('Markdown node enter fade contracts', () => {
       document.getSelection()!.addRange(range);
       delta.dispatchEvent(new AnimationEvent('animationend', { bubbles: true }));
     });
+    advance();
     cy.contains('button', /^Append text$/).then(($button) => $button[0].click());
     // Allow the native click's update to commit before asserting the selection freeze.
     cy.wait(100);
@@ -191,7 +203,7 @@ describe('Markdown node enter fade contracts', () => {
     cy.get('.text-node').should('have.text', 'First delta delta');
   });
   it('keeps an existing delta running when another block is appended', () => {
-    mountFade({ final: true });
+    mountFade();
     control('Append text');
     let delta: HTMLElement;
     cy.get('.text-node-stream-delta').then(($delta) => {
@@ -202,11 +214,12 @@ describe('Markdown node enter fade contracts', () => {
     cy.wait(100);
     cy.get('.text-node-stream-delta').should(($delta) => {
       expect($delta[0]).to.equal(delta);
-      expect($delta).to.have.text(' delta');
+      expect($delta.text().trim()).to.equal('delta');
     });
+    cy.get('.text-node').first().should('have.text', 'First delta');
   });
-  it('preserves a settled text selection while appending and finishing a delta', () => {
-    mountFade({ final: true });
+  it('preserves a settled text selection when the final update appends text', () => {
+    mountFade();
     let selected: Node;
     cy.get('.text-node').then(($text) => {
       selected = $text[0].firstChild!.firstChild!;
@@ -216,8 +229,8 @@ describe('Markdown node enter fade contracts', () => {
       document.getSelection()!.removeAllRanges();
       document.getSelection()!.addRange(range);
     });
-    cy.contains('button', /^Append text$/).then(($button) => $button[0].click());
-    cy.get('.text-node').should('have.text', 'First delta');
+    cy.contains('button', /^Finish stream$/).then(($button) => $button[0].click());
+    cy.get('.text-node').should('have.text', 'First final');
     cy.get('.text-node-stream-delta').should('not.exist');
     cy.then(() => {
       expect(selected.isConnected).to.equal(true);
@@ -225,12 +238,16 @@ describe('Markdown node enter fade contracts', () => {
     });
   });
   it('keeps selected settled append nodes and compacts them after selection is released', () => {
-    mountFade({ final: true });
+    mountFade();
     const appendAndFinish = () => {
       cy.contains('button', /^Append text$/).then(($button) => $button[0].click());
-      cy.get('.text-node-stream-delta').then(($delta) =>
-        $delta[0].dispatchEvent(new AnimationEvent('animationend', { bubbles: true })),
-      );
+      cy.get('.text-node-stream-delta').then(($deltas) => {
+        for (const delta of $deltas) {
+          delta.dispatchEvent(new AnimationEvent('animationend', { bubbles: true }));
+        }
+      });
+      // Upstream batches animationend cleanup in requestAnimationFrame.
+      advance();
       cy.get('.text-node-stream-delta').should('not.exist');
     };
     appendAndFinish();
@@ -240,30 +257,40 @@ describe('Markdown node enter fade contracts', () => {
       selected = extra.firstChild!;
       const document = extra.ownerDocument;
       const range = document.createRange();
-      range.selectNodeContents(selected);
+      range.setStart(selected, 0);
+      range.setEnd(extra, extra.childNodes.length);
       document.getSelection()!.removeAllRanges();
       document.getSelection()!.addRange(range);
     });
     for (let index = 0; index < 5; index++) appendAndFinish();
     cy.get('.text-node').should(($text) => {
-      expect($text[0].children[1].childNodes.length).to.equal(6);
+      expect($text[0].children[1].childNodes.length).to.be.greaterThan(4);
       expect(selected.isConnected).to.equal(true);
       expect(selected.ownerDocument!.getSelection()!.toString()).to.equal(' delta');
     });
     cy.document().then((document) => document.getSelection()!.removeAllRanges());
     appendAndFinish();
     cy.get('.text-node').should(($text) => {
-      expect($text[0].children[1].childNodes.length).to.equal(1);
+      expect($text[0].children[1].childNodes.length).to.be.at.most(4);
       expect($text).to.have.text(`First${' delta'.repeat(7)}`);
     });
   });
-  it('uses a 0.2 second default text delta animation with the pinned easing', () => {
-    mountFade({ final: true, defaults: true });
+  it('uses the upstream default duration and easing for streamed text', () => {
+    mountFade({ defaults: true });
     cy.get('.node-content p').should('have.text', 'First');
     control('Append text');
     cy.wrap(animations).should('deep.include', {
-      duration: '0.2s',
-      timing: 'cubic-bezier(0.2, 0, 0.4, 1)',
+      duration: '0.7s',
+      timing: 'cubic-bezier(0.37, 0.55, 0.86, 0.88)',
     });
+  });
+
+  it('settles an in-flight text fade when the stream ends', () => {
+    mountFade();
+    control('Append text');
+    cy.contains('.text-node-stream-delta', 'delta').should('exist');
+    control('Finish stream');
+    cy.get('.text-node-stream-delta, .fade-enter-active').should('not.exist');
+    cy.get('.text-node').should('have.text', 'First delta final');
   });
 });

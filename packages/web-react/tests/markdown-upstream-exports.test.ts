@@ -33,7 +33,7 @@ test('the facade forwards the renderer parser singleton, including policy and sa
   );
   assert.doesNotMatch(safe, /onerror=|javascript:|<script/i);
 });
-test('configuration through the facade affects actual SD Markdown rendering and can be cleared', () => {
+test('facade plugins affect SD and upstream renders and can be cleared', () => {
   api.clearRegisteredMarkdownPlugins();
   try {
     api.registerMarkdownPlugin((md) => {
@@ -43,16 +43,17 @@ test('configuration through the facade affects actual SD Markdown rendering and 
             if (child.type === 'text') child.content = child.content.replaceAll('BRIDGE', 'PLUGIN');
       });
     });
-    const html = renderToStaticMarkup(
-      createElement(MarkdownRenderer, {
+    for (const Renderer of [MarkdownRenderer, api.UpstreamMarkdownRender]) {
+      const props = {
         content: 'BRIDGE',
         final: true,
         batchRendering: false,
         deferNodesUntilVisible: false,
-      }),
-    );
-    assert.match(html, /PLUGIN/);
-    assert.doesNotMatch(html, /BRIDGE/);
+      };
+      const html = renderToStaticMarkup(createElement(Renderer, props));
+      assert.match(html, /PLUGIN/);
+      assert.doesNotMatch(html, /BRIDGE/);
+    }
     api.clearRegisteredMarkdownPlugins();
     const cleared = renderToStaticMarkup(
       createElement(MarkdownRenderer, {

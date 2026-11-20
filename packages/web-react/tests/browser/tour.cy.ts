@@ -4,7 +4,7 @@ import { checkComponentDocs } from './docs-contract';
   const tourControl = (name = '') =>
     cy.get('[data-testid="tour-fixture"]').contains('button', name).click({ force: true });
   describe('React Tour', () => {
-    beforeEach(() => cy.visit('/'));
+    beforeEach(() => cy.visit('/tour.html'));
     it('preserves done and destroy vetoes while unmount bypasses the exit hook', () => {
       tourControl('Tour veto');
       tourControl('Tour start');

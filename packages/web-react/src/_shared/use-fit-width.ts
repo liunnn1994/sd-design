@@ -25,7 +25,8 @@ export function useFitWidth(
       measurer.invalidate();
       return;
     }
-    setWidth(`${measurer.measure(text, getComputedStyle(element.current), options)}px`);
+    const nextWidth = measurer.measure(text, getComputedStyle(element.current), options);
+    setWidth(nextWidth === undefined ? fallback : `${nextWidth}px`);
   };
   useLayoutEffect(() => {
     measure.current();

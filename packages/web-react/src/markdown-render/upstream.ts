@@ -53,7 +53,7 @@ export {
   type MermaidCDNWorkerOptions,
 } from '@sdata/web-core/markdown/mermaid-cdn-worker';
 
-// Explicit markstream-react 2.0.18 forwarding; additions require a manifest review.
+// Explicit markstream-react forwarding; additions require a manifest review.
 export {
   AdmonitionNode,
   BlockquoteNode,

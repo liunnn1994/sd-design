@@ -1,9 +1,12 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, StrictMode, useContext, useEffect, useRef, useState } from 'react';
+import { createRoot } from 'react-dom/client';
 
 import type { TourInstance, TourStep } from '../../src/tour/index.js';
 
 import { Button } from '../../src/button/index.js';
 import { Tour } from '../../src/tour/index.js';
+import '../../styles/button.scss';
+import '../../styles/tour.scss';
 
 const Context = createContext('missing');
 const imperativeSteps: TourStep[] = [{ popover: { title: 'Original step' } }];
@@ -48,7 +51,7 @@ function SlotContent({
   );
 }
 
-export function TourFixture() {
+function TourFixture() {
   const tour = useRef<TourInstance>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const [mounted, setMounted] = useState(true);
@@ -181,3 +184,9 @@ export function TourFixture() {
     </section>
   );
 }
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <TourFixture />
+  </StrictMode>,
+);

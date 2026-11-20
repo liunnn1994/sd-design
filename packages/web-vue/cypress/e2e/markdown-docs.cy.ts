@@ -85,12 +85,20 @@ describe('Markdown 文档实际页面', () => {
     cy.get('.sd-tooltip-content', { timeout: 10000 })
       .should('be.visible')
       .and('contain.text', '访问示例网站');
-    cy.get('.demo-block')
-      .eq(1)
+    cy.get('[data-example="markdown-render/streaming"]')
       .scrollIntoView()
       .within(() => {
         cy.contains('.demo-block__preview button', '追加内容', { timeout: 20000 }).click();
         cy.get('.demo-block__preview .sd-markdown-render').should('contain.text', '浪花淘尽英雄');
+        for (let step = 2; step <= 6; step++) {
+          cy.contains('.demo-block__preview button', '追加内容').click();
+        }
+        cy.contains('.demo-block__preview button', '追加内容').should('be.disabled');
+        cy.contains('.demo-block__preview', '6/6 · 传输完成').should('exist');
+        cy.get('.demo-block__preview .sd-markdown-render')
+          .should('contain.text', '诗词、引用、列表、表格、代码和脚注均已追加完成。')
+          .find('.text-node-stream-delta, .fade-enter-active')
+          .should('not.exist');
         cy.contains('.demo-block__preview button', '重置').click();
         cy.get('.demo-block__preview .sd-markdown-render').should(
           'not.contain.text',

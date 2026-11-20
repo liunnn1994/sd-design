@@ -97,6 +97,9 @@ describe('Tour driver.js wrapper', () => {
       showProgress: false,
       duration: 100,
       allowScroll: false,
+      scrollIntoView: false,
+      allowPageInteraction: false,
+      advanceOn: false,
     });
     instance((tour) => {
       expect(tour.getConfig()).to.include({
@@ -104,6 +107,9 @@ describe('Tour driver.js wrapper', () => {
         allowClose: false,
         duration: 100,
         allowScroll: false,
+        scrollIntoView: false,
+        allowPageInteraction: false,
+        advanceOn: false,
       });
       tour.drive();
     });

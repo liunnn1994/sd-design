@@ -19,6 +19,8 @@ catalog:
 overrides:
   typescript: npm:typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2
   '@hono/node-server@<2.0.5': ^2.0.5
+  # Keep the Starlight integration on the patched Astro 7 line when audit overrides overlap its peer range.
+  'astro-expressive-code@0.44.3>astro:peer': ^7.4.7
   astro@<6.1.10: ^6.1.10
   astro@<6.4.6: ^6.4.6
   astro@<7.0.6: ^7.0.6
@@ -153,6 +155,7 @@ minimumReleaseAgeExclude:
   - video.js
   - markdown-it-ts
   - markstream-core
+  - markstream-react@2.0.29
   - markstream-vue
   - stream-markdown-parser
 trustLockfile: true

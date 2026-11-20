@@ -36,16 +36,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - uses: jdx/mise-action@v5
+        with:
+          install_args: 'node npm:pnpm'
+          cache: false
+      - name: Configure npm registry
         uses: actions/setup-node@v7
         with:
-          node-version-file: 'package.json'
           registry-url: 'https://registry.npmjs.org'
           scope: '@sdata'
 
       - name: Install dependencies
         run: |
-          corepack enable
           node -v
           pnpm -v
           pnpm run install:ci

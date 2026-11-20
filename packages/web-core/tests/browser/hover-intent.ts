@@ -101,6 +101,7 @@ export function hoverIntentTests(setup: (mode: IntentMode) => void) {
             moveMouse(rect.left + 20, rect.top + rect.height / 2);
           });
         cy.contains('A child 0').should('be.visible');
+        cy.clock(Date.now(), ['setTimeout', 'clearTimeout']);
       }
       function crossSibling() {
         cy.contains(selector, /^Branch A$/).then(($source) => {
@@ -108,13 +109,14 @@ export function hoverIntentTests(setup: (mode: IntentMode) => void) {
           moveMouse(rect.left + rect.width * 0.3, rect.bottom + 4);
           moveMouse(rect.left + rect.width * 0.5, rect.bottom + 12);
         });
-        cy.wait(120);
+        cy.tick(120);
         cy.contains('A child 0').should('be.visible');
         expectSiblingHidden();
       }
       it('keeps the original branch across siblings and permits switching on pause', () => {
         start();
         crossSibling();
+        cy.tick(1000);
         cy.contains('B child 0').should('be.visible');
       });
       it('lands on the original panel without opening the crossed sibling', () => {
@@ -124,7 +126,7 @@ export function hoverIntentTests(setup: (mode: IntentMode) => void) {
           const rect = $child[0].getBoundingClientRect();
           moveMouse(rect.left + 12, rect.top + rect.height / 2);
         });
-        cy.wait(450);
+        cy.tick(450);
         cy.contains('A child 3').should('be.visible');
         expectSiblingHidden();
       });
@@ -132,7 +134,7 @@ export function hoverIntentTests(setup: (mode: IntentMode) => void) {
         start();
         crossSibling();
         moveMouse(5, 5);
-        cy.wait(500);
+        cy.tick(500);
         expectSiblingHidden();
       });
       if (mode === 'trigger') {
@@ -146,14 +148,14 @@ export function hoverIntentTests(setup: (mode: IntentMode) => void) {
             moveMouse(rect.right - rect.width * 0.3, rect.bottom + 4);
             moveMouse(rect.right - rect.width * 0.5, rect.bottom + 12);
           });
-          cy.wait(120);
+          cy.tick(120);
           cy.contains('A child 0').should('be.visible');
           expectSiblingHidden();
           cy.contains<HTMLElement>('A child 3').then(($child) => {
             const rect = $child[0].getBoundingClientRect();
             moveMouse(rect.right - 12, rect.top + rect.height / 2);
           });
-          cy.wait(450);
+          cy.tick(450);
           cy.contains('A child 3').should('be.visible');
           expectSiblingHidden();
         });

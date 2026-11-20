@@ -48,9 +48,10 @@ jobs:
         with:
           fetch-depth: 0
       - run: git pull --rebase origin main
-      - uses: actions/setup-node@v7
+      - uses: jdx/mise-action@v5
         with:
-          node-version-file: 'package.json'
+          install_args: 'node npm:pnpm'
+          cache: false
       - name: Verify npm trusted publishing before validation and tagging
         if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
         run: node packages/web-vue/scripts/verify-npm-publishing.ts
@@ -62,7 +63,6 @@ jobs:
           CYPRESS_INSTALL_BINARY: '0'
         run: |
           if [ -n "$BASE" ] && git cat-file -e "$BASE^{commit}" 2>/dev/null; then
-            corepack enable
             pnpm run install:ci
           else
             export BASE=
@@ -93,10 +93,13 @@ jobs:
       - name: Attach the validated commit to the release branch
         run: git switch -c "$GITHUB_REF_NAME"
 
-      - name: Setup Node.js
+      - uses: jdx/mise-action@v5
+        with:
+          install_args: 'node npm:pnpm'
+          cache: false
+      - name: Configure npm registry
         uses: actions/setup-node@v7
         with:
-          node-version-file: 'package.json'
           registry-url: 'https://registry.npmjs.org'
           scope: '@sdata'
 
@@ -104,7 +107,6 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: '0'
         run: |
-          corepack enable
           node -v
           pnpm -v
           pnpm run install:ci

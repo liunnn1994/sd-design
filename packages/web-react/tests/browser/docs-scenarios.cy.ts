@@ -18,8 +18,6 @@ describe('all shared documentation scenarios', () => {
         for (const id of page.demos) {
           const selector = `.demo-block[data-example="${id}"]`;
           cy.get(selector).scrollIntoView({ duration: 0 });
-          cy.get(selector).should('not.have.attr', 'data-deferred');
-          cy.wait(100, { log: false });
           cy.get(`${selector} .demo-block__preview-content > astro-island`, { timeout: 60000 })
             .should(($island) =>
               expect($island[0].hasAttribute('ssr'), `${id} hydrated`).to.equal(false),
@@ -27,6 +25,7 @@ describe('all shared documentation scenarios', () => {
             .should(($island) =>
               expect($island[0].childNodes.length, `${id} rendered DOM`).to.be.greaterThan(0),
             );
+          cy.get(selector).should('not.have.attr', 'data-deferred');
           cy.get(`${selector} .demo-editor__button`).should('exist');
         }
       });

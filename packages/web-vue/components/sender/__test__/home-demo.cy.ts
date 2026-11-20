@@ -53,7 +53,10 @@ function mockLocalWorker(
     },
   };
   cy.window().then((win) => {
-    Object.defineProperty(win.navigator, 'gpu', { configurable: true, value: {} });
+    Object.defineProperty(win.navigator, 'gpu', {
+      configurable: true,
+      value: { requestAdapter: async () => ({ features: new Set(['shader-f16']) }) },
+    });
     Object.defineProperty(win, 'LanguageModel', {
       configurable: true,
       get() {

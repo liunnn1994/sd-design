@@ -20,9 +20,12 @@
   const props = withDefaults(defineProps<Config>(), {
     animate: undefined,
     smoothScroll: undefined,
+    scrollIntoView: undefined,
     allowClose: undefined,
     allowScroll: undefined,
+    allowPageInteraction: undefined,
     disableActiveInteraction: undefined,
+    advanceOn: undefined,
     advanceOnClick: undefined,
     skipMissingElement: undefined,
     allowKeyboardControl: undefined,

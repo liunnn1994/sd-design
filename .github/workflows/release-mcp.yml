@@ -79,18 +79,21 @@ jobs:
           echo "should_release=false" >> "$GITHUB_OUTPUT"
           echo "No MCP-relevant changes; release skipped."
 
-      - name: Setup Node.js
+      - uses: jdx/mise-action@v5
+        if: steps.release-check.outputs.should_release == 'true'
+        with:
+          install_args: 'node npm:pnpm'
+          cache: false
+      - name: Configure npm registry
         if: steps.release-check.outputs.should_release == 'true'
         uses: actions/setup-node@v7
         with:
-          node-version-file: 'package.json'
           registry-url: 'https://registry.npmjs.org'
           scope: '@sdata'
 
       - name: Install dependencies
         if: steps.release-check.outputs.should_release == 'true'
         run: |
-          corepack enable
           node -v
           pnpm -v
           pnpm run install:ci

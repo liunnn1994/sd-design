@@ -51,7 +51,7 @@ export function useFitWidth(options: UseFitWidthOptions) {
     }
 
     const width = measurer.measure(text, window.getComputedStyle(target), options);
-    measuredWidth.value = `${width}px`;
+    measuredWidth.value = width === undefined ? toValue(options.fallbackWidth) : `${width}px`;
   };
 
   const scheduleMeasure = () => {

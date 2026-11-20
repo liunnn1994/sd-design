@@ -2,8 +2,8 @@
 node = "26.13.1"
 python = "3.14"
 
-[tools.pnpm]
-version = "12.6.0"
-backend = "npm"
+# pnpm 12 的 postinstall 通过 npm 重新生成 Windows 启动器，使其直接调用 .exe。
+"npm:pnpm" = { version = "12.21.0", npm_args = "--ignore-scripts=false --allow-scripts=pnpm" }
 
-
+[settings]
+npm.package_manager = "npm"

@@ -15,7 +15,7 @@ description: 使用 SD 主题显示 Markdown、流式内容与自定义节点。
 
 从公共入口命名导入 `MarkdownRender`，使用 TSX 传入 `content`、`nodes`、流式配置与回调，并通过 ref 调用实例方法。
 
-样式引入 `@sdata/web-react/styles/markdown-render.scss`（或全量 `styles/index.scss`），项目需要配置 Sass。React 的上游引擎是 `markstream-react@2.0.18`。
+样式引入 `@sdata/web-react/styles/markdown-render.scss`（或全量 `styles/index.scss`），项目需要配置 Sass。React 渲染节点来自 `markstream-react`。
 
 </Framework>
 
@@ -28,6 +28,12 @@ description: 使用 SD 主题显示 Markdown、流式内容与自定义节点。
 ### 追加流式内容
 
 以《临江仙·滚滚长江东逝水》为内容，分六次追加诗词、引用、列表、表格、代码与脚注。加粗标记和代码围栏跨批次闭合，仅最后一批将 `final` 设为 true；重置后可重新观察完整过程。
+
+<Framework only="vue">
+
+设置 `final=true` 后，渲染器会结束正在播放的淡入动画，最后一批文本直接显示。
+
+</Framework>
 
 <Demo id="markdown-render/streaming" />
 
@@ -127,13 +133,13 @@ import 'katex/dist/katex.min.css';
 
 <Framework only="vue">
 
-组件属性沿用锁定版本 `markstream-vue@2.0.18` 的 `NodeRendererProps`，导出为 `MarkdownRenderProps`。
+组件属性沿用 `markstream-vue` 的 `NodeRendererProps`，导出为 `MarkdownRenderProps`。
 
 </Framework>
 
 <Framework only="react">
 
-组件属性基于 `markstream-react@2.0.18` 的 `NodeRendererProps` 并增加 SD 的虚拟化、流式与事件适配，导出为 `MarkdownRenderProps`。
+组件属性基于 `markstream-react` 的 `NodeRendererProps` 并增加 SD 的虚拟化、流式与事件适配，导出为 `MarkdownRenderProps`。
 
 </Framework>
 
@@ -245,16 +251,10 @@ import 'katex/dist/katex.min.css';
 
 `web-core/markdown/html` 负责策略优先级、HTML 适配条件、空白 token 保留、token 建树和宿主标签判断；节点到 SD 组件的映射留在框架适配器。`web-core/markdown/html-entities` 共享原来的惰性实体工具和双次还原行为，旧深入口继续转发同一函数。
 
-<Framework only="vue">
-
-Core 显式依赖 `stream-markdown-parser@1.2.19`，与当前 `markstream-vue@2.0.18` 使用的解析器版本一致。升级上游时须同时复核解析器版本与函数/可变标签 Set 的共享身份，保持 sanitizer 行为和 HTML 策略一致。
-
-Vue adapter 同时将 markstream-vue 固定为 2.0.18；两项版本成对复核和升级，避免消费项目自动解析到另一组 parser 行为。
-
-</Framework>
+Core、`markstream-vue` 和 `markstream-react` 共用同一份 `stream-markdown-parser`。通过 SD 注册的解析插件也会应用于转发的上游渲染器。升级时同时核对解析器版本、函数引用和可变标签集合。
 
 <Framework only="react">
 
-Core 共享解析、HTML 策略与虚拟化类型；React 渲染节点使用 `markstream-react@2.0.18`。升级时核对锁定版本、实际导出和解析行为。
+React 渲染节点来自 `markstream-react`，HTML 策略与虚拟化类型复用 Core。
 
 </Framework>

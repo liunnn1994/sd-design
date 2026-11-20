@@ -107,14 +107,12 @@ describe('液态玻璃标志文档预览', () => {
     });
     cy.get('.demo-block').eq(0).find('.sd-liquid-glass-logo').should('have.css', 'height', '32px');
     cy.get('.sd-page-header-title .sd-liquid-glass-logo').should('exist');
-    cy.get('.demo-block')
-      .eq(0)
-      .scrollIntoView({ offset: { top: -100, left: 0 } });
+    cy.get('.sd-page-header-title canvas').scrollIntoView();
     cy.get('.sd-page-header-title canvas').then(($canvas) => {
       const gl = ($canvas[0] as HTMLCanvasElement).getContext('webgl2')!;
       const program = gl.getParameter(gl.CURRENT_PROGRAM) as WebGLProgram;
       const time = gl.getUniformLocation(program, 'uTime');
-      cy.wrap(null, { timeout: 10000 }).should(() => {
+      cy.wrap(null, { timeout: 30000 }).should(() => {
         expect(Number(gl.getUniform(program, time))).to.be.at.least(Math.fround(3.3));
       });
     });

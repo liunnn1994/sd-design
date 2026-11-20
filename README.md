@@ -51,7 +51,7 @@ Tour 基于 driver.js 封装，直接沿用原生配置与实例方法，并通�
 
 ## ⚙️ 环境要求
 
-- 使用仓库 `.mise.toml` 固定的 Node.js 26.13.1、pnpm 12.6.0。
+- 使用仓库 `.mise.toml` 固定的 Node.js 26.13.1、pnpm 12.21.0。
 
 ## 💻 常用命令概览
 
@@ -112,7 +112,7 @@ pnpm run check:ci
 
 ### Markdown 渲染
 
-`MarkdownRender`（全量注册名 `SdMarkdownRender`）基于精确锁定的 `markstream-vue@2.0.18`。保留解析、流式、虚拟化和可选图表/数学引擎，默认在组件子树内使用 SD 标题、段落、链接、图片与任务项。公共上游 API 和类型可从 SD 根入口导入；同名 Tooltip 使用 `MarkstreamTooltip`，完整原名入口为 `@sdata/web-vue/markstream`。样式沿用现有全量或按需接入方式，基础 CSS 已包含，不再单独导入 Markstream CSS。详见 [Markdown 文档](packages/sd-vue-docs/src/content/docs/components/markdown-render/index.mdx) 和 [兼容清单](packages/web-vue/components/markdown-render/upstream.ts)。
+`MarkdownRender`（全量注册名 `SdMarkdownRender`）基于精确锁定的 `markstream-vue@2.0.29`。保留解析、流式、虚拟化和可选图表/数学引擎，默认在组件子树内使用 SD 标题、段落、链接、图片与任务项。公共上游 API 和类型可从 SD 根入口导入；同名 Tooltip 使用 `MarkstreamTooltip`，完整原名入口为 `@sdata/web-vue/markstream`。样式沿用现有全量或按需接入方式，基础 CSS 已包含，不再单独导入 Markstream CSS。详见 [Markdown 文档](packages/sd-vue-docs/src/content/docs/components/markdown-render/index.mdx) 和 [兼容清单](packages/web-vue/components/markdown-render/upstream.ts)。
 
 ## Foundation / Adapter 拆分
 
@@ -292,7 +292,7 @@ Tree 节点状态/事件及日期 body 的单元格守卫、范围排序进入 C
 
 SelectDropdown、ModelSelectorTrigger、InputSearch 与 InputLabel 的触底/触发/搜索/标签派生规则分别由 Core select/dropdown、model-selector/trigger、input-search/foundation 与 input-label/foundation 共享。Vue 继续维护节点、注入、refs 和渲染，公开 API 不变。
 
-Markdown 自有图片请求/fallback 与 HTML token/建树/实体规则分别由 Core markdown/image、markdown/html 和 markdown/html-entities 共享；Vue 保留上游 renderer 与生命周期、nextTick、VNode 渲染。Core 使用与当前上游相同的独立 stream-markdown-parser@1.2.19。
+Markdown 自有图片请求/fallback 与 HTML token/建树/实体规则分别由 Core markdown/image、markdown/html 和 markdown/html-entities 共享；Vue 保留上游 renderer 与生命周期、nextTick、VNode 渲染。Core 与 Vue、React 上游共用 stream-markdown-parser@1.2.28 的同一实例。
 
 分页子项的激活、跳页和尺寸选项规则位于 Core pagination/items；TreeSelect 面板的选择/勾选映射与事件路由位于 tree-select/panel。Vue 保留计算缓存、初始化方向、Tree 属性透传和组件模板，原入口与 API 不变。
 
@@ -446,7 +446,7 @@ React Markdown 公共入口的 perfMonitor 提供手动性能样本统计；先 
 
 React Markdown 虚拟滚动配置类型在启用时要求 sessionKey；导入 heightCache 时需同时给出 heightCacheWidth。scrollRoot 可使用 HTMLElement、React ref 或 resolver，ref.current 尚未赋值时按原有规则选择滚动祖先。
 
-第三方依赖边界：markstream-react 2.0.18 与 virtua 0.53.4 使用官方原包，不维护依赖补丁、私有入口或修改版 SDK 副本。1:1 还原仅针对 SD 组件库自己的实现，第三方 React/Vue 的能力与行为差异不纳入要求。React 源码按官方包支持的 Bundler 模块解析检查类型，不改写第三方声明。
+第三方依赖边界：markstream-react 2.0.29 与 virtua 0.54.2 使用官方原包，不维护依赖补丁、私有入口或修改版 SDK 副本。1:1 还原仅针对 SD 组件库自己的实现，第三方 React/Vue 的能力与行为差异不纳入要求。React 源码按官方包支持的 Bundler 模块解析检查类型，不改写第三方声明。
 
 ## 双框架共享文档
 

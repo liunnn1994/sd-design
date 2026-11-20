@@ -28,6 +28,8 @@ export function createFitWidthMeasurer() {
       measurementKey = '';
     },
     measure(text: string, style: CSSStyleDeclaration, options: FitWidthOptions = {}) {
+      // Detached editors have no computed font until they are mounted.
+      if (!style.fontSize || !style.fontFamily) return;
       const font = getFont(style);
       const parsedLetterSpacing = Number.parseFloat(style.letterSpacing);
       const letterSpacing = Number.isFinite(parsedLetterSpacing) ? parsedLetterSpacing : 0;

@@ -456,8 +456,8 @@
   "dependencies": {
     "@sdata/web-core": "workspace:*",
     "css-tree": "3.2.1",
-    "framer-motion": "14.12.0",
-    "markstream-react": "2.0.25",
+    "framer-motion": "14.13.0",
+    "markstream-react": "2.0.29",
     "virtua": "0.54.2"
   },
   "devDependencies": {

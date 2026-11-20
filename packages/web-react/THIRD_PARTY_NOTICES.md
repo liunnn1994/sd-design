@@ -2,7 +2,7 @@
 
 ## Markstream
 
-markstream-react 2.0.18 is used as an unmodified runtime dependency. Its CSS is imported through the official package export; no SDK runtime or declarations are copied into this package.
+markstream-react 2.0.29 is used as an unmodified runtime dependency. Its CSS is imported through the official package export; no SDK runtime or declarations are copied into this package.
 
 The streamed text selection handling and settled DOM append behavior in `src/markdown-render/nodes/text.tsx`, and recursive custom node children and inherited renderer options in `src/markdown-render/custom-children.tsx`, are adapted from markstream-vue 2.0.18.
 

@@ -81,7 +81,6 @@ import { TextControlsFixture } from './text-controls-fixture';
 import { TextareaFixture } from './textarea-fixture';
 import { ThinkingOrbFixture } from './thinking-orb-fixture';
 import { TimelineFixture } from './timeline-fixture';
-import { TourFixture } from './tour-fixture';
 import { TransferFixture } from './transfer-fixture';
 import { TriggerFixture } from './trigger-fixture';
 import { TypographyFixture } from './typography-fixture';
@@ -128,7 +127,6 @@ function App() {
       <InputTagFixture />
       <ImageFixture />
       <TransferFixture />
-      <TourFixture />
       <IconFixture />
       <PanelGroupFixture />
       <KvListFixture />

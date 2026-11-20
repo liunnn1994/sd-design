@@ -39,7 +39,7 @@ Tour 使用 driver.js，通过 `v-bind="config"` 传入原生配置，挂载后�
 
 在开始之前，请确保你的本地环境满足以下要求：
 
-- 使用仓库 `.mise.toml` 固定的 Node.js 26.13.1 与 pnpm 12.6.0；下列 pnpm 命令可通过 `mise exec -- pnpm ...` 执行。
+- 使用仓库 `.mise.toml` 固定的 Node.js 26.13.1 与 pnpm 12.21.0；下列 pnpm 命令可通过 `mise exec -- pnpm ...` 执行。
 
 ## 快速启动
 
@@ -545,7 +545,7 @@ Vue 的 buildKaTeXCDNWorkerSource / createKaTeXWorkerFromCDN 与 buildMermaidCDN
 
 启用虚拟滚动的类型示例：virtualScroll={{enabled:true, sessionKey:'conversation-1'}}。如果复用高度缓存，同时传 heightCache 和测量时的 heightCacheWidth；尚未挂载的 scrollRoot ref 可以保留 undefined。
 
-第三方依赖边界：markstream-react 2.0.18 与 virtua 0.53.4 使用官方原包，不维护依赖补丁、私有入口或修改版 SDK 副本。1:1 还原仅针对 SD 组件库自己的实现，第三方 React/Vue 的能力与行为差异不纳入要求。React 源码按官方包支持的 Bundler 模块解析检查类型，不改写第三方声明。
+第三方依赖边界：markstream-react 2.0.29 与 virtua 0.54.2 使用官方原包，不维护依赖补丁、私有入口或修改版 SDK 副本。1:1 还原仅针对 SD 组件库自己的实现，第三方 React/Vue 的能力与行为差异不纳入要求。React 源码按官方包支持的 Bundler 模块解析检查类型，不改写第三方声明。
 
 ## 双框架共享文档
 

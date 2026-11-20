@@ -96,7 +96,7 @@ SkeletonReveal 的 `web-core/src/skeleton-reveal` 负责有界轮廓测量、几
 - `components/clamp`：四个裁剪原语的本地 Vue 适配器，不增加包装 DOM，保留既有 API；`Ellipsis` 和响应式标签/菜单等既有组件复用这些原语，无框架测量算法归 core 管理。
 - `components/trigger`：锚点型悬浮层统一通过 `@floating-ui/vue` 定位；各公开组件的 `floatingOptions` 类型直接继承上游 `UseFloatingOptions`，运行时不维护参数白名单。
 - `components/tour`：driver.js 的无渲染 Vue 封装，props 与原生 `Config` 一致，ref 暴露完整 `Driver` API；高亮、定位和导航由上游实现，原生 DOM 使用组件库 token 适配样式，浮层内容通过 Vue 作用域插槽组合。
-- `components/markdown-render`：以精确锁定的 `markstream-vue@2.0.18` 为渲染内核的二次封装，承担流式解析、虚拟化调度和重节点渲染。节点映射与样式分层约定见「Markdown 渲染分层」。
+- `components/markdown-render`：以精确锁定的 `markstream-vue@2.0.29` 为渲染内核的二次封装，承担流式解析、虚拟化调度和重节点渲染。节点映射与样式分层约定见「Markdown 渲染分层」。
 - `vite.config.ts`：定义模块构建、UMD 构建、样式构建和测试支持配置。
 - `scripts/build-dts.ts`：负责类型声明构建和复制。
 - `json/`：承载 web-types、vetur 等 IDE 元数据。
@@ -480,9 +480,9 @@ Tree Node Foundation 保留可选数组/回调的参数短路、原上下文 rec
 
 SelectDropdown 的精确触底计算与事件顺序、ModelSelectorTrigger 的禁用取消/受控可见性请求、InputSearch 的 native input 守卫及 InputLabel 标签/显示派生位于 Core。Vue 提供实际输入节点、同一上下文/props 对象与响应式 getter，保留回调 receiver 和每次读取语义；Scrollbar/插槽/属性转发与样式投影仍属于 Adapter/View。
 
-Markdown 自有 image/HTML 节点规则接入 Core：图片的 pending 身份、fallback 与异步结算，HTML 的策略优先级/token/建树/宿主判断及惰性实体缓存均不依赖 Vue。stream-markdown-parser@1.2.19 是 Core 的显式独立解析依赖，当前与 markstream-vue@2.0.18 的函数及可变 Set 共享同一实例；升级需同步验证。Vue 管理 Ref/computed、调度/生命周期注入、节点高度端口、上游 renderer 与 h() 映射。
+Markdown 自有 image/HTML 节点规则接入 Core：图片的 pending 身份、fallback 与异步结算，HTML 的策略优先级/token/建树/宿主判断及惰性实体缓存均不依赖 Vue。stream-markdown-parser@1.2.28 是 Core 的显式独立解析依赖，当前与 markstream-vue@2.0.29、markstream-react@2.0.29 共享解析函数和可变标签集合；升级需同步验证。Vue 管理 Ref/computed、调度/生命周期注入、节点高度端口、上游 renderer 与 h() 映射。
 
-Vue adapter 将 markstream-vue 固定为 2.0.18，与 Core 的 stream-markdown-parser@1.2.19 成对升级，防止消费者的 renderer 版本自动漂移导致解析函数/可变标签集合不一致。
+Vue 和 React 适配层均精确锁定 Markstream 版本，升级时与 Core 的解析器一起核对。这样通过 SD 注册的解析插件也会应用于转发的上游渲染器。
 
 Typography 的 Vue 复用模板显式接收非省略模式的 slot VNode 数据；声明私有 content 参数以触发更新并消费该参数，保持宿主 DOM 属性与带 key 子节点身份。该接线修复数据闭包替换时显示停留旧内容的问题，不改变 Core 规则或公开组件 API。
 
@@ -654,7 +654,7 @@ Core markdown/code-height 复用锁定 Vue 的流式和 pre 几何、diff 行计
 
 Core markdown/pre-code 管理 pre 主题、样式、标题和复制边界，复用 code-height 的规范化视觉选项；共享 pre 样式位于 Core SCSS。React nodes/pre-code 连接代码上下文、复制反馈计时器、浮层与键盘可访问性，在 pre 模式补齐默认代码和图表语言映射，保留调用方的组件覆盖。普通代码输出逻辑行结构；diff 由 nodes/pre-diff 渲染，SD 自有节点的生产回归已通过；上游异步渲染能力以官方 React SDK 为准。
 
-Core markdown/pre-diff 声明并复用已安装的 markstream-core@2.0.18 的 diff 预览与增量匹配缓存，提供行号宽度、折叠元数据、DOM 行高测量和可取消的观察驱动。React 渲染两栏/单栏与折叠行，尺寸和代码字体配置变化时重新测量；Vue 适配层在显式 pre 配置变化后通过同一 Core 驱动补测，修复高度达到上限时字号变化无法触发原生 ResizeObserver 的问题。两端保持调用方代码组件的 props 和分派语义。
+Core markdown/pre-diff 声明并复用已安装的 markstream-core@2.0.29 的 diff 预览与增量匹配缓存，提供行号宽度、折叠元数据、DOM 行高测量和可取消的观察驱动。React 渲染两栏/单栏与折叠行，尺寸和代码字体配置变化时重新测量；Vue 适配层在显式 pre 配置变化后通过同一 Core 驱动补测，修复高度达到上限时字号变化无法触发原生 ResizeObserver 的问题。两端保持调用方代码组件的 props 和分派语义。
 
 Core markdown/katex-threshold 与 markdown/safe-raf 承担上游四个纯估算函数和两个无框架帧调度工具；保留原生阈值边界、异常回退及 Node 定时器句柄语义。Vue upstream 根清单与 compat/utils 旧路径、React upstream 公共转发模块直接转发这些实现；第三方加载器、工作线程与注册表遵循官方 React 版本，其框架间差异不计入 SD 自有组件的 1:1 验收。
 
@@ -666,7 +666,7 @@ Markdown 手动性能监控统计位于 Core markdown/performance-monitor，保�
 
 React Markdown virtualScroll 类型承接上游的配置约束：enabled 为 true 或动态 boolean 时要求 sessionKey；非空 heightCache 与 heightCacheWidth 成对提供。共享基础选项和缓存选项分开组合，scrollRoot 保留 HTMLElement / 兼容 $el 对象 / resolver，并将 Vue Ref 改为 React RefObject.current（允许 undefined）；渲染器将尚未赋值的 current 归一为 null，继续走原 Core 的祖先/文档滚动根回退。不添加新的运行时异常或配置默认值。
 
-第三方依赖边界：markstream-react 2.0.18 与 virtua 0.53.4 使用官方原包，不维护依赖补丁、私有入口或修改版 SDK 副本。1:1 还原仅针对 SD 组件库自己的实现，第三方 React/Vue 的能力与行为差异不纳入要求。React 源码按官方包支持的 Bundler 模块解析检查类型，不改写第三方声明。
+第三方依赖边界：markstream-react 2.0.29 与 virtua 0.54.2 使用官方原包，不维护依赖补丁、私有入口或修改版 SDK 副本。1:1 还原仅针对 SD 组件库自己的实现，第三方 React/Vue 的能力与行为差异不纳入要求。React 源码按官方包支持的 Bundler 模块解析检查类型，不改写第三方声明。
 
 ## 双框架共享文档
 
