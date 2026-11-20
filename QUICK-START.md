@@ -153,7 +153,7 @@ Node 24 可直接运行 `node scripts/upgradeEngines.ts` 这类脚本。原生�
 
 ## 测试与验证
 
-发布 CI 自动选择受影响的 Vue/Core 组件及其传递依赖者。可在根目录用 `pnpm --filter @sdata/web-vue run test:affected -- --base <基线提交> --head HEAD` 查看结果；`--all` 显式选择全量。仅文档依赖、开发命令或发布版本号变化不会强制全量。
+PR 和主分支推送的浏览器 CI 自动选择受影响的测试。可在根目录用 `pnpm --filter @sdata/web-vue run test:affected -- --base <基线提交> --head HEAD` 查看 Vue 组件选择结果，也可用 `--all` 查看全量。Core、Vue、React 发布前都要求同一提交的全量浏览器和非浏览器测试通过。
 
 正式发布会先检查三个包的 npm OIDC 认证。每个包的可信发布必须绑定 `liunnn1994/sd-design`、`release.yml`，不设置 environment（当前 job 未使用 environment）；本地登录后可用 `npm trust list @sdata/web-react` 核对。新连接必须在两天内完成首次 OIDC 发布，过期后需要重建。如果发布失败时已经创建 Git tag，重跑 semantic-release 不会补发该版本；应从该 tag 补发缺失版本，或显式发布后续修复版本，不能将 tag 存在视为 npm 发布成功。
 
@@ -211,7 +211,7 @@ pnpm --filter @sdata/web-vue run test:model-selector:production
 
 消费者安装和使用 `@sdata/web-vue` 或 `@sdata/web-react`；打包时 `workspace:^` / `workspace:*` 分别转换为对应 Core 的版本范围 / 精确版本。Core、Vue、React 无需保持相同版本。
 
-`release.yml` 监听三个包，从仓库根目录依次加载各自的 semantic-release 配置，串行判断 Core→Vue→React。各包使用独立 tag、清单版本和 CHANGELOG；仅修改共享 catalog 或锁文件时，按引用及锁定依赖识别受影响包；Core 的发布级别向两个适配包传播，Vue/React 的修改不会反向影响 Core 或另一个适配包。首次迁移将已发布的 Core/Vue 联合 tag 映射为同一提交上的 Core tag；React 没有正式 tag 时从 `1.0.0` 开始。Actions 手动运行默认开启 `dry_run`，只预览版本和发布说明。维护发布脚本后运行 `mise exec -- node --test packages/web-vue/scripts/release-packages.test.ts`；测试在临时仓库运行真实 semantic-release dry-run（跳过 GitHub 鉴权）以及本地准备、提交和 tag 流程，不发布 npm 包，也不推送到项目远端。
+`release.yml` 由 `main` 的每次推送触发，从仓库根目录依次加载各自的 semantic-release 配置，串行判断 Core→Vue→React。各包使用独立 tag、清单版本和 CHANGELOG；仅修改共享 catalog 或锁文件时，按引用及锁定依赖识别受影响包；Core 的发布级别向两个适配包传播，Vue/React 的修改不会反向影响 Core 或另一个适配包。首次迁移将已发布的 Core/Vue 联合 tag 映射为同一提交上的 Core tag；React 没有正式 tag 时从 `1.0.0` 开始。Actions 手动运行默认开启 `dry_run`，只预览版本和发布说明。维护发布脚本后运行 `mise exec -- node --test packages/web-vue/scripts/release-packages.test.ts`；测试在临时仓库运行真实 semantic-release dry-run（跳过 GitHub 鉴权）以及本地准备、提交和 tag 流程，不发布 npm 包，也不推送到项目远端。
 
 共享样式可通过 `@sdata/web-core/styles/index.scss` 或具体组件子路径使用；Vue 消费者继续使用原 CSS/SCSS 入口。直接维护共享样式时可运行 `mise exec -- pnpm --filter @sdata/web-core run theme:generate`；Vue 的常规主题生成还会同步旧的目录 JSON。`mise exec -- pnpm run test:foundations` 覆盖核心行为、独立 Sass 编译、Vue 样式兼容和在线编辑器类型参考。
 

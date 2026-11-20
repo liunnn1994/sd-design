@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 import { ColorGradientThumb } from '../../src/color-picker/gradient-thumb.js';
 import { useColorPanel } from '../../src/color-picker/use-panel.js';
@@ -24,6 +24,22 @@ export function ColorPickerGradientFixture() {
       setChanges((count) => count + 1);
     },
   });
+  const layoutPass = useRef(0);
+  useLayoutEffect(() => {
+    if (!new URLSearchParams(location.search).has('early')) return;
+    shell.current!.dataset.gradientLayoutPass = String(++layoutPass.current);
+    if (layoutPass.current !== 1) return;
+    shell.current!.querySelector('.sd-color-picker-gradient-thumb')!.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        bubbles: true,
+        cancelable: true,
+        pointerId: 1,
+        pointerType: 'mouse',
+        button: 0,
+        buttons: 1,
+      }),
+    );
+  }, [shell]);
   return (
     <div className="sd-color-picker-panel">
       <button onClick={() => setDisabled(!disabled)}>Disabled</button>

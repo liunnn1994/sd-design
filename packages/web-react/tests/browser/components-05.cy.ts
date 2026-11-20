@@ -485,7 +485,7 @@ describe('React Switch', () => {
         return media;
       });
     });
-    cy.contains('button', 'Mount BackTop').click();
+    cy.contains('button', /^Mount BackTop$/).click({ scrollBehavior: 'center' });
     cy.get('#back-top-first').scrollTo(0, 300);
     cy.get('[data-testid="back-top"] button')
       .should('be.visible')

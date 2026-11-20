@@ -259,6 +259,8 @@ flowchart TD
 
 根目录的 `check`、`check:ci` 和 `release:check` 把格式化检查、lint、测试和全量构建串成统一质量门。
 
+`release.yml` 在同一个提交上调用全量 `browser-tests.yml` 和 `non-browser-tests.yml`。两个流程都通过后，发布 job 才执行 Foundation 校验、类型检查、构建和 semantic-release。发布时校验 `main` 的远端提交，分支推进后由新提交的流程重新验证。
+
 这套设计的意图很明确：所有最终要进主干或发版的改动，都应该经过根目录级别的统一校验，而不是只在单包里做局部验证。
 
 ## 上手建议
@@ -498,7 +500,7 @@ UploadPictureItem 的 Vue 复用模板显式接收 ReuseAction 插槽，恢复�
 
 Tooltip/Popover 使用 trigger/compat-state 的 createPopupWrapperFoundation：受控 popupVisible 优先，否则读取本地快照；每次请求无条件写入本地值，再按顺序调用 onUpdate/onChange。事件名只在 Vue 中映射，Core 接收普通布尔回调。它不复用带别名事件、去重和受控同步的 createCompatTriggerFoundation，确保默认值仅初始化一次、外部受控变化不覆盖最后请求。
 
-Core、Vue、React 使用独立版本协议：`release.yml` 监听三个包，从仓库根目录按 Core→Vue→React 顺序运行各自的 semantic-release 配置。共享发布配置位于 `packages/web-vue/scripts/release-config.ts`，插件沿用现有 Vue 包的开发依赖，不增加运行时依赖。各包使用 `web-core-v${version}`、`web-vue-v${version}`、`web-react-v${version}` tag，单独更新自身清单和 CHANGELOG。提交分析与发布说明都按文件路径及共享依赖变更影响过滤；默认/命名 catalog 按包清单解析，锁文件按包的 importer 与可达依赖快照比较，docs 专属依赖变更不触发这些包发版；两个适配包同时接收 Core 变更，并保守继承其 major/minor/patch 级别，适配包修改不反向传播。MCP 按构建输入过滤提交，resolver 保持独立路径过滤。
+Core、Vue、React 使用独立版本协议：`release.yml` 由 `main` 的每次推送触发，从仓库根目录按 Core→Vue→React 顺序运行各自的 semantic-release 配置。共享发布配置位于 `packages/web-vue/scripts/release-config.ts`，插件沿用现有 Vue 包的开发依赖，不增加运行时依赖。各包使用 `web-core-v${version}`、`web-vue-v${version}`、`web-react-v${version}` tag，单独更新自身清单和 CHANGELOG。提交分析与发布说明都按文件路径及共享依赖变更影响过滤；默认/命名 catalog 按包清单解析，锁文件按包的 importer 与可达依赖快照比较，docs 专属依赖变更不触发这些包发版；两个适配包同时接收 Core 变更，并保守继承其 major/minor/patch 级别，适配包修改不反向传播。MCP 按构建输入过滤提交，resolver 保持独立路径过滤。
 
 正式运行在安装依赖前由 `verify-npm-publishing.ts` 请求 GitHub OIDC 身份，并逐包调用 npm 官方 token exchange；认证不通过时在构建、提交和打 tag 之前失败。手动 dry-run 跳过该检查；凭据仅保存在内存中，不写入文件或日志。新连接需在两天内完成首次 OIDC 发布，否则必须重建。由于 semantic-release 在 npm 发布前创建 tag，已有 tag 但 npm 缺失的版本需要从对应 tag 补发，或显式发布后续修复版本，不能依赖直接重跑恢复。
 

@@ -137,7 +137,13 @@ describe('React ColorPicker gradient pointer adapter', () => {
       clientX: x,
       clientY: 50,
     });
-  it('preserves the dragged DOM node across stops and clamps both boundaries', () => {
+  it('preserves an early drag across StrictMode replay, stop reordering and both boundaries', () => {
+    cy.visit('/color-picker-controls.html?gradient&early');
+    cy.get('.sd-color-picker-gradient-bar-shell').should(
+      'have.attr',
+      'data-gradient-layout-pass',
+      '2',
+    );
     cy.get('.sd-color-picker-gradient-thumb')
       .first()
       .then(($thumb) => {
@@ -146,7 +152,6 @@ describe('React ColorPicker gradient pointer adapter', () => {
         const rect = thumb
           .parentElement!.querySelector('.sd-color-picker-gradient-bar')!
           .getBoundingClientRect();
-        thumb.dispatchEvent(pointer(win, 'pointerdown', rect.left));
         win.dispatchEvent(pointer(win, 'pointermove', rect.left + rect.width * 0.8));
         cy.get('.sd-color-picker-gradient-thumb')
           .eq(1)

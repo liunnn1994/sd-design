@@ -7,6 +7,11 @@ on:
     branches: [main]
   schedule:
     - cron: '0 18 * * *'
+  workflow_call:
+    inputs:
+      full_suite:
+        type: boolean
+        required: true
   workflow_dispatch:
     inputs:
       real_webllm:
@@ -42,13 +47,14 @@ jobs:
         shell: bash
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          FULL_SUITE: ${{ inputs.full_suite }}
         run: |
           vue=false
           react=false
           docs=false
           # Push and PR checkouts are compared to their previous tip or PR base.
-          # Scheduled/manual runs and unavailable bases use full coverage.
-          if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+          # Releases, scheduled/manual runs and unavailable bases use full coverage.
+          if [ "$FULL_SUITE" = true ] || [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
             BASE=
             vue=true
             react=true

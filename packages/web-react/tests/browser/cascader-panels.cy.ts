@@ -26,6 +26,11 @@ describe('React Cascader columns and search panel', () => {
     cy.contains('button', 'Item 2').should('exist');
   });
   it('virtualizes large columns, scrolls to the last leaf and replaces the item set', () => {
+    cy.on('uncaught:exception', (error) => {
+      // The same native delivery warning is reproducible with Virtua alone.
+      if (error.message === 'ResizeObserver loop completed with undelivered notifications.')
+        return false;
+    });
     cy.visit('/cascader-panels.html?virtual');
     cy.contains('button', /^Root$/).click();
     cy.get('.sd-cascader-panel-column')

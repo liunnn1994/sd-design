@@ -68,6 +68,7 @@ describe('液态玻璃标志文档预览', () => {
     cy.get('.type-reference-token').first().scrollIntoView().trigger('mouseenter');
     cy.get('.type-reference-token__popup pre.shiki').should('have.class', 'github-light');
     cy.get('starlight-theme-select select:visible').select('dark');
+    cy.get('.type-reference-token').first().scrollIntoView().trigger('mouseenter');
     cy.get('.type-reference-token__popup pre.shiki').should('have.class', 'github-dark');
   });
   it('DemoBlock 首次进入可见、播放控制与主题配色可用', () => {

@@ -4,15 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - .github/workflows/release.yml
-      - .npmrc
-      - package.json
-      - pnpm-lock.yaml
-      - pnpm-workspace.yaml
-      - packages/web-core/**
-      - packages/web-vue/**
-      - packages/web-react/**
   workflow_dispatch:
     inputs:
       dry_run:
@@ -30,24 +21,20 @@ concurrency:
   # 独立 concurrency 组：不与其它 release workflow 共享。共享组会在一次 push 同时触发
   # 多个 release workflow 时无差别取消其中一个 pending run（曾导致 mcp / resolver 漏发版）。
   # 三个包在同一流程内按依赖顺序独立判断版本，避免跨 workflow 的依赖发布竞争。
-  group: release-web-vue-${{ github.ref }}
+  # 手动预览使用独立队列，避免替换等待中的正式发布。
+  group: release-web-vue-${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'dry-run-' || '' }}${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  select:
-    name: Select release browser tests
+  preflight:
+    name: Verify npm trusted publishing
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)
     permissions:
       contents: read
       id-token: write
     runs-on: ubuntu-latest
-    outputs:
-      ref: ${{ steps.specs.outputs.ref }}
-      vue: ${{ steps.specs.outputs.vue }}
     steps:
       - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - run: git pull --rebase origin main
       - uses: jdx/mise-action@v5
         with:
           install_args: 'node npm:pnpm'
@@ -55,32 +42,19 @@ jobs:
       - name: Verify npm trusted publishing before validation and tagging
         if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
         run: node packages/web-vue/scripts/verify-npm-publishing.ts
-      - name: Select affected component shards
-        id: specs
-        env:
-          BASE: ${{ github.event.before }}
-          VUE: 'true'
-          CYPRESS_INSTALL_BINARY: '0'
-        run: |
-          if [ -n "$BASE" ] && git cat-file -e "$BASE^{commit}" 2>/dev/null; then
-            pnpm run install:ci
-          else
-            export BASE=
-          fi
-          echo "ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          node scripts/select-browser-specs.ts
 
-  vue:
-    needs: select
-    if: needs.select.outputs.vue != '[]'
-    uses: ./.github/workflows/vue-browser-shards.yml
+  browser:
+    needs: preflight
+    uses: ./.github/workflows/browser-tests.yml
     with:
-      ref: ${{ needs.select.outputs.ref }}
-      shards: ${{ needs.select.outputs.vue }}
+      full_suite: true
+
+  non-browser:
+    needs: preflight
+    uses: ./.github/workflows/non-browser-tests.yml
 
   release:
-    needs: [select, vue]
-    if: ${{ !cancelled() && needs.select.result == 'success' && (needs.vue.result == 'success' || (needs.vue.result == 'skipped' && needs.select.outputs.vue == '[]')) }}
+    needs: [browser, non-browser]
     runs-on: ubuntu-latest
 
     steps:
@@ -88,7 +62,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          ref: ${{ needs.select.outputs.ref }}
+          ref: ${{ github.sha }}
 
       - name: Attach the validated commit to the release branch
         run: git switch -c "$GITHUB_REF_NAME"
@@ -124,9 +98,6 @@ jobs:
       - name: Validate independent package releases
         run: node --test packages/web-vue/scripts/release-packages.test.ts packages/web-vue/scripts/verify-npm-publishing.test.ts
 
-      - name: Test React adapters
-        run: pnpm --filter @sdata/web-react test
-
       - name: Build release package
         env:
           NODE_OPTIONS: '--max-old-space-size=6144'
@@ -135,6 +106,7 @@ jobs:
           pnpm --filter @sdata/web-react run build
 
       - name: Release changed packages in dependency order
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
@@ -142,11 +114,25 @@ jobs:
           # （该钩子会跑全量 typecheck，CI 发布时可能因缺少某些构建产物而中断发布）
           SKIP_SIMPLE_GIT_HOOKS: '1'
         run: |
+          check_main_tip() {
+            if [[ "$GITHUB_REF" != refs/heads/main ]]; then return; fi
+            local head remote
+            head=$(git rev-parse HEAD)
+            remote=$(git ls-remote --exit-code origin refs/heads/main)
+            remote=${remote%%$'\t'*}
+            if [[ "$head" != "$remote" ]]; then
+              printf '::error::Release checkout %s is stale. Main is at %s. The latest main needs its own successful release checks.\n' "$head" "$remote"
+              return 1
+            fi
+          }
+
+          check_main_tip
           node packages/web-vue/scripts/bootstrap-core-release.ts
           args=()
           if [ "$RELEASE_DRY_RUN" = "true" ]; then args+=(--dry-run); fi
           for package in web-core web-vue web-react; do
             node packages/web-vue/node_modules/semantic-release/bin/semantic-release.js --extends ./packages/$package/release.config.ts "${args[@]}"
+            check_main_tip
           done
 
       - name: Show error

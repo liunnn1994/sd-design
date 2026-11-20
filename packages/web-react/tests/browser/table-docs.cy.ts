@@ -28,12 +28,16 @@ describe('React Table documentation', () => {
         });
       const demo = '[data-example="table/virtual-drag"]';
       const row = (index: number) => `${demo} [data-table-drag-path="[${index}]"]`;
-      cy.get(demo).scrollIntoView();
+      cy.get(demo).scrollIntoView({ offset: { top: -160, left: 0 } });
       cy.get(`${row(0)} .sd-table-drag-handle svg`).should('be.visible');
       startDrag(`${row(0)} .sd-table-drag-handle`);
+      moveDrag(row(2), 0.15, false);
+      cy.get(row(2))
+        .should('have.class', 'sd-table-tr-drop-target')
+        .and('not.have.attr', 'data-table-drop-after');
       moveDrag(row(2), 0.15);
       for (const [index, record] of [2, 1, 3].entries()) {
-        cy.get(row(index)).should('contain.text', `记录 ${record}`);
+        cy.contains(`${row(index)} .sd-table-td-content`, new RegExp(`^记录 ${record}$`));
       }
       cy.get('@consoleWarn').should(
         'not.have.been.calledWithMatch',

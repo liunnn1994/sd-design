@@ -10,17 +10,39 @@ const env = {
   ACTIONS_ID_TOKEN_REQUEST_TOKEN: 'actions-secret',
 };
 
-test('workflow authenticates before installation and skips authentication only for dry runs', async () => {
+test('workflow requires authentication and both test suites before publishing', async () => {
   const workflow = parseYAML<{
-    jobs: { select: { steps: { id?: string; if?: string; run?: string }[] } };
+    on: { push: { branches: string[] } };
+    concurrency: { 'group': string; 'cancel-in-progress': boolean };
+    jobs: Record<
+      string,
+      {
+        needs?: string | string[];
+        uses?: string;
+        with?: Record<string, unknown>;
+        if?: string;
+        steps?: { if?: string; run?: string }[];
+      }
+    >;
   }>(await readFile(new URL('../../../.github/workflows/release.yml', import.meta.url), 'utf8'));
-  const steps = workflow.jobs.select.steps;
-  const preflight = steps.findIndex(
+  assert.deepEqual(workflow.on.push, { branches: ['main'] });
+  assert.deepEqual(workflow.concurrency, {
+    'group':
+      "release-web-vue-${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'dry-run-' || '' }}${{ github.ref }}",
+    'cancel-in-progress': false,
+  });
+  const { preflight, browser, 'non-browser': nonBrowser, release } = workflow.jobs;
+  const verify = preflight.steps?.find(
     (step) => step.run === 'node packages/web-vue/scripts/verify-npm-publishing.ts',
   );
-  assert.ok(preflight >= 0);
-  assert.ok(preflight < steps.findIndex((step) => step.id === 'specs'));
-  assert.equal(steps[preflight].if, "github.event_name != 'workflow_dispatch' || !inputs.dry_run");
+  assert.equal(verify?.if, "github.event_name != 'workflow_dispatch' || !inputs.dry_run");
+  assert.equal(browser.needs, 'preflight');
+  assert.equal(browser.uses, './.github/workflows/browser-tests.yml');
+  assert.equal(browser.with?.full_suite, true);
+  assert.equal(nonBrowser.needs, 'preflight');
+  assert.equal(nonBrowser.uses, './.github/workflows/non-browser-tests.yml');
+  assert.deepEqual(release.needs, ['browser', 'non-browser']);
+  assert.equal(release.if, undefined);
 });
 
 test('checks each package with the real OIDC exchange protocol before publishing', async (t) => {
