@@ -1,5 +1,6 @@
 @use 'sass:string';
 @use './token.scss' as *;
+@use '../../style/theme/runtime.scss' as theme-runtime;
 @use '../../style/theme/index.scss' as theme;
 
 $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
@@ -167,7 +168,11 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
 
   &-header {
     overflow: hidden;
-    border-bottom: $sender-border-width solid $sender-color-border-input;
+    border-bottom: $sender-border-width solid
+      theme-runtime.token('sender', 'sender-color-border-input', theme.$color-border-2);
+    @supports (color: color-mix(in srgb, black, white)) {
+      border-bottom: $sender-border-width solid $sender-color-border-input;
+    }
 
     &-header {
       display: flex;
@@ -330,7 +335,15 @@ $sender-prefix-cls: string.unquote('#{theme.$prefix}-sender');
 
     .#{$sender-prefix-cls}-switch-content:not(:disabled):hover {
       color: $sender-color-text;
-      background: $sender-switch-unchecked-hover-bg;
+      background: theme-runtime.token(
+        'sender',
+        'sender-switch-unchecked-hover-bg',
+        theme.$color-fill-1
+      );
+      @supports (color: color-mix(in srgb, black, white)) {
+        background: $sender-switch-unchecked-hover-bg;
+      }
+
       border-color: $sender-color-border;
     }
 

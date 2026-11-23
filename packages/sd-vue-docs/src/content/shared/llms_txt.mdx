@@ -57,7 +57,10 @@ import { LinkButton } from '@astrojs/starlight/components';
 		padding: 1.25rem 1.25rem 0.25rem;
 		border-left: 4px solid var(--sl-color-accent);
 		border-radius: 0 1rem 1rem 0;
-		background: color-mix(in srgb, var(--sl-color-accent-low) 42%, white);
+		background: var(--sl-color-accent-low);
+		@supports (color: color-mix(in srgb, black, white)) {
+			background: color-mix(in srgb, var(--sl-color-accent-low) 42%, white);
+		}
 	}
 
 	:root[data-theme='dark'] .llms-intro {
@@ -72,7 +75,10 @@ import { LinkButton } from '@astrojs/starlight/components';
 	}
 
 	:root[data-theme='dark'] .llms-best-practices {
-		background: color-mix(in srgb, var(--sl-color-accent-low) 34%, transparent);
+		background: var(--sl-color-accent-low);
+		@supports (color: color-mix(in srgb, black, white)) {
+			background: color-mix(in srgb, var(--sl-color-accent-low) 34%, transparent);
+		}
 	}
 `}</style>
 

@@ -1,6 +1,7 @@
 @use '../../style/theme/index.scss' as theme;
 @use 'sass:string';
 @use './token.scss' as *;
+@use '../../style/theme/runtime.scss' as theme-runtime;
 
 $qr-code-prefix-cls: string.unquote('#{theme.$prefix}-qr-code');
 
@@ -65,7 +66,10 @@ $qr-code-prefix-cls: string.unquote('#{theme.$prefix}-qr-code');
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: $qr-code-color-mask-bg;
+    background: theme-runtime.token('qr-code', 'qr-code-color-mask-bg', $qr-code-color-bg);
+    @supports (color: color-mix(in srgb, black, white)) {
+      background: $qr-code-color-mask-bg;
+    }
   }
 
   &-status {

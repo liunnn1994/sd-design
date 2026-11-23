@@ -16,6 +16,13 @@ const href = (path: string) => frameworkHref(path, framework, import.meta.env.BA
   <HomeSection id="theme" title="同一套组件，你的风格。" description="切换预设，查看控件与页面如何一起变化。" href={href('/guides/theme-editor/')} linkLabel="打开主题编辑器"><HomeThemePreview framework={framework} client:visible /></HomeSection>
   <footer class="home-landing__footer"><span>SD Design · 为 AI 而生</span><a href={href('/guides/start/')}>把想法变成界面 →</a></footer>
 </div>
+<script>
+  if (!CSS.supports('selector(:has(*))')) {
+    const landing = document.querySelector('.home-landing');
+    landing?.closest('.sl-container')?.classList.add('home-landing__container');
+    landing?.closest('.main-pane')?.querySelector('#_top')?.closest('.content-panel')?.setAttribute('hidden', '');
+  }
+</script>
 <style lang="scss">
   .home-landing { max-width: 1120px; margin-inline: auto; padding-bottom: 32px; }
   :global(.main-pane) .home-landing.not-content { margin-block: 0; margin-inline: auto; }

@@ -4,6 +4,22 @@
 $calendar-prefix-cls: string.unquote('#{global.$prefix}-calendar');
 $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
 
+// A var() inside color-mix() can invalidate the property after the cascade.
+@mixin translucent-color($property, $name, $alpha, $leading: null) {
+  $channels: var(#{$calendar-css-prefix}-#{$name}-rgb);
+
+  @if $name == primary {
+    $channels: var(#{global.$sd-cssvars-prefix}-primary-6);
+  }
+
+  #{$property}: $leading rgb($channels / $alpha);
+
+  @supports (color: color-mix(in srgb, black, white)) {
+    #{$property}: $leading
+      color-mix(in srgb, var(#{$calendar-css-prefix}-#{$name}-color) $alpha, transparent);
+  }
+}
+
 .#{$calendar-prefix-cls}--default-theme,
 [class$='-calendar--default-theme'] {
   position: relative;
@@ -78,36 +94,20 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     transition: 0.3s;
 
     &:hover {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-contrast-color) 12%,
-        transparent
-      );
+      @include translucent-color(background-color, contrast, 12%);
     }
 
     &--active,
     &--active:hover {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-contrast-color) 25%,
-        transparent
-      );
+      @include translucent-color(background-color, contrast, 25%);
     }
 
     &:active {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-contrast-color) 25%,
-        transparent
-      );
+      @include translucent-color(background-color, contrast, 25%);
     }
 
     &:focus-visible {
-      border-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-contrast-color) 75%,
-        transparent
-      );
+      @include translucent-color(border-color, contrast, 75%);
     }
   }
 
@@ -127,8 +127,16 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     corner-shape: round;
     border-radius: 99em;
 
-    &:dir(rtl) {
-      transform: rotate(180deg);
+    @supports selector(:dir(rtl)) {
+      &:dir(rtl) {
+        transform: rotate(180deg);
+      }
+    }
+
+    @supports not selector(:dir(rtl)) {
+      [dir='rtl'] & {
+        transform: rotate(180deg);
+      }
     }
   }
 
@@ -145,11 +153,8 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     // Cut off any content inside to respect the outer border radius.
     // a tooltip inside the body would be truncated, but can be teleported with Vue.
     overflow: hidden;
-    background-color: color-mix(
-      in srgb,
-      var(#{$calendar-css-prefix}-primary-color) 4%,
-      transparent
-    );
+    @include translucent-color(background-color, primary, 4%);
+
     border: 1px solid var(#{$calendar-css-prefix}-border-color);
     border-top: none;
     corner-bottom-right-shape: global.$corner-shape;
@@ -221,9 +226,11 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     align-items: center;
     justify-content: center;
     width: 1.4em;
-    color: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 70%, transparent);
+    @include translucent-color(color, base, 70%);
+
     font-size: 0.8em;
-    background-color: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 8%, transparent);
+    @include translucent-color(background-color, base, 8%);
+
     corner-shape: global.$corner-shape;
     border-radius: 4px;
     aspect-ratio: 1;
@@ -262,7 +269,8 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
       line-height: 1;
       letter-spacing: -0.1em;
       text-indent: -0.15em;
-      background: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 15%, transparent);
+      @include translucent-color(background, base, 15%);
+
       corner-shape: round;
       border-radius: 99em;
       aspect-ratio: 1;
@@ -270,11 +278,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
 
     &--today .#{$calendar-prefix-cls}__weekday-date {
       color: var(#{$calendar-css-prefix}-contrast-color);
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 80%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 80%);
     }
   }
 
@@ -284,11 +288,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     &
     .#{$calendar-prefix-cls}__weekday:not(.#{$calendar-prefix-cls}__weekday--today)
     .#{$calendar-prefix-cls}__weekday-date {
-    background-color: color-mix(
-      in srgb,
-      var(#{$calendar-css-prefix}-primary-color) 20%,
-      transparent
-    );
+    @include translucent-color(background-color, primary, 20%);
   }
 
   // Always use .#{$calendar-prefix-cls}__scrollable for view specific override for Vue transition to be smooth.
@@ -332,19 +332,11 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
   .#{$calendar-prefix-cls}__cell--today::before,
   .#{$calendar-prefix-cls}__cell--current-month::before,
   .#{$calendar-prefix-cls}__cell--current-year::before {
-    background-color: color-mix(
-      in srgb,
-      var(#{$calendar-css-prefix}-primary-color) 10%,
-      transparent
-    );
+    @include translucent-color(background-color, primary, 10%);
   }
 
   .#{$calendar-prefix-cls}__cell--selected::before {
-    background-color: color-mix(
-      in srgb,
-      var(#{$calendar-css-prefix}-primary-color) 25%,
-      transparent
-    );
+    @include translucent-color(background-color, primary, 25%);
   }
 
   &.#{$calendar-prefix-cls}--light,
@@ -353,19 +345,11 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     .#{$calendar-prefix-cls}__cell--today::before,
     .#{$calendar-prefix-cls}__cell--current-month::before,
     .#{$calendar-prefix-cls}__cell--current-year::before {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 5%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 5%);
     }
 
     .#{$calendar-prefix-cls}__cell--selected::before {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 10%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 10%);
     }
   }
 
@@ -397,22 +381,15 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
       overflow: hidden;
       font-size: 13px;
       letter-spacing: -0.5px;
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 25%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 25%);
+
       corner-shape: round;
       border-radius: 99em;
       aspect-ratio: 1;
     }
 
     .#{$calendar-prefix-cls}__cell--today .#{$calendar-prefix-cls}__cell-date {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 60%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 60%);
     }
 
     .#{$calendar-prefix-cls}__cell--selected .#{$calendar-prefix-cls}__cell-date {
@@ -426,27 +403,15 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     &:is(.#{$calendar-prefix-cls}--sm, .#{$calendar-prefix-cls}--lg)
     .#{$calendar-prefix-cls}__scrollable--month-view {
     .#{$calendar-prefix-cls}__cell-date {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 8%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 8%);
     }
 
     .#{$calendar-prefix-cls}__cell--today .#{$calendar-prefix-cls}__cell-date {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 22%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 22%);
     }
 
     .#{$calendar-prefix-cls}__cell--selected .#{$calendar-prefix-cls}__cell-date {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 40%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 40%);
     }
   }
 
@@ -479,11 +444,8 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
   .#{$calendar-prefix-cls}__scrollable--no-schedules.#{$calendar-prefix-cls}__scrollable--week-view
     .#{$calendar-prefix-cls}__cell-events {
     position: absolute;
-    inset: 0 8px 0 0;
-
-    &:dir(rtl) {
-      inset: 0 0 0 8px;
-    }
+    inset-block: 0;
+    inset-inline: 0 8px;
   }
 
   .#{$calendar-prefix-cls}__all-day .#{$calendar-prefix-cls}__cell-events {
@@ -506,7 +468,8 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     width: 98%;
     margin-top: -7.5px;
     padding-right: 2px;
-    color: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 50%, transparent);
+    @include translucent-color(color, base, 50%);
+
     font-size: 11px;
     letter-spacing: -0.5px;
     background: var(#{$calendar-css-prefix}-secondary-color);
@@ -619,8 +582,8 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
       color: transparent;
       font-size: 0.8em;
       background-color: #{global.$color-danger-6};
-      border: 1px solid
-        color-mix(in srgb, var(#{$calendar-css-prefix}-contrast-color) 50%, transparent);
+      @include translucent-color(border, contrast, 50%, 1px solid);
+
       corner-shape: round;
       border-radius: 99em;
       cursor: pointer;
@@ -758,7 +721,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
 
     .#{$calendar-prefix-cls}__now-line {
       z-index: 3;
-      border-color: color-mix(in srgb, #{global.$color-danger-6} 60%, transparent);
+      border-color: rgb(var(#{global.$sd-cssvars-prefix}-danger-6) / 60%);
 
       &::before {
         top: auto;
@@ -862,7 +825,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     width: 210px;
     font-size: 12px;
 
-    &:has(.#{$calendar-prefix-cls}__views-bar) {
+    &.#{$calendar-prefix-cls}--has-views-bar {
       height: 260px;
     }
 
@@ -949,11 +912,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     [sd-theme='dark'] & .#{$calendar-prefix-cls}__cell--today::before,
     [sd-theme='dark'] & .#{$calendar-prefix-cls}__cell--current-month::before,
     [sd-theme='dark'] & .#{$calendar-prefix-cls}__cell--current-year::before {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 50%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 50%);
     }
 
     &.#{$calendar-prefix-cls}--dark
@@ -986,11 +945,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     .#{$calendar-prefix-cls}__cell--today::before,
     .#{$calendar-prefix-cls}__cell--current-month::before,
     .#{$calendar-prefix-cls}__cell--current-year::before {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 12%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 12%);
     }
 
     .#{$calendar-prefix-cls}--dark
@@ -1011,11 +966,7 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     [sd-theme='dark']
       .#{$calendar-prefix-cls}__scrollable--years-view
       .#{$calendar-prefix-cls}__cell--selected::before {
-      background-color: color-mix(
-        in srgb,
-        var(#{$calendar-css-prefix}-primary-color) 28%,
-        transparent
-      );
+      @include translucent-color(background-color, primary, 28%);
     }
   }
 }

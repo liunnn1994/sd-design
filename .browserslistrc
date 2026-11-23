@@ -1,9 +1,12 @@
-# Minimum versions frozen from baseline widely available on 2026-10-22.
-# Android floors follow desktop versions (Browserslist mobileToDesktop).
+# Desktop: Chrome 109 is the Windows 7 compatibility floor.
+chrome >= 109
+edge >= 109
+firefox >= 115
+opera >= 95
+safari >= 17.4
+
+# Mobile: fixed floors informed by web.dev Baseline Widely Available.
+# Resolve Android versions with Browserslist's mobileToDesktop option.
 and_chr >= 124
 and_ff >= 125
-chrome >= 124
-edge >= 124
-firefox >= 125
 ios_saf >= 17.4
-safari >= 17.4

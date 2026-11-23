@@ -2,7 +2,11 @@
   <div
     ref="calendar-el"
     :data-locale="locale"
-    :class="[prefixCls, wrapperClasses]"
+    :class="[
+      prefixCls,
+      wrapperClasses,
+      { [`${prefixCls}--has-views-bar`]: config.viewsBar && !$slots.header && !$slots.diy },
+    ]"
     :style="wrapperStyles"
   >
     <slot v-if="$slots.diy" name="diy" :calendar="calendar"></slot>

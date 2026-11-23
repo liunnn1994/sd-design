@@ -574,6 +574,7 @@ describe('Calendar', () => {
         props: { viewDate: '2025-01-08', datePicker: true, locale: 'en-us' },
       });
       cy.get('.sd-calendar').should('have.class', 'sd-calendar--date-picker');
+      cy.get('.sd-calendar').should('have.css', 'height', '260px');
       cy.get('.sd-calendar').should('have.class', 'sd-calendar--xs');
       cy.get('.sd-calendar__view-button').should('have.length', 3);
       cy.get('.sd-calendar__view-button').eq(1).click();

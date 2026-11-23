@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
+import { browserTargets } from './scripts/browser-targets.ts';
 import { docsSidebar } from './src/generated/docs-sidebar.ts';
 import { frameworkDocs } from './src/integrations/framework-docs.ts';
 import { sdDocsLlmsIntegration } from './src/integrations/llms/index.ts';
@@ -90,6 +91,10 @@ export default defineConfig({
   // hand-written .astro components; revisit when adopting the new default.
   compressHTML: true,
   vite: {
+    build: {
+      target: browserTargets,
+      cssTarget: browserTargets,
+    },
     preview: { headers: { 'Access-Control-Allow-Origin': '*' } },
     resolve: {
       alias: [
@@ -175,7 +180,8 @@ export default defineConfig({
         {
           // Establish the order before the bundled stylesheets register their layers.
           tag: 'style',
-          content: '@layer sd-design, theme, base, starlight.base, starlight.reset, markstream;',
+          content:
+            '@layer sd-design, theme, base, popover-polyfill, starlight.base, starlight.reset, markstream;',
         },
         {
           tag: 'link',

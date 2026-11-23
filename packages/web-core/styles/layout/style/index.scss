@@ -1,6 +1,7 @@
 @use '../../style/theme/index.scss' as theme;
 @use 'sass:string';
 @use './token.scss' as *;
+@use '../../style/theme/runtime.scss' as theme-runtime;
 
 $layout-prefix-cls: string.unquote('#{theme.$prefix}-layout');
 $btn-text-prefix-cls: string.unquote('#{theme.$prefix}-btn-text');
@@ -46,12 +47,19 @@ $text-color: var(string.unquote('#{theme.$sd-cssvars-prefix}-color-text-1'));
 .#{$layout-prefix-cls}-header {
   height: $layout-header-height;
   padding: $layout-header-padding;
-  color: $layout-header-color;
+  color: theme-runtime.token('layout', 'layout-header-color', #fff);
+  @supports (color: color-mix(in srgb, black, white)) {
+    color: $layout-header-color;
+  }
+
   line-height: $layout-header-height;
   background: $layout-header-bg;
 
   .#{$btn-text-prefix-cls} {
-    color: $layout-header-color;
+    color: theme-runtime.token('layout', 'layout-header-color', #fff);
+    @supports (color: color-mix(in srgb, black, white)) {
+      color: $layout-header-color;
+    }
   }
 }
 

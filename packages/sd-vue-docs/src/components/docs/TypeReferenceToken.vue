@@ -86,7 +86,12 @@
 
 <style scoped>
   .type-reference-token {
-    text-decoration: underline dotted color-mix(in srgb, var(--sl-color-accent) 72%, transparent);
+    text-decoration: underline dotted var(--sl-color-accent);
+
+    @supports (color: color-mix(in srgb, black, white)) {
+      text-decoration: underline dotted color-mix(in srgb, var(--sl-color-accent) 72%, transparent);
+    }
+
     text-underline-offset: 0.18em;
     cursor: help;
   }

@@ -12,3 +12,19 @@ const { isReact, vueHref, reactHref } = getFrameworkLinks(Astro.url.pathname, pa
 
 <FrameworkSwitch isReact={isReact} vueHref={vueHref} reactHref={reactHref} client:load />
 <DefaultSidebar {...Astro.props} />
+
+<script>
+  if (!('showPopover' in HTMLElement.prototype)) {
+    void import('@oddbird/popover-polyfill').then(() => {
+      const sidebar = document.querySelector<HTMLElement>('#starlight__sidebar');
+      if (!sidebar) return;
+
+      // The page frame can upgrade before the polyfill's property setter is installed.
+      Reflect.deleteProperty(sidebar, 'popover');
+      sidebar.popover = matchMedia('(min-width: 50em)').matches ? null : 'auto';
+      sidebar.addEventListener('toggle', (event) => {
+        document.body.toggleAttribute('data-sd-sidebar-open', (event as ToggleEvent).newState === 'open');
+      });
+    });
+  }
+</script>

@@ -37,4 +37,21 @@ describe('文档框架切换', () => {
     waitForSwitch();
     cy.get('.framework-switch input[value="react"]').should('be.checked');
   });
+
+  it('在缺少原生 Popover API 时可以开关窄屏侧栏', () => {
+    cy.viewport(390, 844);
+    cy.visit('/components/divider/', {
+      onBeforeLoad(win) {
+        for (const name of ['popover', 'showPopover', 'hidePopover', 'togglePopover']) {
+          Reflect.deleteProperty(win.HTMLElement.prototype, name);
+        }
+      },
+    });
+    cy.window().its('HTMLElement.prototype.showPopover').should('be.a', 'function');
+    cy.get('.sl-menu-button').click().should('have.attr', 'aria-expanded', 'true');
+    cy.get('#starlight__sidebar').should('be.visible');
+    cy.get('body').should('have.attr', 'data-sd-sidebar-open');
+    cy.get('.sl-menu-button').click().should('have.attr', 'aria-expanded', 'false');
+    cy.get('body').should('not.have.attr', 'data-sd-sidebar-open');
+  });
 });

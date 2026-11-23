@@ -51,6 +51,12 @@ $colors:
   }
 
   // 键盘焦点与 hover 保持同一视觉（::after 覆盖层）
+  @supports not selector(:has(*)) {
+    &:not(&--disabled):focus-within::after {
+      background: $selectable-card-overlay-hover;
+    }
+  }
+
   &:has(&-input:focus-visible) {
     outline: none;
 

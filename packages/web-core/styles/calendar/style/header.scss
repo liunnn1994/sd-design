@@ -54,18 +54,25 @@ $calendar-css-prefix: string.unquote('--#{theme.$prefix}-calendar');
     padding: 2px 6px;
     font-weight: normal;
     font-size: 0.8em;
-    background: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 15%, transparent);
+    background: rgb(var(#{$calendar-css-prefix}-base-rgb, 11 11 10) / 15%);
+    @supports (color: color-mix(in srgb, black, white)) {
+      background: color-mix(in srgb, var(#{$calendar-css-prefix}-base-color) 15%, transparent);
+    }
+
     corner-shape: theme.$corner-shape;
     border-radius: 4px;
   }
 }
 
 .#{$calendar-prefix-cls}__header nav {
-  background-color: color-mix(
-    in srgb,
-    var(#{$calendar-css-prefix}-contrast-color) 20%,
-    transparent
-  );
+  background-color: rgb(var(#{$calendar-css-prefix}-contrast-rgb, 255 255 255) / 20%);
+  @supports (color: color-mix(in srgb, black, white)) {
+    background-color: color-mix(
+      in srgb,
+      var(#{$calendar-css-prefix}-contrast-color) 20%,
+      transparent
+    );
+  }
 }
 
 .#{$calendar-prefix-cls}__nav {

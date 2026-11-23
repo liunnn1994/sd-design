@@ -19,6 +19,7 @@
         v-for="item in themePresets"
         :key="item.key"
         class="preset-option"
+        :class="{ 'preset-option--selected': preset === item.key }"
         :value="item.key"
       >
         <template #radio>
@@ -72,7 +73,7 @@
     margin-right: 0;
   }
 
-  .preset-option:has(:checked) {
+  .preset-option--selected {
     border-color: var(--sl-color-accent);
     outline: 1px solid var(--sl-color-accent);
   }

@@ -2,6 +2,7 @@ import type { ContentFitSample, SimpleLineFit, VisibleBoundsCache } from './layo
 import type { ClampBoundary, ClampLength, LineClampLocation } from './types.js';
 
 // Derived from vue-clamp v1.7.2, Copyright (c) 2018-present GU Yiling. MIT; see THIRD_PARTY_NOTICES.md.
+import { createTextSegmenter } from '../_utils/grapheme.js';
 import { fitsContent } from './layout.js';
 import { defaultWarmExpansionLimit, searchFittingIndex } from './search.js';
 
@@ -11,21 +12,17 @@ import { defaultWarmExpansionLimit, searchFittingIndex } from './search.js';
 // so bundlers can drop this module for consumers that only import layout clamping,
 // and the unit-safe grapheme path needs none. Word boundaries still require a
 // word segmenter, including for ASCII sources.
-let graphemeSegmenter: Intl.Segmenter | undefined;
-let wordSegmenter: Intl.Segmenter | undefined;
+let graphemeSegmenter: ReturnType<typeof createTextSegmenter> | undefined;
+let wordSegmenter: ReturnType<typeof createTextSegmenter> | undefined;
 
-function segmentGraphemes(text: string): Intl.Segments {
-  graphemeSegmenter ??= new Intl.Segmenter(undefined, {
-    granularity: 'grapheme',
-  });
+function segmentGraphemes(text: string) {
+  graphemeSegmenter ??= createTextSegmenter('grapheme');
 
   return graphemeSegmenter.segment(text);
 }
 
-function segmentWords(text: string): Intl.Segments {
-  wordSegmenter ??= new Intl.Segmenter(undefined, {
-    granularity: 'word',
-  });
+function segmentWords(text: string) {
+  wordSegmenter ??= createTextSegmenter('word');
 
   return wordSegmenter.segment(text);
 }

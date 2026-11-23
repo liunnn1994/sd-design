@@ -290,6 +290,8 @@
     white-space: inherit;
     word-break: inherit;
     overflow-wrap: inherit;
+    /* stylelint-disable-next-line property-no-vendor-prefix -- Chrome 109 requires the prefix. */
+    -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     line-break: inherit;
   }
@@ -305,15 +307,22 @@
   pre.markstream-pre--diff-preview .markstream-pre__diff-line--spacer::before {
     background-image: linear-gradient(
       -45deg,
-      color-mix(in srgb, currentcolor 20%, transparent) 12.5%,
+      var(--sd-markdown-diff-stripe, rgb(127 127 127 / 20%)) 12.5%,
       transparent 12.5%,
       transparent 50%,
-      color-mix(in srgb, currentcolor 20%, transparent) 50%,
-      color-mix(in srgb, currentcolor 20%, transparent) 62.5%,
+      var(--sd-markdown-diff-stripe, rgb(127 127 127 / 20%)) 50%,
+      var(--sd-markdown-diff-stripe, rgb(127 127 127 / 20%)) 62.5%,
       transparent 62.5%,
       transparent 100%
     );
     background-size: 10px 10px;
+
+    @supports (color: color-mix(in srgb, black, white)) {
+      @supports (color: color-mix(in srgb, black, white)) {
+        --sd-markdown-diff-stripe: color-mix(in srgb, currentcolor 20%, transparent);
+      }
+    }
+
     opacity: 0.38;
   }
 
@@ -375,24 +384,28 @@
         --markstream-pre-diff-collapsed-row-gap-bottom,
         var(--markstream-pre-diff-collapsed-row-gap, 8px)
       );
-    color: color-mix(
-      in lab,
-      var(
-          --markstream-code-theme-fg,
+    color: var(--markstream-code-theme-fg, var(--code-fg));
+    @supports (color: color-mix(in srgb, black, white)) {
+      color: color-mix(
+        in lab,
+        var(
+            --markstream-code-theme-fg,
+            var(
+              --markstream-code-fallback-fg,
+              var(--markstream-pre-resolved-theme-fg, var(--code-fg, #000))
+            )
+          )
+          65%,
+        var(
+          --markstream-code-theme-bg,
           var(
-            --markstream-code-fallback-fg,
-            var(--markstream-pre-resolved-theme-fg, var(--code-fg, #000))
+            --markstream-code-fallback-bg,
+            var(--markstream-pre-resolved-theme-bg, var(--code-bg, #fff))
           )
         )
-        65%,
-      var(
-        --markstream-code-theme-bg,
-        var(
-          --markstream-code-fallback-bg,
-          var(--markstream-pre-resolved-theme-bg, var(--code-bg, #fff))
-        )
-      )
-    );
+      );
+    }
+
     font-family: var(
       --markstream-pre-diff-header-font,
       system-ui,

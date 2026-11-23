@@ -170,7 +170,11 @@
 
   @supports (not (-webkit-appearance: -apple-pay-button)) or (contain-intrinsic-size: 1px) {
     ::placeholder {
-      color: color-mix(in oklab, currentcolor 50%, transparent);
+      color: $color-text-3;
+
+      @supports (color: color-mix(in oklab, black, white)) {
+        color: color-mix(in oklab, currentcolor 50%, transparent);
+      }
     }
   }
 

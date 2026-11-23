@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { build as rolldownBuild } from 'rolldown';
 import { build as viteBuild } from 'vite';
 
+import { browserTargets } from './browser-targets.ts';
 import { buildTypeReferenceManifest } from './build-type-reference-manifest.ts';
 
 const docsNextRoot = path.resolve(import.meta.dirname, '..');
@@ -227,6 +228,8 @@ async function bundleVendorStyles(styleEntryPath: string) {
       },
     },
     build: {
+      target: browserTargets,
+      cssTarget: browserTargets,
       emptyOutDir: true,
       outDir: tempStyleBuildRoot,
       rollupOptions: {
@@ -263,6 +266,7 @@ async function bundleVendorDependencies(vendorDependencyOutputs: Record<string, 
       external: Array.from(excludedSpecifiers),
       platform: 'browser',
       logLevel: 'silent',
+      transform: { target: browserTargets },
       write: true,
       output: {
         dir: path.dirname(outfile),
