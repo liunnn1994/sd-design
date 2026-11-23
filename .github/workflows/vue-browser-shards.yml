@@ -48,6 +48,9 @@ jobs:
           key: ${{ steps.cache.outputs.cache-primary-key }}
       - name: Build Vue test dependencies
         run: pnpm --filter @sdata/web-vue run icongen
+      - name: Build React examples for the Vue theme editor spec
+        if: contains(format(',{0},', matrix.specs), ',components/config-provider/__test__/theme-editor.cy.ts,')
+        run: pnpm --filter @sdata/web-react run build
       - name: Run Vue browser tests
         working-directory: packages/web-vue
         timeout-minutes: 90

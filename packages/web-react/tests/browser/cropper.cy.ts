@@ -100,6 +100,9 @@ for (const action of ['move', 'se-resize']) {
   for (const disabled of [false, true]) {
     it(`React Cropper ${action} pointer interaction with disabled=${disabled}`, () => {
       cy.visit(`/cropper.html?nofit${disabled ? '&disabled' : ''}`);
+      cy.get('cropper-canvas')
+        .should('have.prop', 'scaleStep', 0.2)
+        .and('have.prop', 'disabled', disabled);
       cy.get<CropperImage>('cropper-image').then(($image) => $image[0].$ready());
       cy.get<CropperSelection>('cropper-selection').then(($selection) =>
         $selection[0].$change(30, 40, 100, 80),
