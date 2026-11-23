@@ -1,6 +1,49 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
+test('Markstream Worker package exports retain their message handlers in a Vite build', async () => {
+  const { fileURLToPath } = await import('node:url');
+  const { build } = await import('vite');
+  const names = ['katexRenderer.worker', 'mermaidParser.worker'];
+  const root = fileURLToPath(new URL('../../sd-vue-docs/', import.meta.url));
+  const entry = fileURLToPath(
+    new URL('../../sd-vue-docs/worker-package-check.js', import.meta.url),
+  );
+  const result = await build({
+    root,
+    configFile: false,
+    logLevel: 'silent',
+    plugins: [
+      {
+        name: 'sd:worker-package-check',
+        resolveId: (id) => (id === entry ? entry : undefined),
+        load(id) {
+          if (id !== entry) return;
+          return names
+            .map(
+              (name, index) =>
+                `import Worker${index} from '@sdata/web-vue/markstream/workers/${name}?worker'; new Worker${index}();`,
+            )
+            .join('\n');
+        },
+      },
+    ],
+    build: { write: false, minify: false, rollupOptions: { input: entry } },
+  });
+  assert.ok('output' in result);
+  for (const name of names) {
+    const worker: { type: string; source?: string | Uint8Array } | undefined = result.output.find(
+      (output) => output.type === 'asset' && output.fileName.includes(`${name}-`),
+    );
+    assert.ok(worker?.type === 'asset', `Worker asset is missing for ${name}`);
+    assert.match(
+      String(worker.source),
+      /\.onmessage\s*=|\.addEventListener\(["']message["']/,
+      name,
+    );
+  }
+});
+
 test('LiquidGlassLogo 发布入口保留 Core 预设身份，SSR 无需 DOM', async () => {
   const { renderToString } = await import('vue/server-renderer');
   const { h } = await import('vue');

@@ -618,12 +618,18 @@ importers:
       es-toolkit:
         specifier: 'catalog:'
         version: 1.53.2
+      katex:
+        specifier: ^0.18.2
+        version: 0.18.11
       lexical:
         specifier: ^0.53.0
         version: 0.53.0(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2)
       markstream-vue:
         specifier: 2.0.29
         version: 2.0.29(@antv/infographic@0.2.20)(@terrastruct/d2@0.1.33)(katex@0.18.11)(mermaid@12.3.0)(stream-diffs@0.0.2(@shikijs/themes@4.6.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vue@3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2)))(vue@3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2))
+      mermaid:
+        specifier: '>=11'
+        version: 12.3.0
       motion-v:
         specifier: ^2.12.0
         version: 2.12.0(@vueuse/core@15.0.0(vue@3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2)))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vue@3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2))
