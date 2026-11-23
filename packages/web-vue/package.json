@@ -24,6 +24,7 @@
     "components/**/style/*",
     "dist/*",
     "es/**/style/*",
+    "es/markdown-render/compat/workers/*.worker.js",
     "*.scss"
   ],
   "module": "es/index.js",
@@ -195,7 +196,17 @@
     "vue-tsc": "^3.3.14"
   },
   "peerDependencies": {
+    "katex": ">=0.16.22",
+    "mermaid": ">=11",
     "vue": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "katex": {
+      "optional": true
+    },
+    "mermaid": {
+      "optional": true
+    }
   },
   "vetur": {
     "tags": "json/vetur-tags.json",
