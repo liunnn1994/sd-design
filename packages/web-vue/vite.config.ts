@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs';
 import { access, cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { build } from 'vite';
 import { defineConfig } from 'vite-plus';
 
 import cssjsPlugin from './scripts/plugins/vite-plugin-cssjs.ts';
@@ -157,7 +158,10 @@ function createModuleBuildConfig(): UserConfig {
         input: [
           'components/index.ts',
           'components/markdown-render/upstream.ts',
-          ...globSync('components/markdown-render/compat/**/*.{ts,js}', { posix: true }),
+          ...globSync('components/markdown-render/compat/**/*.{ts,js}', {
+            posix: true,
+            ignore: 'components/markdown-render/compat/workers/*.worker.ts',
+          }),
           ...langFiles,
           ...coreCompatibilityFiles,
         ],
@@ -174,7 +178,40 @@ function createModuleBuildConfig(): UserConfig {
         formats: ['es'],
       },
     },
-    plugins: [externalPlugin(), vue(), vueJsx(), vueExportHelperPlugin(), pdfjsWorkerAssetPlugin()],
+    plugins: [
+      externalPlugin(),
+      vue(),
+      vueJsx(),
+      vueExportHelperPlugin(),
+      pdfjsWorkerAssetPlugin(),
+      {
+        name: 'sd:markstream-worker-assets',
+        async writeBundle() {
+          // Build from the executable entries so Markstream's sideEffects list cannot drop them.
+          await build({
+            root: packageRoot,
+            configFile: false,
+            build: {
+              target: 'es2015',
+              outDir: resolveFromRoot('es/markdown-render/compat/workers'),
+              emptyOutDir: false,
+              minify: false,
+              reportCompressedSize: false,
+              rollupOptions: {
+                input: Object.fromEntries(
+                  ['katexRenderer.worker', 'mermaidParser.worker'].map((name) => [
+                    name,
+                    fileURLToPath(import.meta.resolve(`markstream-vue/workers/${name}`)),
+                  ]),
+                ),
+                external: /^(?:katex|mermaid)(?:\/|$)/,
+                output: { entryFileNames: '[name].js' },
+              },
+            },
+          });
+        },
+      },
+    ],
   };
 }
 

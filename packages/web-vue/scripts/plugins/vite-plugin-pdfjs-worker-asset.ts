@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 
-const WORKER_SPECIFIER = 'pdfjs-dist/build/pdf.worker.min.mjs';
+const WORKER_SPECIFIER = 'pdfjs-dist/legacy/build/pdf.worker.min.mjs';
 const WORKER_ASSET = 'pdfjs-worker.min.mjs';
 const WORKER_CHUNK_HINT = 'pdfjs-worker-url';
 

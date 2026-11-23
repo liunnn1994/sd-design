@@ -114,6 +114,15 @@ All packages (including the root) declare `"type": "module"` — this is a delib
 
 Using scss for styles, and follow the existing style conventions in the codebase. Do not introduce new patterns or libraries unless explicitly required.
 
+## Browser compatibility
+
+- Keep published Vue and React components and the documentation site compatible with the Windows 7 desktop baseline in `.browserslistrc`. Verify Chrome 109, Edge 109, Opera 95 and Firefox 115 ESR.
+- Use [Baseline Widely Available](https://web.dev/baseline?hl=zh-cn) to inform mobile support and record explicit minimum versions in `.browserslistrc`. Review those minimums when supported device coverage changes.
+- Check shared styles and features against both desktop and mobile targets. Apply the mobile floors to features used exclusively on mobile.
+- When introducing CSS features, check Can I Use against the configured versions and review both SCSS entry points and compiled CSS. Supply a working fallback where a missing feature affects layout, interaction or legibility. Guard unsupported values stored in custom properties with `@supports` so they do not override the fallback at computed-value time.
+- Let `@vitejs/plugin-legacy` handle JavaScript syntax and supported polyfills in application builds that use it. Verify CSS and browser APIs separately, including styles and assets published by the component libraries and loaded directly by consumers.
+- When changing browser targets, refresh the browser support tables in the README and the shared getting-started guide.
+
 ## Update Notes
 
 ## If you make changes to the project architecture, be sure to update README.md, QUICK-START.md, and ARCHITECTURE.md accordingly.

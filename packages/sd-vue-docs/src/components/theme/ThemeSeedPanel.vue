@@ -117,6 +117,7 @@
           v-for="option in radiusOptions"
           :key="option.value"
           class="radius-choice"
+          :class="{ 'radius-choice--selected': (theme.seed?.radius ?? 4) === option.value }"
           :value="option.value"
         >
           <template #radio>
@@ -242,7 +243,7 @@
     margin-right: 0;
   }
 
-  .radius-choice:has(:checked) {
+  .radius-choice--selected {
     border-color: var(--sl-color-accent);
   }
 

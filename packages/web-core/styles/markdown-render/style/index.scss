@@ -59,6 +59,27 @@
     background: $markdown-render-color-surface;
     border-radius: $markdown-render-border-radius;
   }
+
+  @supports not (color: color-mix(in srgb, black, white)) {
+    &.markstream-vue,
+    .markstream-vue {
+      --admonition-note-header-bg: hsl(var(--ms-info) / 12%);
+      --admonition-tip-header-bg: hsl(var(--ms-success) / 12%);
+      --admonition-warn-header-bg: hsl(var(--ms-warning) / 12%);
+      --admonition-danger-header-bg: hsl(var(--ms-destructive) / 12%);
+    }
+
+    .table-node__resize-handle::after {
+      background: var(--table-border, currentcolor);
+    }
+
+    .table-node__spinner,
+    .math-inline__spinner,
+    .math-loading-spinner {
+      border: 2px solid transparent;
+      border-top-color: var(--loading-spinner, currentcolor);
+    }
+  }
 }
 
 .#{theme.$prefix}-markdown-render-link-loading {

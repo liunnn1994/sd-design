@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
+import { createTextSegmenter } from '../dist/_utils/grapheme.js';
 import { createClampControls } from '../dist/clamp/controls.js';
 import {
   createCoalescingRunner,
@@ -11,6 +12,26 @@ import { createLayoutMeasurer } from '../dist/clamp/measure.js';
 import { resolveNativeMode } from '../dist/clamp/native.js';
 import { clampTextToFit, displayTextForKeptCount, prepareText } from '../dist/clamp/text.js';
 import { simulateStaticFlow } from '../dist/clamp/wrap/flow.js';
+
+test('text segmentation preserves grapheme and word boundaries without native Intl.Segmenter', () => {
+  const native = Object.getOwnPropertyDescriptor(Intl, 'Segmenter');
+  Reflect.deleteProperty(Intl, 'Segmenter');
+
+  try {
+    const graphemes = createTextSegmenter('grapheme');
+    assert.deepEqual(
+      [...graphemes.segment('A👩🏽‍💻e\u0301')].map(({ segment }) => segment),
+      ['A', '👩🏽‍💻', 'e\u0301'],
+    );
+    const words = createTextSegmenter('word');
+    assert.deepEqual(
+      [...words.segment('hello world')].map(({ index }) => index),
+      [0, 5, 6],
+    );
+  } finally {
+    if (native) Object.defineProperty(Intl, 'Segmenter', native);
+  }
+});
 
 test('text search retains grapheme clusters and start/middle/end locations without a DOM', () => {
   const prepared = prepareText('A👨‍👩‍👧‍👦é中Z');

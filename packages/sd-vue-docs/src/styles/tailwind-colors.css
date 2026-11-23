@@ -1,0 +1,12 @@
+/* Demo utility colors expressed in sRGB for Chrome 109. */
+/* stylelint-disable-next-line scss/at-rule-no-unknown */
+@theme {
+  --color-blue-500: #3080ff;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-400: #99a1af;
+  --color-gray-500: #6a7282;
+  --color-gray-600: #4a5565;
+  --color-gray-800: #1e2939;
+  --color-gray-900: #101828;
+}

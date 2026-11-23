@@ -11915,14 +11915,14 @@
         {
           "key": "rich-text-editor-color-component-background",
           "name": "rich-text-editor-color-component-background",
-          "value": "color-mix(in srgb, rgb(var(--sd-primary-6)) 6%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "rgb(var(--sd-primary-6)/6%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "rich-text-editor-focus-shadow",
           "name": "rich-text-editor-focus-shadow",
-          "value": "0 0 0 2px color-mix(in srgb, rgb(var(--sd-primary-6)) 15%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "0 0 0 2px rgb(var(--sd-primary-6)/15%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "rich-text-editor-motion-duration",
@@ -12390,8 +12390,8 @@
         {
           "key": "sender-color-border-focus",
           "name": "sender-color-border-focus",
-          "value": "color-mix(in srgb, rgb(var(--sd-primary-6)) 60%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "rgb(var(--sd-primary-6)/60%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-color-border-input",
@@ -12402,32 +12402,32 @@
         {
           "key": "sender-color-bg-skill",
           "name": "sender-color-bg-skill",
-          "value": "color-mix(in srgb, rgb(var(--sd-primary-6)) 8%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "rgb(var(--sd-primary-6)/8%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-color-bg-skill-hover",
           "name": "sender-color-bg-skill-hover",
-          "value": "color-mix(in srgb, rgb(var(--sd-primary-6)) 15%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "rgb(var(--sd-primary-6)/15%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-color-bg-actions-disabled",
           "name": "sender-color-bg-actions-disabled",
-          "value": "color-mix(in srgb, rgb(var(--sd-primary-6)) 45%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "rgb(var(--sd-primary-6)/45%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-switch-checked-bg",
           "name": "sender-switch-checked-bg",
-          "value": "color-mix(in srgb, rgb(var(--sd-primary-6)) 8%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "rgb(var(--sd-primary-6)/8%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-switch-checked-hover-bg",
           "name": "sender-switch-checked-hover-bg",
-          "value": "color-mix(in srgb, rgb(var(--sd-primary-6)) 10%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "rgb(var(--sd-primary-6)/10%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-switch-unchecked-hover-bg",
@@ -12444,8 +12444,8 @@
         {
           "key": "sender-box-shadow-focus",
           "name": "sender-box-shadow-focus",
-          "value": "0 4px 20px color-mix(in srgb, rgb(var(--sd-primary-6)) 10%, transparent)",
-          "dependencies": ["color-primary-6"]
+          "value": "0 4px 20px rgb(var(--sd-primary-6)/10%)",
+          "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-motion-duration",

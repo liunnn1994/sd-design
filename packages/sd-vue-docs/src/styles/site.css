@@ -1,5 +1,7 @@
 /* stylelint-disable-next-line import-notation */
 @import 'tailwindcss' prefix(sd);
+/* stylelint-disable-next-line import-notation */
+@import './tailwind-colors.css';
 
 @layer sd-design, starlight.base, starlight.reset, starlight.core, starlight.content, starlight.components, starlight.utils;
 
@@ -25,7 +27,32 @@
 .sl-container:has(.home-landing) {
   max-width: none;
 }
+
+.sl-container.home-landing__container {
+  max-width: none;
+}
 /* stylelint-disable-next-line selector-id-pattern */
 .main-pane:has(.home-landing) .content-panel:has(#_top) {
   display: none;
+}
+
+.sidebar-pane[class~=':popover-open'] {
+  display: block;
+}
+
+@supports not selector(:popover-open) {
+  .sl-menu-button:not([aria-expanded='true']) .close-menu,
+  .sl-menu-button[aria-expanded='true'] .open-menu {
+    display: none;
+  }
+
+  @media (width < 50em) {
+    .sidebar-pane[popover]:not([class~=':popover-open']) {
+      display: none;
+    }
+
+    body[data-sd-sidebar-open] {
+      overflow: hidden;
+    }
+  }
 }

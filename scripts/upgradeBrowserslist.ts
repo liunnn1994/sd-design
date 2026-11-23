@@ -178,7 +178,7 @@ function buildMarkdown(browsers: [string, string][], generateStart: string, gene
   const lines = [
     `${generateStart}`,
     '',
-    '以下版本号基于当前 [Browserslist 配置](https://web.dev/baseline?hl=zh-cn)自动生成：',
+    '以下版本号基于当前 [Browserslist 配置](https://github.com/liunnn1994/sd-design/blob/main/.browserslistrc)自动生成：',
     '',
     ...browsers.map(([name, version]) => `- ${name}>=${version}`),
     '',

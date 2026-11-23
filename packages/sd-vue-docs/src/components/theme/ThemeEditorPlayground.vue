@@ -532,14 +532,21 @@
   }
 
   .main-pane .theme-editor {
-    width: 90cqw;
-    margin-inline: calc(50% - 45cqw);
+    width: 100%;
+
+    @supports selector(:has(*)) {
+      width: 90cqw;
+      margin-inline: calc(50% - 45cqw);
+    }
   }
 
   @media (width <= 767px) {
     .main-pane .theme-editor {
-      width: 100cqw;
-      margin-inline: calc(50% - 50cqw);
+      @supports selector(:has(*)) {
+        width: 100cqw;
+        margin-inline: calc(50% - 50cqw);
+      }
+
       border-inline: 0;
       border-radius: 0;
     }

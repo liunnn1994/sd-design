@@ -6,6 +6,8 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
 
 .#{$calendar-prefix-cls}--default-theme,
 [class$='-calendar--default-theme'] {
+  #{$calendar-css-prefix}-base-rgb: 11 11 10;
+  #{$calendar-css-prefix}-contrast-rgb: 255 255 255;
   #{$calendar-css-prefix}-primary-color: #{global.$color-primary-6};
   #{$calendar-css-prefix}-primary-sub-color: #{global.$color-primary-5};
   #{$calendar-css-prefix}-primary-extra-color: #{global.$color-primary-4};
@@ -27,11 +29,15 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
   #{$calendar-css-prefix}-event-color: var(
     string.unquote('#{global.$sd-cssvars-prefix}-color-white')
   );
-  #{$calendar-css-prefix}-event-border-color: color-mix(
-    in srgb,
-    var(#{$calendar-css-prefix}-base-color) 12%,
-    transparent
-  );
+  #{$calendar-css-prefix}-event-border-color: rgb(var(#{$calendar-css-prefix}-base-rgb) / 12%);
+  @supports (color: color-mix(in srgb, black, white)) {
+    #{$calendar-css-prefix}-event-border-color: color-mix(
+      in srgb,
+      var(#{$calendar-css-prefix}-base-color) 12%,
+      transparent
+    );
+  }
+
   #{$calendar-css-prefix}-border-radius: #{global.$radius-medium};
   #{$calendar-css-prefix}-height: 500px;
   #{$calendar-css-prefix}-min-cell-size: 1rem;
@@ -39,11 +45,17 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
   &.#{$calendar-prefix-cls}--dark,
   &[class*='-calendar--dark'],
   [sd-theme='dark'] & {
-    #{$calendar-css-prefix}-primary-color: color-mix(
-      in srgb,
-      #{global.$color-primary-6} 78%,
-      #0f172a
-    );
+    #{$calendar-css-prefix}-base-rgb: 255 255 255;
+    #{$calendar-css-prefix}-contrast-rgb: 11 11 10;
+    #{$calendar-css-prefix}-primary-color: #{global.$color-primary-6};
+    @supports (color: color-mix(in srgb, black, white)) {
+      #{$calendar-css-prefix}-primary-color: color-mix(
+        in srgb,
+        #{global.$color-primary-6} 78%,
+        #0f172a
+      );
+    }
+
     #{$calendar-css-prefix}-secondary-color: var(
       string.unquote('#{global.$sd-cssvars-prefix}-color-fill-2')
     );
@@ -53,17 +65,24 @@ $calendar-css-prefix: string.unquote('--#{global.$prefix}-calendar');
     #{$calendar-css-prefix}-contrast-color: var(
       string.unquote('#{global.$sd-cssvars-prefix}-color-text-1')
     );
-    #{$calendar-css-prefix}-border-color: color-mix(
-      in srgb,
-      var(#{$calendar-css-prefix}-base-color) 16%,
-      transparent
-    );
+    #{$calendar-css-prefix}-border-color: rgb(var(#{$calendar-css-prefix}-base-rgb) / 16%);
+    @supports (color: color-mix(in srgb, black, white)) {
+      #{$calendar-css-prefix}-border-color: color-mix(
+        in srgb,
+        var(#{$calendar-css-prefix}-base-color) 16%,
+        transparent
+      );
+    }
+
     #{$calendar-css-prefix}-header-color: var(#{$calendar-css-prefix}-base-color);
     #{$calendar-css-prefix}-event-color: var(#{$calendar-css-prefix}-base-color);
-    #{$calendar-css-prefix}-event-border-color: color-mix(
-      in srgb,
-      var(#{$calendar-css-prefix}-base-color) 40%,
-      transparent
-    );
+    #{$calendar-css-prefix}-event-border-color: rgb(var(#{$calendar-css-prefix}-base-rgb) / 40%);
+    @supports (color: color-mix(in srgb, black, white)) {
+      #{$calendar-css-prefix}-event-border-color: color-mix(
+        in srgb,
+        var(#{$calendar-css-prefix}-base-color) 40%,
+        transparent
+      );
+    }
   }
 }

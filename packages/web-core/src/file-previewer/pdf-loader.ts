@@ -4,7 +4,7 @@ import type { FilePreviewerPdfProps } from './types.js';
 // pdf.js is large, so it is lazily imported on first use and shared across instances.
 let pdfModulePromise: Promise<PdfJsModule> | undefined;
 export function loadPdfModule(): Promise<PdfJsModule> {
-  if (!pdfModulePromise) pdfModulePromise = import('pdfjs-dist');
+  if (!pdfModulePromise) pdfModulePromise = import('pdfjs-dist/legacy/build/pdf.mjs');
   return pdfModulePromise;
 }
 
@@ -14,7 +14,9 @@ export function loadPdfModule(): Promise<PdfJsModule> {
 let mainThreadWorkerPromise: Promise<void> | undefined;
 function ensureMainThreadWorker(): Promise<void> {
   if (!mainThreadWorkerPromise) {
-    mainThreadWorkerPromise = import('pdfjs-dist/build/pdf.worker.min.mjs').then(() => undefined);
+    mainThreadWorkerPromise = import('pdfjs-dist/legacy/build/pdf.worker.min.mjs').then(
+      () => undefined,
+    );
   }
   return mainThreadWorkerPromise;
 }

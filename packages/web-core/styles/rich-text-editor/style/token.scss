@@ -26,14 +26,9 @@ $rich-text-editor-color-border-focus: global.$color-primary-6;
 $rich-text-editor-color-link: global.$color-link-6;
 $rich-text-editor-color-code-background: global.$color-fill-2;
 $rich-text-editor-color-quote-border: global.$color-border-3;
-$rich-text-editor-color-component-background: color-mix(
-  in srgb,
-  #{global.$color-primary-6} 6%,
-  transparent
-);
+$rich-text-editor-color-component-background: rgb(var(#{global.$sd-cssvars-prefix}-primary-6) / 6%);
 
-$rich-text-editor-focus-shadow: 0 0 0 2px
-  color-mix(in srgb, #{global.$color-primary-6} 15%, transparent);
+$rich-text-editor-focus-shadow: 0 0 0 2px rgb(var(#{global.$sd-cssvars-prefix}-primary-6) / 15%);
 $rich-text-editor-motion-duration: global.$transition-duration-2;
 $rich-text-editor-motion-easing: global.$transition-timing-function-standard;
 

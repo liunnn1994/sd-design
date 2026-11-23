@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import { build } from 'vite';
 
+import { browserTargets } from './browser-targets.ts';
 import { buildTypeReferenceManifest } from './build-type-reference-manifest.ts';
 
 const docsRoot = resolve(import.meta.dirname, '..');
@@ -126,6 +127,8 @@ await build({
   ],
   define: { 'process.env.NODE_ENV': JSON.stringify('production') },
   build: {
+    target: browserTargets,
+    cssTarget: browserTargets,
     outDir: vendorRoot,
     emptyOutDir: true,
     modulePreload: false,

@@ -44,6 +44,7 @@
   "dependencies": {
     "@chenglou/pretext": "^1.0.0",
     "@floating-ui/dom": "1.8.0",
+    "@formatjs/intl-segmenter": "12.3.2",
     "@lexical/code": "^0.53.0",
     "@lexical/history": "^0.53.0",
     "@lexical/html": "^0.53.0",

@@ -333,6 +333,9 @@ importers:
       '@mlc-ai/web-llm':
         specifier: ^0.2.88
         version: 0.2.88
+      '@oddbird/popover-polyfill':
+        specifier: 0.7.3
+        version: 0.7.3
       '@sdata/web-react':
         specifier: workspace:*
         version: link:../web-react
@@ -412,6 +415,9 @@ importers:
       '@floating-ui/dom':
         specifier: 1.8.0
         version: 1.8.0
+      '@formatjs/intl-segmenter':
+        specifier: 12.3.2
+        version: 12.3.2
       '@lexical/code':
         specifier: ^0.53.0
         version: 0.53.0(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2)
@@ -612,12 +618,18 @@ importers:
       es-toolkit:
         specifier: 'catalog:'
         version: 1.53.2
+      katex:
+        specifier: ^0.18.2
+        version: 0.18.11
       lexical:
         specifier: ^0.53.0
         version: 0.53.0(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2)
       markstream-vue:
         specifier: 2.0.29
         version: 2.0.29(@antv/infographic@0.2.20)(@terrastruct/d2@0.1.33)(katex@0.18.11)(mermaid@12.3.0)(stream-diffs@0.0.2(@shikijs/themes@4.6.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vue@3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2)))(vue@3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2))
+      mermaid:
+        specifier: '>=11'
+        version: 12.3.0
       motion-v:
         specifier: ^2.12.0
         version: 2.12.0(@vueuse/core@15.0.0(vue@3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2)))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vue@3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2))
@@ -1506,6 +1518,15 @@ packages:
     peerDependencies:
       vue: '>=3.3.0'
 
+  '@formatjs/fast-memoize@3.1.7':
+    resolution: {integrity: sha512-zXfhLpvA6T7+efdt9JLbBwZ00tT7NsBMDVnDu8rpHeNNv8KfRZAMo2gkG0k9lK/Nzc//3kJ9pImsfuJxk3KhUA==}
+
+  '@formatjs/intl-localematcher@0.10.1':
+    resolution: {integrity: sha512-gBqglQK9rXuHsLmM8wzTMBy4Xo4d0jamirIVKuEL8F1rwbskWdpMA1kZarSkny+uvr5q/K6GSzE0Rcq1wZLl3g==}
+
+  '@formatjs/intl-segmenter@12.3.2':
+    resolution: {integrity: sha512-4y3AXMmlWlTE1anxnZ4mtKnJTyZeA9h3tt+cQKWbv9jV+k10/ILbxnjfFYG6ciuOrKCZ821FI0h+fnPYW6natw==}
+
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
@@ -2026,6 +2047,9 @@ packages:
 
   '@octokit/types@18.0.0':
     resolution: {integrity: sha512-l6bAF43PNxkJp6g+W4PjoUSSkxHomXw2nOum5CTftJz1NlV3vu93NImgOYtLf6CbBUb5j+fiuzW0PPQ5JTSvZA==}
+
+  '@oddbird/popover-polyfill@0.7.3':
+    resolution: {integrity: sha512-uOY7RLqS1M12u+EzZHQ8vPSh3NjwDlb4qwJ1WDzQ0inZ14+47Vv0NNs+1Lh4PtX1nLiiCbfJyIxPRHsgBTvhvg==}
 
   '@one-ini/wasm@0.2.1':
     resolution: {integrity: sha512-TUqERXGNTifZ9y2g3wPxQrw3HpHv/02DsW3D90T9x0hhonrL1ZqpSmNrU2XkoIq0fP1N6gZfVQzy2Fw1ZvGBNg==}
@@ -9730,6 +9754,16 @@ snapshots:
       '@floating-ui/utils': 0.2.12
       vue: 3.5.45(typescript-native-bridge@6.0.3-bridge.19.tsgo.7.0.2)
 
+  '@formatjs/fast-memoize@3.1.7': {}
+
+  '@formatjs/intl-localematcher@0.10.1':
+    dependencies:
+      '@formatjs/fast-memoize': 3.1.7
+
+  '@formatjs/intl-segmenter@12.3.2':
+    dependencies:
+      '@formatjs/intl-localematcher': 0.10.1
+
   '@iconify/types@2.0.0': {}
 
   '@iconify/utils@3.1.7':
@@ -10250,6 +10284,8 @@ snapshots:
   '@octokit/types@18.0.0':
     dependencies:
       '@octokit/openapi-types': 29.0.1
+
+  '@oddbird/popover-polyfill@0.7.3': {}
 
   '@one-ini/wasm@0.2.1': {}
 

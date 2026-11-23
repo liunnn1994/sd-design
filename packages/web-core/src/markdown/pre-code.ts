@@ -67,10 +67,10 @@ export function getMarkdownPreTheme(options: MarkdownPreThemeOptions) {
     background,
     foreground,
     lineNumber,
-    addedLine: `color-mix(in lab, ${background} ${dark ? '80%' : '88%'}, ${dark ? '#4d9375' : '#1e754f'})`,
-    addedNumber: `color-mix(in lab, ${background} ${dark ? '85%' : '91%'}, ${dark ? '#4d9375' : '#1e754f'})`,
-    removedLine: `color-mix(in lab, ${background} ${dark ? '80%' : '88%'}, ${dark ? '#cb7676' : '#ab5959'})`,
-    removedNumber: `color-mix(in lab, ${background} ${dark ? '85%' : '91%'}, ${dark ? '#cb7676' : '#ab5959'})`,
+    addedLine: dark ? 'rgb(77 147 117 / 20%)' : 'rgb(30 117 79 / 12%)',
+    addedNumber: dark ? 'rgb(77 147 117 / 15%)' : 'rgb(30 117 79 / 9%)',
+    removedLine: dark ? 'rgb(203 118 118 / 20%)' : 'rgb(171 89 89 / 12%)',
+    removedNumber: dark ? 'rgb(203 118 118 / 15%)' : 'rgb(171 89 89 / 9%)',
   };
 }
 type CodeStyle = Properties<string | number> & Record<`--${string}`, string | number | undefined>;

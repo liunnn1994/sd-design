@@ -143,7 +143,12 @@ export function Calendar(props: CalendarProps) {
       {...attrs}
       ref={root}
       data-locale={props.locale ?? ''}
-      className={[prefix, classes(rules.wrapperClasses()), props.className]
+      className={[
+        prefix,
+        classes(rules.wrapperClasses()),
+        config.viewsBar && !props.renderHeader && !props.renderDiy && `${prefix}--has-views-bar`,
+        props.className,
+      ]
         .filter(Boolean)
         .join(' ')}
       style={{ ...rules.wrapperStyles(), ...props.style } as CSSProperties}
