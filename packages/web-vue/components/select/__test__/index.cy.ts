@@ -426,7 +426,7 @@ describe('Select', () => {
     });
   });
 
-  it('renders numeric maxTagCount overflow counter', () => {
+  it('updates the numeric overflow counter independently of the custom tag slot', () => {
     cy.mount(Select, {
       props: {
         multiple: true,
@@ -434,8 +434,13 @@ describe('Select', () => {
         defaultValue: ['Beijing', 'Shanghai', 'Guangzhou'],
         options: ['Beijing', 'Shanghai', 'Guangzhou'],
       },
+      slots: { tag: ({ data }) => h('strong', `Selected ${data.label}`) },
     });
+    cy.contains('.sd-select-view-tag strong', 'Selected Beijing').should('be.visible');
     cy.get('.sd-select-view-tag-counter:visible').should('have.text', '+2');
+    cy.get('.sd-select-view-tag .sd-tag-close-btn').click();
+    cy.contains('.sd-select-view-tag strong', 'Selected Shanghai').should('be.visible');
+    cy.get('.sd-select-view-tag-counter:visible').should('have.text', '+1');
   });
 
   it('renders grouped options with group semantics', () => {

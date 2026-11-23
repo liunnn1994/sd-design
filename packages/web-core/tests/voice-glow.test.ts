@@ -303,14 +303,15 @@ test('Voice audio leases share one source per stream and release each analyser e
     },
   );
 });
-test('Microphone captures current constraints, publishes live, reuses stream, and clears on ended', async () => {
+test('Microphone reuses the live stream and handles ended events only for the current stream', async () => {
   const next = streamFixture(),
+    replacement = streamFixture(),
     state = data();
   const constraints: MediaStreamConstraints[] = [];
   await globals(
     web(async (value) => {
       constraints.push(value);
-      return next.stream;
+      return constraints.length === 1 ? next.stream : replacement.stream;
     }),
     async () => {
       const options = { constraints: { noiseSuppression: true } };
@@ -326,8 +327,13 @@ test('Microphone captures current constraints, publishes live, reuses stream, an
       next.end();
       assert.equal(state.stream, null);
       assert.equal(state.state, 'idle');
+      assert.equal(await mic.start(), replacement.stream);
+      next.end();
+      assert.equal(state.stream, replacement.stream);
+      assert.equal(state.state, 'live');
       mic.stop();
       assert.equal(next.stopped, 0);
+      assert.equal(replacement.stopped, 1);
     },
   );
 });

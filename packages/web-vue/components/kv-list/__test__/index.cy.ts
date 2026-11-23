@@ -3,7 +3,7 @@ import type { Ref } from 'vue';
 
 import type { KvListItem, KvListType } from '../types';
 
-import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../../web-core/tests/browser/drag-sort';
 import { configProviderInjectionKey } from '../../config-provider/context';
 import Input from '../../input';
 import enUS from '../../locale/lang/en-us';

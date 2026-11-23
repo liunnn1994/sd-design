@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { Button } from '../../src/button/index.js';
 import {
-  Button,
-  ConfigProvider,
   Carousel,
   CarouselItem,
   type CarouselRef,
   type CarouselAutoPlayConfig,
   type CarouselIndicatorType,
-} from '../../src/index';
+} from '../../src/carousel/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
 
 function WrappedSlide({
   value,

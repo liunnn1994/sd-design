@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
 import { posix as path } from 'node:path';
 
-import { docsE2eSpecs } from '../packages/web-react/scripts/docs-e2e-specs.ts';
+import { isDocsE2eSpec } from '../packages/web-react/scripts/docs-e2e-specs.ts';
 
 const vueRoot = 'packages/web-vue/';
 const reactRoot = 'packages/web-react/';
@@ -25,9 +25,8 @@ const reactSpecs = tracked.filter((file) =>
 let vue = VUE === 'true' ? vueSpecs : [];
 let react = REACT === 'true' ? reactSpecs : [];
 let docsPages: string[] = [];
-let docsPreviewSpecs = new Set(react);
 const vueDocs = DOCS === 'true';
-const reactDocsSpecs = docsE2eSpecs.map((file) => reactRoot + file);
+const reactDocsSpecs = reactSpecs.filter((file) => isDocsE2eSpec(file.slice(reactRoot.length)));
 
 if (BASE && (vue.length || react.length)) {
   const { buildBrowserDependencyGraph, selectReactSpecs } =
@@ -54,47 +53,32 @@ if (BASE && (vue.length || react.length)) {
     );
     react = selected.specs;
     docsPages = selected.docsPages;
-    docsPreviewSpecs = selected.docsPreviewSpecs;
   }
 }
 const reactDocs = vueDocs ? reactDocsSpecs : reactDocsSpecs.filter((file) => react.includes(file));
 const reactShards = react.filter((file) => !reactDocsSpecs.includes(file));
 
-function shards(
-  groups: string[],
-  specs: string[],
-  root: string,
-  firstLetter: (file: string) => string,
-) {
-  const result = groups.map((initials) => ({ initials, specs: [] as string[] }));
-  for (const spec of specs) {
-    const file = spec.slice(root.length);
-    const initial = firstLetter(file).toLowerCase();
-    const shard = initial && result.find(({ initials }) => initials.includes(initial));
-    if (!shard) throw new Error(`No browser test shard for ${spec}`);
-    shard.specs.push(file);
-  }
-  return result
-    .filter(({ specs }) => specs.length)
-    .map(({ initials, specs }) => ({ initials, specs: specs.join(',') }));
+function shards(specs: string[], root: string, firstLetter: (file: string) => string) {
+  const files = specs.map((spec) => spec.slice(root.length));
+  const groups = Map.groupBy(files, (file) => firstLetter(file).toLowerCase());
+  return [...groups.keys()].sort().map((initials) => ({
+    initials,
+    specs: groups.get(initials)!.join(','),
+  }));
 }
 
 const vueMatrix = shards(
-  ['c', 't', 'abs', 'dgi', 'fklmw', 'ehjnopqruvxyz'],
   vue,
   vueRoot,
   (file) => Array.from(file.split('/')[1]).find((character) => character !== '_') ?? '',
 );
-const reactMatrix = shards(
-  ['c', 't', 'dfmp', 'abeghijklnoqrsuvwxyz'],
-  reactShards,
-  reactRoot,
-  (file) => file.split('/').at(-1)?.[0] ?? '',
-).map((shard) => ({
-  ...shard,
-  docsPreview: shard.specs.split(',').some((file) => docsPreviewSpecs.has(reactRoot + file)),
-  vueDocs: false,
-}));
+const reactMatrix = shards(reactShards, reactRoot, (file) => file.split('/').at(-1)?.[0] ?? '').map(
+  (shard) => ({
+    ...shard,
+    docsPreview: false,
+    vueDocs: false,
+  }),
+);
 if (reactDocs.length) {
   reactMatrix.push({
     initials: 'docs',
@@ -106,11 +90,11 @@ if (reactDocs.length) {
 const docsPreview = reactMatrix.some((shard) => shard.docsPreview);
 
 console.log(
-  `Selected ${vue.length} Vue specs, ${reactShards.length} React specs, docs suite: ${DOCS === 'true'}`,
+  `Selected ${vue.length} Vue specs, ${reactShards.length} React specs, docs suite: ${docsPreview}`,
 );
 if (GITHUB_OUTPUT) {
   appendFileSync(
     GITHUB_OUTPUT,
-    `vue=${JSON.stringify(vueMatrix)}\nbrowser=${JSON.stringify(reactMatrix)}\ndocsPages=${docsPages.join('|')}\ndocsPreview=${docsPreview}\n`,
+    `vue=${JSON.stringify(vueMatrix)}\nbrowser=${JSON.stringify(reactMatrix)}\ndocsPages=${docsPages.join('|')}\n`,
   );
 }

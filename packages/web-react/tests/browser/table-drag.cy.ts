@@ -1,4 +1,4 @@
-import { startDrag, moveDrag } from '../../../web-vue/cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../web-core/tests/browser/drag-sort';
 
 describe('React Table drag integration', () => {
   it('commits reordered page and all-row data while retaining framework DOM ownership', () => {

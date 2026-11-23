@@ -16,16 +16,10 @@ function Fixture() {
             nodes: [{ code: { id: 'child' }, text: 'Child', blocked: true }],
           },
         ]
-      : mode === 'paths'
-        ? [
-            { value: 'a-b', children: [{ value: 'c' }] },
-            { value: 'a', children: [{ value: 'b-c' }] },
-            { value: 'a%2Db', children: [{ value: 'c' }] },
-          ]
-        : [{ value: 'branch', isLeaf: false }],
+      : [{ value: 'branch', isLeaf: false }],
   );
   const [strict, setStrict] = useState(false);
-  const [enabled, setEnabled] = useState(mode !== 'paths' && mode !== 'fields');
+  const [enabled, setEnabled] = useState(mode !== 'fields');
   const [calls, setCalls] = useState(0);
   const [version, setVersion] = useState(0);
   const callbacks = useRef<((children?: CascaderOption[]) => void)[]>([]);

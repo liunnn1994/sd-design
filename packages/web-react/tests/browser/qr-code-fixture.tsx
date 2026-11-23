@@ -2,13 +2,13 @@ import enUS from '@sdata/web-core/locale/lang/en-us';
 import { QRCode } from '@sdata/web-core/qr-code/engine';
 import { useEffect, useRef, useState } from 'react';
 
+import { ConfigProvider } from '../../src/config-provider/index.js';
 import {
   QrCode,
-  ConfigProvider,
   type QrCodeType,
   type QrCodeStatusType,
   type QrCodeValue,
-} from '../../src/index';
+} from '../../src/qr-code/index.js';
 export function QrCodeFixture() {
   const [value, setValue] = useState<QrCodeValue>('first-value');
   const [type, setType] = useState<QrCodeType>('canvas');
@@ -41,7 +41,12 @@ export function QrCodeFixture() {
     setType('svg');
     setValue('old');
   };
-  const finish = (text: string) => requests.current.get(text)?.(`<svg data-value="${text}"></svg>`);
+  const finish = (text: string) => {
+    const resolve = requests.current.get(text);
+    requests.current.delete(text);
+    setPending([...requests.current.keys()]);
+    resolve?.(`<svg data-value="${text}"></svg>`);
+  };
   return (
     <section data-testid="qr-fixture">
       <button onClick={() => setType((old) => (old === 'canvas' ? 'svg' : 'canvas'))}>

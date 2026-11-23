@@ -164,6 +164,42 @@ test('service cleans disconnected managers before searching across positions for
   assert.equal(managers[1].items.length, 0);
 });
 
+test('service removal by ID closes every matching position without removing other notices', () => {
+  type Config = NoticeConfig & { position?: 'top' | 'bottom' };
+  const top = queue('notification');
+  const bottom = queue('notification');
+  const service = createNoticeService<'top' | 'bottom', Config, undefined>({
+    defaultPosition: 'top',
+    create: ({ position }) => (position === 'bottom' ? bottom.f : top.f),
+  });
+  const closed: Array<[string, unknown]> = [];
+  service.open(
+    { id: 'shared', content: 'Top', onClose: (id) => closed.push(['top', id]) },
+    undefined,
+  );
+  service.open(
+    {
+      id: 'shared',
+      content: 'Bottom',
+      position: 'bottom',
+      onClose: (id) => closed.push(['bottom', id]),
+    },
+    undefined,
+  );
+  service.open({ id: 'keep', content: 'Keep', position: 'bottom' }, undefined);
+  service.remove('shared');
+  service.remove('shared');
+  assert.deepEqual(closed, [
+    ['top', 'shared'],
+    ['bottom', 'shared'],
+  ]);
+  assert.equal(top.items.length, 0);
+  assert.deepEqual(
+    bottom.items.map(({ id }) => id),
+    ['keep'],
+  );
+});
+
 test('notice configuration precedence preserves type overrides and opaque content', () => {
   const content = () => 'VNode adapter';
   assert.deepEqual(resolveNoticeConfig('info', 'Text'), {

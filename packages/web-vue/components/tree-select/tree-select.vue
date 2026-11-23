@@ -91,7 +91,8 @@
             <component :is="TreeSelectEmpty || Empty" />
           </slot>
           <Panel
-            v-else
+            v-if="!loading && flattenTreeData.length"
+            v-show="!isEmpty"
             :selected-keys="selectedKeys"
             :show-checkable="mergedTreeCheckable"
             :scrollbar="scrollbar"

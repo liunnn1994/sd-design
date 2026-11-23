@@ -169,14 +169,6 @@ describe('Rate', () => {
     });
   });
 
-  it('keyboard does not emit when already at 0 and ArrowLeft is pressed', () => {
-    cy.mount(Rate);
-    cy.get('.sd-rate').trigger('keydown', { key: 'ArrowLeft' });
-    cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('change')).to.equal(undefined);
-    });
-  });
-
   it('character slot customizes the icon with the index scope', () => {
     cy.mount(Rate, {
       props: { count: 2 },

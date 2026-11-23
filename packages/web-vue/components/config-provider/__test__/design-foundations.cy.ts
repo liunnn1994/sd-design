@@ -142,8 +142,9 @@ describe('设计基础的真实浏览器样式', () => {
     cy.get('.sd-sender-main').then(($main) => {
       const shadow = getComputedStyle($main[0]).boxShadow;
       const borderColor = getComputedStyle($main[0]).borderTopColor;
-      cy.get('textarea').focus();
+      cy.get('textarea').click().should('be.focused');
       cy.get('.sd-sender-main').should(($focused) => {
+        expect($focused[0].matches(':focus-within')).to.equal(true);
         const style = getComputedStyle($focused[0]);
         expect(style.boxShadow).not.to.equal(shadow);
         expect(style.boxShadow).to.contain('0px 4px 20px 0px');
@@ -163,7 +164,7 @@ describe('设计基础的真实浏览器样式', () => {
       props: { theme: { components: { sender: { 'box-shadow-focus': 'none' } } } },
       slots: { default: () => h(Sender) },
     });
-    cy.get('textarea').focus();
+    cy.get('textarea').click().should('be.focused');
     cy.get('.sd-sender-main').should('have.css', 'box-shadow', 'none');
   });
 });

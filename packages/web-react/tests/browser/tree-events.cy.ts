@@ -1,4 +1,4 @@
-import { startDrag, moveDrag } from '../../../web-vue/cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../web-core/tests/browser/drag-sort';
 describe('React Tree public event integration', () => {
   it('forwards native node events and honors cancellation before keyboard actions', () => {
     cy.visit('/tree-root.html?prevent');

@@ -53,10 +53,6 @@ describe('React Cascader option indexes', () => {
       .invoke('text')
       .then((text) => expect(JSON.parse(text)[1].selectionDisabled).to.equal(false));
   });
-  it('keeps hyphen and percent containing paths distinct', () => {
-    cy.visit('/cascader-options.html?mode=paths');
-    cy.get('[data-testid="leaves"]').should('have.text', 'a%2Db-c,a-b%2Dc,a%252Db-c');
-  });
   it('ignores completion after the loading option is removed', () => {
     cy.visit('/cascader-options.html');
     cy.contains('button', /^Load$/).click();

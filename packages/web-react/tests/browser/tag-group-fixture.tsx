@@ -1,10 +1,11 @@
 import { useMemo, useRef, useState } from 'react';
 
-import { TagGroup } from '../../src/index';
+import { TagGroup } from '../../src/tag-group/index.js';
 export function TagGroupFixture() {
   const [mounted, setMounted] = useState(false);
   const [wide, setWide] = useState(false);
   const [more, setMore] = useState(false);
+  const [oversized, setOversized] = useState(false);
   const [empty, setEmpty] = useState(false);
   const [limit, setLimit] = useState(1);
   const [closed, setClosed] = useState(0);
@@ -31,8 +32,13 @@ export function TagGroupFixture() {
     [],
   );
   const responsive = useMemo(
-    () => (more ? ['one', 'two', 'three', 'four'] : ['one', 'two', 'three']),
-    [more],
+    () => [
+      oversized ? 'LongUnbrokenTagLabel'.repeat(5) : 'one',
+      'two',
+      'three',
+      ...(more ? ['four'] : []),
+    ],
+    [more, oversized],
   );
   return (
     <section>
@@ -43,6 +49,7 @@ export function TagGroupFixture() {
         <>
           <button onClick={() => setWide(!wide)}>Resize TagGroup</button>
           <button onClick={() => setMore(!more)}>Append TagGroup option</button>
+          <button onClick={() => setOversized(!oversized)}>Use oversized TagGroup label</button>
           <button onClick={() => setEmpty(!empty)}>Empty TagGroup</button>
           <button onClick={() => setLimit(limit ? 0 : 1)}>Toggle TagGroup limit</button>
           <button onClick={() => setLabel(!label)}>Toggle TagGroup label</button>

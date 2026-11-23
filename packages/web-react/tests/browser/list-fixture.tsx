@@ -1,13 +1,8 @@
 import { useRef, useState } from 'react';
 
-import {
-  Button,
-  ConfigProvider,
-  List,
-  ListItem,
-  ListItemMeta,
-  type ListRef,
-} from '../../src/index';
+import { Button } from '../../src/button/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { List, ListItem, ListItemMeta, type ListRef } from '../../src/list/index.js';
 
 export function ListFixture() {
   const [mode, setMode] = useState('plain');

@@ -1,16 +1,13 @@
 import { createContext, useContext, useLayoutEffect, useState } from 'react';
 
-import type { MessageMethod, NotificationMethod } from '../../src/index';
+import type { MessageMethod } from '../../src/message/index.js';
+import type { NotificationMethod } from '../../src/notification/index.js';
 
-import {
-  ConfigProvider,
-  Message,
-  Notification,
-  useMessage,
-  useNotification,
-} from '../../src/index';
+import { ConfigProvider } from '../../src/config-provider/index.js';
 import enUS from '../../src/locale/lang/en-us';
 import zhCN from '../../src/locale/lang/zh-cn';
+import { Message, useMessage } from '../../src/message/index.js';
+import { Notification, useNotification } from '../../src/notification/index.js';
 
 const LabelContext = createContext('Missing context');
 const api: {

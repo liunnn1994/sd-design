@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-import { Watermark } from '../../src/index';
+import { Watermark } from '../../src/watermark/index.js';
 const gap: [number, number] = [20, 30];
 const offset: [number, number] = [40, 50];
 const image = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="30"><rect width="80" height="30" fill="red"/></svg>')}`;

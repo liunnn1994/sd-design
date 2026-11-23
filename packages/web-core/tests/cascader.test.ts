@@ -59,11 +59,33 @@ test('modeling escapes path separators, preserves raw tag payloads and excludes 
       ],
     },
     { value: 'a', children: [{ value: 'b-c' }] },
+    { value: 'a%2Db', children: [{ value: 'c' }] },
   ];
   const model = build(raw);
   assert.equal(model.options[0].key, 'a%2Db');
   assert.equal(model.options[0].children![0].key, 'a%2Db-c');
   assert.equal(model.options[1].children![0].key, 'a-b%2Dc');
+  assert.equal(model.options[2].children![0].key, 'a%252Db-c');
+  const selectedPaths = [
+    ['a-b', 'c'],
+    ['a', 'b-c'],
+    ['a%2Db', 'c'],
+  ];
+  const values = getCascaderValueMap(selectedPaths, {
+    multiple: true,
+    pathMode: true,
+    valueKey: 'value',
+    leafOptionValueMap: model.leafOptionValueMap,
+  });
+  assert.deepEqual(
+    [...values],
+    [
+      ['a%2Db-c', selectedPaths[0]],
+      ['a-b%2Dc', selectedPaths[1]],
+      ['a%252Db-c', selectedPaths[2]],
+    ],
+  );
+  assert.ok([...values.keys()].every((key) => model.leafOptionMap.has(key)));
   assert.equal(model.options[0].children![0].raw, raw[0].children[0]);
   assert.equal(model.options[0].children![0].tagProps, tag);
   assert.equal(model.totalLevel.value, 2);
@@ -283,32 +305,46 @@ test('lazy loading ignores replaced requests and disposed views without deleting
   assert.equal(callbacks.length, 3);
 });
 
-test('rejected lazy loaders release their pending state', async () => {
-  const model = build([{ value: 'lazy', isLeaf: false }], { enabledLazyLoad: true });
-  const pending = new Map<string, CascaderLoadRequest<unknown>>();
-  const engine = createCascaderLazyLoad({
-    getLoader: () => async () => {
-      throw new Error('rejected');
-    },
-    getOptions: () => model.optionMap,
-    getPending: () => pending,
-    setPending: (key, request) => {
-      pending.set(key, request);
-    },
-    deletePending: (key) => {
-      pending.delete(key);
-    },
-    clearPending: () => pending.clear(),
-    unwrap: (value) => value,
-    addChildren: () => {
-      assert.fail('rejected loader cannot add children');
-    },
+for (const failure of ['throw', 'reject']) {
+  test(`lazy loaders clear pending state and accept a retry after ${failure}`, async () => {
+    const model = build([{ value: 'lazy', isLeaf: false }], { enabledLazyLoad: true });
+    const pending = new Map<string, CascaderLoadRequest<unknown>>();
+    const added: CascaderOption<unknown>[][] = [];
+    const children = [{ value: 'child' }];
+    let calls = 0;
+    const engine = createCascaderLazyLoad({
+      getLoader: () => (_, done) => {
+        if (++calls === 1) {
+          const error = new Error('Load failed');
+          if (failure === 'throw') throw error;
+          return Promise.reject(error);
+        }
+        done(children);
+      },
+      getOptions: () => model.optionMap,
+      getPending: () => pending,
+      setPending: (key, request) => {
+        pending.set(key, request);
+      },
+      deletePending: (key) => {
+        pending.delete(key);
+      },
+      clearPending: () => pending.clear(),
+      unwrap: (value) => value,
+      addChildren: (loaded) => added.push(loaded),
+    });
+    engine.loadOption(model.options[0]);
+    assert.equal(pending.size, 1);
+    await tick();
+    assert.equal(pending.size, 0);
+    assert.deepEqual(added, []);
+    engine.loadOption(model.options[0]);
+    await tick();
+    assert.equal(calls, 2);
+    assert.deepEqual(added, [children]);
+    assert.equal(pending.size, 0);
   });
-  engine.loadOption(model.options[0]);
-  assert.equal(pending.size, 1);
-  await tick();
-  assert.equal(pending.size, 0);
-});
+}
 
 test('path expansion preserves first-child traversal while keyboard focus skips disabled children', () => {
   const model = build([{ value: 'p', children: [{ value: 'd', disabled: true }, { value: 'a' }] }]);

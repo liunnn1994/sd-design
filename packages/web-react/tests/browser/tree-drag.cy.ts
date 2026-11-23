@@ -2,7 +2,7 @@ import {
   dropOnBottomIndicator,
   startDrag,
   moveDrag,
-} from '../../../web-vue/cypress/support/drag-sort';
+} from '../../../web-core/tests/browser/drag-sort';
 
 describe('React Tree drag adapter', () => {
   const source = '.sd-tree [data-key="0"] .sd-tree-node-title';

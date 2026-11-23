@@ -332,7 +332,13 @@ export function TabsNav(props: Props) {
                     type="button"
                     className={`${tabPrefix}-close-btn`}
                     aria-label={t('a11y.closeTab')}
-                    onKeyDown={(event) => event.stopPropagation()}
+                    onKeyDown={(event) => {
+                      event.stopPropagation();
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        event.currentTarget.click();
+                      }
+                    }}
                     onClick={(event) => {
                       event.stopPropagation();
                       activateTab(tab, event.nativeEvent, props.onDelete);

@@ -1,6 +1,10 @@
 import { h, ref } from 'vue';
 
-import { dropOnBottomIndicator, startDrag, moveDrag } from '../../../cypress/support/drag-sort';
+import {
+  dropOnBottomIndicator,
+  startDrag,
+  moveDrag,
+} from '../../../../web-core/tests/browser/drag-sort';
 import Tree from '../tree.vue';
 
 const data = Array.from({ length: 200 }, (_, key) => ({ key, title: `Node ${key}` }));

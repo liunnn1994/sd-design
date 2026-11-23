@@ -1,9 +1,9 @@
 import { Fragment, useRef, useState, type MouseEvent } from 'react';
 
-import type { MenuItemInstance, MenuSubMenuInstance } from '../../src/index';
+import type { MenuItemInstance, MenuSubMenuInstance } from '../../src/menu/index.js';
 
-import { Menu, MenuItem, MenuItemGroup, SubMenu } from '../../src/index';
 import { SiderContext } from '../../src/layout';
+import { Menu, MenuItem, MenuItemGroup, SubMenu } from '../../src/menu/index.js';
 
 export function MenuFixture() {
   const itemRef = useRef<MenuItemInstance>(null);
@@ -15,6 +15,7 @@ export function MenuFixture() {
   const [requests, setRequests] = useState('');
   const [writeback, setWriteback] = useState(false);
   const [width, setWidth] = useState(240);
+  const [longLabel, setLongLabel] = useState(false);
   const [rail, setRail] = useState(true);
   const [late, setLate] = useState(false);
   const [mode, setMode] = useState<'vertical' | 'pop'>('vertical');
@@ -64,6 +65,7 @@ export function MenuFixture() {
       <output data-testid="menu-item-events">{itemEvents}</output>
       <button onClick={() => setWriteback(!writeback)}>Allow menu writeback</button>
       <button onClick={() => setWidth(width === 240 ? 1000 : 240)}>Resize horizontal menu</button>
+      <button onClick={() => setLongLabel(!longLabel)}>Resize growing menu item</button>
       <button onClick={() => setRail(!rail)}>Toggle menu rail</button>
       <button onClick={() => setLate(!late)}>Toggle late menu</button>
       <button onClick={() => setMode(mode === 'vertical' ? 'pop' : 'vertical')}>
@@ -156,6 +158,18 @@ export function MenuFixture() {
         </Fragment>
         <MenuItem itemKey="horizontal-c">Horizontal Gamma</MenuItem>
         <MenuItem itemKey="horizontal-d">Horizontal Delta</MenuItem>
+      </Menu>
+      <Menu
+        data-testid="menu-content-width"
+        mode="horizontal"
+        style={{ width: 400 }}
+        triggerProps={{ trigger: 'click' }}
+        onMenuItemClick={setSelected}
+      >
+        <MenuItem itemKey="growing">
+          {longLabel ? 'A menu item with much longer content '.repeat(3) : 'A'}
+        </MenuItem>
+        <MenuItem itemKey="remaining">B</MenuItem>
       </Menu>
       <Menu data-testid="menu-dynamic" autoOpen style={{ width: 260 }}>
         <SubMenu itemKey="existing" title="Existing Branch">

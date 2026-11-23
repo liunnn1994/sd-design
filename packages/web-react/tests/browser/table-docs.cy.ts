@@ -1,4 +1,4 @@
-import { startDrag, moveDrag } from '../../../web-vue/cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../web-core/tests/browser/drag-sort';
 import { checkComponentDocs } from './docs-contract';
 
 describe('React Table documentation', () => {

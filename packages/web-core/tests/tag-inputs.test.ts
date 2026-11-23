@@ -23,7 +23,7 @@ import { createReadonlyTip, isReadonlyModificationKey } from '../dist/text-input
 const fields = DEFAULT_INPUT_TAG_FIELD_NAMES;
 const key = (value: string) => ({ key: value, preventDefault() {} }) as KeyboardEvent;
 
-function tags() {
+function tags(fieldNames = fields) {
   const pending: Array<() => void> = [];
   const events: unknown[][] = [];
   const state = {
@@ -57,7 +57,7 @@ function tags() {
       return state.controlledInput ?? state.input;
     },
     get data() {
-      return getValueData(this.value, fields);
+      return getValueData(this.value, fieldNames);
     },
     get renderedTagCount() {
       return this.data.length;
@@ -161,6 +161,25 @@ test('tag creation preserves model/form/Enter/input-clear event order', () => {
   assert.equal(state.input, '');
 });
 
+test('empty Enter and Backspace with a draft leave tag state and the native action untouched', () => {
+  const { f, state, events } = tags();
+  state.inner = ['existing'];
+  let prevented = 0;
+  const press = (value: string) =>
+    f.keydown({ key: value, preventDefault: () => prevented++ } as KeyboardEvent);
+
+  state.input = '';
+  press('Enter');
+  assert.equal(state.input, '');
+  state.input = 'draft';
+  press('Backspace');
+  assert.equal(state.input, 'draft');
+
+  assert.deepEqual(state.inner, ['existing']);
+  assert.deepEqual(events, []);
+  assert.equal(prevented, 0);
+});
+
 test('duplicate tag Enter emits only Enter and retains the draft until uniqueness is disabled', () => {
   const { f, adapter, state, events } = tags();
   state.inner = ['new'];
@@ -172,6 +191,26 @@ test('duplicate tag Enter emits only Enter and retains the draft until uniquenes
   f.keydown(key('Enter'));
   assert.deepEqual(state.inner, ['new', 'new']);
   assert.equal(state.input, 'new');
+});
+
+test('tag uniqueness uses object keys with default and custom fields without rewriting existing values', () => {
+  for (const [raw, fieldNames] of [
+    [{ value: 'new', label: 'Existing label' }, fields],
+    [
+      { id: 'new', title: 'Existing label' },
+      { ...fields, value: 'id', label: 'title' },
+    ],
+  ] as const) {
+    const { f, state, events } = tags(fieldNames);
+    state.inner = [raw];
+    f.keydown(key('Enter'));
+    assert.deepEqual(events.splice(0), [['enter', 'new']]);
+    assert.equal(state.input, 'new');
+    state.input = 'another';
+    f.keydown(key('Enter'));
+    assert.deepEqual(state.inner, [raw, 'another']);
+    assert.equal(state.inner[0], raw);
+  }
 });
 
 test('tag removal uses occurrence index, tagProps precedence and last closable item', () => {

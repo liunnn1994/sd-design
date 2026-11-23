@@ -21,5 +21,16 @@ describe('InputNumber formatted high-precision strings', () => {
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('update:modelValue')?.at(-1)).to.deep.equal(['9007199254740994']);
     });
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ modelValue: '5.100' }));
+    cy.get('input')
+      .should('have.value', '5.100 kg')
+      .focus()
+      .then(([$input]) => {
+        ($input as HTMLInputElement).setSelectionRange(5, 5);
+      });
+    cy.get('input').type('2').blur().should('have.value', '5.1002 kg');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:modelValue')?.at(-1)).to.deep.equal(['5.1002']);
+    });
   });
 });

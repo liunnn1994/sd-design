@@ -18,6 +18,7 @@ export function TypographyFixture() {
   const [accept, setAccept] = useState(true);
   const [ellipsis, setEllipsis] = useState(true);
   const [short, setShort] = useState(false);
+  const [clamped, setClamped] = useState<boolean>();
   const [initial, setInitial] = useState(false);
   const [controlled, setControlled] = useState(false);
   const [allowEditing, setAllowEditing] = useState(false);
@@ -124,10 +125,12 @@ export function TypographyFixture() {
       <TypographyParagraph
         data-testid="ty-tooltip"
         ellipsis={{ showTooltip: { type: 'tooltip', props: { mouseEnterDelay: 0 } } }}
+        onEllipsis={setClamped}
         style={{ width: 100 }}
       >
         {short ? 'short' : 'The full long tooltip source content'}
       </TypographyParagraph>
+      <output data-testid="ty-clamp-state">{String(clamped)}</output>
       <button onClick={() => setShort(!short)}>Typography short</button>
       <TypographyParagraph
         data-testid="ty-custom"

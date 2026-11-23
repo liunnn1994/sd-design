@@ -104,6 +104,29 @@ test('filtering clones modeled nodes, keeps raw records, and prunes rejected par
   assert.equal(rows[0].children!.length, 2);
 });
 
+test('sorting keeps equal-valued rows in source order in both directions', () => {
+  const data: Raw[] = [
+    { key: 'first', rank: 1 },
+    { key: 'higher', rank: 2 },
+    { key: 'second', rank: 1 },
+    { key: 'third', rank: 1 },
+  ];
+  const rows = process(data);
+  const columns = new Map<string, DataColumn<Raw>>([['rank', { sortable: { sorter: false } }]]);
+  assert.deepEqual(
+    sortRows(rows, { field: 'rank', direction: 'ascend' }, columns).map((row) => row.raw),
+    [data[0], data[2], data[3], data[1]],
+  );
+  assert.deepEqual(
+    sortRows(rows, { field: 'rank', direction: 'descend' }, columns).map((row) => row.raw),
+    [data[1], data[0], data[2], data[3]],
+  );
+  assert.deepEqual(
+    rows.map((row) => row.raw),
+    data,
+  );
+});
+
 test('sorting preserves remote and custom contracts and leaves child sort order unchanged', () => {
   const rows = process([
     {

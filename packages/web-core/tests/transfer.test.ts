@@ -146,8 +146,8 @@ test('Transfer view filters labels but selects all valid panel entries, preservi
   assert.deepEqual(view.getFilteredData(), []);
 });
 
-test('Transfer view handles empty/partial headers and truthy array checkbox payloads', () => {
-  let selected: string[] = ['a'];
+test('Transfer view computes header state from enabled rows only', () => {
+  let selected: string[] = [];
   let entries: TransferItem[] = data;
   const view = createTransferViewFoundation({
     getDataInfo: () => getTransferDataInfo(entries, [], selected).sourceInfo,
@@ -159,10 +159,24 @@ test('Transfer view handles empty/partial headers and truthy array checkbox payl
     },
     moveTo: () => {},
   });
-  assert.equal(view.isIndeterminate(), true);
-  assert.equal(view.isChecked(), false);
+  const cases: [string[], boolean, boolean][] = [
+    [[], false, false],
+    [['b'], false, false],
+    [['a', 'b'], false, true],
+    [['a', 'b', 'c', 'outside'], true, false],
+  ];
+  for (const [values, checked, indeterminate] of cases) {
+    selected = values;
+    assert.equal(view.isChecked(), checked);
+    assert.equal(view.isIndeterminate(), indeterminate);
+  }
+  selected = ['a'];
   view.selectAll([]);
   assert.deepEqual(selected, ['a', 'c']);
+  entries = [data[1]];
+  selected = ['b'];
+  assert.equal(view.isChecked(), false);
+  assert.equal(view.isIndeterminate(), false);
   entries = [];
   assert.equal(view.isChecked(), false);
   assert.equal(view.isIndeterminate(), false);

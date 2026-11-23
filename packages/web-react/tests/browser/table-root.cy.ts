@@ -1,4 +1,77 @@
 describe('React composed Table', () => {
+  it('activates the last page by keyboard and falls back when that page is removed', () => {
+    cy.visit('/table-root.html?scenario=page-shrink');
+    cy.get('.sd-table-td-content').should('have.text', 'Alpha');
+    cy.contains('.sd-pagination-item', /^3$/).focus().trigger('keydown', { key: 'Enter' });
+    cy.get('[data-testid="controlled-page"]').should('have.text', '3');
+    cy.get('.sd-table-td-content').should('have.text', 'Delta');
+    cy.contains('button', 'Remove last row').click();
+    cy.get('[data-testid="controlled-page"]').should('have.text', '2');
+    cy.get('.sd-pagination [aria-current="page"]').should('have.text', '2');
+    cy.get('.sd-table-td-content').should('have.text', 'Gamma');
+  });
+
+  it('updates grouped right-fixed offsets after resizing and drops a removed column drag', () => {
+    cy.visit('/table-root.html?scenario=column-lifecycle');
+    const header = (title: string) => cy.contains('.sd-table-th', new RegExp(`^${title}$`));
+    const events = () => cy.get('[data-testid="column-resizes"]');
+    const start = (title: string, delta: number) =>
+      header(title).then(([$header]) => {
+        const right = $header.getBoundingClientRect().right;
+        cy.wrap($header).find('.sd-table-column-handle').trigger('mousedown', {
+          eventConstructor: 'MouseEvent',
+          clientX: right,
+          force: true,
+        });
+        cy.window().trigger('mousemove', {
+          eventConstructor: 'MouseEvent',
+          clientX: right + delta,
+        });
+      });
+    header('Outer').should('have.css', 'right', '0px');
+    header('Inner').should('have.css', 'right', '0px');
+    header('Score').should('have.css', 'right', '100px');
+    header('Name').should('have.css', 'right', '200px');
+    start('Name', 20);
+    cy.window().trigger('mouseup');
+    events().should('have.text', '__proto__:170');
+    start('Score', 50);
+    events().should('have.text', '__proto__:170|score:150');
+    header('Name').should('have.css', 'right', '250px');
+    cy.contains('.sd-table-tbody .sd-table-td', /^Beta$/).should('have.css', 'right', '250px');
+    cy.contains('button', 'Toggle score column').then(([$button]) => $button.click());
+    header('Score').should('not.exist');
+    header('Name').should('have.css', 'right', '100px');
+    cy.contains('button', 'Toggle score column').then(([$button]) => $button.click());
+    header('Score').should('not.have.class', 'sd-table-th-resizing');
+    cy.window().trigger('mousemove', { eventConstructor: 'MouseEvent', clientX: 400 });
+    events().should('have.text', '__proto__:170|score:150');
+    start('Score', 10);
+    cy.window().trigger('mouseup');
+    events().should('have.text', '__proto__:170|score:150|score:160');
+    header('Name').should('have.css', 'right', '260px');
+  });
+
+  it('preserves controlled tree selection until accepting the requested enabled leaves', () => {
+    cy.visit('/table-root.html?scenario=controlled-selection');
+    const checkbox = (name: string) =>
+      cy.contains('.sd-table-tbody [role="row"]', name).find('.sd-checkbox');
+    checkbox('Parent').should('have.class', 'sd-checkbox-indeterminate').click();
+    cy.get('[data-testid="requested-selection"]').should(($requested) => {
+      expect(JSON.parse($requested.text())).to.have.members([0, 1, 'off-page']);
+    });
+    checkbox('Parent').should('have.class', 'sd-checkbox-indeterminate');
+    checkbox('One').find('input').should('not.be.checked');
+    cy.contains('button', 'Accept selection').click();
+    checkbox('Parent')
+      .should('not.have.class', 'sd-checkbox-indeterminate')
+      .find('input')
+      .should('be.checked');
+    checkbox('Zero').find('input').should('be.checked');
+    checkbox('One').find('input').should('be.checked');
+    checkbox('Disabled').find('input').should('be.disabled').and('not.be.checked');
+  });
+
   it('sorts actual rows and reports the new query and page data in the same callback', () => {
     cy.visit('/table-root.html');
     cy.get('.sd-table-tbody')
@@ -15,6 +88,24 @@ describe('React composed Table', () => {
       'have.text',
       '{"keys":[1,2],"sorted":[1,2,0,3],"page":1,"size":2,"sorter":{"field":"score","direction":"ascend"},"filters":{}}',
     );
+  });
+
+  it('keeps the live sorter and filter when their column titles change', () => {
+    cy.visit('/table-root.html?no-page');
+    cy.contains('.sd-table-th .sd-table-cell', 'Score').click().click();
+    cy.get('.sd-table-filters').click();
+    cy.contains('.sd-table-filters-content .sd-checkbox', 'B only').click();
+    cy.get('.sd-table-filters-bottom button').last().click();
+    const rows = () => cy.get('.sd-table-tbody .sd-table-tr');
+    rows().should('have.length', 2);
+    rows().eq(0).should('contain.text', 'Beta');
+    rows().eq(1).should('contain.text', 'Gamma');
+    cy.contains('button', 'Rename query columns').click();
+    cy.contains('.sd-table-th', 'Updated score').should('have.attr', 'aria-sort', 'descending');
+    cy.contains('.sd-table-th', 'Updated kind').find('.sd-table-filters-active').should('exist');
+    rows().should('have.length', 2);
+    rows().eq(0).should('contain.text', 'Beta');
+    rows().eq(1).should('contain.text', 'Gamma');
   });
   it('filters actual rows through the popup and preserves controlled column values until accepted', () => {
     cy.visit('/table-root.html?controlled');

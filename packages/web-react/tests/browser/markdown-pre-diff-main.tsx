@@ -44,6 +44,7 @@ function Fixture() {
             deferNodesUntilVisible={false}
             nodeVirtual={false}
             renderCodeBlocksAsPre
+            renderAsFragment={query.has('fragment')}
             isDark={scenario === 'dark'}
             codeBlockOptions={{
               fontFamily: 'Courier New',

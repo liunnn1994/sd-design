@@ -1,4 +1,4 @@
-import { checkComponentDocs } from './docs-contract';
+import { scrollToTopOutside } from '../../../web-core/tests/browser/scroll-outside';
 
 describe('ThinkingOrb React', () => {
   const main = '[data-testid="orb-main"]';
@@ -9,7 +9,7 @@ describe('ThinkingOrb React', () => {
       win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve()));
     });
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/thinking-orb.html');
     cy.get(main).scrollIntoView();
   });
   afterEach(() =>
@@ -117,7 +117,7 @@ describe('ThinkingOrb React', () => {
   it('stops offscreen and restarts after instant reentry', () => {
     cy.get<HTMLCanvasElement>(main).then((canvas) => {
       const node = canvas[0];
-      cy.window().then((win) => win.scrollTo({ top: 0, behavior: 'instant' }));
+      scrollToTopOutside(node);
       cy.then(async () => {
         await twoFrames(node);
         const still = snapshot(node);
@@ -133,6 +133,29 @@ describe('ThinkingOrb React', () => {
           expect(snapshot(current[0])).not.to.eq(still),
         );
       });
+    });
+  });
+  it('waits for a visible document before animating without IntersectionObserver', () => {
+    cy.visit('/thinking-orb.html', {
+      onBeforeLoad(win) {
+        cy.stub(win, 'IntersectionObserver').value(undefined);
+        cy.stub(win.document, 'visibilityState').value('hidden');
+      },
+    });
+    cy.get<HTMLCanvasElement>(main)
+      .scrollIntoView()
+      .then(async (canvas) => {
+        const still = snapshot(canvas[0]);
+        await twoFrames(canvas[0]);
+        expect(snapshot(canvas[0])).to.eq(still);
+      });
+    cy.window().then((win) => {
+      Reflect.deleteProperty(win.document, 'visibilityState');
+      win.document.dispatchEvent(new win.Event('visibilitychange'));
+    });
+    cy.get<HTMLCanvasElement>(main).then((canvas) => {
+      const still = snapshot(canvas[0]);
+      cy.get<HTMLCanvasElement>(main).should((next) => expect(snapshot(next[0])).not.to.eq(still));
     });
   });
   it('stops on hidden documents and releases the canvas ref on unmount', () => {
@@ -168,9 +191,4 @@ describe('ThinkingOrb React', () => {
     cy.contains('button', 'Orb mount').click();
     cy.get(main).should('be.visible');
   });
-});
-
-describe('ThinkingOrb documentation', () => {
-  it('documents shared thinking-orb scenes and framework navigation', () =>
-    checkComponentDocs('thinking-orb'));
 });

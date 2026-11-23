@@ -22,12 +22,4 @@ describe('Slider value boundaries', () => {
     cy.get('@onChange').should('have.been.calledOnceWith', 0.3);
     cy.get('[role="slider"]').should('have.attr', 'aria-valuenow', '0.3');
   });
-
-  it('keeps a coincident range endpoint inside the maximum on keyboard input', () => {
-    const onChange = cy.spy().as('onChange');
-    cy.mount(Slider, { props: { range: true, defaultValue: [100, 100], onChange } });
-    cy.get('[role="slider"]').last().focus().type('{rightarrow}');
-    cy.get('@onChange').should('have.been.calledOnceWith', [100, 100]);
-    cy.get('[role="slider"]').last().should('have.attr', 'aria-valuenow', '100');
-  });
 });

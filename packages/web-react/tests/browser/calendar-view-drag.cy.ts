@@ -81,6 +81,16 @@
         'Move me:2026-11-03 10:00-11:00',
       );
     });
+    it('moves the rendered event when approval arrives after native dragend', () => {
+      cy.get('[data-testid="target"]').contains('button', 'Defer drop').click();
+      startDrag();
+      dropOn('target');
+      cy.get('[data-testid="source"] .sd-calendar__event-title').should('have.text', 'Move me');
+      cy.get('[data-testid="target"] .sd-calendar__event').should('not.exist');
+      cy.contains('button', 'Accept pending drop').click();
+      cy.get('[data-testid="target"] .sd-calendar__event-title').should('have.text', 'Move me');
+      cy.get('[data-testid="source"] .sd-calendar__event').should('not.exist');
+    });
     it('ignores delayed approval after the destination unmounts and reconnects cleanly', () => {
       cy.get('[data-testid="target"]').contains('button', 'Defer drop').click();
       startDrag();
@@ -135,5 +145,39 @@
     });
   });
 }
+
+describe('Calendar external native drop destination', () => {
+  for (const allDay of [true, false]) {
+    it(`uses destination allDay=${allDay} for an external event`, () => {
+      cy.visit('/calendar.html?fixture=special-hours&external');
+      const destination = allDay ? '.sd-calendar__all-day' : '.sd-calendar__body';
+      cy.get(`${destination} .sd-calendar__cell`)
+        .first()
+        .then(($cell) => {
+          const cell = $cell[0];
+          const win = cell.ownerDocument.defaultView!;
+          const dataTransfer = new win.DataTransfer();
+          dataTransfer.setData(
+            'event',
+            JSON.stringify({ title: 'External', duration: 60, allDay: !allDay }),
+          );
+          const rect = cell.getBoundingClientRect();
+          cell.dispatchEvent(
+            new win.DragEvent('drop', {
+              bubbles: true,
+              cancelable: true,
+              dataTransfer,
+              clientX: rect.left + 10,
+              clientY: rect.top + rect.height / 8,
+            }),
+          );
+        });
+      cy.get('[data-testid="drops"]').should('have.text', '1');
+      cy.get('[data-testid="dropped"]').should('have.text', `true:${allDay}`);
+      cy.get('.sd-calendar__event-title').should('have.length', 1);
+      cy.get(`${destination} .sd-calendar__event-title`).should('have.text', 'External');
+    });
+  }
+});
 
 export {};

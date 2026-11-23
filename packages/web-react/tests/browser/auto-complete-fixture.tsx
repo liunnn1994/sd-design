@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import {
-  AutoComplete,
-  ConfigProvider,
-  Form,
-  FormItem,
-  type AutoCompleteInstance,
-} from '../../src/index';
+import { AutoComplete, type AutoCompleteInstance } from '../../src/auto-complete/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { Form, FormItem } from '../../src/form/index.js';
 const data = [
   { value: 'Alpha', label: 'Alpha' },
   { value: 'locked', label: 'Locked', disabled: true },

@@ -1,5 +1,3 @@
-import { checkComponentDocs } from './docs-contract';
-
 {
   const transferControl = (name = '') =>
     cy.get('[data-testid="transfer-fixture"]').contains('button', name).click();
@@ -9,7 +7,7 @@ import { checkComponentDocs } from './docs-contract';
     sourceRows().contains('.sd-transfer-list-item', label).find('label.sd-checkbox').click();
   const forward = () => cy.get('.sd-transfer-operations button').first().click();
   describe('React Transfer', () => {
-    beforeEach(() => cy.visit('/'));
+    beforeEach(() => cy.visit('/transfer.html'));
     it('moves selections in event order and retains data order on both sides', () => {
       sourceRows().should('have.length', 3);
       targetRows().should('have.length', 1).and('contain', 'Delta');
@@ -48,6 +46,24 @@ import { checkComponentDocs } from './docs-contract';
       transferControl('Transfer accept');
       forward();
       targetRows().should('contain', 'Alpha');
+    });
+    it('moves a filtered-out selection without losing a selection on the other side', () => {
+      chooseSource('Alpha');
+      targetRows().contains('.sd-transfer-list-item', 'Delta').find('label.sd-checkbox').click();
+      cy.get('input[aria-label="Transfer source search"]').type('Gamma');
+      cy.get('input[aria-label="Transfer target search"]').type('Delta');
+      sourceRows().should('have.length', 1).and('contain.text', 'Gamma');
+      targetRows().should('have.length', 1).and('contain.text', 'Delta');
+      forward();
+      cy.get('[data-testid="transfer-value"]').should('have.text', 'd,a');
+      cy.get('[data-testid="transfer-selected"]').should('have.text', 'd');
+      targetRows().find('input').should('be.checked');
+      cy.get('.sd-transfer-operations button').last().click();
+      cy.get('[data-testid="transfer-value"]').should('have.text', 'a');
+      cy.get('[data-testid="transfer-selected"]').should('be.empty');
+      cy.get('input[aria-label="Transfer target search"]').clear();
+      targetRows().should('have.length', 1).and('contain.text', 'Alpha');
+      sourceRows().should('have.length', 1).and('contain.text', 'Gamma');
     });
     it('filters immediately but reports search only on commit, and selects all valid unfiltered rows', () => {
       cy.get('input[aria-label="Transfer source search"]').type('Alpha');
@@ -98,9 +114,15 @@ import { checkComponentDocs } from './docs-contract';
       targetRows().should('have.length', 1).and('contain', 'Beta');
     });
     it('updates item and panel renderers without losing live selection callbacks', () => {
+      cy.get('.sd-transfer-view-source .sd-transfer-view-header').should(
+        'contain.text',
+        'Available',
+      );
+      cy.get('.sd-transfer-view-target .sd-transfer-view-header').should('contain.text', 'Chosen');
       transferControl('Transfer custom item');
       cy.get('[data-testid="transfer-custom-a"]').should('have.text', 'a:Alpha');
       cy.get('[data-testid="transfer-forward-icon"]').should('have.text', 'Forward');
+      cy.get('[data-testid="transfer-back-icon"]').should('have.text', 'Back');
       transferControl('Transfer custom item');
       cy.get('[data-testid="transfer-custom-a"]').should('not.exist');
       transferControl('Transfer custom panels');
@@ -134,14 +156,39 @@ import { checkComponentDocs } from './docs-contract';
       );
       sourceRows().contains('.sd-transfer-list-item', 'Alpha').find('input').should('be.checked');
       transferControl('Transfer custom titles');
-      cy.get('[data-testid="transfer-source-title"]').should('have.text', '1/3::true');
+      cy.get('[data-testid="transfer-source-title"]').should('have.text', '1/3::false:true');
+    });
+    it('keeps custom title bindings current and clears hidden enabled targets through the custom title', () => {
+      transferControl('Transfer controlled');
+      transferControl('Transfer disabled values');
+      transferControl('Transfer one way');
+      transferControl('Transfer custom titles');
+      const title = () => cy.get('[data-testid="transfer-source-title"]');
+      cy.get('input[aria-label="Transfer source search"]').type('Alpha');
+      sourceRows().should('have.length', 1).and('contain.text', 'Alpha');
+      title().should('have.text', '0/2:Alpha:false:false').click();
+      title().should('have.text', '2/2:Alpha:true:false');
+      cy.get('[data-testid="transfer-selected"]').should('have.text', 'b,a,c');
+
+      cy.get('input[aria-label="Transfer target search"]').type('Beta');
+      targetRows().should('have.length', 1).and('contain.text', 'Beta');
+      cy.get('[data-testid="transfer-target-title"]').should('have.text', 'Clear 2').click();
+      cy.get('[data-testid="transfer-target-title"]').should('have.text', 'Clear 1');
+      cy.get('[data-testid="transfer-value"]').should('have.text', 'b');
+      cy.get('input[aria-label="Transfer target search"]').clear();
+      targetRows().should('have.length', 1).and('contain.text', 'Beta');
     });
   });
 
   describe('React Transfer boundaries', () => {
-    beforeEach(() => cy.visit('/'));
+    beforeEach(() => cy.visit('/transfer.html'));
     it('deduplicates select-all and derives checked state only from enabled selections', () => {
       chooseSource('Alpha');
+      cy.get('.sd-transfer-view-source .sd-transfer-view-header input').should(
+        'have.prop',
+        'indeterminate',
+        true,
+      );
       cy.get('.sd-transfer-view-source .sd-transfer-view-header .sd-checkbox').click();
       cy.get('[data-testid="transfer-selected"]').should('have.text', 'a,c');
       transferControl('Transfer controlled');
@@ -158,6 +205,17 @@ import { checkComponentDocs } from './docs-contract';
       cy.get('.sd-transfer-view-target .sd-transfer-view-header .sd-checkbox').click();
       cy.get('[data-testid="transfer-selected"]').should('have.text', 'b');
     });
+    it('keeps enabled target rows when the one-way clear control is disabled', () => {
+      transferControl('Transfer one way');
+      transferControl('Transfer disabled');
+      cy.get('.sd-transfer-view-target .sd-transfer-view-header-clear-btn').click({ force: true });
+      targetRows().should('have.length', 1).and('contain.text', 'Delta');
+      cy.get('[data-testid="transfer-events"]').should('be.empty');
+      transferControl('Transfer disabled');
+      cy.get('.sd-transfer-view-target .sd-transfer-view-header-clear-btn').click();
+      targetRows().should('not.exist');
+      cy.get('[data-testid="transfer-value"]').should('be.empty');
+    });
     it('removes exactly once in simple one-way mode using a native Space key', () => {
       transferControl('Transfer simple');
       transferControl('Transfer one way');
@@ -172,6 +230,7 @@ import { checkComponentDocs } from './docs-contract';
     it('moves selected values with a focused native button and retains per-panel filters', () => {
       chooseSource('Alpha');
       cy.get('.sd-transfer-operations button').first().focus();
+      // cy.press(ENTER) does not activate this native button in headless Chrome.
       cy.then(() =>
         Cypress.automation('remote:debugger:protocol', {
           command: 'Input.dispatchKeyEvent',
@@ -198,11 +257,15 @@ import { checkComponentDocs } from './docs-contract';
       cy.get('[data-testid="transfer-events"]')
         .should('contain', 'search:source:Gamma')
         .and('contain', 'search:target:Delta');
+      cy.get('input[aria-label="Transfer target search"]').focus();
+      cy.get('.sd-transfer-view-target .sd-input-clear-btn').click();
+      targetRows().should('have.length', 2);
+      sourceRows().should('have.length', 1).and('contain', 'Gamma');
+      cy.get('[data-testid="transfer-events"]')
+        .invoke('text')
+        .should('match', /(?:^|\|)search:target:(?:\||$)/);
     });
   });
 }
 
-describe('React Transfer documentation', () => {
-  it('documents shared transfer scenes and framework navigation', () =>
-    checkComponentDocs('transfer'));
-});
+export {};

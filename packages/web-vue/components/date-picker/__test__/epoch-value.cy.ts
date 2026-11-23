@@ -10,11 +10,22 @@ describe('DatePicker epoch timestamps', () => {
     cy.get('.sd-picker input').should('have.value', '1970-01-02 00:00:00');
   });
 
-  it('preserves timestamp zero as the start of a range', () => {
+  it('preserves timestamp zero as the start of a range and follows later timestamps', () => {
+    const onChange = cy.spy();
     cy.mount(RangePicker, {
-      props: { modelValue: [0, 86400000], valueFormat: 'timestamp', showTime: true, utcOffset: 0 },
+      props: {
+        modelValue: [0, 86400000],
+        valueFormat: 'timestamp',
+        showTime: true,
+        utcOffset: 0,
+        onChange,
+      },
     });
     cy.get('.sd-picker input').eq(0).should('have.value', '1970-01-01 00:00:00');
     cy.get('.sd-picker input').eq(1).should('have.value', '1970-01-02 00:00:00');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ modelValue: [86400000, 172800000] }));
+    cy.get('.sd-picker input').eq(0).should('have.value', '1970-01-02 00:00:00');
+    cy.get('.sd-picker input').eq(1).should('have.value', '1970-01-03 00:00:00');
+    cy.wrap(onChange).should('not.have.been.called');
   });
 });

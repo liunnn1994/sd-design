@@ -4,6 +4,9 @@ import { Calendar } from '@sdata/web-react/calendar';
 import { useState } from 'react';
 
 export function CalendarLocaleRootFixture() {
+  const week = new URLSearchParams(location.search).has('week');
+  const view = week ? 'week' : 'month';
+  const viewDate = week ? '2021-01-01' : '2025-01-08';
   const [message, setMessage] = useState(zhCN);
   const [locale, setLocale] = useState('en-us');
   const [size, setSize] = useState(0);
@@ -47,15 +50,15 @@ export function CalendarLocaleRootFixture() {
       <ConfigProvider locale={message}>
         <Calendar
           id="provider"
-          view="month"
-          viewDate="2025-01-08"
+          view={view}
+          viewDate={viewDate}
           style={{ width: 800, height: 400 }}
         />
       </ConfigProvider>
       <Calendar
         id="english"
-        view="month"
-        viewDate="2025-01-08"
+        view={view}
+        viewDate={viewDate}
         locale={locale}
         sm={size > 0}
         xs={size > 1}
@@ -63,8 +66,9 @@ export function CalendarLocaleRootFixture() {
       />
       <Calendar
         id="global"
-        view="month"
-        viewDate="2025-01-08"
+        view={view}
+        viewDate={viewDate}
+        startWeekOnSunday={week}
         style={{ width: 800, height: 400 }}
       />
     </>

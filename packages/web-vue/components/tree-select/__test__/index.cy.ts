@@ -400,6 +400,61 @@ describe('TreeSelect', () => {
     cy.get('.sd-tree-node[data-key="leaf-1"]').should('be.visible');
   });
 
+  it('temporarily expands matches and restores the manual expansion after clearing search', () => {
+    cy.mount(TreeSelect, { props: { allowSearch: true, data: titleData } });
+    const input = () => cy.get('.sd-select-view input');
+    const root = () => cy.get('.sd-tree-select-popup [data-key="root"]');
+    openPopup();
+    root().should('have.attr', 'aria-expanded', 'false');
+    input().type('leaf-1');
+    cy.get('.sd-tree-select-popup [data-key="leaf-1"]').should('be.visible');
+    cy.get('.sd-tree-select-popup [data-key="leaf-2"]').should('not.exist');
+    input().clear();
+    root().should('have.attr', 'aria-expanded', 'false');
+    root().find('.sd-tree-node-switcher-icon').click();
+    input().type('leaf-1');
+    cy.get('.sd-tree-select-popup [data-key="leaf-2"]').should('not.exist');
+    input().clear();
+    root().should('have.attr', 'aria-expanded', 'true');
+    cy.get('.sd-tree-select-popup [data-key="leaf-2"]').should('be.visible');
+    input().type('no-match');
+    cy.get('.sd-tree-select-popup .sd-empty').should('be.visible');
+    cy.get('.sd-tree-select-popup [role="tree"]').should('not.be.visible');
+    input().clear();
+    root().should('have.attr', 'aria-expanded', 'true');
+    cy.get('.sd-tree-select-popup [data-key="leaf-2"]').should('be.visible');
+  });
+
+  it('retains externally controlled expansion when clearing temporary search results', () => {
+    cy.mount(TreeSelect, {
+      props: {
+        allowSearch: true,
+        treeProps: { expandedKeys: ['root'] },
+        data: [
+          {
+            key: 'root',
+            title: 'Root',
+            children: [
+              { key: 'one', title: 'One' },
+              { key: 'two', title: 'Two' },
+            ],
+          },
+        ],
+      },
+    });
+    const input = () => cy.get('.sd-select-view input');
+    const root = () => cy.get('.sd-tree-select-popup [data-key="root"]');
+    openPopup();
+    root().should('have.attr', 'aria-expanded', 'true');
+    cy.get('.sd-tree-select-popup [data-key="two"]').should('be.visible');
+    input().type('one');
+    cy.get('.sd-tree-select-popup [data-key="one"]').should('be.visible');
+    cy.get('.sd-tree-select-popup [data-key="two"]').should('not.exist');
+    input().clear();
+    root().should('have.attr', 'aria-expanded', 'true');
+    cy.get('.sd-tree-select-popup [data-key="two"]').should('be.visible');
+  });
+
   it('shows the empty state when the filter has no matches', () => {
     cy.mount(TreeSelect, { props: { options, fieldNames, allowSearch: true } });
     openPopup();

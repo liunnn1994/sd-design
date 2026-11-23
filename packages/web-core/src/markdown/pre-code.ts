@@ -64,6 +64,7 @@ export function getMarkdownPreTheme(options: MarkdownPreThemeOptions) {
   return {
     name,
     builtin,
+    dark,
     background,
     foreground,
     lineNumber,
@@ -99,11 +100,11 @@ export function getMarkdownPreCodeStyles(
           '--markstream-code-theme-line-number': theme.lineNumber,
         }
       : {}),
-    '--markstream-diff-added-line-fill': theme.addedLine,
-    '--markstream-diff-added-number-fill': theme.addedNumber,
+    '--markstream-diff-added-line-fill': `var(--sd-markdown-pre-added-line, ${theme.addedLine})`,
+    '--markstream-diff-added-number-fill': `var(--sd-markdown-pre-added-number, ${theme.addedNumber})`,
     '--markstream-diff-editor-bg': theme.background,
-    '--markstream-diff-removed-line-fill': theme.removedLine,
-    '--markstream-diff-removed-number-fill': theme.removedNumber,
+    '--markstream-diff-removed-line-fill': `var(--sd-markdown-pre-removed-line, ${theme.removedLine})`,
+    '--markstream-diff-removed-number-fill': `var(--sd-markdown-pre-removed-number, ${theme.removedNumber})`,
     '--markstream-diff-shell-bg': theme.background,
     '--markstream-pre-resolved-theme-bg': theme.background,
     '--markstream-pre-resolved-theme-fg': theme.foreground,
@@ -119,7 +120,15 @@ export function getMarkdownPreCodeStyles(
     '--markstream-code-padding-bottom': `${code.padding}px`,
     '--markstream-code-scrollbar-gutter': '6px',
     '--markstream-code-tab-size': String(code.tabSize),
-    ...(options.diff ? { '--markstream-pre-diff-line-height': `${code.lineHeight}px` } : {}),
+    ...(options.diff
+      ? {
+          '--markstream-pre-diff-line-height': `${code.lineHeight}px`,
+          '--sd-markdown-pre-added-tint': theme.dark ? '#4d9375' : '#1e754f',
+          '--sd-markdown-pre-removed-tint': theme.dark ? '#cb7676' : '#ab5959',
+          '--sd-markdown-pre-line-bg-weight': theme.dark ? '80%' : '88%',
+          '--sd-markdown-pre-number-bg-weight': theme.dark ? '85%' : '91%',
+        }
+      : {}),
     '--markstream-pre-line-number-top': `${code.padding}px`,
     '--markstream-pre-line-number-left': '0px',
     '--markstream-pre-line-number-padding-left': '2ch',
@@ -152,7 +161,7 @@ export function getMarkdownPreCodeStyles(
     'overflowWrap': code.overflow === 'wrap' ? 'anywhere' : 'normal',
     'wordBreak': 'normal',
     'width': '100%',
-    ...(reserved ? { height: reserved, minHeight: reserved, maxHeight: reserved } : {}),
+    ...(reserved ? { height: reserved, minHeight: reserved } : {}),
   };
   return { pre, container: colors, theme: theme.name, wrap: code.overflow === 'wrap' };
 }

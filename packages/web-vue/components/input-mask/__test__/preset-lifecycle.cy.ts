@@ -1,15 +1,5 @@
-import type { InputMaskPresetName } from '../types';
-
+import { inputMaskPresetCases } from '../../../../web-core/tests/fixtures/input-mask-presets';
 import InputMask from '../index';
-
-const cases: Array<[InputMaskPresetName, string, string]> = [
-  ['mime-type', 'application/json', 'application/json'],
-  ['jwt', 'header.payload.signature', 'header.payload.signature'],
-  ['fqdn', 'example.com', 'example.com'],
-  ['issn', '1234567X', '1234-567X'],
-  ['isrc', 'USAAA2612345', 'US-AAA-26-12345'],
-  ['iso6346', 'MSCU1234567', 'MSCU 123456 7'],
-];
 
 describe('InputMask preset user flows', () => {
   it('preserves the date cursor during continuous rapid input', () => {
@@ -17,7 +7,7 @@ describe('InputMask preset user flows', () => {
     cy.get('input').type('20261107', { delay: 0 }).should('have.value', '2026-11-07');
   });
 
-  for (const [preset, input, expected] of cases) {
+  for (const [preset, input, expected] of inputMaskPresetCases) {
     it(`accepts a complete ${preset} value through typing`, () => {
       cy.mount(InputMask, { props: { preset } });
       cy.get('input').type(input).blur().should('have.value', expected);

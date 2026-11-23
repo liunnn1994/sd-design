@@ -6,7 +6,7 @@ import {
   type VoiceGlowProps,
   type VoiceGlowType,
   type VoiceGlowTheme,
-} from '../../src/index';
+} from '../../src/voice-glow/index.js';
 function MicrophoneFixture({ autoStart }: { autoStart: boolean }) {
   const mic = useVoiceMicrophone({ autoStart, constraints: { echoCancellation: true } });
   return (

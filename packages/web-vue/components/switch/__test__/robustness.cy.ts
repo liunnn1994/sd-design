@@ -3,6 +3,28 @@ import { defineComponent, h, ref } from 'vue';
 import Switch from '../index';
 
 describe('Switch robustness', () => {
+  it('validates and commits only once when clicked twice synchronously', () => {
+    let resolve!: (accepted: boolean) => void;
+    const beforeChange = cy.stub().callsFake(
+      () =>
+        new Promise<boolean>((done) => {
+          resolve = done;
+        }),
+    );
+    const change = cy.spy();
+    cy.mount(Switch, { props: { beforeChange, onChange: change } });
+    cy.get('[role="switch"]').then(($switch) => {
+      $switch[0].click();
+      $switch[0].click();
+    });
+    cy.get('[role="switch"]').should('have.attr', 'aria-checked', 'false');
+    cy.wrap(beforeChange).should('have.been.calledOnce');
+    cy.wrap(change).should('not.have.been.called');
+    cy.then(() => resolve(true));
+    cy.get('[role="switch"]').should('have.attr', 'aria-checked', 'true');
+    cy.wrap(change).should('have.been.calledOnce');
+  });
+
   it('starts auto loading after modelValue is dynamically added', () => {
     const controlled = ref(false);
     cy.mount(

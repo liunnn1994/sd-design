@@ -16,8 +16,8 @@ export function createPageJumperFoundation(adapter: PageJumperAdapter) {
     if (typeof value !== 'number') return;
     adapter.onChange(value);
     adapter.defer(() => {
-      // Empty text forces the nested InputNumber to reset even after an empty draft.
-      if (!adapter.simple) adapter.setValue('');
+      // Reset the draft without switching InputNumber to string output.
+      if (!adapter.simple) adapter.setValue(undefined);
     });
   }
   function sync(value: number) {

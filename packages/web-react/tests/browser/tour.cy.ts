@@ -1,5 +1,3 @@
-import { checkComponentDocs } from './docs-contract';
-
 {
   const tourControl = (name = '') =>
     cy.get('[data-testid="tour-fixture"]').contains('button', name).click({ force: true });
@@ -153,6 +151,4 @@ import { checkComponentDocs } from './docs-contract';
   });
 }
 
-describe('React Tour documentation', () => {
-  it('documents shared tour scenes and framework navigation', () => checkComponentDocs('tour'));
-});
+export {};

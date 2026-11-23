@@ -107,6 +107,20 @@ describe('Countdown', () => {
     });
   });
 
+  it('does not emit finish after the running countdown is unmounted', () => {
+    const now = 10_000;
+    const onFinish = cy.stub().as('countdownFinish');
+    cy.clock(now);
+    cy.mount(Countdown, {
+      props: { value: now + 3000, now, animation: false, format: 'ss', onFinish },
+    });
+    cy.tick(1000);
+    cy.get('.sd-statistic-value .sd-number-flow').should('have.attr', 'aria-label', '02');
+    cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
+    cy.tick(3000);
+    cy.get('@countdownFinish').should('not.have.been.called');
+  });
+
   it('does not tick while start is false and starts when it becomes true', () => {
     const now = Date.now();
     cy.clock(now);

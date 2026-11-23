@@ -1,6 +1,10 @@
 import { useRef, useState } from 'react';
 
-import { VerificationCode, Form, FormItem, type VerificationCodeInstance } from '../../src/index';
+import { Form, FormItem } from '../../src/form/index.js';
+import {
+  VerificationCode,
+  type VerificationCodeInstance,
+} from '../../src/verification-code/index.js';
 
 export function VerificationCodeFixture() {
   const [value, setValue] = useState('');
@@ -38,10 +42,11 @@ export function VerificationCodeFixture() {
       <VerificationCode data-testid="verification-default" defaultValue="12" length={length} />
       <VerificationCode
         data-testid="verification-readonly"
-        defaultValue="1234"
+        defaultValue="12"
         length={4}
         readonly="Read only code"
         masked
+        onValueChange={(next) => record(`readonly:${next}`)}
       />
       <Form model={{}} disabled>
         <FormItem>
@@ -54,6 +59,7 @@ export function VerificationCodeFixture() {
       </button>
       <button onClick={() => setValue('90')}>Set code</button>
       <button onClick={() => setLength(length === 4 ? 6 : 4)}>Resize code</button>
+      <button onClick={() => setLength(0)}>Remove code cells</button>
       <button onClick={() => setDisabled(!disabled)}>Disable code</button>
       <output data-testid="verification-value">{value}</output>
       <output data-testid="verification-events">{events.join('|')}</output>

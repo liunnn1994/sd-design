@@ -3,7 +3,7 @@ import { h } from 'vue';
 import type { TreeInstance } from '../index';
 import type { TreeNodeData } from '../interface';
 
-import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../../web-core/tests/browser/drag-sort';
 import Tree from '../index';
 
 const treeData: TreeNodeData[] = [{ title: 'Node 1', key: 'node-1' }];

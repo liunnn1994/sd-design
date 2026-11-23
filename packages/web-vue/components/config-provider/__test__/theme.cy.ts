@@ -12,7 +12,7 @@ import Spin from '../../spin';
 import Tag from '../../tag';
 import TreeSelect from '../../tree-select';
 import ConfigProvider from '../config-provider.vue';
-import { applyThemeCSSVariables, normalizeTheme, resolveThemeToken } from '../theme';
+import { applyThemeCSSVariables, normalizeTheme } from '../theme';
 
 const mountProvider = (props: Record<string, unknown>, defaultSlot: unknown) =>
   cy.mount(
@@ -27,19 +27,6 @@ describe('config-provider theme', () => {
   afterEach(() => {
     document.body.removeAttribute('style');
     document.body.removeAttribute('sd-theme');
-  });
-
-  it('normalizes the theme object with compatibility fields', () => {
-    const normalized = normalizeTheme({
-      token: { primary6: '12,34,56' },
-      components: { Button: { primary6: '100,100,100' } },
-      meta: { cssVarPrefix: 'sd' },
-    });
-    expect(normalized.tokens['primary-6']).to.equal('12,34,56');
-    expect(normalized.components.button['primary-6']).to.equal('100,100,100');
-    expect(normalized.meta.cssVarPrefix).to.equal('--sd-');
-    expect(resolveThemeToken(normalized, 'button', 'primary-6')).to.equal('100,100,100');
-    expect(resolveThemeToken(normalized, 'input', 'primary-6')).to.equal('12,34,56');
   });
 
   it('applies css variables and removes stale keys', () => {

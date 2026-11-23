@@ -5,7 +5,93 @@ import {
   createInputMaskFoundation,
   type InputMaskFoundationState,
 } from '../dist/input-mask/foundation.js';
+import {
+  defaultInputMaskFormatChars,
+  formatInputMask,
+  resolveDeletion,
+} from '../dist/input-mask/mask-engine.js';
 import { createInputMaskPresets } from '../dist/input-mask/presets.js';
+
+test('InputMask exposes only mask-useful validator formats as presets', () => {
+  const presets = createInputMaskPresets('Local IP');
+  for (const name of ['ip', 'url', 'semver']) assert.ok(Object.hasOwn(presets, name));
+  for (const name of ['md5', 'port']) assert.equal(Object.hasOwn(presets, name), false);
+});
+
+test('InputMask deletes the adjacent editable value when backspacing a separator', () => {
+  const result = resolveDeletion(
+    '2026-__-__',
+    { start: 5, end: 5 },
+    '2026__-__',
+    4,
+    '9999-99-99',
+    defaultInputMaskFormatChars,
+    '_',
+  );
+  assert.equal(result?.value, '202_-__-__');
+  assert.equal(result?.cursor, 3);
+});
+
+test('InputMask reformatting preserves a multi-character array literal', () => {
+  const mask = ['+86 ', /\d/, /\d/] as const;
+  const options = { maskChar: null, showMask: true };
+  const formatted = formatInputMask('12', null, mask, options);
+  assert.equal(formatted.value, '+86 12');
+  assert.equal(formatInputMask(formatted.value, null, mask, options).value, formatted.value);
+});
+
+test('InputMask treats combining sequences and astral characters as single graphemes', () => {
+  const options = { maskChar: null, showMask: true };
+  const combining = 'e\u0301';
+  assert.equal(formatInputMask(combining, combining.length, 'L', options).value, combining);
+  const char = '𠀀';
+  const astral = formatInputMask(char, char.length, 'H', options);
+  assert.equal(astral.value, char);
+  assert.equal(astral.complete, true);
+});
+
+test('InputMask enforces rgb() / hsl() structure instead of a bare character whitelist', () => {
+  const presets = createInputMaskPresets('Local IP');
+  const rgb = presets['rgb-color'];
+  assert.equal(rgb.accepts?.('rgb(22, 119, 255)'), true);
+  assert.equal(rgb.accepts?.('rgba(22, 119, 255, 0.5)'), true);
+  assert.equal(rgb.accepts?.('xyz'), false);
+  assert.equal(rgb.accepts?.('22, 119, 255'), false);
+
+  const hsl = presets['hsl'];
+  assert.equal(hsl.accepts?.('hsl(210, 100%, 50%)'), true);
+  assert.equal(hsl.accepts?.('hsla(210, 100%, 50%, 0.5)'), true);
+  assert.equal(hsl.accepts?.('210 100 50'), false);
+});
+
+test('InputMask differentiates datetime (space separator) from rfc3339 (T only)', () => {
+  const presets = createInputMaskPresets('Local IP');
+  const datetime = presets['datetime'];
+  const rfc3339 = presets['rfc3339'];
+  assert.equal(datetime.accepts?.('2026-08-06 10:30:00'), true);
+  assert.equal(rfc3339.accepts?.('2026-08-06 10:30:00'), false);
+  assert.equal(rfc3339.accepts?.('2026-08-06T10:30:00'), true);
+});
+
+test('InputMask enforces ip-range structure with a bounded prefix', () => {
+  const presets = createInputMaskPresets('Local IP');
+  const ipRange = presets['ip-range'];
+  assert.equal(ipRange.accepts?.('192.168.1.0/24'), true);
+  assert.equal(ipRange.accepts?.('192.168.1.0'), true);
+  assert.equal(ipRange.accepts?.('192.168.1.0/33'), false);
+  assert.equal(ipRange.accepts?.('192.168.1.0/abc'), false);
+});
+
+test('InputMask treats escaped characters and dangling backslashes in string masks as literals', () => {
+  // \9 in a string mask is a literal '9', not the numeric token.
+  const escaped = formatInputMask('1', null, '\\9-9', { maskChar: null, showMask: true });
+  assert.equal(escaped.value, '9-1');
+
+  // A trailing lone backslash degrades to a literal backslash instead of throwing.
+  const dangling = formatInputMask('a', null, 'a\\', { maskChar: null, showMask: true });
+  assert.equal(dangling.value, 'a\\');
+});
+
 function fixture(props: Partial<InputMaskFoundationState['props']> = {}) {
   let foundation!: ReturnType<typeof createInputMaskFoundation>;
   const events: unknown[][] = [],

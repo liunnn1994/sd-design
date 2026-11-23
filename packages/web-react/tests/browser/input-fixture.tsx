@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
 
-import type { InputInstance } from '../../src/index';
+import type { InputInstance } from '../../src/input';
 
-import { ConfigProvider, Form, FormItem, Input, InputPassword, InputSearch } from '../../src/index';
+import { ConfigProvider } from '../../src/config-provider';
+import { Form, FormItem } from '../../src/form';
+import { Input, InputGroup, InputPassword, InputSearch } from '../../src/input';
 
 export function InputFixture() {
   const [value, setValue] = useState('');
@@ -12,6 +14,7 @@ export function InputFixture() {
   const [visibility, setVisibility] = useState(true);
   const [searches, setSearches] = useState('');
   const [eventTarget, setEventTarget] = useState('');
+  const [passwordRequests, setPasswordRequests] = useState(0);
   const ref = useRef<InputInstance>(null);
   const record = (event: string) => setEvents((old) => [...old, event]);
   return (
@@ -51,6 +54,7 @@ export function InputFixture() {
       <Input
         defaultValue="secret"
         readonly="Cannot edit this value"
+        allowClear
         inputAttrs={{ 'aria-label': 'Readonly input' }}
       />
       <Input fitWidth defaultValue="x" inputAttrs={{ 'aria-label': 'Fit input' }} />
@@ -85,6 +89,34 @@ export function InputFixture() {
         inputAttrs={{ 'aria-label': 'Numeric affix input' }}
         onKeyUp={(event) => setEventTarget(event.currentTarget.tagName)}
       />
+      <InputGroup data-testid="native-inputs" className="grouped-inputs">
+        <Input
+          data-testid="weighted-input"
+          maxLength={4}
+          showWordLimit
+          wordLength={(text) => [...text].length * 2}
+          inputAttrs={{ 'aria-label': 'Weighted input', 'name': 'weighted' }}
+        />
+        <Input
+          maxLength={4}
+          wordSlice={(text, length) => text.slice(0, length).toUpperCase()}
+          inputAttrs={{ 'aria-label': 'Custom slice input' }}
+        />
+        <Input
+          defaultValue="Disabled"
+          disabled
+          allowClear
+          inputAttrs={{ 'aria-label': 'Disabled input' }}
+        />
+      </InputGroup>
+      <InputPassword
+        visibility
+        defaultValue="masked"
+        onVisibilityUpdate={() => setPasswordRequests((count) => count + 1)}
+        inputAttrs={{ 'aria-label': 'Locked password' }}
+      />
+      <InputPassword defaultVisibility={false} inputAttrs={{ 'aria-label': 'Plain password' }} />
+      <output data-testid="password-requests">{passwordRequests}</output>
       <output data-testid="input-event-target">{eventTarget}</output>
       <button onClick={() => setOuter(!outer)}>Toggle input outer</button>
       <button onClick={() => setDisabled(!disabled)}>Disable input search</button>

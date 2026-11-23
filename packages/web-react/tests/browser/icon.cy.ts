@@ -1,5 +1,3 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('React icon library and IconFont', () => {
   const generated = '[data-testid="icon-generated"]';
   const generic = '[data-testid="icon-generic"]';
@@ -9,8 +7,18 @@ describe('React icon library and IconFont', () => {
     (element[0] as unknown as SVGGraphicsElement).getBBox();
   const action = (name = '') => cy.get(`[data-testid="icon-${name}"]`).click();
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/icon.html');
     cy.get('[data-testid="icon-fixture"]').scrollIntoView();
+  });
+  it('updates inherited paint colors while preserving explicitly configured colors', () => {
+    const fixture = '[data-testid="icon-fixture"]';
+    for (const color of ['rgb(12, 34, 56)', 'rgb(98, 76, 54)']) {
+      cy.get(fixture).invoke('css', 'color', color);
+      cy.get(generated).should('have.css', 'stroke', color);
+      cy.get(generic).should('have.css', 'fill', color);
+      cy.get(font).should('have.css', 'fill', color);
+      cy.get('[data-testid="icon-configured"]').should('have.css', 'fill', 'rgb(255, 0, 0)');
+    }
   });
   it('renders generated paths with SVG defaults, native events, stroke options and refs', () => {
     cy.get(generated)
@@ -129,8 +137,4 @@ describe('React icon library and IconFont', () => {
   });
 });
 
-describe('React icon documentation', () => {
-  it('documents shared icon scenes and framework navigation', () => checkComponentDocs('icon'));
-  it('documents shared icon-component scenes and framework navigation', () =>
-    checkComponentDocs('icon-component'));
-});
+export {};

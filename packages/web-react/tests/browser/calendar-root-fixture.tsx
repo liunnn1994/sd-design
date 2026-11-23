@@ -3,6 +3,43 @@ import { useRef, useState } from 'react';
 
 import type { CalendarExposed } from '../../src/calendar/root-types.js';
 const events = [{ title: 'Meeting', start: '2026-11-03 10:00', end: '2026-11-03 11:00' }];
+
+export function CalendarIndexFixture() {
+  const api = useRef<CalendarExposed>(null);
+  const [input, setInput] = useState(() => [
+    { title: 'All-day spanning', start: '2025-01-07', end: '2025-01-09', allDay: true },
+    { title: 'Timed spanning', start: '2025-01-08 10:00', end: '2025-01-10 11:00' },
+    ...Array.from({ length: 98 }, (_, index) => ({
+      title: `Earlier event ${index}`,
+      start: '2024-01-01 10:00',
+      end: '2024-01-01 11:00',
+    })),
+  ]);
+  return (
+    <>
+      <button
+        onClick={() =>
+          setInput([
+            ...input,
+            { title: 'New appointment', start: '2025-01-08 08:00', end: '2025-01-08 09:00' },
+          ])
+        }
+      >
+        Add event at the index threshold
+      </button>
+      <button onClick={() => api.current?.view.next()}>Next day</button>
+      <Calendar
+        ref={api}
+        style={{ height: 400 }}
+        view="day"
+        viewDate="2025-01-08"
+        allDayEvents
+        events={input}
+      />
+    </>
+  );
+}
+
 export function CalendarRootFixture() {
   const api = useRef<CalendarExposed>(null);
   const [ready, setReady] = useState(0);

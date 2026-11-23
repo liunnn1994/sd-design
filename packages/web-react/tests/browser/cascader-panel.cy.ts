@@ -69,4 +69,33 @@ describe('React standalone Cascader Panel', () => {
     cy.contains('button', 'Unmount').click();
     cy.get('[data-testid="panel"]').should('not.exist');
   });
+
+  for (const key of ['{rightarrow}', '{enter}']) {
+    it(`loads a standalone lazy branch using ${key} and selects its child`, () => {
+      cy.visit('/cascader-panel.html?lazy');
+      cy.clock();
+      const panel = () => cy.get('[data-testid="panel"]');
+      panel().focus().type(`{downarrow}${key}`);
+      cy.get('.sd-icon-loading').should('exist');
+      cy.get('[data-testid="events"]').should('be.empty');
+      cy.tick(100);
+      cy.clock().invoke('restore');
+      cy.contains('button', /^Loaded$/).should('be.visible');
+      panel().type('{rightarrow}{enter}');
+      cy.get('[data-testid="events"]').should('have.text', 'update:"loaded"|change:"loaded"');
+    });
+  }
+
+  for (const failure of ['throw', 'reject']) {
+    it(`recovers a standalone lazy branch after ${failure}`, () => {
+      cy.visit(`/cascader-panel.html?lazy&failure=${failure}`);
+      cy.contains('button', /^Lazy$/).click();
+      cy.get('.sd-icon-loading').should('not.exist');
+      cy.contains('button', /^Loaded$/).should('not.exist');
+      cy.get('[data-testid="events"]').should('be.empty');
+      cy.contains('button', /^Lazy$/).click();
+      cy.contains('button', /^Loaded$/).click();
+      cy.get('[data-testid="events"]').should('have.text', 'update:"loaded"|change:"loaded"');
+    });
+  }
 });

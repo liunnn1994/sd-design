@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-import { Button, ConfigProvider, Layout } from '../../src/index';
+import { Button } from '../../src/button';
+import { ConfigProvider } from '../../src/config-provider';
+import { Layout } from '../../src/layout';
 
 function WrappedSider() {
   return <Layout.Sider scrollbar={false}>包装侧栏</Layout.Sider>;
@@ -12,6 +14,11 @@ export function LayoutFixture() {
   const [dark, setDark] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
   const [events, setEvents] = useState('');
+  const [override, setOverride] = useState<boolean>();
+  const [writeBack, setWriteBack] = useState(false);
+  const [controlled, setControlled] = useState(true);
+  const [accepted, setAccepted] = useState(true);
+  const [hideTrigger, setHideTrigger] = useState(false);
   return (
     <section>
       <Button onClick={() => setShown(!shown)}>切换包装侧栏</Button>
@@ -76,6 +83,47 @@ export function LayoutFixture() {
           <input aria-label="临时侧栏输入" />
         </Layout.Sider>
       </ConfigProvider>
+      <Button
+        onClick={() => setOverride(override === undefined ? false : override ? undefined : true)}
+      >
+        Cycle sider override
+      </Button>
+      <Button onClick={() => setWriteBack(true)}>Accept collapse requests</Button>
+      <Button onClick={() => setControlled(false)}>Release collapse control</Button>
+      <Button onClick={() => setHideTrigger(!hideTrigger)}>Toggle custom trigger</Button>
+      <ConfigProvider rtl themeMode="dark">
+        <Layout hasSider={override} data-testid="override-layout" style={{ width: 300 }}>
+          {override !== true && (
+            <Layout.Sider width="50%" theme="light" scrollbar={false} data-testid="explicit-sider">
+              Explicit sider
+            </Layout.Sider>
+          )}
+          <Layout.Content>Override content</Layout.Content>
+        </Layout>
+      </ConfigProvider>
+      <Layout.Sider
+        data-testid="writeback-sider"
+        collapsible
+        collapsed={controlled ? accepted : undefined}
+        collapsedWidth={32}
+        onCollapse={(value, type) => {
+          if (writeBack) setAccepted(value);
+          setEvents(`${value}:${type}`);
+        }}
+      >
+        Controlled requests
+      </Layout.Sider>
+      <Layout.Sider
+        data-testid="custom-sider"
+        collapsible
+        defaultCollapsed
+        collapsedWidth={0}
+        hideTrigger={hideTrigger}
+        zeroWidthTriggerStyle={{ backgroundColor: 'rgb(24, 48, 72)' }}
+        trigger={<span>Custom control</span>}
+      >
+        Custom sider
+      </Layout.Sider>
     </section>
   );
 }

@@ -1,9 +1,12 @@
 import { useState } from 'react';
 
-import { Button, ConfigProvider, Link, Tag } from '../../src/index';
+import { Button } from '../../src/button/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { Link } from '../../src/link/index.js';
 
 export function TextControlsFixture() {
   const [clicks, setClicks] = useState(0);
+  const [plain, setPlain] = useState(false);
   return (
     <section>
       <Button data-testid="ellipsis-button" style={{ width: 120 }}>
@@ -20,23 +23,6 @@ export function TextControlsFixture() {
       >
         按钮长内容用于验证外层提示优先级
       </Button>
-      <Tag data-testid="custom-tag" tooltip="标签自定义提示">
-        短标签
-      </Tag>
-      <Tag data-testid="plain-tag" ellipsis={false} tooltip="无省略提示">
-        普通标签
-      </Tag>
-      <Tag data-testid="disabled-tooltip-tag" ellipsisTooltip={false} tooltip="禁用的提示">
-        禁用提示
-      </Tag>
-      <Tag
-        data-testid="multiline-tag"
-        ellipsisLineClamp={2}
-        ellipsisExpandTrigger="click"
-        style={{ width: 140 }}
-      >
-        {'多行标签长内容。'.repeat(10)}
-      </Tag>
       <Link
         data-testid="disabled-link"
         href="#forbidden"
@@ -56,15 +42,24 @@ export function TextControlsFixture() {
       <Link
         data-testid="normal-link"
         href="#allowed"
-        icon
+        status={plain ? 'warning' : 'normal'}
+        hoverable={plain ? false : undefined}
+        icon={plain ? <strong>自定义链接图标</strong> : true}
         onClick={() => setClicks((value) => value + 1)}
       >
         正常链接
       </Link>
-      <Link data-testid="icon-link" icon iconTooltip="图标说明" aria-label="图标链接" />
-      <Link data-testid="ellipsis-link" style={{ width: 120 }}>
+      <Link
+        data-testid="icon-link"
+        icon
+        hoverable={plain ? true : undefined}
+        iconTooltip="图标说明"
+        aria-label="图标链接"
+      />
+      <Link data-testid="ellipsis-link" ellipsis={!plain} style={{ width: 120 }}>
         链接长文本内容在悬浮时完整显示
       </Link>
+      <Button onClick={() => setPlain(!plain)}>切换链接样式</Button>
       <output data-testid="link-clicks">{clicks}</output>
     </section>
   );

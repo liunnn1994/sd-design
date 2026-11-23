@@ -2,18 +2,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { intentOptions } from '../../../web-core/tests/browser/hover-intent';
-import {
-  Cascader,
-  CascaderPanel,
-  Doption,
-  Dropdown,
-  Dsubmenu,
-  Menu,
-  MenuItem,
-  Popover,
-  SubMenu,
-  Trigger,
-} from '../../src/index';
+import { Cascader, CascaderPanel } from '../../src/cascader/index.js';
+import { Doption, Dropdown, Dsubmenu } from '../../src/dropdown/index.js';
+import { Menu, MenuItem, SubMenu } from '../../src/menu/index.js';
+import { Popover } from '../../src/popover/index.js';
+import { Trigger } from '../../src/trigger/index.js';
 import '../../styles/index.scss';
 
 const mode = new URLSearchParams(location.search).get('mode');

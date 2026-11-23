@@ -3,13 +3,15 @@ import { readdir, readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import ts from 'typescript';
 
-import { dayjs, methods } from '../dist/_utils/date.js';
+import { dayjs, getDayjsValue, methods } from '../dist/_utils/date.js';
 import { getValueByPath, setValueByPath } from '../dist/_utils/get-value-by-path.js';
 import {
   splitGraphemes,
   codeUnitToGraphemeIndex,
   graphemeIndexToCodeUnit,
 } from '../dist/_utils/grapheme.js';
+import { isEqual } from '../dist/_utils/is-equal.js';
+import { padStart } from '../dist/_utils/pad.js';
 import * as core from '../dist/index.js';
 import { addDecimal } from '../dist/input-number/decimal.js';
 
@@ -76,7 +78,35 @@ test('the built ESM entry loads without a DOM or framework runtime', () => {
   assert.equal(addDecimal('0.10', 0.2, true), '-0.10');
   assert.equal(dayjs('2026-01-03').isBetween(dayjs('2026-01-01'), dayjs('2026-01-04')), true);
   assert.equal(typeof dayjs().week(), 'number');
+});
+
+test('week equality follows the configured first day and distinguishes years', () => {
+  assert.equal(methods.isSameWeek(dayjs('2025-01-01'), dayjs('2026-01-01'), 1), false);
   assert.equal(methods.isSameWeek(dayjs('2025-12-31'), dayjs('2026-01-01'), 1), true);
+  assert.equal(methods.isSameWeek(dayjs('2026-01-04'), dayjs('2026-01-05'), 1), false);
+  assert.equal(methods.isSameWeek(dayjs('2026-01-04'), dayjs('2026-01-05'), 0), true);
+});
+
+test('quarter parsing resolves to the first month and tolerates missing quarter tokens', () => {
+  assert.equal(getDayjsValue('2026-Q3', 'YYYY-[Q]Q').format('YYYY-MM'), '2026-07');
+  assert.doesNotThrow(() => getDayjsValue('2026-07-01', 'YYYY-[Q]Q'));
+});
+
+test('deep equality compares all own keys, including those with undefined values', () => {
+  const red = { color: 'red' };
+  const withBackground = { color: 'red', background: 'blue' };
+  assert.equal(isEqual(red, withBackground), false);
+  assert.equal(isEqual(withBackground, red), false);
+  assert.equal(isEqual({ first: undefined }, { second: undefined }), false);
+  assert.equal(isEqual({ style: {} }, { style: red }), false);
+  assert.equal(isEqual({ style: red, keys: [0, ''] }, { keys: [0, ''], style: red }), true);
+});
+
+test('padding handles empty, truncated and long fill strings', () => {
+  assert.equal(padStart('1', 2, ''), '1');
+  assert.equal(padStart('1', 4, 'ab'), 'aba1');
+  assert.equal(padStart('1', 50000, '0'), `${'0'.repeat(49999)}1`);
+  assert.equal(padStart(3, 2, '0'), '03');
 });
 
 test('nested field access retains prototype-pollution guards', () => {

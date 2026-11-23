@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue';
+import { defineComponent, h, ref } from 'vue';
 
 import ConfigProvider from '../../config-provider';
 import ColorPicker from '../index';
@@ -59,58 +59,52 @@ describe('ColorPicker', () => {
 
   it('uses an empty system swatch by default', () => {
     cy.mount(ColorPicker, { props: { hideTrigger: true } });
-    cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.findComponent({ name: 'Panel' }).props('swatchColors')).to.deep.equal([]);
-    });
+    cy.get('.sd-color-picker-panel').should('be.visible');
+    cy.get('.sd-color-picker-color-block').should('not.exist');
   });
 
-  it('uses system swatches from ConfigProvider', () => {
+  it('updates system swatches when props override, hide and restore provider colors', () => {
     cy.mount(
       defineComponent({
-        render() {
-          return h(
-            ConfigProvider,
-            { colorPicker: { swatchColors: ['#123456'] } },
-            { default: () => h(ColorPicker, { hideTrigger: true }) },
-          );
+        setup() {
+          const swatches = ref<string[] | null>();
+          return () =>
+            h(
+              ConfigProvider,
+              { colorPicker: { swatchColors: ['#123456'] } },
+              {
+                default: () => [
+                  h(
+                    'button',
+                    { onClick: () => (swatches.value = ['#abcdef']) },
+                    'Override swatches',
+                  ),
+                  h('button', { onClick: () => (swatches.value = null) }, 'Hide swatches'),
+                  h('button', { onClick: () => (swatches.value = undefined) }, 'Inherit swatches'),
+                  h(ColorPicker, { hideTrigger: true, swatchColors: swatches.value }),
+                ],
+              },
+            );
         },
       }),
     );
-    cy.get('@vue').should(({ wrapper }) => {
-      expect(
-        wrapper.findComponent(ColorPicker).findComponent({ name: 'Panel' }).props('swatchColors'),
-      ).to.deep.equal(['#123456']);
-    });
-  });
-
-  it('prefers explicit swatch colors over ConfigProvider defaults', () => {
-    cy.mount(
-      defineComponent({
-        render() {
-          return h(
-            ConfigProvider,
-            { colorPicker: { swatchColors: ['#123456'] } },
-            {
-              default: () => h(ColorPicker, { hideTrigger: true, swatchColors: ['#abcdef'] }),
-            },
-          );
-        },
-      }),
-    );
-    cy.get('@vue').should(({ wrapper }) => {
-      expect(
-        wrapper.findComponent(ColorPicker).findComponent({ name: 'Panel' }).props('swatchColors'),
-      ).to.deep.equal(['#abcdef']);
-    });
-  });
-
-  it('passes null through when swatchColors is null', () => {
-    cy.mount(ColorPicker, { props: { hideTrigger: true, swatchColors: null } });
-    cy.get('@vue').should(({ wrapper }) => {
-      expect(
-        wrapper.findComponent(ColorPicker).findComponent({ name: 'Panel' }).props('swatchColors'),
-      ).to.equal(null);
-    });
+    const colorBlocks = '.sd-color-picker-color-block';
+    cy.get(colorBlocks)
+      .should('have.length', 1)
+      .and('have.attr', 'aria-label')
+      .and('include', '#123456');
+    cy.contains('button', 'Override swatches').click();
+    cy.get(colorBlocks)
+      .should('have.length', 1)
+      .and('have.attr', 'aria-label')
+      .and('include', '#abcdef');
+    cy.contains('button', 'Hide swatches').click();
+    cy.get(colorBlocks).should('not.exist');
+    cy.contains('button', 'Inherit swatches').click();
+    cy.get(colorBlocks)
+      .should('have.length', 1)
+      .and('have.attr', 'aria-label')
+      .and('include', '#123456');
   });
 
   it('renders the gradient mode panel', () => {
@@ -337,6 +331,30 @@ describe('ColorPicker', () => {
   it('seeds recent colors from defaultRecentColors', () => {
     cy.mount(ColorPicker, { props: { hideTrigger: true, defaultRecentColors: ['#165DFF'] } });
     cy.get('.sd-color-picker-color-block').should('have.length', 1);
+  });
+
+  it('keeps a controlled recent list until the parent accepts an addition', () => {
+    const onRecentColorsChange = cy.stub();
+    cy.mount(ColorPicker, {
+      props: {
+        hideTrigger: true,
+        format: 'HEX',
+        defaultValue: '#ff0000',
+        recentColors: ['#165DFF'],
+        onRecentColorsChange,
+      },
+    });
+    cy.get('.sd-color-picker-colors-action').click();
+    cy.wrap(onRecentColorsChange).should('have.been.calledOnceWithExactly', ['#FF0000', '#165DFF']);
+    cy.get('.sd-color-picker-color-block').should('have.length', 1);
+    cy.get('@vue').then(({ wrapper }) =>
+      wrapper.setProps({ recentColors: ['#FF0000', '#165DFF'] }),
+    );
+    cy.get('.sd-color-picker-color-block')
+      .should('have.length', 2)
+      .first()
+      .should('have.attr', 'aria-label')
+      .and('include', '#FF0000');
   });
 
   it('selects a system swatch color with the preset trigger', () => {

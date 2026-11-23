@@ -55,4 +55,33 @@ describe('React public FilePreviewer', () => {
     cy.get('output').should('have.text', 'close,false');
     cy.get('[data-testid="bubbles"]').should('have.text', '0');
   });
+
+  for (const owner of ['drawer', 'preview']) {
+    it(`restores the shared scroll container only after the preview and ${owner} release it`, () => {
+      cy.visit(`/file-previewer.html?custom&container&stack=${owner}`);
+      const container = () => cy.get('#preview-container');
+      const upper = () => cy.get('[role="dialog"][aria-label="Actual preview"]');
+      container().should('have.css', 'overflow', 'auto');
+      cy.contains('button', 'Open lower owner').click();
+      container().should('have.css', 'overflow', 'hidden');
+      cy.contains('button', /^Open$/).click({ force: true });
+      upper().should('be.visible');
+      if (owner === 'drawer') {
+        cy.get('[data-testid="custom"]').click();
+        upper().should('not.exist');
+        cy.contains('.sd-drawer-title', 'Lower drawer owner').should('be.visible');
+        container().should('have.css', 'overflow', 'hidden');
+        cy.contains('button', 'Close lower owner').click({ force: true });
+        cy.contains('.sd-drawer-title', 'Lower drawer owner').should('not.exist');
+      } else {
+        cy.contains('button', 'Close lower owner').click({ force: true });
+        cy.get('[role="dialog"][aria-label="Lower preview owner"]').should('not.exist');
+        upper().should('be.visible');
+        container().should('have.css', 'overflow', 'hidden');
+        cy.get('[data-testid="custom"]').click();
+        upper().should('not.exist');
+      }
+      container().should('have.css', 'overflow', 'auto').and('have.css', 'width', '600px');
+    });
+  }
 });

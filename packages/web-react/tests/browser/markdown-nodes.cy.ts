@@ -97,6 +97,20 @@ describe('React Markdown SD node adapters', () => {
       .should('contain.text', 'load:/markdown-original.svg')
       .and('contain.text', 'height:image:')
       .and('contain.text', 'settled:image');
+    cy.get('.sd-markdown-render-image img').as('loadedImage', { type: 'static' });
+    cy.contains('button', /^Loading$/).click();
+    cy.get('[data-testid="image-placeholder"]').should('not.exist');
+    cy.get('.sd-markdown-render-image img').then(([$image]) => {
+      cy.get('@loadedImage').should(([$original]) => expect($image).to.equal($original));
+    });
+    cy.get('[data-testid="image-events"]').should(($events) => {
+      expect(
+        $events
+          .text()
+          .split('|')
+          .filter((event) => event.startsWith('load:')),
+      ).to.deep.equal(['load:/markdown-original.svg']);
+    });
     cy.get('.sd-markdown-render-image .sd-image-img').click();
     cy.get('.sd-image-preview-wrapper').should('be.visible');
     cy.get('[data-testid="image-events"]').should(
@@ -133,5 +147,44 @@ describe('React Markdown SD node adapters', () => {
     cy.get('[data-testid="image-events"]')
       .should('contain.text', 'pending:image')
       .and('not.contain.text', 'load:');
+    cy.contains('button', 'Finish image token').click();
+    cy.get('.sd-markdown-render-image img').should(($img) => {
+      expect(($img[0] as HTMLImageElement).naturalWidth).to.equal(80);
+    });
+    cy.get('[data-testid="image-placeholder"]').should('not.exist');
+    cy.get('[data-testid="image-events"]').should(($events) => {
+      const events = $events.text().split('|');
+      expect(events.filter((event) => event.startsWith('load:'))).to.deep.equal([
+        'load:/markdown-original.svg',
+      ]);
+      expect(events.filter((event) => event === 'pending:image')).to.have.length(
+        events.filter((event) => event === 'settled:image').length,
+      );
+      expect(events.at(-1)).to.equal('settled:image');
+    });
+  });
+
+  it('keeps the replacement image pending when the prior load callback changes its key', () => {
+    cy.visit('/markdown-nodes.html?replace-on-load');
+    const events = () => cy.get('[data-testid="image-events"]');
+    events().should(($events) => {
+      const records = $events.text().split('|');
+      expect(records.slice(records.indexOf('load:/markdown-original.svg'))).to.deep.equal([
+        'load:/markdown-original.svg',
+        'settled:image',
+        'pending:replacement',
+      ]);
+    });
+    cy.get('.sd-markdown-render-image img').should('not.exist');
+    cy.get('[data-testid="image-placeholder"]').should('be.visible');
+    cy.contains('button', 'Remove image node').click();
+    cy.get('.sd-markdown-render-image').should('not.exist');
+    events().should(($events) => {
+      const records = $events.text().split('|');
+      expect(records.filter((event) => event.endsWith(':replacement'))).to.deep.equal([
+        'pending:replacement',
+        'settled:replacement',
+      ]);
+    });
   });
 });

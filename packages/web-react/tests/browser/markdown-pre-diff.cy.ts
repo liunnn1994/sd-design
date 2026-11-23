@@ -51,6 +51,24 @@ describe('React pre diff against real Vue DOM snapshots', () => {
       cy.visit(`/markdown-pre-diff.html?case=${name}`);
       capture(name);
     });
+  it('keeps diff colors in a fragment and falls back when enhanced fills are missing', () => {
+    cy.visit('/markdown-pre-diff.html?fragment');
+    const expectFill = (color: string) =>
+      cy
+        .get('.markstream-pre__diff-line--removed')
+        .first()
+        .should(([$row]) => {
+          const view = $row.ownerDocument.defaultView!;
+          expect(view.getComputedStyle($row, '::before').backgroundColor).to.equal(color);
+        });
+    expectFill(oracle['split-wide'].panes[0].layouts[1].fill);
+    cy.get('pre.markstream-pre--diff-preview').invoke(
+      'css',
+      '--sd-markdown-pre-removed-line',
+      'initial',
+    );
+    expectFill('rgba(171, 89, 89, 0.12)');
+  });
   it('disconnects its row observer when the diff is removed', () => {
     let active = 0;
     cy.visit('/markdown-pre-diff.html', {

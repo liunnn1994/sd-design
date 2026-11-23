@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { ConfigProvider, Pagination } from '../../src/index';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { Pagination } from '../../src/pagination/index.js';
 export function PaginationFixture() {
   const [current, setCurrent] = useState(3);
   const [total, setTotal] = useState(100);
@@ -17,6 +18,7 @@ export function PaginationFixture() {
         defaultCurrent={3}
         showTotal
         showPageSize
+        pageSizeProps={{ disabled: false, allowClear: true }}
         showJumper
         showMore
         disabled={disabled}
@@ -77,14 +79,22 @@ export function PaginationFixture() {
         pageSizeOptions={[5, 10, 20]}
         onChange={(next) => log(`accepted:${next}`)}
       />
+      <ConfigProvider pagination={{ autoAdjust: false }}>
+        <Pagination
+          data-testid="pager-no-adjust"
+          total={total}
+          defaultCurrent={8}
+          showPageSize
+          pageSizeOptions={[5, 10, 20]}
+        />
+      </ConfigProvider>
       <Pagination
-        data-testid="pager-no-adjust"
-        total={total}
-        defaultCurrent={8}
-        autoAdjust={false}
+        data-testid="pager-empty"
+        total={0}
+        showJumper
+        onChange={(next) => log(`empty:${next}`)}
       />
-      <Pagination data-testid="pager-empty" total={0} showJumper />
-      <Pagination data-testid="pager-hidden" total={0} hideOnSinglePage />
+      <Pagination data-testid="pager-hidden" total={8} hideOnSinglePage />
       <button onClick={() => setDisabled((value) => !value)}>Pagination disabled</button>
       <button onClick={() => setSimple((value) => !value)}>Pagination simple</button>
       <button onClick={() => setTotal(15)}>Pagination shrink</button>

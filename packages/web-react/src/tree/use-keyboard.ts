@@ -10,6 +10,7 @@ import type { useTreeState } from './use-tree-state.js';
 export function useTreeKeyboard<T extends TreeNodeData>(options: {
   root: RefObject<HTMLElement | null>;
   visibleNodes: TreeModelNode<T>[];
+  expandedKeys: TreeNodeKey[];
   state: ReturnType<typeof useTreeState<T, Event>>;
   canLoadMore: boolean;
   scrollToKey?(key: TreeNodeKey): void;
@@ -41,7 +42,7 @@ export function useTreeKeyboard<T extends TreeNodeData>(options: {
       key,
       eventKey: event.key,
       visibleNodes: options.visibleNodes,
-      expandedKeys: options.state.expandedKeys,
+      expandedKeys: options.expandedKeys,
       canLoadMore: options.canLoadMore,
     });
     if (!action) return;

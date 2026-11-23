@@ -1,5 +1,3 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('React ColorPicker shared pointer controls', () => {
   beforeEach(() => cy.visit('/color-picker-controls.html'));
   const press = (selector: string, x: number, y = 0.5) =>
@@ -175,8 +173,12 @@ describe('React ColorPicker gradient pointer adapter', () => {
       });
   });
   it('removes a stop by keyboard while retaining at least two stops', () => {
-    cy.get('.sd-color-picker-gradient-thumb')
-      .eq(1)
+    const middleThumb = () => cy.get('.sd-color-picker-gradient-thumb').eq(1);
+    cy.contains('button', 'Disabled').click();
+    middleThumb().should('be.disabled').trigger('keydown', { key: 'Delete', force: true });
+    cy.get('.sd-color-picker-gradient-thumb').should('have.length', 3);
+    cy.contains('button', 'Disabled').click();
+    middleThumb()
       .should('have.css', 'cursor', 'grab')
       .focus()
       .trigger('keydown', { key: 'Delete' });
@@ -265,10 +267,66 @@ describe('React ColorPicker complete panel view', () => {
     cy.get('.sd-color-picker-format-input input').should('be.disabled');
     cy.get('.sd-color-picker-color-block').should('be.disabled');
     cy.get('.sd-color-picker-colors-action').should('be.disabled');
+    cy.get('.sd-color-picker-color-block').trigger('click', { force: true });
+    cy.get('.sd-color-picker-colors-action').trigger('click', { force: true });
+    cy.get('[data-testid="value"]').should('have.text', '#ff0000');
+    cy.get('[data-testid="recent"]').should('be.empty');
   });
 });
 
 describe('React ColorPicker root', () => {
+  const colorBlocks = '.sd-color-picker-color-block';
+
+  it('renders no system swatches when neither props nor provider supply them', () => {
+    cy.visit('/color-picker-controls.html?root&hidden&no-provider-swatches');
+    cy.get('.sd-color-picker-panel').should('be.visible');
+    cy.get(colorBlocks).should('not.exist');
+  });
+
+  it('updates system swatches when an explicit list overrides, hides and restores provider colors', () => {
+    cy.visit('/color-picker-controls.html?root&hidden&swatches');
+    cy.get(colorBlocks)
+      .should('have.length', 1)
+      .and('have.attr', 'aria-label')
+      .and('include', '#0000ff');
+    cy.contains('button', 'Override swatches').click();
+    cy.get(colorBlocks).should('have.length', 1).click();
+    cy.get('[data-testid="events"]').should('contain.text', 'change:#ABCDEF:preset');
+    cy.contains('button', 'Hide swatches').click();
+    cy.get(colorBlocks).should('not.exist');
+    cy.contains('button', 'Inherit swatches').click();
+    cy.get(colorBlocks).should('have.length', 1).click();
+    cy.get('[data-testid="events"]').should('contain.text', 'change:#0000FF:preset');
+  });
+
+  it('keeps a controlled recent list until the parent accepts an addition', () => {
+    cy.visit('/color-picker-controls.html?root&hidden&no-provider-swatches&recent');
+    cy.get(colorBlocks).should('have.length', 2).first().click();
+    cy.get('[data-testid="events"]').should('contain.text', 'change:#165DFF:recent');
+    cy.get(colorBlocks).last().click();
+    const addColor = '.sd-color-picker-colors-action';
+    cy.get(addColor).click();
+    cy.get('[data-testid="events"]').should('contain.text', 'recent:#00B42A,#165DFF');
+    cy.get(colorBlocks).first().should('have.attr', 'aria-label').and('include', '#165DFF');
+    cy.contains('button', 'Accept').click();
+    cy.get(addColor).click();
+    cy.get(colorBlocks).first().should('have.attr', 'aria-label').and('include', '#00B42A');
+  });
+
+  it('renders a seeded recent color and stores additions when uncontrolled', () => {
+    cy.visit('/color-picker-controls.html?root&hidden&no-provider-swatches&seeded');
+    cy.get(colorBlocks)
+      .should('have.length', 1)
+      .and('have.attr', 'aria-label')
+      .and('include', '#165DFF');
+    cy.get('.sd-color-picker-colors-action').click();
+    cy.get(colorBlocks)
+      .should('have.length', 2)
+      .first()
+      .should('have.attr', 'aria-label')
+      .and('include', '#FF0000');
+  });
+
   it('edits an uncontrolled draft, commits its format and opens the popup', () => {
     cy.visit('/color-picker-controls.html?root');
     cy.get('.sd-color-picker-trigger-input input').clear().type('#00ff00').blur();
@@ -393,6 +451,21 @@ describe('React ColorPicker formats and controlled boundaries', () => {
     cy.contains('button', 'Accept requested').click();
     cy.get('.sd-color-picker-gradient-thumb').should('have.length', 3);
   });
+  it('commits a typed angle while preserving both stop colors and positions', () => {
+    cy.visit('/color-picker-controls.html?formats&gradient');
+    cy.get('.sd-color-picker-gradient-degree input').clear().type('180{enter}');
+    cy.get('[data-testid="value"]').should(
+      'have.text',
+      'linear-gradient(180deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)',
+    );
+    cy.get('.sd-color-picker-gradient-thumb').should('have.length', 2);
+  });
+  it('retains two stops when pointer and keyboard insertion are disabled', () => {
+    cy.visit('/color-picker-controls.html?formats&gradient&two-stops');
+    cy.get('.sd-color-picker-gradient-bar').click('center').trigger('keydown', { key: 'Enter' });
+    cy.get('.sd-color-picker-gradient-thumb').should('have.length', 2);
+    cy.get('[data-testid="changes"]').should('have.text', '0');
+  });
   it('restores panel channels after a rejected swatch and accepts the later parent value', () => {
     cy.visit('/color-picker-controls.html?formats&format=RGB&reject');
     cy.get('.sd-color-picker-color-block').click();
@@ -404,7 +477,4 @@ describe('React ColorPicker formats and controlled boundaries', () => {
   });
 });
 
-describe('React ColorPicker documentation', () => {
-  it('documents shared color-picker scenes and framework navigation', () =>
-    checkComponentDocs('color-picker'));
-});
+export {};

@@ -7,13 +7,68 @@ import type { FileItem, RequestOption } from '../src/upload/types.ts';
 import { getUploadAccept, getUploadFileKind, isUploadButtonHidden } from '../dist/upload/files.js';
 import { createUploadFoundation } from '../dist/upload/foundation.js';
 import { createUploadInput } from '../dist/upload/input.js';
-import { getFiles, getProgressStatus, isImage } from '../dist/upload/utils.js';
+import { getFiles, getProgressStatus, isImage, loopDirectory } from '../dist/upload/utils.js';
 
 const file = (name = 'a.txt', type = 'text/plain') => new File(['content'], name, { type });
 const settle = async () => {
   await Promise.resolve();
   await Promise.resolve();
 };
+
+const fileEntry = (name: string, folder = '') => ({
+  isFile: true,
+  fullPath: `/${folder}${name}`,
+  file: (done: (value: File) => void) => queueMicrotask(() => done(file(name))),
+});
+
+async function collectDirectory(entries: unknown[], accept?: string) {
+  const results: File[][] = [];
+  loopDirectory(
+    entries.map((entry) => ({ webkitGetAsEntry: () => entry })) as unknown as DataTransferItemList,
+    accept,
+    (files) => results.push([...files]),
+  );
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  return results;
+}
+
+test('directory upload waits for all reader batches and emits relative paths only once', async () => {
+  const batches = [
+    [fileEntry('first.txt', 'folder/')],
+    [fileEntry('second.txt', 'folder/'), fileEntry('skip.png', 'folder/')],
+    [],
+  ];
+  const folder = {
+    isDirectory: true,
+    createReader: () => ({
+      readEntries: (done: (entries: unknown[]) => void) =>
+        queueMicrotask(() => done(batches.shift()!)),
+    }),
+  };
+  const results = await collectDirectory([folder], '.txt');
+  assert.deepEqual(
+    results.map((files) => files.map((file) => file.webkitRelativePath)),
+    [['folder/first.txt', 'folder/second.txt']],
+  );
+});
+
+for (const kind of ['missing entry', 'file read error', 'directory read error']) {
+  test(`directory upload completes once even with a ${kind}`, async () => {
+    const fail = (_done: unknown, onError: (error: Error) => void) =>
+      queueMicrotask(() => onError(new Error(kind)));
+    const unreadable =
+      kind === 'missing entry'
+        ? null
+        : kind === 'file read error'
+          ? { isFile: true, file: fail }
+          : { isDirectory: true, createReader: () => ({ readEntries: fail }) };
+    const results = await collectDirectory([unreadable, fileEntry('Good.txt')]);
+    assert.deepEqual(
+      results.map((files) => files.map((file) => file.name)),
+      [['Good.txt']],
+    );
+  });
+}
 
 function setup(options: Partial<UploadOptions> = {}) {
   const state = { files: [] as FileItem[], disabled: false };

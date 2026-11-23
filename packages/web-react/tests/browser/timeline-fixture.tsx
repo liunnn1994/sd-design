@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-import { Button, ConfigProvider, Timeline, TimelineItem } from '../../src/index';
+import { Button } from '../../src/button';
+import { ConfigProvider } from '../../src/config-provider';
+import { Timeline, TimelineItem } from '../../src/timeline';
 
 export function TimelineFixture() {
   const [reverse, setReverse] = useState(false);

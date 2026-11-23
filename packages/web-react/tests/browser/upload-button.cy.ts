@@ -1,3 +1,5 @@
+import { dropUploadDirectory } from '../../../web-core/tests/browser/upload-directory.js';
+
 describe('React Upload file input and drop view', () => {
   const file = (name: string) => ({
     contents: Cypress.Buffer.from('payload'),
@@ -34,5 +36,24 @@ describe('React Upload file input and drop view', () => {
     cy.get('.sd-upload-picture-card').should('contain.text', 'Text files');
     cy.get('input').should('have.attr', 'webkitdirectory');
     cy.get('input').should('have.attr', 'accept', '.txt');
+  });
+
+  it('routes a directory drop through the reader and preserves accepted relative paths', () => {
+    cy.visit('/upload-button.html?directory');
+    cy.get('.sd-upload').then(([$target]) => {
+      expect(dropUploadDirectory($target)).to.equal(true);
+    });
+    cy.get('output').should('have.text', '["one.txt","two.txt"]');
+    cy.get('[data-testid="paths"]').should('have.text', '["folder/one.txt","folder/two.txt"]');
+  });
+
+  it('accepts asynchronously supplied files without opening the native picker', () => {
+    cy.visit('/upload-button.html?programmatic');
+    cy.get('input[type="file"]').then(([$input]) => {
+      cy.stub($input, 'click').as('picker');
+    });
+    cy.get('.sd-upload').click();
+    cy.get('output').should('have.text', '["from-picker.txt"]');
+    cy.get('@picker').should('not.have.been.called');
   });
 });

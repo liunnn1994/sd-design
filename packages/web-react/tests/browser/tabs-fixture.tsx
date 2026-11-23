@@ -1,14 +1,9 @@
 import { useRef, useState } from 'react';
 
-import {
-  ConfigProvider,
-  Tabs,
-  TabPane,
-  type ScrollPosition,
-  type TabKey,
-  type TabsPosition,
-  type TabsType,
-} from '../../src/index';
+import type { ScrollPosition, TabKey, TabsPosition, TabsType } from '../../src/tabs';
+
+import { ConfigProvider } from '../../src/config-provider';
+import { TabPane, Tabs } from '../../src/tabs';
 
 function CacheBody({ name, value }: { name: string; value: number }) {
   const [count, setCount] = useState(0);
@@ -37,11 +32,12 @@ function WrappedPane({ id }: { id: string }) {
   );
 }
 export function TabsFixture() {
+  const scenario = new URLSearchParams(location.search).get('scenario');
   const [mounted, setMounted] = useState(false);
   const [events, setEvents] = useState<string[]>([]);
   const [controlled, setControlled] = useState<TabKey>(0);
   const [allow, setAllow] = useState(false);
-  const [editable, setEditable] = useState(['e1', 'e2']);
+  const [editable, setEditable] = useState(scenario === 'empty' ? [] : ['e1', 'e2']);
   const next = useRef(3);
   const [cacheValue, setCacheValue] = useState(0);
   const [cacheScroll, setCacheScroll] = useState(false);
@@ -51,6 +47,7 @@ export function TabsFixture() {
   const [vertical, setVertical] = useState(false);
   const [position, setPosition] = useState<TabsPosition>('top');
   const [type, setType] = useState<TabsType>('capsule');
+  const [animation, setAnimation] = useState(true);
   const [customScroll, setCustomScroll] = useState(true);
   const [alignment, setAlignment] = useState<ScrollPosition>('auto');
   const [compact, setCompact] = useState(false);
@@ -80,6 +77,7 @@ export function TabsFixture() {
           <button onClick={() => setRtl(!rtl)}>Toggle Tabs RTL</button>
           <button onClick={() => setWide(!wide)}>Resize Tabs navigation</button>
           <button onClick={() => setVertical(!vertical)}>Toggle vertical Tabs</button>
+          <button onClick={() => setAnimation(!animation)}>Toggle Tabs animation</button>
           <button onClick={() => setCustomScroll(!customScroll)}>Toggle Tabs scrollbar</button>
           <button onClick={() => setCompact(!compact)}>Toggle Tabs header and content</button>
           <select
@@ -137,6 +135,8 @@ export function TabsFixture() {
           <Tabs
             data-testid="tabs-controlled"
             activeKey={controlled}
+            editable={scenario === 'keys'}
+            onDelete={(key) => log(`delete:${typeof key}:${key}`)}
             onActiveKeyChange={(key) => {
               log(`request:${typeof key}:${key}`);
               if (allow) setControlled(key);
@@ -148,13 +148,31 @@ export function TabsFixture() {
             <TabPane paneKey="0" title="Controlled string">
               String panel
             </TabPane>
+            {scenario === 'keys' && (
+              <TabPane paneKey="disabled" title="Controlled disabled" disabled>
+                Disabled panel
+              </TabPane>
+            )}
           </Tabs>
+          {scenario === 'keys' && (
+            <Tabs data-testid="tabs-prototype">
+              <TabPane paneKey="__proto__" title="Prototype key">
+                Prototype panel
+              </TabPane>
+            </Tabs>
+          )}
           <Tabs
             data-testid="tabs-edit"
             editable
             showAddButton
             autoSwitch
+            onActiveKeyChange={scenario === 'empty' ? (key) => log(`update:${key}`) : undefined}
+            onChange={scenario === 'empty' ? (key) => log(`change:${key}`) : undefined}
             onAdd={() => {
+              if (scenario === 'empty') {
+                log('add');
+                return;
+              }
               const id = `e${next.current++}`;
               setEditable((value) => [...value, id]);
             }}
@@ -205,8 +223,9 @@ export function TabsFixture() {
           <Tabs
             data-testid="tabs-style"
             type={type}
+            editable={scenario === 'rtl-card'}
             position={position}
-            animation
+            animation={animation}
             fullHeight
             scrollbar={customScroll}
             headerPadding={!compact}

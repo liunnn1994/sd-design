@@ -1,5 +1,25 @@
-import { startDrag, moveDrag } from '../../../web-vue/cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../web-core/tests/browser/drag-sort';
 describe('React Tree real virtual interactions', () => {
+  it('preserves the virtual viewport and scroll anchor as the first row is inserted and removed', () => {
+    cy.visit('/tree-root.html?virtual&shift');
+    const viewport = () => cy.get('.sd-virtual-list-scroller');
+    viewport().scrollTo(0, 64);
+    viewport()
+      .should('have.prop', 'scrollTop', 64)
+      .then(([$original]) => {
+        cy.contains('button', 'Toggle first row').click();
+        viewport().should(([$current]) => {
+          expect($current).to.equal($original);
+          expect($current.scrollTop).to.equal(96);
+        });
+        cy.contains('button', 'Toggle first row').click();
+        viewport().should(([$current]) => {
+          expect($current).to.equal($original);
+          expect($current.scrollTop).to.equal(64);
+        });
+      });
+  });
+
   it('focuses End and Home targets after virtual scrolling mounts them', () => {
     cy.visit('/tree-root.html?virtual');
     cy.get('[data-key="0"]')

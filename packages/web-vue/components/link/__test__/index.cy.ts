@@ -120,11 +120,12 @@ describe('Link', () => {
     cy.get('.sd-link').should('not.have.class', 'sd-link-hoverless');
   });
 
-  it('marks a content link hoverless by default and hoverable when hoverable is true', () => {
+  it('makes content links hoverable by default and allows opting out', () => {
     cy.mount(Link, { slots: { default: 'Link text' } });
+    cy.get('.sd-link').should('not.have.class', 'sd-link-hoverless');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ hoverable: false }));
     cy.get('.sd-link').should('have.class', 'sd-link-hoverless');
-
-    cy.mount(Link, { props: { hoverable: true }, slots: { default: 'Link text' } });
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ hoverable: undefined }));
     cy.get('.sd-link').should('not.have.class', 'sd-link-hoverless');
   });
 });

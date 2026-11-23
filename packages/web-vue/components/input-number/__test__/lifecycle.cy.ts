@@ -1,3 +1,6 @@
+import { h, ref } from 'vue';
+
+import Form from '../../form';
 import InputNumber from '../index';
 
 describe('InputNumber lifecycle', () => {
@@ -55,5 +58,33 @@ describe('InputNumber lifecycle', () => {
     cy.get('[aria-label="增加"]').should('not.exist');
     cy.tick(1000);
     cy.get('input').should('have.value', '1');
+  });
+
+  it('disables all numeric controls with the Form and restores editing when enabled', () => {
+    const disabled = ref(true);
+    const change = cy.spy().as('change');
+    cy.mount({
+      setup: () => () =>
+        h(Form, { model: {}, disabled: disabled.value }, () =>
+          h(Form.Item, {}, () =>
+            h(InputNumber, { defaultValue: 2, allowClear: true, onChange: change }),
+          ),
+        ),
+    });
+    cy.get('input').should('be.disabled');
+    cy.get('.sd-input-number-step-button').should('be.disabled');
+    cy.get('.sd-input-clear-btn').should('not.exist');
+    cy.get('input').trigger('keydown', {
+      eventConstructor: 'KeyboardEvent',
+      key: 'ArrowUp',
+      force: true,
+    });
+    cy.get('input').should('have.value', '2');
+    cy.get('@change').should('not.have.been.called');
+    cy.then(() => {
+      disabled.value = false;
+    });
+    cy.get('input').should('be.enabled').type('{upArrow}').should('have.value', '3');
+    cy.get('@change').should('have.been.calledOnceWith', 3);
   });
 });

@@ -2,13 +2,13 @@ import { defineConfig } from 'cypress';
 import { basename, dirname } from 'node:path';
 import { build } from 'vite';
 
-import { docsE2eSpecs } from './scripts/docs-e2e-specs.ts';
+import { docsE2eSpecPatterns } from './scripts/docs-e2e-specs.ts';
 
 export default defineConfig({
   e2e: {
     baseUrl: 'http://127.0.0.1:5187',
     specPattern: 'tests/browser/*.cy.ts',
-    excludeSpecPattern: docsE2eSpecs,
+    excludeSpecPattern: docsE2eSpecPatterns,
     supportFile: false,
     setupNodeEvents(on) {
       on('before:browser:launch', (browser, launchOptions) => {

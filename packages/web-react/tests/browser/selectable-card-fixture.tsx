@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 
-import { SelectableCard, ConfigProvider } from '../../src/index';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { SelectableCard } from '../../src/selectable-card/index.js';
 export function SelectableCardFixture() {
   const [selected, setSelected] = useState(false);
   const [rejected, setRejected] = useState(false);

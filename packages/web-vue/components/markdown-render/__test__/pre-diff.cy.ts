@@ -98,7 +98,12 @@ describe('Markdown locked pre diff contracts', () => {
             expect(isMarkdownDiffSynchronized($pre[0])).to.equal(true),
           );
         cy.get('pre.code-pre-fallback').then(($pre) => {
-          captures[`${scenario}-${name}`] = captureMarkdownDiff($pre[0]);
+          const result = captureMarkdownDiff($pre[0]);
+          if (scenario === 'reserved') {
+            expect(result.height).to.equal(160);
+            expect(result.styles['max-height']).to.equal('500px');
+          }
+          captures[`${scenario}-${name}`] = result;
         });
       };
       capture('wide');

@@ -46,6 +46,18 @@
       var(--markstream-pre-diff-code-fill-left) +
         var(--markstream-pre-diff-line-number-gap-to-code) + var(--markstream-pre-diff-code-padding)
     );
+
+    @supports (color: color-mix(in lab, black, white)) {
+      @each $change in added, removed {
+        @each $region in line, number {
+          --sd-markdown-pre-#{$change}-#{$region}: color-mix(
+            in lab,
+            var(--markstream-pre-resolved-theme-bg) var(--sd-markdown-pre-#{$region}-bg-weight),
+            var(--sd-markdown-pre-#{$change}-tint)
+          );
+        }
+      }
+    }
   }
 
   pre.markstream-pre--diff-preview::-webkit-scrollbar {

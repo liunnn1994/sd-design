@@ -90,9 +90,17 @@ describe('React Markdown node enter and text delta fades', () => {
     advance();
     cy.get('.fade-enter-active').should('not.exist');
   });
-  it('transitions a replaced custom component even when its parent is final', () => {
+  it('replaces a custom component without an enter transition after the stream is final', () => {
     visit('?custom&final', true);
     cy.get('[data-widget="initial"]').should('exist').and('not.have.class', 'fade-enter-active');
+    control('Replace component');
+    cy.get('[data-widget="replacement"]').should('have.text', 'Replacement widget');
+    cy.get('.fade-enter-active, .fade-enter-from, .fade-enter-to').should('not.exist');
+    advance();
+    cy.get('.fade-enter-active, .fade-enter-from, .fade-enter-to').should('not.exist');
+  });
+  it('still animates a replaced custom component while the stream is open', () => {
+    visit('?custom', true);
     control('Replace component');
     cy.get('[data-widget="replacement"]').should('have.class', 'fade-enter-from');
     advance();

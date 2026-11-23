@@ -1,12 +1,10 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('KvList React', () => {
   const main = '[data-testid="kv-main"]';
   const rows = `${main} [data-testid="kv-list-row"]`;
   const key = (index: number) => cy.get(`${rows} .sd-kv-list-key input`).eq(index);
   const value = (index: number) => cy.get(`${rows} .sd-kv-list-value input`).eq(index);
   const action = (label: string) => cy.get(`${main} button[aria-label="${label}"]`);
-  beforeEach(() => cy.visit('/'));
+  beforeEach(() => cy.visit('/kv-list.html'));
   it('synchronizes row editing in order without duplicate StrictMode initialization', () => {
     cy.get('[data-testid="kv-events"]').should('have.text', 'bulk:first: 1\nsecond: 2');
     cy.contains('button', 'KV clear events').click();
@@ -141,6 +139,10 @@ describe('KvList React', () => {
   });
   let suppressCompatibilityMouseEvents = false;
   const startDrag = () => {
+    // Sortable ignores pointerdown on a row that is still animating after a reorder.
+    cy.get(rows)
+      .first()
+      .should(([$row]) => expect($row.style.transition).to.equal(''));
     cy.get(`${main} .sd-kv-list-drag-handle`)
       .first()
       .scrollIntoView()
@@ -183,8 +185,10 @@ describe('KvList React', () => {
   };
   const endDrag = () => {
     cy.document().trigger('pointerup', { eventConstructor: 'PointerEvent', pointerType: 'mouse' });
-    if (!suppressCompatibilityMouseEvents)
-      cy.document().trigger('mouseup', { eventConstructor: 'MouseEvent' });
+    cy.then(() => {
+      if (!suppressCompatibilityMouseEvents)
+        cy.document().trigger('mouseup', { eventConstructor: 'MouseEvent' });
+    });
     cy.get('.sortable-fallback').should('not.exist');
     cy.document().trigger('click', { eventConstructor: 'MouseEvent' });
   };
@@ -229,6 +233,7 @@ describe('KvList React', () => {
       ]),
     );
     cy.contains('button', 'KV disabled').click();
+    key(0).should('not.be.disabled');
     startDrag();
     cy.window().then((win) => win.dispatchEvent(new win.Event('kv-unmount')));
     cy.get('.sortable-fallback').should('not.exist');
@@ -236,7 +241,4 @@ describe('KvList React', () => {
   });
 });
 
-describe('KvList documentation', () => {
-  it('documents shared kv-list scenes and framework navigation', () =>
-    checkComponentDocs('kv-list'));
-});
+export {};

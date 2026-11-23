@@ -1,7 +1,6 @@
 import { h } from 'vue';
 
 import Image, { ImagePreview as Preview, ImagePreviewGroup as PreviewGroup } from '../index';
-import getScale from '../utils/get-scale';
 
 const brokenImgSrc = 'http://it-does-not-matter.png/';
 const imgSrc = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
@@ -85,11 +84,6 @@ describe('Image', () => {
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')![1]).to.include(0);
     });
-  });
-
-  it('computes scale correctly', () => {
-    expect(getScale(1.3)).to.equal(1.5);
-    expect(getScale(0.79)).to.equal(0.9);
   });
 
   describe('Image basics', () => {

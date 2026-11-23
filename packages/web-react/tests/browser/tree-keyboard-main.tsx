@@ -55,6 +55,7 @@ function Fixture() {
     expandingKeys: state.expandingKeys,
   });
   const keyboard = useTreeKeyboard({
+    expandedKeys: state.expandedKeys,
     root,
     state,
     visibleNodes,

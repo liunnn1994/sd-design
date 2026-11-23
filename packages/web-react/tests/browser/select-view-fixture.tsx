@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
 
+import type { InputTagInstance } from '../../src/input-tag/index.js';
+
 import { InputLabel } from '../../src/_shared/input-label';
 import { SelectView, type SelectViewValue } from '../../src/_shared/select-view';
+import { ConfigProvider } from '../../src/config-provider/index.js';
 import { FormItemContext } from '../../src/form/context';
-import { ConfigProvider, type InputTagInstance } from '../../src/index';
 
 const initial: SelectViewValue[] = [
   { value: 1, label: 'One', closable: true },

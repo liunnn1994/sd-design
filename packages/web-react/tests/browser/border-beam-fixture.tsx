@@ -7,7 +7,7 @@ import {
   type BorderBeamSize,
   type BorderBeamColorVariant,
   type BorderBeamTheme,
-} from '../../src/index';
+} from '../../src/border-beam/index.js';
 export function BorderBeamFixture() {
   const [options, setOptions] = useState<BorderBeamProps>({ active: false, size: 'md' });
   const [large, setLarge] = useState(false);
@@ -67,6 +67,7 @@ export function BorderBeamFixture() {
       <button onClick={() => second.current?.flowFrom('bottom-left')}>Beam second flow</button>
       <button onClick={() => setLarge(!large)}>Beam resize</button>
       <button onClick={() => setRadius(radius === 12 ? 24 : 12)}>Beam child radius</button>
+      <button onClick={() => setRadius(0)}>Beam zero radius</button>
       <button onClick={() => setKey(key + 1)}>Beam replace child</button>
       <button onClick={() => setEmpty(!empty)}>Beam empty</button>
       <button
@@ -84,6 +85,7 @@ export function BorderBeamFixture() {
       >
         Beam tuning
       </button>
+      <button onClick={() => patch({ borderRadius: undefined })}>Beam clear radius override</button>
       <button onClick={() => patch({ staticColors: !options.staticColors })}>
         Beam static colors
       </button>

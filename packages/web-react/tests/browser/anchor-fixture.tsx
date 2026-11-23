@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Anchor, AnchorLink } from '../../src/index';
+import { Anchor, AnchorLink } from '../../src/anchor/index.js';
 
 export function AnchorFixture() {
   const [mounted, setMounted] = useState(false);

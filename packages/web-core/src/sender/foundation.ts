@@ -1,6 +1,7 @@
 import { INSERT_LINE_BREAK_COMMAND } from 'lexical';
 
 import type {
+  RichTextEditorChangeContext,
   RichTextEditorRef,
   RichTextEditorContentSnapshot,
 } from '../rich-text-editor/types.js';
@@ -102,6 +103,7 @@ export function createSenderFoundation<
   callbacks: SenderFoundationCallbacks<Config, Skill>,
 ) {
   let pendingValue: string | undefined;
+  let readyEditor: RichTextEditorChangeContext['editor'] | undefined;
   const createSkillNode = () => createSenderSkillNode(state.activeSkill);
   const createSlotEditorContent = (
     previousContent: readonly RichTextEditorContentSnapshot[] = [],
@@ -122,12 +124,17 @@ export function createSenderFoundation<
     const content = createSlotEditorContent(state.editor.getContent());
     state.editor.setContent(content, { tag: 'sd-sender-slot-sync' });
   };
-  const handleSlotEditorReady = () => {
+  const handleSlotEditorReady = (editor?: RichTextEditorChangeContext['editor']) => {
+    readyEditor = editor;
     state.editorReady = true;
     syncSlotEditor();
   };
-  const handleSlotEditorChange = () => {
-    if (!state.editorReady) return;
+  const handleSlotEditorChange = (
+    _value?: unknown,
+    context?: Pick<RichTextEditorChangeContext, 'editor'>,
+  ) => {
+    // A replacement editor can publish its initial state before it signals readiness.
+    if (!state.editorReady || (context && context.editor !== readyEditor)) return;
     const content = state.editor?.getContent() ?? [];
     const keys = new Set(content.flatMap((item) => (typeof item === 'string' ? [] : [item.key])));
     state.runtimeConfig = state.runtimeConfig.filter(
@@ -388,7 +395,10 @@ export function createSenderFoundation<
     syncSlotEditor();
   };
   const syncSlotMode = (enabled: boolean) => {
-    if (!enabled) state.editorReady = false;
+    if (!enabled) {
+      state.editorReady = false;
+      readyEditor = undefined;
+    }
   };
   return {
     syncSlotEditor,

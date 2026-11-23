@@ -1,7 +1,7 @@
 import type { FileItem, RequestOption } from '../interfaces';
 
+import { dropUploadDirectory } from '../../../../web-core/tests/browser/upload-directory';
 import Upload from '../index';
-import { loopDirectory } from '../utils';
 
 const selectImage = () =>
   cy
@@ -12,39 +12,21 @@ const selectImage = () =>
     );
 
 describe('Upload reviewed boundaries', () => {
-  it('collects every directory batch before calling upload once', () => {
-    cy.then(
-      () =>
-        new Promise<void>((resolve) => {
-          const calls: string[][] = [];
-          let batch = 0;
-          const entry = (name: string) => ({
-            isFile: true,
-            fullPath: `/folder/${name}`,
-            file: (done: (file: File) => void) =>
-              setTimeout(() => done(new File(['text'], name)), 0),
-          });
-          const directory = {
-            isDirectory: true,
-            createReader: () => ({
-              readEntries: (done: (entries: unknown[]) => void) => {
-                const entries =
-                  batch++ === 0 ? [entry('first.txt')] : batch === 2 ? [entry('second.txt')] : [];
-                setTimeout(() => done(entries), 10);
-              },
-            }),
-          };
-          loopDirectory(
-            [{ webkitGetAsEntry: () => directory }] as unknown as DataTransferItemList,
-            undefined,
-            (files) => calls.push(files.map((file) => file.name)),
-          );
-          setTimeout(() => {
-            expect(calls).to.deep.equal([['first.txt', 'second.txt']]);
-            resolve();
-          }, 100);
-        }),
-    );
+  it('routes a directory drop through the reader and preserves accepted relative paths', () => {
+    cy.mount(Upload, {
+      props: { draggable: true, directory: true, accept: '.txt', autoUpload: false },
+    });
+    cy.get('.sd-upload').then(([$target]) => {
+      expect(dropUploadDirectory($target)).to.equal(true);
+    });
+    cy.get('.sd-upload-list-item').should('have.length', 2);
+    cy.get('@vue').should(({ wrapper }) => {
+      const files = wrapper.emitted('update:fileList')?.at(-1)?.[0] as FileItem[];
+      expect(files.map(({ file }) => file?.webkitRelativePath)).to.deep.equal([
+        'folder/one.txt',
+        'folder/two.txt',
+      ]);
+    });
   });
 
   it('does not remove a text-list file while disabled', () => {

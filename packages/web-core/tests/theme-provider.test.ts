@@ -9,7 +9,20 @@ import {
   normalizeThemeProviderTheme,
   type ThemeProviderFoundationState,
 } from '../dist/config-provider/provider.js';
-import { normalizeTheme } from '../dist/config-provider/theme.js';
+import { normalizeTheme, resolveThemeToken } from '../dist/config-provider/theme.js';
+
+test('normalizes legacy theme fields and resolves component tokens before global tokens', () => {
+  const theme = normalizeTheme({
+    token: { primary6: '12,34,56' },
+    components: { Button: { primary6: '100,100,100' } },
+    meta: { cssVarPrefix: 'sd' },
+  });
+  assert.equal(theme.tokens['primary-6'], '12,34,56');
+  assert.equal(theme.components.button['primary-6'], '100,100,100');
+  assert.equal(theme.meta.cssVarPrefix, '--sd-');
+  assert.equal(resolveThemeToken(theme, 'button', 'primary-6'), '100,100,100');
+  assert.equal(resolveThemeToken(theme, 'input', 'primary-6'), '12,34,56');
+});
 
 class Target {
   attributes = new Map<string, string>();

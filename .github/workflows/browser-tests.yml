@@ -34,7 +34,6 @@ jobs:
       vue: ${{ steps.specs.outputs.vue }}
       browser: ${{ steps.specs.outputs.browser }}
       docsPages: ${{ steps.specs.outputs.docsPages }}
-      docsPreview: ${{ steps.specs.outputs.docsPreview }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -63,15 +62,15 @@ jobs:
             git diff --name-only --no-renames -z "$BASE" HEAD > "$RUNNER_TEMP/browser-changes"
             while IFS= read -r -d '' file; do
               case "$file" in
-                .github/workflows/browser-tests.yml|scripts/select-browser-specs.ts|.mise.toml|.npmrc|package.json|pnpm-lock.yaml|pnpm-workspace.yaml)
+                .github/workflows/browser-tests.yml|scripts/select-browser-specs.ts|scripts/browser-dependency-graph.ts|packages/web-vue/scripts/browser-source-imports.ts|.mise.toml|.npmrc|package.json|pnpm-lock.yaml|pnpm-workspace.yaml)
                   BASE=; vue=true; react=true; docs=true ;;
-                .github/workflows/vue-browser-shards.yml)
+                .github/workflows/vue-browser-shards.yml|packages/web-vue/scripts/find-affected-cypress-specs.ts)
                   BASE=; vue=true ;;
-                packages/web-vue/scripts/find-affected-cypress-specs.ts|packages/web-vue/scripts/browser-source-imports.ts|scripts/browser-dependency-graph.ts)
-                  BASE=; vue=true; react=true ;;
+                packages/web-core/tests/*.test.ts)
+                  ;;
                 packages/web-core/*)
                   vue=true; react=true ;;
-                packages/sd-vue-docs/*|packages/web-vue/cypress/e2e/*|packages/web-vue/cypress.theme.config.ts|packages/web-vue/cypress.markdown.config.ts)
+                packages/sd-vue-docs/*|packages/web-vue/cypress/e2e/*|packages/web-vue/cypress.theme.config.ts|packages/web-vue/cypress.markdown.config.ts|packages/web-react/cypress.docs.config.ts)
                   docs=true ;;
                 packages/web-vue/*)
                   vue=true ;;
@@ -105,7 +104,7 @@ jobs:
       shards: ${{ needs.select.outputs.vue }}
 
   prepare-react:
-    name: Prepare React cache and docs preview
+    name: Prepare React E2E cache
     needs: select
     if: needs.select.outputs.browser != '[]'
     runs-on: ubuntu-latest
@@ -123,6 +122,7 @@ jobs:
             ~/.cache/Cypress
           key: e2e-react-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('pnpm-lock.yaml', 'pnpm-workspace.yaml', 'package.json', '.mise.toml') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile --store-dir .pnpm-store
       - name: Save React E2E cache
         if: steps.cache.outputs.cache-hit != 'true'
@@ -132,18 +132,6 @@ jobs:
             .pnpm-store
             ~/.cache/Cypress
           key: ${{ steps.cache.outputs.cache-primary-key }}
-      - name: Build docs site
-        if: needs.select.outputs.docsPreview == 'true'
-        env:
-          NODE_OPTIONS: '--max-old-space-size=4096'
-        run: pnpm run build:docs
-      - uses: actions/upload-artifact@v7
-        if: needs.select.outputs.docsPreview == 'true'
-        with:
-          name: browser-test-docs
-          path: packages/sd-vue-docs/dist
-          if-no-files-found: error
-          retention-days: 7
 
   browser:
     name: ${{ matrix.initials == 'docs' && 'Documentation browser tests' || format('React browser tests ({0})', matrix.initials) }}
@@ -168,11 +156,11 @@ jobs:
           key: e2e-react-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('pnpm-lock.yaml', 'pnpm-workspace.yaml', 'package.json', '.mise.toml') }}
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --store-dir .pnpm-store
-      - uses: actions/download-artifact@v8
+      - name: Build docs site
         if: matrix.docsPreview
-        with:
-          name: browser-test-docs
-          path: packages/sd-vue-docs/dist
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
+        run: pnpm run build:docs
       - name: Build React browser fixtures' workspace dependencies
         if: matrix.initials != 'docs'
         run: pnpm --filter @sdata/web-react... run build
@@ -181,7 +169,7 @@ jobs:
         env:
           INITIALS: ${{ matrix.initials }}
           SPECS: ${{ matrix.specs }}
-          DOCS_PAGES: ${{ needs.select.outputs.docsPages }}
+          SD_DOCS_PAGES: ${{ !matrix.vueDocs && needs.select.outputs.docsPages || '' }}
           DOCS_PREVIEW: ${{ matrix.docsPreview }}
           VUE_DOCS: ${{ matrix.vueDocs }}
           REAL_WEBLLM: ${{ github.event_name == 'schedule' || inputs.real_webllm == true }}
@@ -195,23 +183,22 @@ jobs:
 
           if [ "$INITIALS" = docs ]; then
             status=0
-            args=(--posix-exit-codes --spec "$SPECS")
             if [ "$VUE_DOCS" = true ]; then
               pnpm --filter @sdata/web-vue run test:theme:e2e --posix-exit-codes || status=1
               pnpm --filter @sdata/web-vue run test:markdown:e2e --posix-exit-codes || status=1
-            elif [ -n "$DOCS_PAGES" ]; then
-              args+=(--expose "docsFrameworks=react,docsPages=$DOCS_PAGES")
             fi
-            pnpm --filter @sdata/web-react run test:docs:e2e "${args[@]}" || status=1
+            pnpm --filter @sdata/web-react run test:docs:e2e --posix-exit-codes --spec "$SPECS" || status=1
             if [ "$REAL_WEBLLM" = true ]; then
               SD_REAL_WEBLLM=1 pnpm --filter @sdata/web-vue run test:theme:e2e --posix-exit-codes || status=1
             fi
             exit "$status"
           else
             pnpm --filter @sdata/web-react run serve:e2e &
-            node packages/web-react/scripts/serve-upload-test.ts &
             curl --retry 60 --retry-delay 1 --retry-connrefused --max-time 5 -fsS http://127.0.0.1:5190/ -o /dev/null
-            curl --retry 60 --retry-delay 1 --retry-connrefused --max-time 5 -fsS http://127.0.0.1:5192/state -o /dev/null
+            if [[ ",$SPECS," == *",tests/browser/upload-network.cy.ts,"* ]]; then
+              node packages/web-react/scripts/serve-upload-test.ts &
+              curl --retry 60 --retry-delay 1 --retry-connrefused --max-time 5 -fsS http://127.0.0.1:5192/state -o /dev/null
+            fi
             cd packages/web-react
             CYPRESS_BASE_URL=http://127.0.0.1:5190 pnpm run test:e2e --posix-exit-codes --spec "$SPECS"
           fi

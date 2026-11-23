@@ -40,6 +40,33 @@ test('includes reverse dependents transitively', () => {
   ]);
 });
 
+test('selects an edited spec and its test dependents without expanding runtime groups', () => {
+  const changed = 'components/input/__test__/index.cy.ts';
+  const sibling = 'components/input/__test__/keyboard.cy.ts';
+  const consumer = 'components/form/__test__/index.cy.ts';
+  const otherDependent = 'components/form/__test__/rules.cy.ts';
+  const browserReverse = new Map([
+    [`packages/web-vue/${changed}`, [`packages/web-vue/${consumer}`]],
+  ]);
+  const specs = new Map([
+    ['input', [changed, sibling]],
+    ['form', [consumer, otherDependent]],
+  ]);
+  const options = { componentDependencies, componentSpecs: specs, browserReverse };
+
+  assert.deepEqual(
+    selectAffectedSpecs({ ...options, changedFiles: [`packages/web-vue/${changed}`] }).specs,
+    [consumer, changed],
+  );
+  assert.deepEqual(
+    selectAffectedSpecs({
+      ...options,
+      changedFiles: ['packages/web-vue/components/input/input.vue'],
+    }).specs,
+    [consumer, otherDependent, changed, sibling],
+  );
+});
+
 test('includes a cross-component spec that imports changed source', () => {
   const source = 'packages/web-vue/components/table/table.vue';
   const tagSpec = 'components/tag/__test__/table-ellipsis.cy.ts';
@@ -240,6 +267,7 @@ test('tracks cross-component Core runtime and stylesheet imports', (t) => {
     'styles/checkbox/style/index.scss': '',
     'styles/table/style/index.scss': "@use '../../select/style/index.scss';",
     'tests/browser/hover-intent.ts': 'export const hover = () => {};',
+    'tests/fixtures/checkbox-data.json': '{"checked":true}',
   })) {
     const target = path.join(temp, 'packages', 'web-core', file);
     mkdirSync(path.dirname(target), { recursive: true });
@@ -247,7 +275,11 @@ test('tracks cross-component Core runtime and stylesheet imports', (t) => {
   }
   writeFileSync(
     path.join(root, 'components', 'checkbox', '__test__', 'index.cy.ts'),
-    "import { hover } from '../../../../web-core/tests/browser/hover-intent'; hover();",
+    [
+      "import { hover } from '../../../../web-core/tests/browser/hover-intent';",
+      "import data from '../../../../web-core/tests/fixtures/checkbox-data.json';",
+      'if (data.checked) hover();',
+    ].join('\n'),
   );
   const metadata = discoverMetadata(temp);
   const result = selectAffectedSpecs({
@@ -261,6 +293,11 @@ test('tracks cross-component Core runtime and stylesheet imports', (t) => {
     changedFiles: ['packages/web-core/tests/browser/hover-intent.ts'],
   });
   assert.deepEqual(helperChange.specs, ['components/checkbox/__test__/index.cy.ts']);
+  const fixtureChange = selectAffectedSpecs({
+    ...metadata,
+    changedFiles: ['packages/web-core/tests/fixtures/checkbox-data.json'],
+  });
+  assert.deepEqual(fixtureChange.specs, ['components/checkbox/__test__/index.cy.ts']);
   assert.equal(
     selectAffectedSpecs({
       ...metadata,

@@ -104,6 +104,23 @@ export function ClampFixture() {
         关闭气泡时应使用原生标题提示完整内容
       </Ellipsis>
       <Ellipsis
+        data-testid="nested-ellipsis"
+        expandTrigger="click"
+        tooltip={false}
+        style={{ width: 220 }}
+      >
+        <input aria-label="省略内容内的输入框" style={{ width: 70 }} />
+        {'可编辑内容之外的长文本。'.repeat(20)}
+      </Ellipsis>
+      <PerformantEllipsis
+        data-testid="lazy-line-fallback"
+        lineClamp={0}
+        tooltip={false}
+        style={{ width: 120 }}
+      >
+        {'无效行数回退为单行。'.repeat(20)}
+      </PerformantEllipsis>
+      <Ellipsis
         data-testid="multi-ellipsis"
         lineClamp={2}
         style={{ width: 120, lineHeight: '20px' }}

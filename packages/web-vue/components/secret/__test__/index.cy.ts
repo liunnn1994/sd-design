@@ -34,6 +34,27 @@ describe('Secret', () => {
     cy.get('.sd-copy').should('not.exist');
   });
 
+  it('copies masked text and requests a keyboard reveal until the controlled value changes', () => {
+    const update = cy.spy();
+    cy.window().then((win) => {
+      cy.stub(win.navigator.clipboard, 'writeText').resolves().as('copyWrite');
+    });
+    cy.mount(Secret, {
+      props: { 'text': 'example masked value', 'visible': false, 'onUpdate:visible': update },
+    });
+    cy.get('.sd-secret').should('not.contain.text', 'example masked value');
+    cy.get('.sd-copy').click();
+    cy.get('@copyWrite').should('have.been.calledOnceWith', 'example masked value');
+    cy.get('.sd-secret-trigger').focus().should('be.focused');
+    cy.press(Cypress.Keyboard.Keys.SPACE);
+    cy.wrap(update).should('have.been.calledOnceWith', true);
+    cy.get('.sd-secret-trigger').should('have.attr', 'aria-pressed', 'false');
+    cy.get('.sd-secret-placeholder').should('be.visible');
+    cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ visible: true }));
+    cy.get('.sd-secret-trigger').should('have.attr', 'aria-pressed', 'true');
+    cy.get('.sd-secret').should('contain.text', 'example masked value');
+  });
+
   it('renders custom hidden text', () => {
     cy.mount(Secret, { props: { text: '18812345678', hiddenText: '手机号已隐藏' } });
     cy.get('.sd-secret-placeholder').should('have.text', '手机号已隐藏');

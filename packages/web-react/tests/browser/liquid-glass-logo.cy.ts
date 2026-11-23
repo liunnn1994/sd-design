@@ -1,4 +1,4 @@
-import { checkComponentDocs } from './docs-contract';
+import { scrollToTopOutside } from '../../../web-core/tests/browser/scroll-outside';
 
 describe('LiquidGlassLogo React', () => {
   const root = '[data-testid="glass-main"]';
@@ -15,7 +15,7 @@ describe('LiquidGlassLogo React', () => {
       win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve()));
     });
   const visit = () => {
-    cy.visit('/');
+    cy.visit('/liquid-glass-logo.html');
     cy.get(root).scrollIntoView().should('have.attr', 'data-liquid-glass-ready');
   };
   afterEach(() =>
@@ -134,7 +134,7 @@ describe('LiquidGlassLogo React', () => {
     cy.get(root).should('have.attr', 'aria-label', 'Logo');
   });
   it('falls back without WebGL, reports one error and supports a custom fallback', () => {
-    cy.visit('/', {
+    cy.visit('/liquid-glass-logo.html', {
       onBeforeLoad(win) {
         const original = win.HTMLCanvasElement.prototype.getContext;
         cy.stub(win.HTMLCanvasElement.prototype, 'getContext').callsFake(function (
@@ -192,7 +192,7 @@ describe('LiquidGlassLogo React', () => {
     cy.get('[data-testid="glass-events"]').should('have.text', 'ready|ready');
   });
   it('falls back after shader compilation failure and reports one setup error', () => {
-    cy.visit('/', {
+    cy.visit('/liquid-glass-logo.html', {
       onBeforeLoad(win) {
         cy.stub(win.WebGL2RenderingContext.prototype, 'getShaderParameter').returns(false);
         cy.spy(win.WebGL2RenderingContext.prototype, 'deleteProgram').as('glassFailedProgram');
@@ -213,7 +213,7 @@ describe('LiquidGlassLogo React', () => {
     );
     cy.get<HTMLCanvasElement>(canvasSelector).then((canvas) => {
       const node = canvas[0];
-      cy.window().then((win) => win.scrollTo({ top: 0, behavior: 'instant' }));
+      scrollToTopOutside(node);
       cy.then(async () => {
         await twoFrames(node);
         const still = time(node);
@@ -262,9 +262,4 @@ describe('LiquidGlassLogo React', () => {
       expect(time(canvas[0])).to.eq(0.5),
     );
   });
-});
-
-describe('LiquidGlassLogo documentation', () => {
-  it('documents shared liquid-glass-logo scenes and framework navigation', () =>
-    checkComponentDocs('liquid-glass-logo'));
 });

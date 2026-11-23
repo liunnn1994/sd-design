@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-import { Affix, type AffixExposed } from '../../src/index';
+import { Affix, type AffixExposed } from '../../src/affix/index.js';
 
 export function AffixFixture() {
   const [mounted, setMounted] = useState(false);

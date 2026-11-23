@@ -501,9 +501,11 @@ describe('Sender', () => {
     });
   });
 
-  it('submits a structured input once per Enter keypress', () => {
+  it('submits a structured input and its active skill once per Enter keypress', () => {
+    const skill = { value: 'weather', title: '天气助手' };
     cy.mount(Sender, {
       props: {
+        skill,
         slotConfig: [
           {
             type: 'input',
@@ -514,9 +516,23 @@ describe('Sender', () => {
       },
     });
 
+    cy.get('.sd-sender-skill-tag').should('contain.text', '天气助手');
     cy.get('.sd-rich-text-editor-component-input input').type('{enter}');
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('submit')).to.have.length(1);
+      expect(wrapper.emitted('submit')).to.deep.equal([
+        [
+          '天气',
+          [
+            {
+              type: 'input',
+              key: 'keyword',
+              props: { defaultValue: '天气' },
+              value: '天气',
+            },
+          ],
+          skill,
+        ],
+      ]);
     });
   });
 

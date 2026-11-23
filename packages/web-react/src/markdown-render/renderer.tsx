@@ -429,7 +429,7 @@ export function MarkdownRenderer(props: MarkdownRenderProps) {
   const range = controller.getRange();
   useMarkdownEnterFade(viewport.elements, {
     mounted,
-    enabled: (props.fade ?? mode.fade) && !props.renderAsFragment,
+    enabled: (props.fade ?? mode.fade) && final !== true && !props.renderAsFragment,
     appear: requestedFinal !== true,
   });
   const cursor = useMarkdownCursor({

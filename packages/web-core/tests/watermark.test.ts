@@ -29,6 +29,7 @@ function fixture(t: { after(callback: () => void): void }) {
   const ctx = {
     font: '',
     fillStyle: '',
+    textAlign: '',
     globalAlpha: 1,
     measureText(text: string) {
       operations.push(['measure', this.font, text]);
@@ -149,6 +150,41 @@ test('watermark text measurement and drawing share the full font and preserve DP
   assert.match(f.children[0].style, /background-size:60px/);
   assert.equal(f.operations.filter((op) => op[0] === 'image')[0][1], 1);
 });
+
+for (const [textAlign, expectedX] of [
+  ['left', 0],
+  ['start', 0],
+  ['center', 50],
+  ['right', 100],
+  ['end', 100],
+] as const) {
+  test(`watermark positions ${textAlign}-aligned text within its tile at double DPR`, (t) => {
+    const f = fixture(t);
+    Object.assign(f.props, {
+      content: 'SD',
+      width: 100,
+      height: 30,
+      gap: [0, 0],
+      staggered: false,
+      font: { textAlign },
+    });
+    f.controller.render();
+    assert.equal(f.ctx.textAlign, textAlign);
+    assert.deepEqual(
+      f.operations.filter(([operation]) => operation === 'translate'),
+      [
+        ['translate', 100, 30],
+        ['translate', -100, -30],
+        ['translate', expectedX * f.adapter.ratio, 0],
+      ],
+    );
+    assert.deepEqual(f.operations.find(([operation]) => operation === 'text')?.slice(2), [
+      'SD',
+      0,
+      0,
+    ]);
+  });
+}
 
 test('watermark placement retains negative offsets, repeat policy and replaces its own node', (t) => {
   const f = fixture(t);

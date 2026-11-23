@@ -1,6 +1,6 @@
 import type { CascaderModelValue, CascaderOption } from '@sdata/web-core/cascader/types';
 
-import { StrictMode, useState } from 'react';
+import { StrictMode, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import type { TagProps } from '../../src/tag/index.js';
@@ -28,6 +28,8 @@ const options: CascaderOption<TagProps>[] = [
 const lazyOptions: CascaderOption<TagProps>[] = [{ value: 'lazy', label: 'Lazy', isLeaf: false }];
 function Fixture() {
   const query = new URLSearchParams(location.search);
+  const failure = query.get('failure');
+  const attempts = useRef(0);
   const [value, setValue] = useState<CascaderModelValue>(
     query.has('controlled') ? 'one' : undefined,
   );
@@ -48,8 +50,13 @@ function Fixture() {
           options={query.has('lazy') ? lazyOptions : options}
           loadMore={
             query.has('lazy')
-              ? (_, done) =>
-                  setTimeout(() => done([{ value: 'loaded', label: 'Loaded', isLeaf: true }]), 100)
+              ? (_, done) => {
+                  if (attempts.current++ === 0) {
+                    if (failure === 'throw') throw new Error('Load failed');
+                    if (failure === 'reject') return Promise.reject(new Error('Load failed'));
+                  }
+                  setTimeout(() => done([{ value: 'loaded', label: 'Loaded', isLeaf: true }]), 100);
+                }
               : undefined
           }
           value={value}

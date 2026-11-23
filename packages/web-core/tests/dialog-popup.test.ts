@@ -3,6 +3,7 @@ import { test } from 'node:test';
 
 import type { BeforeOk } from '../src/dialog/confirmation.ts';
 
+import { getScrollBarWidth } from '../dist/_utils/dom.js';
 import { createConfirmationFoundation } from '../dist/dialog/confirmation.js';
 import { createDialogDrag } from '../dist/dialog/drag.js';
 import {
@@ -383,6 +384,25 @@ test('dialog layout retains zero, fullscreen, original style and positioned dime
     width: '50%',
     height: '30vh',
   });
+});
+
+test('body scrollbar width ignores horizontal overflow and clamps negative viewport compensation', (t) => {
+  const documentElement = { clientWidth: 980, scrollWidth: 4000 };
+  for (const [name, value] of Object.entries({
+    window: { innerWidth: 1000 },
+    document: { documentElement },
+  })) {
+    const previous = Object.getOwnPropertyDescriptor(globalThis, name);
+    Object.defineProperty(globalThis, name, { configurable: true, value });
+    t.after(() => {
+      if (previous) Object.defineProperty(globalThis, name, previous);
+      else Reflect.deleteProperty(globalThis, name);
+    });
+  }
+  const body = { tagName: 'BODY', scrollWidth: 4000 } as HTMLElement;
+  assert.equal(getScrollBarWidth(body), 20);
+  documentElement.clientWidth = 1001;
+  assert.equal(getScrollBarWidth(body), 0);
 });
 
 test('overflow ownership follows the acquired container and restores styles only after the final owner', () => {

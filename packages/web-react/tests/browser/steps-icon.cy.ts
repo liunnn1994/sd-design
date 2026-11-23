@@ -1,5 +1,5 @@
 describe('React Steps icons', () => {
-  beforeEach(() => cy.visit('/'));
+  beforeEach(() => cy.visit('/steps.html'));
 
   it('centers finished and error step icons at default and small sizes', () => {
     for (const small of [false, true]) {

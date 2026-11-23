@@ -14,7 +14,16 @@ import {
 } from '../dist/image/foundation.js';
 import { createImagePreviewGroup, getPreviewSourceMap } from '../dist/image/group.js';
 import { createImagePreview } from '../dist/image/preview.js';
+import getScale from '../dist/image/utils/get-scale.js';
 import { createOverflowController, createPopupOverflowHidden } from '../dist/popup/overflow.js';
+
+test('discrete image zoom steps from the nearest scale and respects the endpoints', () => {
+  assert.equal(getScale(1.3), 1.5);
+  assert.equal(getScale(0.79), 0.9);
+  assert.equal(getScale(1.3, 'zoomOut'), 1.1);
+  assert.equal(getScale(0.25, 'zoomOut'), 0.25);
+  assert.equal(getScale(5), 5);
+});
 
 test('image source state, grouped opening and event-before-local writes preserve their distinct guards', () => {
   const state = { src: undefined as string | undefined, preview: true, group: false };

@@ -17,6 +17,7 @@ export function ColorPickerFormatsFixture() {
         value={value}
         format={(params.get('format') ?? 'HEX') as ColorFormat}
         enableAlpha={params.has('alpha')}
+        enableMultipleGradient={params.has('two-stops') ? false : undefined}
         colorModes={params.has('gradient') ? ['linear-gradient'] : ['monochrome']}
         swatchColors={['#0000ff']}
         onValueChange={(next) => {

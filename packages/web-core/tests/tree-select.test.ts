@@ -111,6 +111,9 @@ test('search retains matching raw keys and their ancestor insertion order', () =
   });
   assert.deepEqual([...keys], ['leaf', 'root']);
   assert.deepEqual(calls, ['root', 0, 'leaf']);
+  const byRawKey = (keyword: string, node: TreeData) => matchTreeNodeKey(node, keyword, 'key');
+  assert.deepEqual([...getFilteredTreeKeys(nodes, '0', byRawKey)], [0, 'root']);
+  assert.deepEqual([...getFilteredTreeKeys(nodes, 'absent', byRawKey)], []);
   assert.equal(matchTreeNodeKey({ id: 0 }, '0', 'id'), true);
   assert.equal(matchTreeNodeKey({ id: undefined }, '', 'id'), false);
 });

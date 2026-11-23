@@ -4,7 +4,11 @@ import type { TreeNodeDomEventName } from '@sdata/web-core/tree/node';
 import type { TreeModelNode, TreeModelOptions } from '@sdata/web-core/tree/types';
 import type { ComponentPropsWithoutRef, Ref } from 'react';
 
-import { getVisibleTreeNodes, getTransitionTreeNodes } from '@sdata/web-core/tree/query';
+import {
+  getSearchExpandedKeys,
+  getVisibleTreeNodes,
+  getTransitionTreeNodes,
+} from '@sdata/web-core/tree/query';
 import { Fragment, useImperativeHandle, useRef, useState } from 'react';
 
 import type { VirtualListProps, VirtualListRef } from '../_shared/virtual-list.js';
@@ -209,9 +213,12 @@ export function Tree<T extends TreeNodeData = TreeNodeData>({
     },
     model,
   );
+  const visibleExpandedKeys =
+    getSearchExpandedKeys(model.flattenTreeData, !!searchValue && !!filterTreeNode) ??
+    state.expandedKeys;
   const visibleNodes = getVisibleTreeNodes({
     nodes: model.flattenTreeData,
-    expandedKeys: state.expandedKeys,
+    expandedKeys: visibleExpandedKeys,
     expandingKeys: state.expandingKeys,
     filter: filterTreeNode,
   });
@@ -219,6 +226,7 @@ export function Tree<T extends TreeNodeData = TreeNodeData>({
     root: rootRef,
     state,
     visibleNodes,
+    expandedKeys: visibleExpandedKeys,
     canLoadMore: !!loadMore,
     scrollToKey: (key) => virtual.current?.scrollTo({ key, align: 'auto' }),
   });
@@ -332,12 +340,12 @@ export function Tree<T extends TreeNodeData = TreeNodeData>({
       ) : (
         visibleNodes.map((node) => {
           const transitioning = state.expandingKeys.includes(node.key);
-          const expanded = state.expandedKeys.includes(node.key);
+          const expanded = visibleExpandedKeys.includes(node.key);
           const children = transitioning
             ? (getTransitionTreeNodes({
                 nodes: model.flattenTreeData,
                 nodeKey: node.key,
-                expandedKeys: state.expandedKeys,
+                expandedKeys: visibleExpandedKeys,
                 expanded,
                 filter: filterTreeNode,
               }) ?? [])

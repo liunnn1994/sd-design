@@ -22,7 +22,7 @@ describe('Scrollbar', () => {
     });
   });
 
-  it('scrolls the generated viewport through the exposed methods', () => {
+  it('scrolls the generated viewport through the exposed methods and forwards its native event', () => {
     cy.mount(Scrollbar, {
       props: {
         outerStyle: { width: '120px', height: '80px' },
@@ -41,6 +41,13 @@ describe('Scrollbar', () => {
       cy.wrap(vm.elements().scrollOffsetElement)
         .should('have.prop', 'scrollLeft', 70)
         .and('have.prop', 'scrollTop', 60);
+    });
+    cy.get('@vue').should(({ wrapper }) => {
+      const event = wrapper.emitted<[Event]>('scroll')?.at(-1)?.[0];
+      expect(event?.type).to.equal('scroll');
+      expect(event?.target).to.equal(
+        wrapper.element.querySelector('[data-overlayscrollbars-viewport]'),
+      );
     });
   });
 
@@ -85,15 +92,6 @@ describe('Scrollbar', () => {
       const remove = vm.on('updated', () => {});
       expect(typeof remove).to.equal('function');
       vm.off('updated', () => {});
-    });
-  });
-
-  it('keeps the scroll event contract', () => {
-    cy.mount(Scrollbar);
-    cy.get('.sd-scrollbar').then(($el) => {
-      // OverlayScrollbars intercepts scroll on its viewport; assert the host
-      // element still accepts a scroll event without error.
-      expect(() => $el[0].dispatchEvent(new Event('scroll'))).not.to.throw();
     });
   });
 

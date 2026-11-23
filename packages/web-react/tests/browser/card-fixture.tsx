@@ -1,11 +1,18 @@
 import { useState } from 'react';
 
-import { Card, CardMeta, CardGrid, ConfigProvider, Button, Avatar } from '../../src/index';
+import { Avatar } from '../../src/avatar/index.js';
+import { Button } from '../../src/button/index.js';
+import { Card, CardMeta, CardGrid } from '../../src/card/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
 
-function WrappedMeta() {
+function WrappedMeta({ compact }: { compact: boolean }) {
   return (
     <div>
-      <CardMeta title="嵌套详情" description="描述" avatar={<Avatar>A</Avatar>} />
+      <CardMeta
+        title={compact ? <strong>更新后的详情</strong> : '嵌套详情'}
+        description={compact ? undefined : '描述'}
+        avatar={compact ? undefined : <Avatar>A</Avatar>}
+      />
     </div>
   );
 }
@@ -17,6 +24,7 @@ export function CardFixture() {
   const [loading, setLoading] = useState(false);
   const [native, setNative] = useState(false);
   const [header, setHeader] = useState(true);
+  const [compactMeta, setCompactMeta] = useState(false);
   const [clicks, setClicks] = useState(0);
   return (
     <section>
@@ -26,6 +34,7 @@ export function CardFixture() {
       <Button onClick={() => setLoading(!loading)}>切换卡片加载</Button>
       <Button onClick={() => setNative(!native)}>切换卡片滚动</Button>
       <Button onClick={() => setHeader(!header)}>切换卡片标题</Button>
+      <Button onClick={() => setCompactMeta(!compactMeta)}>切换详情内容</Button>
       <ConfigProvider size="mini" cardSpinProps={{ tip: '全局卡片加载' }}>
         <Card
           data-testid="card-meta"
@@ -44,7 +53,7 @@ export function CardFixture() {
             ) : undefined
           }
         >
-          {meta ? <WrappedMeta /> : <p>普通正文</p>}
+          {meta ? <WrappedMeta compact={compactMeta} /> : <p>普通正文</p>}
         </Card>
         <Card data-testid="card-grid" bordered={false} size="medium">
           {Array.from({ length: count }, (_, index) => (

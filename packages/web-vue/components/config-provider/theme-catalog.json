@@ -12390,7 +12390,7 @@
         {
           "key": "sender-color-border-focus",
           "name": "sender-color-border-focus",
-          "value": "rgb(var(--sd-primary-6)/60%)",
+          "value": "rgba(var(--sd-primary-6), 0.6)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -12402,31 +12402,31 @@
         {
           "key": "sender-color-bg-skill",
           "name": "sender-color-bg-skill",
-          "value": "rgb(var(--sd-primary-6)/8%)",
+          "value": "rgba(var(--sd-primary-6), 0.08)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-color-bg-skill-hover",
           "name": "sender-color-bg-skill-hover",
-          "value": "rgb(var(--sd-primary-6)/15%)",
+          "value": "rgba(var(--sd-primary-6), 0.15)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-color-bg-actions-disabled",
           "name": "sender-color-bg-actions-disabled",
-          "value": "rgb(var(--sd-primary-6)/45%)",
+          "value": "rgba(var(--sd-primary-6), 0.45)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-switch-checked-bg",
           "name": "sender-switch-checked-bg",
-          "value": "rgb(var(--sd-primary-6)/8%)",
+          "value": "rgba(var(--sd-primary-6), 0.08)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
           "key": "sender-switch-checked-hover-bg",
           "name": "sender-switch-checked-hover-bg",
-          "value": "rgb(var(--sd-primary-6)/10%)",
+          "value": "rgba(var(--sd-primary-6), 0.1)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {
@@ -12444,7 +12444,7 @@
         {
           "key": "sender-box-shadow-focus",
           "name": "sender-box-shadow-focus",
-          "value": "0 4px 20px rgb(var(--sd-primary-6)/10%)",
+          "value": "0 4px 20px rgba(var(--sd-primary-6), 0.1)",
           "dependencies": ["sd-cssvars-prefix"]
         },
         {

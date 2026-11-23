@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { BackTop, ConfigProvider } from '../../src/index';
+import { BackTop } from '../../src/back-top/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
 import enUS from '../../src/locale/lang/en-us';
 
 export function BackTopFixture() {

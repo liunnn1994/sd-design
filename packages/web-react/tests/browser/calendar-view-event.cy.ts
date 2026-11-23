@@ -47,6 +47,29 @@
       cy.get('[data-testid="event-log"]').should('contain.text', 'event-delete');
       cy.get('.sd-calendar__event').should('not.exist');
     });
+    for (const release of ['mouseup', 'touchend', 'touchcancel']) {
+      it(`does not forward a hold after ${release}`, () => {
+        cy.clock(Date.now(), ['setTimeout', 'clearTimeout']);
+        cy.get('.sd-calendar__event').then(($event) => {
+          cy.wrap($event).trigger(release === 'mouseup' ? 'mousedown' : 'touchstart', {
+            touches: [{ target: $event[0], clientX: 0, clientY: 0 }],
+          });
+        });
+        cy.tick(100);
+        cy.document().trigger(release);
+        cy.tick(1000);
+        cy.get('[data-testid="event-log"]').should('not.contain.text', 'hold');
+      });
+    }
+    it('forwards exactly one hold until the pointer is released', () => {
+      cy.clock(Date.now(), ['setTimeout', 'clearTimeout']);
+      cy.get('.sd-calendar__event').trigger('mousedown');
+      cy.tick(1000);
+      cy.get('[data-testid="event-log"]').should('have.text', 'hold');
+      cy.document().trigger('mouseup');
+      cy.tick(1000);
+      cy.get('[data-testid="event-log"]').should('have.text', 'hold');
+    });
     it('resizes using the Core document gesture and removes hold timers on unmount', () => {
       cy.get('.sd-calendar__event-resizer').then(($el) => {
         const rect = $el[0].getBoundingClientRect();

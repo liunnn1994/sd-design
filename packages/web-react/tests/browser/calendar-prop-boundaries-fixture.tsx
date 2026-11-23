@@ -40,6 +40,17 @@ export function CalendarPropBoundariesFixture() {
       </button>
       <button onClick={() => epoch(true)}>Epoch minimum</button>
       <button onClick={() => epoch(false)}>Epoch maximum</button>
+      <button
+        onClick={() =>
+          setOptions({ view: 'week', viewDate: '2025-01-08', horizontal: true, hideWeekends: true })
+        }
+      >
+        Horizontal weekdays
+      </button>
+      <button onClick={() => setOptions({ ...options, hideWeekends: false })}>Show weekends</button>
+      <button onClick={() => setOptions({ ...options, horizontal: !options.horizontal })}>
+        Change orientation
+      </button>
       <button onClick={() => api.current?.view.next()}>Next</button>
       <button
         onClick={() =>

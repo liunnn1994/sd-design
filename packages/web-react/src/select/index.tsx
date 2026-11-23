@@ -469,6 +469,7 @@ export function Select(props: SelectProps) {
         ]
       : [];
   });
+  const tagRenderer = renderTag ?? renderLabel;
   const optionId = (key: string) => `${optionPrefix}-${uid}-${key}`;
   const label = (text: string) =>
     ellipsis === false ? (
@@ -659,14 +660,14 @@ export function Select(props: SelectProps) {
                   foundation.handleClear(event);
                 }}
                 renderLabel={(data) =>
-                  renderLabel ? renderLabel(data.option as SelectOptionData) : data.label
+                  renderLabel && data.option
+                    ? renderLabel(data.option as SelectOptionData)
+                    : data.label
                 }
                 renderTag={(data) =>
-                  renderTag
-                    ? renderTag(data.option as SelectOptionData)
-                    : renderLabel
-                      ? renderLabel(data.option as SelectOptionData)
-                      : data.label
+                  data.option && tagRenderer
+                    ? tagRenderer(data.option as SelectOptionData)
+                    : data.label
                 }
               />
             )}

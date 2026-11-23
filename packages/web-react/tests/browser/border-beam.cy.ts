@@ -1,5 +1,3 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('BorderBeam React', () => {
   const root = '[data-testid="beam-main"]';
   const style = () =>
@@ -13,7 +11,7 @@ describe('BorderBeam React', () => {
       win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve()));
     });
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/border-beam.html');
     cy.get(root).scrollIntoView();
   });
   afterEach(() =>
@@ -118,6 +116,10 @@ describe('BorderBeam React', () => {
     cy.get(root)
       .should('have.css', '--beam-strength', '1')
       .and('have.css', '--beam-density', '0.1');
+    cy.contains('button', 'Beam zero radius').click();
+    style().should('contain.text', 'border-radius: 5px');
+    cy.contains('button', 'Beam clear radius override').click();
+    style().should('contain.text', 'border-radius: 0px');
   });
   it('supports all sizes, line hue limits, color variants and static colors', () => {
     cy.contains('button', 'Beam tuning').click();
@@ -227,7 +229,4 @@ describe('BorderBeam React', () => {
   });
 });
 
-describe('BorderBeam documentation', () => {
-  it('documents shared border-beam scenes and framework navigation', () =>
-    checkComponentDocs('border-beam'));
-});
+export {};

@@ -1,7 +1,9 @@
 import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { Cascader, ConfigProvider, TreeSelect, type TreeSelectProps } from '../../src/index.js';
+import { Cascader } from '../../src/cascader/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { TreeSelect, type TreeSelectProps } from '../../src/tree-select/index.js';
 import '../../styles/cascader.scss';
 import '../../styles/tree-select.scss';
 import '../../styles/config-provider.scss';
@@ -22,6 +24,7 @@ function Fixture() {
   const [providerTip, setProviderTip] = useState('provider');
   const query = new URLSearchParams(location.search);
   const loading = query.has('loading');
+  const empty = query.has('empty');
   return (
     <>
       <button onClick={() => setEllipsis(false)}>Plain</button>
@@ -37,13 +40,14 @@ function Fixture() {
         spinProps={{ tip: 'global', size: 11 }}
         cascaderSpinProps={specific ? { tip: `cascader ${providerTip}`, size: 23 } : undefined}
         treeSelectSpinProps={specific ? { tip: `tree ${providerTip}`, size: 29 } : undefined}
+        renderEmpty={empty ? () => <span>Provider empty {providerTip}</span> : undefined}
       >
         <div style={{ display: 'flex', gap: 160, marginTop: 30 }}>
           <TreeSelect
             style={{ width: 220 }}
             popupVisible
             loading={loading}
-            data={options}
+            data={empty ? [] : options}
             ellipsis={ellipsis}
             treeProps={{ ellipsis: nested, defaultExpandAll: true }}
             spinProps={local ? { tip: 'tree local', dot: true } : undefined}

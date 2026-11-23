@@ -20,8 +20,24 @@ test('pre styles keep option defaults, line-number padding and reserved diff dim
   assert.equal(configured.pre.lineHeight, '24px');
   assert.equal(configured.pre.paddingLeft, '0px');
   assert.equal(configured.pre.height, '124px');
+  assert.equal(configured.pre.minHeight, '124px');
+  assert.equal(configured.pre.maxHeight, '500px');
   assert.equal(configured.pre.whiteSpace, 'pre');
   assert.equal(getMarkdownPreCodeStyles({ reservedHeightPx: 123 }).pre.height, undefined);
+});
+
+test('pre diff fills retain translucent fallbacks until CSS enables color mixing', () => {
+  const { pre } = getMarkdownPreCodeStyles({ diff: true, isDark: true });
+  assert.equal(pre['--sd-markdown-pre-added-tint'], '#4d9375');
+  assert.equal(pre['--sd-markdown-pre-line-bg-weight'], '80%');
+  assert.equal(
+    pre['--markstream-diff-added-line-fill'],
+    'var(--sd-markdown-pre-added-line, rgb(77 147 117 / 20%))',
+  );
+  assert.equal(
+    pre['--markstream-diff-removed-number-fill'],
+    'var(--sd-markdown-pre-removed-number, rgb(203 118 118 / 15%))',
+  );
 });
 test('pre theme precedence and fenced filename titles follow the native renderer', () => {
   assert.equal(getMarkdownPreTheme({ isDark: true }).name, 'vitesse-dark');

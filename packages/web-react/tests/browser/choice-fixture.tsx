@@ -3,24 +3,23 @@ import { useState } from 'react';
 import {
   Checkbox,
   CheckboxGroup,
-  Radio,
-  RadioGroup,
-  Form,
-  FormItem,
   type CheckboxValue,
   type CheckboxModelValue,
-  type RadioValue,
-} from '../../src/index';
+} from '../../src/checkbox/index.js';
+import { Form, FormItem } from '../../src/form/index.js';
+import { Radio, RadioGroup, type RadioValue } from '../../src/radio/index.js';
 
 export function ChoiceFixture() {
   const [checks, setChecks] = useState<CheckboxValue[]>([0]);
-  const [single, setSingle] = useState<CheckboxModelValue>(false);
+  const [single, setSingle] = useState<CheckboxModelValue | undefined>(false);
+  const [submitted, setSubmitted] = useState<string[]>([]);
   const [mixed, setMixed] = useState(true);
   const [max, setMax] = useState(2);
   const [disabled, setDisabled] = useState(false);
   const [radio, setRadio] = useState<RadioValue>(0);
   const [button, setButton] = useState(false);
   const [options, setOptions] = useState([0, 1, 2]);
+  const [skipSecond, setSkipSecond] = useState(false);
   const [events, setEvents] = useState<string[]>([]);
   const record = (text: string) => setEvents((old) => [...old, text]);
   return (
@@ -34,6 +33,7 @@ export function ChoiceFixture() {
         Mixed
       </Checkbox>
       <button onClick={() => setMixed(!mixed)}>Toggle mixed state</button>
+      <button onClick={() => setSingle(undefined)}>Release checkbox value</button>
       <Checkbox modelValue={false} inputAttrs={{ 'aria-label': 'Locked check' }}>
         Locked
       </Checkbox>
@@ -65,13 +65,18 @@ export function ChoiceFixture() {
       <RadioGroup
         value={radio}
         onValueChange={setRadio}
-        options={options}
+        options={options.map((value) =>
+          value === 1 && skipSecond
+            ? { value, disabled: true, label: () => 'Unavailable second choice' }
+            : value,
+        )}
         type={button ? 'button' : 'radio'}
         disabled={disabled}
         data-testid="radios"
       />
       <output data-testid="radio-value">{String(radio)}</output>
       <button onClick={() => setButton(!button)}>Toggle radio type</button>
+      <button onClick={() => setSkipSecond(!skipSecond)}>Toggle second radio option</button>
       <button onClick={() => setOptions(options.length === 3 ? [2, 0] : [0, 1, 2])}>
         Replace radio options
       </button>
@@ -84,6 +89,17 @@ export function ChoiceFixture() {
       <RadioGroup defaultValue={false} data-testid="boolean-radios">
         <Radio value={false}>False</Radio>
         <Radio value={true}>True</Radio>
+      </RadioGroup>
+      <RadioGroup disabled value="parent" onChange={() => record('parent-radio-change')}>
+        <Radio value="parent">Disabled parent choice</Radio>
+        <Radio
+          value="independent"
+          uninjectGroupContext
+          inputAttrs={{ 'aria-label': 'Independent radio' }}
+          onChange={(next, event) => record(`independent:${next}:${event.type}`)}
+        >
+          Independent radio choice
+        </Radio>
       </RadioGroup>
       <CheckboxGroup
         defaultValue={[0]}
@@ -115,6 +131,27 @@ export function ChoiceFixture() {
         </FormItem>
       </Form>
       <output data-testid="choice-events">{events.join('|')}</output>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          setSubmitted(new FormData(event.currentTarget).getAll('permission').map(String));
+        }}
+      >
+        <Checkbox
+          defaultChecked
+          value={0}
+          tabIndex={0}
+          inputAttrs={{ name: 'permission' }}
+          onChange={(checked, event) => record(`native:${checked}:${event.type}`)}
+        >
+          Include zero permission
+        </Checkbox>
+        <Checkbox defaultChecked disabled value="locked" inputAttrs={{ name: 'permission' }}>
+          Disabled permission
+        </Checkbox>
+        <button type="submit">Read submitted checkboxes</button>
+        <output data-testid="checkbox-submitted">{JSON.stringify(submitted)}</output>
+      </form>
     </section>
   );
 }

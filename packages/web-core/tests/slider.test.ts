@@ -175,6 +175,21 @@ test('Slider keyboard applies exact decimal limits, ignores unsupported keys and
   assert.equal(state.events.length, 3);
 });
 
+test('Slider keyboard keeps coincident range endpoints within both limits', () => {
+  for (const [value, handle, direction] of [
+    [0, 'start', 'ArrowLeft'],
+    [100, 'end', 'ArrowRight'],
+  ] as const) {
+    const state = setup({ range: true }, [value, value]);
+    assert.equal(state.key(handle, direction), true);
+    assert.deepEqual(state.foundation.getValue(), [value, value]);
+    assert.deepEqual(
+      state.events.filter(([event]) => event === 'change'),
+      [['change', [value, value]]],
+    );
+  }
+});
+
 test('Slider range input sorts crossings while coordinate dragging preserves crossing payloads', () => {
   const state = setup({ range: true }, [20, 60]);
   state.foundation.startChange(80);

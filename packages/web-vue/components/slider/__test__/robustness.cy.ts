@@ -1,7 +1,51 @@
+import { h, reactive } from 'vue';
+
+import Form from '../../form';
 import Slider from '../index';
 import SliderButton from '../slider-button.vue';
 
 describe('Slider robustness', () => {
+  it('validates the updated form value after keyboard changes', () => {
+    cy.mount({
+      setup() {
+        const model = reactive({ amount: 20 });
+        return () =>
+          h(
+            Form,
+            { model },
+            {
+              default: () =>
+                h(
+                  Form.Item,
+                  {
+                    field: 'amount',
+                    rules: { type: 'number', min: 10, message: 'Amount too low' },
+                    validateTrigger: 'change',
+                  },
+                  {
+                    default: () =>
+                      h(Slider, {
+                        'modelValue': model.amount,
+                        'step': 10,
+                        'onUpdate:modelValue': (value) => {
+                          model.amount = Number(value);
+                        },
+                      }),
+                  },
+                ),
+            },
+          );
+      },
+    });
+    const handle = '[role="slider"]';
+    cy.get(handle).focus().type('{home}');
+    cy.get(handle).should('have.attr', 'aria-valuenow', '0');
+    cy.contains('.sd-form-item-message', 'Amount too low').should('be.visible');
+    cy.get(handle).type('{end}');
+    cy.get(handle).should('have.attr', 'aria-valuenow', '100');
+    cy.get('.sd-form-item-message').should('not.exist');
+  });
+
   it('steps repeatedly from the displayed controlled value when updates are rejected', () => {
     const change = cy.spy().as('change');
     cy.mount(Slider, { props: { modelValue: 20, step: 10, onChange: change } });

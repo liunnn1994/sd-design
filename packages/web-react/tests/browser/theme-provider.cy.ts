@@ -86,4 +86,24 @@ describe('React ThemeProvider public adapter', () => {
     cy.contains('button', 'Mount').click();
     cy.get('body').should('not.have.attr', 'sd-theme');
   });
+
+  for (const removeFirst of [false, true]) {
+    it(`restores remaining global theme tokens after removing the ${removeFirst ? 'first' : 'second'} provider`, () => {
+      cy.visit('/theme-provider.html?global&overlap');
+      const checkBody = (mode: string, token: string, priority = '') =>
+        cy.get('body').should(([$body]) => {
+          expect($body.getAttribute('sd-theme')).to.equal(mode);
+          expect($body.style.getPropertyValue('--color-primary-6')).to.equal(token);
+          expect($body.style.getPropertyPriority('--color-primary-6')).to.equal(priority);
+        });
+      checkBody('light', '#445566');
+      cy.contains('button', 'Tokens').click();
+      checkBody('light', '#445566');
+      cy.contains('button', removeFirst ? 'Mount' : 'Remove second').click();
+      if (removeFirst) checkBody('light', '#445566');
+      else checkBody('dark', '#abcdef');
+      cy.contains('button', removeFirst ? 'Remove second' : 'Mount').click();
+      checkBody('light', '#112233', 'important');
+    });
+  }
 });

@@ -1,7 +1,7 @@
 import { h, ref } from 'vue';
 
 import VirtualDragDemo from '../../../../sd-vue-docs/src/components/generated/table/virtual-drag.vue';
-import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../../web-core/tests/browser/drag-sort';
 import Table from '../table.vue';
 
 const columns = [{ title: 'Name', dataIndex: 'name' }];

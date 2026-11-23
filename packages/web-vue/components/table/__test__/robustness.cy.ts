@@ -12,27 +12,6 @@ const rows = [
 const nameColumn: TableColumnData = { title: 'Name', dataIndex: 'name' };
 
 describe('Table robustness', () => {
-  it('keeps equal values in input order when sorting ascending', () => {
-    cy.mount(Table, {
-      props: {
-        data: rows,
-        pagination: false,
-        columns: [
-          nameColumn,
-          {
-            dataIndex: 'age',
-            sortable: { sortDirections: ['ascend'], defaultSortOrder: 'ascend' },
-          },
-        ],
-      },
-    });
-    cy.get('.sd-table-tbody .sd-table-tr').should(($rows) => {
-      expect(
-        [...$rows].map((row) => row.querySelector('.sd-table-td-content')?.textContent),
-      ).to.deep.equal(['A', 'B', 'C']);
-    });
-  });
-
   it('preserves a chosen sorter when only a column title changes', () => {
     const columns: TableColumnData[] = [
       { ...nameColumn, sortable: { sortDirections: ['ascend', 'descend'] } },

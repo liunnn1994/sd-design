@@ -1,14 +1,11 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
-import {
-  Button,
-  ConfigProvider,
-  Modal,
-  useModal,
-  type ModalReturn,
-  type ModalMethod,
-  Drawer,
-} from '../../src/index';
+import type { ModalReturn, ModalMethod } from '../../src/modal';
+
+import { Button } from '../../src/button';
+import { ConfigProvider } from '../../src/config-provider';
+import { Drawer } from '../../src/drawer';
+import { Modal, useModal } from '../../src/modal';
 const LabelContext = createContext('missing');
 function ContextText() {
   return <span>{useContext(LabelContext)}</span>;
@@ -46,9 +43,15 @@ export function ModalFixture() {
   const [moving, setMoving] = useState(true);
   const [visible, setVisible] = useState(false);
   const [nested, setNested] = useState(false);
+  const [nestedMounted, setNestedMounted] = useState(true);
+  const [showTitle, setShowTitle] = useState(true);
   const [mounted, setMounted] = useState(true);
   const [fullscreen, setFullscreen] = useState(false);
-  const [async, setAsync] = useState(false);
+  const [confirmation, setConfirmation] = useState<'immediate' | 'promise' | 'callback' | 'throw'>(
+    'immediate',
+  );
+  const [escapeClose, setEscapeClose] = useState(true);
+  const [maskClosable, setMaskClosable] = useState(true);
   const [veto, setVeto] = useState(false);
   const [rejected, setRejected] = useState(false);
   const [local, setLocal] = useState(false);
@@ -161,7 +164,7 @@ export function ModalFixture() {
         >
           <Modal
             data-testid="modal-main"
-            title="Main modal"
+            title={showTitle ? 'Main modal' : undefined}
             visible={visible}
             onVisibleChange={(next) => {
               log(`visible:${next}`);
@@ -170,13 +173,23 @@ export function ModalFixture() {
             draggable
             fullscreen={fullscreen}
             unmountOnClose
-            onBeforeOk={() =>
-              async
-                ? new Promise<boolean>((resolve) => {
-                    pending.current = resolve;
-                  })
-                : !veto
-            }
+            escToClose={escapeClose}
+            maskClosable={maskClosable}
+            onBeforeOk={(done) => {
+              if (confirmation === 'throw') {
+                setConfirmation('immediate');
+                throw new Error('Confirmation unavailable');
+              }
+              if (confirmation === 'callback') {
+                pending.current = done;
+                return;
+              }
+              if (confirmation === 'promise')
+                return new Promise<boolean>((resolve) => {
+                  pending.current = resolve;
+                });
+              return !veto;
+            }}
             onBeforeCancel={() => !veto}
             onBeforeOpen={() => log('before-open')}
             onOpen={() => log('open')}
@@ -188,18 +201,30 @@ export function ModalFixture() {
             <input aria-label="Modal input" />
             <Button onClick={() => setNested(true)}>Open nested modal</Button>
             <Button onClick={() => setFullscreen((old) => !old)}>Modal fullscreen</Button>
-            <Button onClick={() => setAsync(true)}>Modal async</Button>
+            <Button onClick={() => setConfirmation('promise')}>Modal async</Button>
+            <Button onClick={() => setConfirmation('callback')}>Modal deferred callback</Button>
+            <Button onClick={() => setConfirmation('throw')}>Fail next modal confirmation</Button>
+            <Button onClick={() => setEscapeClose((enabled) => !enabled)}>
+              Modal toggle Escape
+            </Button>
+            <Button onClick={() => setMaskClosable((enabled) => !enabled)}>
+              Modal toggle mask closing
+            </Button>
             <Button onClick={() => setVeto((old) => !old)}>Modal veto</Button>
-            <Modal
-              data-testid="modal-nested"
-              title="Nested modal"
-              visible={nested}
-              onVisibleChange={setNested}
-              unmountOnClose
-              footer={false}
-            >
-              <input aria-label="Nested modal input" />
-            </Modal>
+            <Button onClick={() => setShowTitle(!showTitle)}>Toggle modal title</Button>
+            {nestedMounted && (
+              <Modal
+                data-testid="modal-nested"
+                title="Nested modal"
+                visible={nested}
+                onVisibleChange={setNested}
+                unmountOnClose
+                footer={false}
+              >
+                <input aria-label="Nested modal input" />
+                <Button onClick={() => setNestedMounted(false)}>Unmount nested modal</Button>
+              </Modal>
+            )}
           </Modal>
         </ConfigProvider>
       )}

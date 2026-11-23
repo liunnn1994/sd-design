@@ -82,6 +82,7 @@ export function ImageFixture() {
           }}
         >
           <option value="image">Image</option>
+          <option value="default-preview">Open initially</option>
           <option value="preview">Preview</option>
           <option value="group">Group</option>
           <option value="stack">Stack</option>
@@ -144,8 +145,9 @@ export function ImageFixture() {
       <div id="image-container-a" style={{ position: 'relative', width: 500, height: 360 }} />
       <div id="image-container-b" style={{ position: 'relative', width: 500, height: 360 }} />
       <ConfigProvider prefixCls={prefix}>
-        {mounted && mode === 'image' && (
+        {mounted && (mode === 'image' || mode === 'default-preview') && (
           <Image
+            key={mode}
             ref={image}
             data-testid="image-main"
             src={source}
@@ -159,10 +161,15 @@ export function ImageFixture() {
             footerPosition={outer ? 'outer' : 'inner'}
             hideFooter={hideFooter}
             preview={!disabled}
+            defaultPreviewVisible={mode === 'default-preview'}
             previewVisible={controlled ? visible : undefined}
             onPreviewVisibleChange={visibility}
             renderToBody={renderToBody}
-            previewProps={options}
+            previewProps={
+              mode === 'default-preview'
+                ? { ...options, src: imageSources[1], closable: false }
+                : options
+            }
             extra={custom ? <button>Extra download</button> : undefined}
             error={custom ? <span>Custom error</span> : undefined}
             loader={custom ? <span>Custom loading</span> : undefined}

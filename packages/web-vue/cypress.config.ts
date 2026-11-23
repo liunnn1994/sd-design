@@ -79,6 +79,8 @@ export default defineConfig({
   // Real browser (Chromium via Electron by default). No virtual/jsdom env.
   video: false,
   screenshotOnRunFailure: false,
+  // shortcut: Cypress 16 can stall on Chrome's native network path, remove after https://github.com/cypress-io/cypress/issues/34969 is fixed.
+  forceHttp1: true,
   // Cypress 16's browser memory management can stall when switching component specs.
   manageBrowserMemory: false,
   // Retry flaky specs in `run` (CI) mode only. The component-test support module

@@ -309,16 +309,24 @@ export function TreeSelect<T extends TreeNodeData = TreeNodeData>(props: TreeSel
           {header != null && (!isEmpty || showHeaderOnEmpty) && (
             <div className={`${prefix}-header`}>{header}</div>
           )}
-          {loading ? (
-            (loader ?? <Spin {...config.treeSelectSpinProps} {...spinProps} />)
-          ) : isEmpty ? (
-            (empty ?? config.renderEmpty?.({ component: 'tree-select' }) ?? <Empty />)
-          ) : (
+          {loading
+            ? (loader ?? <Spin {...config.treeSelectSpinProps} {...spinProps} />)
+            : isEmpty
+              ? (empty ?? config.renderEmpty?.({ component: 'tree-select' }) ?? <Empty />)
+              : null}
+          {!loading && !!data?.length && (
             <TreeSelectPanel
               selectedKeys={selection.selectedKeys}
               showCheckable={!!treeCheckable}
               onChange={selection.foundation.select}
-              scrollbar={scrollbar}
+              scrollbar={
+                isEmpty
+                  ? {
+                      ...(typeof scrollbar === 'object' ? scrollbar : {}),
+                      outerStyle: { display: 'none' },
+                    }
+                  : scrollbar
+              }
               ellipsis={mergedEllipsis}
               treeProps={{
                 ...treeProps,
@@ -329,14 +337,7 @@ export function TreeSelect<T extends TreeNodeData = TreeNodeData>(props: TreeSel
                 checkedStrategy: treeCheckedStrategy,
                 fieldNames,
                 loadMore,
-                defaultExpandAll: interaction.inputValue
-                  ? true
-                  : (treeProps?.defaultExpandAll ?? false),
-                expandedKeys: interaction.inputValue
-                  ? model.flattenTreeData
-                      .filter((node) => node.children?.length)
-                      .map((node) => node.key)
-                  : treeProps?.expandedKeys,
+                defaultExpandAll: treeProps?.defaultExpandAll ?? false,
                 checkable: treeCheckable ? isSelectable : false,
                 checkStrictly: treeCheckStrictly,
                 multiple: isMultiple,

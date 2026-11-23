@@ -1,7 +1,5 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('SkeletonReveal', () => {
-  beforeEach(() => cy.visit('/'));
+  beforeEach(() => cy.visit('/skeleton-reveal.html'));
   afterEach(() =>
     cy.then(() =>
       Cypress.automation('remote:debugger:protocol', {
@@ -21,6 +19,7 @@ describe('SkeletonReveal', () => {
     cy.get('[data-testid="reveal-auto"]')
       .scrollIntoView()
       .should('have.attr', 'data-state', 'drawing');
+    cy.get('[data-testid="reveal-auto"] [data-reveal-initial]').should('not.exist');
     cy.get('[data-testid="reveal-auto"]').should('have.attr', 'data-state', 'complete');
     cy.get('[data-testid="reveal-auto"] .sd-skeleton-reveal-overlay').should('not.exist');
     cy.scrollTo('top');
@@ -66,8 +65,10 @@ describe('SkeletonReveal', () => {
   it('cancels obsolete replays and reveals content after resize or leaving the viewport', () => {
     cy.contains('button', 'Reveal twice').click();
     cy.get('[data-testid="reveal-main"]').should('have.attr', 'data-state', 'drawing');
+    cy.get('[data-testid="reveal-finish-count"]').should('have.text', '0');
     cy.contains('button', 'Reveal resize').click();
     cy.get('[data-testid="reveal-main"]').should('have.attr', 'data-state', 'complete');
+    cy.get('[data-testid="reveal-finish-count"]').should('have.text', '1');
     cy.get('[data-testid="reveal-main"] .sd-skeleton-reveal-content').should(
       'have.css',
       'opacity',
@@ -78,6 +79,8 @@ describe('SkeletonReveal', () => {
       .should('have.attr', 'data-state', 'drawing')
       .invoke('css', 'transform', 'translateY(-3000px)');
     cy.get('[data-testid="reveal-main"]').should('have.attr', 'data-state', 'complete');
+    cy.get('[data-testid="reveal-finish-count"]').should('have.text', '2');
+    cy.get('[data-testid="reveal-main"] .sd-skeleton-reveal-overlay').should('not.exist');
   });
   it('honors disabled, zero duration and live reduced-motion changes', () => {
     cy.contains('button', 'Reveal replay').click();
@@ -106,7 +109,7 @@ describe('SkeletonReveal', () => {
     );
     cy.get('[data-testid="reveal-auto"] .sd-skeleton-reveal-overlay').should('not.exist');
     cy.get('[data-testid="reveal-main"]').should('have.attr', 'data-state', 'complete');
-    cy.visit('/');
+    cy.visit('/skeleton-reveal.html');
     cy.get('[data-testid="reveal-auto"] .sd-skeleton-reveal-content').should(
       'have.css',
       'opacity',
@@ -185,7 +188,4 @@ describe('SkeletonReveal', () => {
   });
 });
 
-describe('SkeletonReveal documentation', () => {
-  it('documents shared skeleton-reveal scenes and framework navigation', () =>
-    checkComponentDocs('skeleton-reveal'));
-});
+export {};

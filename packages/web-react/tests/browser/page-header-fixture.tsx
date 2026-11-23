@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
-import { Button, ConfigProvider, PageHeader } from '../../src/index';
+import { Button } from '../../src/button/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
 import enUS from '../../src/locale/lang/en-us';
+import { PageHeader } from '../../src/page-header/index.js';
 
 export function PageHeaderFixture() {
   const [hidden, setHidden] = useState(false);

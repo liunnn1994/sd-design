@@ -1,5 +1,3 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('VoiceGlow React', () => {
   const root = '[data-testid="voice-main"]';
   const level = (element: HTMLElement) =>
@@ -23,7 +21,7 @@ describe('VoiceGlow React', () => {
       win.requestAnimationFrame(() => win.requestAnimationFrame(() => resolve()));
     });
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/voice-glow.html');
     cy.get(root).scrollIntoView();
   });
   afterEach(() =>
@@ -186,7 +184,7 @@ describe('VoiceGlow React', () => {
     style().should('have.length', 1);
   });
   it('adds the halo canvas when Canvas filter is unavailable', () => {
-    cy.visit('/', {
+    cy.visit('/voice-glow.html', {
       onBeforeLoad(win) {
         Object.defineProperty(win.CanvasRenderingContext2D.prototype, 'filter', {
           configurable: true,
@@ -205,7 +203,7 @@ describe('VoiceGlow React', () => {
 
 describe('VoiceGlow microphone hook', () => {
   it('requests with explicit constraints, reuses its stream and stops owned tracks', () => {
-    cy.visit('/');
+    cy.visit('/voice-glow.html');
     cy.window().then((win) => {
       const context = new win.AudioContext();
       const destination = context.createMediaStreamDestination();
@@ -229,7 +227,7 @@ describe('VoiceGlow microphone hook', () => {
     });
   });
   it('autostarts only the surviving StrictMode connection and releases tracks on unmount', () => {
-    cy.visit('/');
+    cy.visit('/voice-glow.html');
     cy.window().then((win) => {
       const context = new win.AudioContext();
       const destination = context.createMediaStreamDestination();
@@ -246,7 +244,7 @@ describe('VoiceGlow microphone hook', () => {
     });
   });
   it('discards a stream returned after stop and does not overwrite idle state', () => {
-    cy.visit('/');
+    cy.visit('/voice-glow.html');
     cy.window().then((win) => {
       const context = new win.AudioContext();
       const destination = context.createMediaStreamDestination();
@@ -269,7 +267,7 @@ describe('VoiceGlow microphone hook', () => {
     });
   });
   it('publishes denied errors and unsupported environments without throwing', () => {
-    cy.visit('/', {
+    cy.visit('/voice-glow.html', {
       onBeforeLoad(win) {
         cy.stub(win.navigator.mediaDevices, 'getUserMedia').rejects(
           new win.DOMException('No microphone permission', 'NotAllowedError'),
@@ -283,7 +281,7 @@ describe('VoiceGlow microphone hook', () => {
     cy.contains('button', 'Voice mic stop').click();
     cy.get('[data-testid="voice-mic-state"]').should('have.text', 'idle');
     cy.get('[data-testid="voice-mic-error"]').should('have.text', 'No microphone permission');
-    cy.visit('/', {
+    cy.visit('/voice-glow.html', {
       onBeforeLoad(win) {
         Object.defineProperty(win.navigator, 'mediaDevices', {
           configurable: true,
@@ -296,8 +294,38 @@ describe('VoiceGlow microphone hook', () => {
     cy.contains('button', 'Voice mic start').click();
     cy.get('[data-testid="voice-mic-state"]').should('have.text', 'unsupported');
   });
+  it('clears the ended stream while ignoring ended events from an earlier stream', () => {
+    cy.visit('/voice-glow.html');
+    cy.window().then((win) => {
+      const context = new win.AudioContext();
+      const first = context.createMediaStreamDestination().stream;
+      const second = context.createMediaStreamDestination().stream;
+      const request = cy.stub(win.navigator.mediaDevices, 'getUserMedia').as('micRequest');
+      request.onFirstCall().resolves(first);
+      request.onSecondCall().resolves(second);
+      cy.contains('button', 'Voice mic mount').click();
+      cy.contains('button', 'Voice mic start').click();
+      cy.get('[data-testid="voice-mic-stream"]').should('have.text', first.id);
+      cy.contains('button', 'Voice mic stop').click();
+      cy.contains('button', 'Voice mic start').click();
+      cy.get('[data-testid="voice-mic-stream"]').should('have.text', second.id);
+      cy.then(() => first.getAudioTracks()[0].dispatchEvent(new win.Event('ended')));
+      cy.get('[data-testid="voice-mic-state"]').should('have.text', 'live');
+      cy.get('[data-testid="voice-mic-stream"]').should('have.text', second.id);
+      cy.then(() => {
+        const track = second.getAudioTracks()[0];
+        track.stop();
+        track.dispatchEvent(new win.Event('ended'));
+      });
+      cy.get('[data-testid="voice-mic-state"]').should('have.text', 'idle');
+      cy.get('[data-testid="voice-mic-stream"]').should('be.empty');
+      cy.get('@micRequest').should('have.been.calledTwice');
+      cy.then(() => context.close());
+    });
+  });
+
   it('handles AudioContext initialization failure as an error result', () => {
-    cy.visit('/', {
+    cy.visit('/voice-glow.html', {
       onBeforeLoad(win) {
         cy.stub(win, 'AudioContext').throws(new win.Error('Audio initialization failed'));
       },
@@ -309,7 +337,4 @@ describe('VoiceGlow microphone hook', () => {
   });
 });
 
-describe('VoiceGlow documentation', () => {
-  it('documents shared voice-glow scenes and framework navigation', () =>
-    checkComponentDocs('voice-glow'));
-});
+export {};

@@ -47,9 +47,7 @@ jobs:
             ~/.cache/Cypress
           key: ${{ steps.cache.outputs.cache-primary-key }}
       - name: Build Vue test dependencies
-        run: |
-          pnpm --filter @sdata/web-react... run build
-          pnpm --filter @sdata/web-vue run icongen
+        run: pnpm --filter @sdata/web-vue run icongen
       - name: Run Vue browser tests
         working-directory: packages/web-vue
         timeout-minutes: 90

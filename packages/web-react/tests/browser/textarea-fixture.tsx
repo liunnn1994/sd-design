@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 
-import type { TextareaInstance } from '../../src/index';
+import type { TextareaInstance } from '../../src/textarea/index.js';
 
-import { Textarea, Form, FormItem } from '../../src/index';
+import { Form, FormItem } from '../../src/form/index.js';
+import { Textarea } from '../../src/textarea/index.js';
 
 export function TextareaFixture() {
   const [value, setValue] = useState('');
@@ -12,6 +13,7 @@ export function TextareaFixture() {
   const [max, setMax] = useState(5);
   const [width, setWidth] = useState(360);
   const [visible, setVisible] = useState(true);
+  const [locked, setLocked] = useState(false);
   const ref = useRef<TextareaInstance>(null);
   const record = (name: string) => setEvents((old) => [...old, name]);
   return (
@@ -34,15 +36,32 @@ export function TextareaFixture() {
             onBlur={() => record('blur')}
             onChange={(next) => record(`change:${next}`)}
             onClear={() => record('clear')}
+            disabled={locked}
             allowClear
             maxLength={6}
             showWordLimit
-            textareaAttrs={{ 'aria-label': 'Model textarea' }}
+            textareaAttrs={{
+              'aria-label': 'Model textarea',
+              'name': locked ? 'locked-notes' : 'notes',
+              'required': !locked,
+            }}
           />
         </FormItem>
       </Form>
       <Textarea value="fixed" textareaAttrs={{ 'aria-label': 'Locked textarea' }} />
       <Textarea maxLength={2} showWordLimit textareaAttrs={{ 'aria-label': 'Limited textarea' }} />
+      <Textarea
+        maxLength={{ length: 5, errorOnly: true }}
+        showWordLimit
+        textareaAttrs={{ 'aria-label': 'Error-only textarea', 'maxLength': 30 }}
+      />
+      <Textarea
+        maxLength={4}
+        wordLength={(value) => value.length * 2}
+        wordSlice={(value, max) => value.slice(0, max / 2)}
+        showWordLimit
+        textareaAttrs={{ 'aria-label': 'Weighted textarea' }}
+      />
       <Textarea
         defaultValue="secret"
         readonly="Textarea cannot be edited"
@@ -69,6 +88,8 @@ export function TextareaFixture() {
       <button onClick={() => setWidth(width === 360 ? 120 : 360)}>Resize textarea parent</button>
       <button onClick={() => setVisible(!visible)}>Toggle textarea mount</button>
       <button onClick={() => ref.current?.focus()}>Focus textarea ref</button>
+      <button onClick={() => setValue('server')}>Replace textarea value</button>
+      <button onClick={() => setLocked(!locked)}>Toggle textarea disabled</button>
       <button onClick={() => setEvents([])}>Clear textarea events</button>
       <output data-testid="textarea-events">{events.join('|')}</output>
       <output data-testid="textarea-value">{value}</output>

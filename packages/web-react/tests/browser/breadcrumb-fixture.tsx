@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-import { Breadcrumb, BreadcrumbItem, Button, Doption } from '../../src/index';
+import { Breadcrumb, BreadcrumbItem } from '../../src/breadcrumb/index.js';
+import { Button } from '../../src/button/index.js';
+import { Doption } from '../../src/dropdown/index.js';
 
 export function BreadcrumbFixture() {
   const [custom, setCustom] = useState(true);
@@ -9,7 +11,14 @@ export function BreadcrumbFixture() {
   const [maxCount, setMaxCount] = useState(2);
   const routes = [
     { path: '/home', label: '首页' },
-    { path: 'section', label: '目录', children: [{ path: 'child', label: '下拉路径' }] },
+    {
+      path: 'section',
+      label: '目录',
+      children: [
+        { path: 'child', label: '下拉路径' },
+        { path: 'child', label: '同路径选项' },
+      ],
+    },
     { path: 'detail', label: '详情' },
   ];
   return (

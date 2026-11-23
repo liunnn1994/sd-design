@@ -102,11 +102,15 @@ export function FormRoot<T extends Record<string, unknown>>(props: FormProps<T>)
             ? current.current.scrollToFirstError
             : undefined,
         ),
-      onSubmit: (values, errors, event) =>
-        current.current.onSubmit?.({ values: values as T, errors }, event),
-      onSubmitSuccess: (values, event) => current.current.onSubmitSuccess?.(values as T, event),
-      onSubmitFailed: (values, errors, event) =>
-        current.current.onSubmitFailed?.({ values: values as T, errors }, event),
+      onSubmit: (values, errors, event) => {
+        if (root.current) current.current.onSubmit?.({ values: values as T, errors }, event);
+      },
+      onSubmitSuccess: (values, event) => {
+        if (root.current) current.current.onSubmitSuccess?.(values as T, event);
+      },
+      onSubmitFailed: (values, errors, event) => {
+        if (root.current) current.current.onSubmitFailed?.({ values: values as T, errors }, event);
+      },
     }),
   );
   useImperativeHandle(ref, () => ({ ...foundation, scrollToField }), [foundation, scrollToField]);

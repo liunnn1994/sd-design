@@ -1,7 +1,5 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('Typography', () => {
-  beforeEach(() => cy.visit('/'));
+  beforeEach(() => cy.visit('/typography.html'));
   it('renders semantic roots, formatting and escaped rich text', () => {
     cy.get('[data-testid="typography-fixture"] article h3').should('have.text', 'Title');
     cy.get('[data-testid="typography-fixture"] blockquote').should(
@@ -46,7 +44,13 @@ describe('Typography', () => {
     cy.get('[data-testid="ty-copied"]').should('have.text', 'Updated');
   });
   it('edits controlled text with ordered events and ignores composing Enter', () => {
-    cy.get('[data-testid="ty-edit"] [role="button"]').focus().type('{enter}');
+    cy.get('[data-testid="ty-edit"] [role="button"]')
+      .should('have.attr', 'aria-label')
+      .and('not.be.empty');
+    cy.get('[data-testid="ty-edit"] [role="button"]')
+      .should('have.prop', 'tabIndex', 0)
+      .focus()
+      .type('{enter}');
     cy.get('.sd-typography-edit-content input').should('have.value', 'Editable').and('be.focused');
     cy.get('[data-testid="ty-events"]').should('have.text', 'editing:true|start');
     cy.get('.sd-typography-edit-content input').clear().type('changed');
@@ -66,24 +70,31 @@ describe('Typography', () => {
     cy.get('.sd-typography-edit-content input').type('x').should('have.value', 'changed');
   });
   it('expands and collapses formatted text and removes stale title and controls', () => {
+    const operation =
+      '[data-testid="ty-clamp"] > [data-part="content"] .sd-typography-operation-expand';
     cy.get('[data-testid="ty-clamp"]').should('have.attr', 'title');
     cy.get('[data-testid="ty-clamp"] [data-part="content"] mark code').should('exist');
-    cy.get('[data-testid="ty-clamp"] > [data-part="content"] .sd-typography-operation-expand')
-      .click()
-      .should('have.attr', 'aria-expanded', 'true');
+    cy.get(operation).click();
+    cy.get(operation).should('have.attr', 'aria-expanded', 'true');
     cy.get('[data-testid="ty-clamp"]').should('not.have.attr', 'title');
     cy.get('[data-testid="ty-clamp"]').should('contain.text', 'More content here.');
+    cy.get(operation).click();
+    cy.get(operation).should('have.attr', 'aria-expanded', 'false');
+    cy.get('[data-testid="ty-clamp"]').should('have.attr', 'title');
+    cy.get(operation).click();
     cy.contains('button', 'Typography ellipsis').click();
     cy.get('[data-testid="ty-clamp"]').should('not.have.attr', 'title');
     cy.get('[data-testid="ty-clamp"] .sd-typography-operation-expand').should('not.exist');
   });
   it('anchors ellipsis tooltips to the actual root and disables them for short text', () => {
+    cy.get('[data-testid="ty-clamp-state"]').should('have.text', 'true');
     cy.get('[data-testid="ty-tooltip"]').trigger('mouseover');
     cy.get('[role="tooltip"]')
       .should('be.visible')
       .and('contain.text', 'The full long tooltip source content');
     cy.get('[data-testid="ty-tooltip"]').trigger('mouseout');
     cy.contains('button', 'Typography short').click();
+    cy.get('[data-testid="ty-clamp-state"]').should('have.text', 'false');
     cy.get('[data-testid="ty-tooltip"] > [data-part="content"] > [data-part="body"]').should(
       'have.text',
       'short',
@@ -93,7 +104,11 @@ describe('Typography', () => {
   });
   it('uses explicit copy text and custom feedback and resets its copy timer', () => {
     cy.get('[data-testid="ty-custom"] [role="button"]')
+      .should('have.attr', 'aria-label')
+      .and('not.be.empty');
+    cy.get('[data-testid="ty-custom"] [role="button"]')
       .should('have.text', 'copy-custom')
+      .and('have.prop', 'tabIndex', 0)
       .focus()
       .type(' ');
     cy.get('[data-testid="ty-copied"]').should('have.text', 'explicit');
@@ -140,7 +155,4 @@ describe('Typography', () => {
   });
 });
 
-describe('Typography documentation', () => {
-  it('documents shared typography scenes and framework navigation', () =>
-    checkComponentDocs('typography'));
-});
+export {};

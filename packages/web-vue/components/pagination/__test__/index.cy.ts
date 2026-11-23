@@ -172,11 +172,15 @@ describe('Pagination', () => {
     });
   });
 
-  it('jumper clamps out-of-range pages to the last page', () => {
+  it('clamps an out-of-range jump after a previous successful jump', () => {
     cy.mount(Pagination, { props: { total: 50, showJumper: true } });
+    cy.get('.sd-pagination-jumper-input input').type('3').blur();
+    cy.get('.sd-pagination-item-active').should('have.text', '3');
+    cy.get('.sd-pagination-jumper-input input').should('have.value', '');
     cy.get('.sd-pagination-jumper-input input').type('99').blur();
+    cy.get('.sd-pagination-item-active').should('have.text', '5');
     cy.get('@vue').should(({ wrapper }) => {
-      expect(wrapper.emitted('change')?.[0]).to.deep.equal([5]);
+      expect(wrapper.emitted('change')).to.deep.equal([[3], [5]]);
     });
   });
   it('clears the jumper input after a jump', () => {
@@ -263,19 +267,12 @@ describe('Pagination', () => {
     cy.mount(Pagination, {
       props: { total: 100, defaultCurrent: 3, showPageSize: true },
     });
-    cy.get('@vue')
-      .then(({ wrapper }) => {
-        wrapper.findComponent({ name: 'PageOptions' }).vm.$emit('change', 20);
-      })
-      .should(({ wrapper }) => {
-        expect(wrapper.emitted('update:pageSize')?.[0]).to.deep.equal([20]);
-        expect(wrapper.emitted('pageSizeChange')?.[0]).to.deep.equal([20]);
-        // autoAdjust: first item of page 3 (item 21) lands on page 2 at pageSize 20
-        expect(wrapper.emitted('update:current')).to.deep.equal([[2]]);
-        expect(wrapper.emitted('change')).to.deep.equal([[2]]);
-      });
+    cy.get('.sd-pagination-options .sd-select').click();
+    cy.contains('.sd-select-option', '20 条/页').click();
     cy.get('.sd-pagination-item-active').should('have.text', '2');
     cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:pageSize')).to.deep.equal([[20]]);
+      expect(wrapper.emitted('pageSizeChange')).to.deep.equal([[20]]);
       expect(wrapper.emitted('update:current')).to.deep.equal([[2]]);
       expect(wrapper.emitted('change')).to.deep.equal([[2]]);
     });
@@ -303,16 +300,15 @@ describe('Pagination', () => {
         },
       },
     });
-    cy.get('@vue')
-      .then(({ wrapper }) => {
-        wrapper.findComponent({ name: 'PageOptions' }).vm.$emit('change', 20);
-      })
-      .should(({ wrapper }) => {
-        expect(wrapper.emitted('update:pageSize')).to.deep.equal([[20]]);
-        expect(wrapper.emitted('pageSizeChange')).to.deep.equal([[20]]);
-        expect(wrapper.emitted('update:current')).to.equal(undefined);
-        expect(wrapper.emitted('change')).to.equal(undefined);
-      });
+    cy.get('.sd-pagination-options .sd-select').click();
+    cy.contains('.sd-select-option', '20 条/页').click();
+    cy.get('.sd-pagination-item-active').should('have.text', '3');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('update:pageSize')).to.deep.equal([[20]]);
+      expect(wrapper.emitted('pageSizeChange')).to.deep.equal([[20]]);
+      expect(wrapper.emitted('update:current')).to.equal(undefined);
+      expect(wrapper.emitted('change')).to.equal(undefined);
+    });
   });
 
   it('activates a page via Space key and ignores keys on a disabled pagination', () => {

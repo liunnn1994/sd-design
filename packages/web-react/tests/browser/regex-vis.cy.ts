@@ -1,5 +1,3 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('React RegexVis shared foundation adapter', () => {
   beforeEach(() => cy.visit('/regex-vis.html'));
   it('preserves controlled rejection, event order and external literal flags', () => {
@@ -154,7 +152,4 @@ describe('React RegexVis graph and Unicode parity', () => {
   });
 });
 
-describe('React RegexVis documentation', () => {
-  it('documents shared regex-vis scenes and framework navigation', () =>
-    checkComponentDocs('regex-vis'));
-});
+export {};

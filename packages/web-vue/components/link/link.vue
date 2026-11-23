@@ -58,6 +58,7 @@
 
   const props = withDefaults(defineProps<LinkProps>(), {
     status: 'normal',
+    hoverable: undefined,
     icon: false,
     ellipsis: true,
     ellipsisLineClamp: undefined,

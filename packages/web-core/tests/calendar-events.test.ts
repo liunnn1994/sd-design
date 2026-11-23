@@ -215,6 +215,36 @@ test('Calendar indexed queries above 100 events retain multiday events and range
   assert.ok(events.some((event) => event.title === 'multiday'));
 });
 
+test('Calendar preserves day and all-day results when rebuilding across the index threshold', () => {
+  const allDay = {
+    start: date('00:00', '2026-10-18'),
+    end: date('00:00', '2026-10-20'),
+    allDay: true,
+  };
+  const spanning = {
+    start: date('10:00', '2026-10-18'),
+    end: date('11:00', '2026-10-20'),
+  };
+  const outsideRange = { start: date('10:00', '2026-09-01'), end: date('11:00', '2026-09-01') };
+  const inputs = [allDay, spanning, ...Array.from({ length: 98 }, () => ({ ...outsideRange }))];
+  const state = fixture(inputs, { allDayEvents: true });
+  const query = state.manager.getEventsInRange;
+
+  assert.deepEqual(query(date('00:00'), date('23:59'), { allDay: true }), [allDay]);
+  assert.deepEqual(query(date('00:00'), date('23:59')), [spanning]);
+
+  const added = { start: date('08:00'), end: date('09:00') };
+  state.host.config.events = [...state.host.config.events, added as CalendarEvent];
+  state.rebuild();
+
+  assert.deepEqual(query(date('00:00'), date('23:59'), { allDay: true }), [allDay]);
+  assert.deepEqual(new Set(query(date('00:00'), date('23:59'))), new Set([spanning, added]));
+  const next = date('00:00', '2026-10-20');
+  const end = date('23:59', '2026-10-20');
+  assert.deepEqual(query(next, end, { allDay: true }), []);
+  assert.deepEqual(query(next, end), [spanning]);
+});
+
 test('Calendar staged deletion keeps preview state then emits updates before deletion', async () => {
   const state = fixture([{ start: date('09:00'), end: date('10:00') }]);
   const event = state.host.config.events[0];

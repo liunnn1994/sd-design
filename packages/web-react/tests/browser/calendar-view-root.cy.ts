@@ -1,5 +1,5 @@
 describe('Calendar root view', () => {
-  beforeEach(() => cy.visit('/calendar-root'));
+  beforeEach(() => cy.visit('/calendar-root.html'));
   it('forwards cell listeners and date selection callbacks', () => {
     cy.get('.sd-calendar__weekday').first().click();
     cy.get('[data-testid="selected"]').should('not.have.text', '');
@@ -66,6 +66,28 @@ describe('Calendar root view', () => {
     cy.get('[data-testid="diy"]').should('have.text', 'week');
     cy.contains('button', 'DIY').click();
     cy.get('.sd-calendar__body > .sd-calendar__cell').should('have.length', 7);
+  });
+});
+
+describe('Calendar large event index', () => {
+  it('refreshes rendered events above the index threshold and keeps the all-day end exclusive', () => {
+    cy.visit('/calendar-root.html?index');
+    const panel = '.sd-calendar__scrollable-wrap > div:not([inert])';
+    const titles = `${panel} .sd-calendar__body .sd-calendar__event-title`;
+    const allDayTitles = `${panel} .sd-calendar__all-day .sd-calendar__event-title`;
+    cy.get(titles).should('have.text', 'Timed spanning');
+    cy.get(allDayTitles).should('have.text', 'All-day spanning');
+    cy.contains('button', 'Add event at the index threshold').click();
+    cy.get(titles).should(($titles) => {
+      expect($titles.toArray().map((title) => title.textContent)).to.have.members([
+        'Timed spanning',
+        'New appointment',
+      ]);
+    });
+    cy.get(allDayTitles).should('have.text', 'All-day spanning');
+    cy.contains('button', 'Next day').click();
+    cy.get(allDayTitles).should('not.exist');
+    cy.get(titles).should('have.text', 'Timed spanning');
   });
 });
 

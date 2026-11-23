@@ -201,6 +201,27 @@ test('field validation returns its original identity without publishing a stale 
   assert.equal(pending.rule.type, undefined);
 });
 
+for (const mode of ['throw', 'reject'] as const) {
+  test(`field validation reports a validator ${mode} and clears the error after retry`, async () => {
+    const { foundation, state, statuses } = fieldHarness('Original', [
+      {
+        validator: (value) => {
+          if (value === 'Corrected') return;
+          const error = new Error('Validation unavailable');
+          if (mode === 'throw') throw error;
+          return Promise.reject(error);
+        },
+      },
+    ]);
+    const result = await foundation.validate();
+    assert.equal(result?.message, 'Validation unavailable');
+    assert.deepEqual(statuses.get('first'), { status: 'error', message: 'Validation unavailable' });
+    state.value = 'Corrected';
+    assert.equal(await foundation.validate(), undefined);
+    assert.deepEqual(statuses.get('first'), { status: '', message: '' });
+  });
+}
+
 test('manual field state invalidates older validation and suppresses validation until the adapter flushes', async () => {
   const pending = pendingRule();
   const { foundation, statuses, flush } = fieldHarness('Original', [pending.rule]);

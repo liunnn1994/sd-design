@@ -304,6 +304,34 @@ test('InputNumber boundary normalization preserves precision at min/max and upda
   assert.equal(state.inner(), '0.75');
 });
 
+test('InputNumber retains scientific step precision when explicit precision is zero', () => {
+  const state = setup({ defaultValue: 0, precision: 0, step: 1e-7 });
+  state.key('ArrowUp');
+  assert.equal(state.inner(), '0.0000001');
+  state.key('ArrowUp');
+  assert.equal(state.inner(), '0.0000002');
+  state.key('ArrowDown');
+  assert.equal(state.inner(), '0.0000001');
+  assert.deepEqual(
+    state.events.filter(([name]) => name === 'change').map(([, value]) => value),
+    [1e-7, 2e-7, 1e-7],
+  );
+});
+
+test('InputNumber steps from empty to the maximum of a negative-only range', () => {
+  const state = setup({ max: -5 });
+  state.key('ArrowUp');
+  assert.equal(state.inner(), '-5');
+  assert.equal(state.max(), true);
+  state.key('ArrowDown');
+  assert.equal(state.inner(), '-6');
+  assert.equal(state.max(), false);
+  assert.deepEqual(
+    state.events.filter(([name]) => name === 'update').map(([, value]) => value),
+    [-5, -6],
+  );
+});
+
 test('InputNumber clear publishes model/change/form/clear once and ignores the following empty click change', () => {
   const state = setup({ defaultValue: '2' });
   const event = new Event('click');

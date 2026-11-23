@@ -207,26 +207,39 @@ test('Calendar cross-calendar rejection keeps source and emits a rejected drop r
   assert.equal(target.emitted.at(-1)?.[0], 'event-dropped');
 });
 
-test('Calendar delayed cross-calendar approval retains source removal after dragend', async () => {
-  const session = createCalendarDragSession();
-  const source = fixture(session, 'source', [{ start: date('10:00'), end: date('11:00') }]);
-  const target = fixture(session, 'target');
-  let approve!: (value: boolean) => void;
-  target.config.eventListeners.event.drop = () =>
-    new Promise<boolean>((resolve) => {
-      approve = resolve;
+for (const canDelete of [false, true]) {
+  for (const decision of ['approve', 'veto', 'reject'] as const) {
+    test(`Calendar delayed ${decision} after dragend preserves one event (delete=${canDelete})`, async (context) => {
+      const session = createCalendarDragSession();
+      const source = fixture(session, 'source', [{ start: date('10:00'), end: date('11:00') }]);
+      const target = fixture(session, 'target');
+      source.config.editableEvents.delete = canDelete;
+      const approval = Promise.withResolvers<boolean>();
+      target.config.eventListeners.event.drop = () => approval.promise;
+      const native = dragEvent();
+      const event = source.config.events[0];
+      source.dnd.eventDragStart(native.event, event);
+      const pending = target.dnd.cellDragDrop(native.event, cell());
+      source.dnd.eventDragEnd(native.event, event);
+      assert.deepEqual(source.config.events, [event]);
+      assert.equal(target.config.events.length, 0);
+      assert.equal(target.emitted.length, 0);
+
+      const approved = decision === 'approve';
+      const warn = context.mock.method(console, 'warn', () => {});
+      if (decision === 'reject') approval.reject(new Error('Drop failed'));
+      else approval.resolve(approved);
+      await pending;
+
+      assert.equal(target.config.events.length, approved ? 1 : 0);
+      assert.deepEqual(source.config.events, approved ? [] : [event]);
+      assert.equal(event.start.getTime(), date('10:00').getTime());
+      if (approved) assert.equal(target.config.events[0].start.getTime(), date('12:00').getTime());
+      assert.equal(target.emitted.filter(([name]) => name === 'event-dropped').length, 1);
+      assert.equal(warn.mock.callCount(), decision === 'reject' ? 1 : 0);
     });
-  const native = dragEvent(),
-    event = source.config.events[0];
-  source.dnd.eventDragStart(native.event, event);
-  const pending = target.dnd.cellDragDrop(native.event, cell());
-  source.dnd.eventDragEnd(native.event, event);
-  assert.equal(source.config.events.length, 1);
-  approve(true);
-  await pending;
-  assert.equal(source.config.events.length, 0);
-  assert.equal(target.config.events.length, 1);
-});
+  }
+}
 
 test('Calendar target disposal invalidates a pending drop without changing either events array', async () => {
   const session = createCalendarDragSession();

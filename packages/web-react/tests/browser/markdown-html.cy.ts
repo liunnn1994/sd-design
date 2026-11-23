@@ -91,4 +91,29 @@ describe('React Markdown HTML adapter', () => {
     cy.get('[data-testid="html-fixture"] > div').should('exist');
     cy.get('#html-heading').should('have.class', 'sd-typography');
   });
+
+  it('preserves whitespace between rendered links and keeps decoded markup as text', () => {
+    cy.visit('/markdown-html.html?whitespace');
+    cy.get('#html-spacing').should('have.text', 'one\n\ttwo');
+    cy.get('#html-spacing a').should('have.length', 2);
+    cy.get('#html-entity').should('have.attr', 'aria-label', 'A & B');
+    cy.get('#html-entity').should('have.text', '<em>literal</em>').find('em').should('not.exist');
+  });
+
+  it('updates the existing inline block host when content and inherited policy change', () => {
+    cy.visit('/markdown-html.html?inline&policy-update');
+    cy.get('[data-testid="html-fixture"] > div').as('block', { type: 'static' });
+    cy.get('@block').should('have.text', 'Original');
+    cy.contains('button', 'Toggle HTML policy').click();
+    cy.contains('button', 'Change HTML').click();
+    cy.get('@block')
+      .find('.sd-btn')
+      .should('have.text', 'Updated')
+      .and('have.attr', 'type', 'reset');
+    cy.contains('button', 'Toggle HTML policy').click();
+    cy.get('@block').find('.sd-btn').should('not.exist');
+    cy.get('[data-testid="html-fixture"] > div').then(([$block]) => {
+      cy.get('@block').should(([$original]) => expect($block).to.equal($original));
+    });
+  });
 });

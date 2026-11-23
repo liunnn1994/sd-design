@@ -16,6 +16,9 @@ function Fixture() {
   const [loading, setLoading] = useState(query.has('loading'));
   const [events, setEvents] = useState<string[]>([]);
   const [imageEvents, setImageEvents] = useState<string[]>([]);
+  const [imageKey, setImageKey] = useState('image');
+  const [imageMounted, setImageMounted] = useState(true);
+  const [imageLoading, setImageLoading] = useState(query.has('image-loading'));
   const [imageSrc, setImageSrc] = useState(
     query.has('image-unsafe') ? 'javascript:alert(1)' : '/markdown-original.svg',
   );
@@ -119,6 +122,8 @@ function Fixture() {
         />
         <output data-testid="image-events">{imageEvents.join('|')}</output>
         <button onClick={() => setImageSrc('/markdown-next.svg')}>Next image</button>
+        <button onClick={() => setImageLoading(false)}>Finish image token</button>
+        <button onClick={() => setImageMounted(false)}>Remove image node</button>
         <MarkdownNodeLifecycleContext
           value={{
             markPending: (key) => imageRecord(`pending:${key}`),
@@ -126,28 +131,36 @@ function Fixture() {
             reportHeight: (key, height) => imageRecord(`height:${key}:${height}`),
           }}
         >
-          <MarkdownImageNode
-            indexKey="image"
-            node={{
-              type: 'image',
-              src: imageSrc,
-              alt: 'Markdown picture',
-              title: 'Image caption',
-              raw: '',
-              loading: query.has('image-loading'),
-            }}
-            fallbackSrc={query.has('image-fallback') ? '/markdown-fallback.svg' : ''}
-            lazy={query.has('image-lazy')}
-            onLoad={(src) => imageRecord(`load:${src}`)}
-            onError={(src) => imageRecord(`error:${src}`)}
-            onClick={([event, src]) => imageRecord(`click:${event.type}:${src}`)}
-            renderPlaceholder={({ displaySrc }) => (
-              <span data-testid="image-placeholder">{displaySrc}</span>
-            )}
-            renderError={({ displaySrc }) => (
-              <span data-testid="image-error">{displaySrc || 'No source'}</span>
-            )}
-          />
+          {imageMounted && (
+            <MarkdownImageNode
+              indexKey={imageKey}
+              node={{
+                type: 'image',
+                src: imageSrc,
+                alt: 'Markdown picture',
+                title: 'Image caption',
+                raw: '',
+                loading: imageLoading,
+              }}
+              fallbackSrc={query.has('image-fallback') ? '/markdown-fallback.svg' : ''}
+              lazy={query.has('image-lazy')}
+              onLoad={(src) => {
+                imageRecord(`load:${src}`);
+                if (query.has('replace-on-load')) {
+                  setImageKey('replacement');
+                  setImageLoading(true);
+                }
+              }}
+              onError={(src) => imageRecord(`error:${src}`)}
+              onClick={([event, src]) => imageRecord(`click:${event.type}:${src}`)}
+              renderPlaceholder={({ displaySrc }) => (
+                <span data-testid="image-placeholder">{displaySrc}</span>
+              )}
+              renderError={({ displaySrc }) => (
+                <span data-testid="image-error">{displaySrc || 'No source'}</span>
+              )}
+            />
+          )}
         </MarkdownNodeLifecycleContext>
       </div>
     </>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { Button, Grid, GridItem, Row, Col } from '../../src/index';
+import { Button } from '../../src/button/index.js';
+import { Grid, GridItem, Row, Col } from '../../src/grid/index.js';
 
 export function GridFixture() {
   const [div, setDiv] = useState(false);
@@ -30,6 +31,15 @@ export function GridFixture() {
         </Col>
         <Col data-testid="col-fixed" flex="100px">
           固定宽
+        </Col>
+      </Row>
+      <Row style={{ width: 480 }}>
+        <Col
+          data-testid="col-responsive-offset"
+          xs={{ span: 6, offset: 6, order: 2 }}
+          md={{ span: 6, offset: 0, order: 0 }}
+        >
+          响应式偏移
         </Col>
       </Row>
       {mounted && (

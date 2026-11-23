@@ -1,6 +1,6 @@
 import { h } from 'vue';
 
-import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../../web-core/tests/browser/drag-sort';
 import Table from '../index';
 
 describe('Table source review boundaries', () => {

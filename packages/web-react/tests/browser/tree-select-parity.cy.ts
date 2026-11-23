@@ -48,3 +48,12 @@ describe('TreeSelect and Cascader public configuration parity', () => {
     });
   }
 });
+describe('React TreeSelect provider empty content', () => {
+  it('updates inherited empty content in the open popup', () => {
+    cy.visit('/tree-select-parity.html?empty');
+    const popup = () => cy.get('.sd-tree-select-popup');
+    popup().should('be.visible').and('contain.text', 'Provider empty provider');
+    cy.contains('button', 'Update provider').click();
+    popup().should('be.visible').and('contain.text', 'Provider empty updated');
+  });
+});

@@ -190,11 +190,12 @@ test('jumper defers reset and reads latest simple mode after change callback', (
   foundation.change(4);
   assert.equal(value, 3);
   deferred.shift()!();
-  assert.equal(value, '');
+  assert.equal(value, undefined);
   foundation.change(5);
   simple = true;
   deferred.shift()!();
-  assert.equal(value, '');
+  assert.equal(value, undefined);
+  assert.deepEqual(events, [4, 5]);
   foundation.sync(6);
   assert.equal(value, 6);
   assert.equal(formatPageJumper(1.9), '1');

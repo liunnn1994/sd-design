@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { Mention, ConfigProvider, Form, FormItem, type MentionInstance } from '../../src/index';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { Form, FormItem } from '../../src/form/index.js';
+import { Mention, type MentionInstance } from '../../src/mention/index.js';
 const choices = [
   {
     isGroup: true as const,

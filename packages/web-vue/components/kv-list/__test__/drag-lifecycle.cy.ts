@@ -1,6 +1,6 @@
 import { defineComponent, ref } from 'vue';
 
-import { startDrag, moveDrag } from '../../../cypress/support/drag-sort';
+import { startDrag, moveDrag } from '../../../../web-core/tests/browser/drag-sort';
 import KvList from '../index';
 
 describe('KvList drag lifecycle', () => {

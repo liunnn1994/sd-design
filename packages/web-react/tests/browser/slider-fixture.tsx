@@ -1,10 +1,12 @@
 import { useState } from 'react';
 
-import { Slider, Form, FormItem, type SliderValue } from '../../src/index';
+import { Form, FormItem } from '../../src/form/index.js';
+import { Slider, type SliderValue } from '../../src/slider/index.js';
 
 export function SliderFixture() {
   const [value, setValue] = useState<SliderValue>(20);
   const [range, setRange] = useState<SliderValue>([20, 60]);
+  const [lockedRange, setLockedRange] = useState<SliderValue>([20, 60]);
   const [disabled, setDisabled] = useState(false);
   const [mounted, setMounted] = useState(true);
   const [events, setEvents] = useState<string[]>([]);
@@ -53,6 +55,21 @@ export function SliderFixture() {
         data-testid="locked-slider"
       />
       <Slider defaultValue={[0, 0.3]} range step={0.2} max={1} data-testid="decimal-slider" />
+      <Slider
+        value={lockedRange}
+        range
+        step={10}
+        onChange={(next) => record(`locked-range:${JSON.stringify(next)}`)}
+        data-testid="locked-range-slider"
+      />
+      <button onClick={() => setLockedRange([40, 80])}>Replace controlled slider range</button>
+      <Slider
+        defaultValue={-50}
+        min={-100}
+        max={100}
+        marks={{ '-75': 'Selected mark' }}
+        data-testid="negative-slider"
+      />
       <Slider
         defaultValue={-20}
         min={-50}

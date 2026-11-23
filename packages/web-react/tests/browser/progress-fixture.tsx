@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 
-import { ConfigProvider, Progress } from '../../src/index';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { Progress } from '../../src/progress/index.js';
 export function ProgressFixture() {
   const [mounted, setMounted] = useState(false);
   const [percent, setPercent] = useState(0.25);

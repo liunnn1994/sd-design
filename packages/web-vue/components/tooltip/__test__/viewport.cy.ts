@@ -53,12 +53,16 @@ describe('Tooltip viewport boundaries', () => {
       expect(contentRect.bottom).to.be.at.most(boundary.bottom - 7);
     });
     cy.get('.sd-tooltip').should('have.css', 'pointer-events', 'auto');
+    cy.clock(Date.now(), ['setTimeout', 'clearTimeout']);
     cy.get('button').trigger('mouseleave');
     cy.get('.sd-tooltip').trigger('mouseenter');
-    cy.get('.sd-tooltip-scrollbar [data-overlayscrollbars-viewport]').scrollTo('bottom');
-    cy.wait(150);
+    cy.get('.sd-tooltip-scrollbar [data-overlayscrollbars-viewport]')
+      .scrollTo('bottom')
+      .should(([$viewport]) => expect($viewport.scrollTop).to.be.greaterThan(0));
+    cy.tick(150);
     cy.get('.sd-tooltip-content').should('be.visible');
     cy.get('.sd-tooltip').trigger('mouseleave');
+    cy.tick(150);
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.findComponent(Tooltip).emitted('popupVisibleChange')?.at(-1)).to.deep.equal([
         false,

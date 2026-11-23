@@ -130,7 +130,7 @@ export function TransferFixture() {
                         onClick={() => state.onSelectAllChange(!state.checked)}
                       >
                         {state.countSelected}/{state.countTotal}:{state.searchValue}:
-                        {String(state.indeterminate)}
+                        {String(state.checked)}:{String(state.indeterminate)}
                       </button>
                     )
                   : undefined

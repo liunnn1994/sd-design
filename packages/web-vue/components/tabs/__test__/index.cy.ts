@@ -127,18 +127,18 @@ describe('Tabs', () => {
       },
     });
     cy.get('.sd-tabs-nav-button').should('have.length', 2);
-    cy.get('.sd-tabs-tab').last().click({ force: true });
-    cy.wait(150);
-    cy.get('.sd-tabs-tab').eq(6).click({ force: true });
-    cy.wait(150);
-    cy.get('.sd-tabs-nav-tab').then(($wrapper) => {
-      const bounds = $wrapper[0].getBoundingClientRect();
-      cy.get('.sd-tabs-tab-active').should(($tab) => {
-        const tab = $tab[0].getBoundingClientRect();
+    const tabIsInView = () =>
+      cy.get('.sd-tabs-nav-tab').should(([$wrapper]) => {
+        const bounds = $wrapper.getBoundingClientRect();
+        const tab = $wrapper.querySelectorAll('.sd-tabs-tab')[6].getBoundingClientRect();
         expect(tab.left).to.be.at.least(bounds.left - 1);
         expect(tab.right).to.be.at.most(bounds.right + 1);
       });
-    });
+    cy.get('.sd-tabs-tab').last().click({ force: true });
+    tabIsInView();
+    cy.get('.sd-tabs-tab').eq(6).click({ force: true });
+    cy.get('.sd-tabs-tab').eq(6).should('have.attr', 'aria-selected', 'true');
+    tabIsInView();
   });
 
   it('supports native keyboard activation for add and overflow controls', () => {

@@ -4,7 +4,7 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { docsE2eSpecs } from './docs-e2e-specs.ts';
+import { isDocsE2eSpec } from './docs-e2e-specs.ts';
 
 interface Summary {
   spec: string;
@@ -55,7 +55,7 @@ if (mode === '--self-test') {
       project,
       browser: 'chrome',
       spec: resolve(project, spec),
-      ...(docsE2eSpecs.includes(spec)
+      ...(isDocsE2eSpec(spec)
         ? { configFile: resolve(project, 'cypress.docs.config.ts') }
         : { config: { e2e: { baseUrl: 'http://127.0.0.1:5190' } } }),
     });

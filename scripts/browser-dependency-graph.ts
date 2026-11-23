@@ -14,7 +14,8 @@ const core = 'packages/web-core/';
 const fixtures = react + 'tests/browser/';
 const scenarios = fixtures + 'docs-scenarios.cy.ts';
 const sourceRoots = [react + 'src/', react + 'styles/', core + 'src/', core + 'styles/'];
-const reactGraphRoots = [...sourceRoots, fixtures, core + 'tests/browser/'];
+export const coreBrowserFixtureRoots = [core + 'tests/browser/', core + 'tests/fixtures/'];
+const reactGraphRoots = [...sourceRoots, fixtures, ...coreBrowserFixtureRoots];
 const fixtureOrigin = 'http://fixtures.invalid';
 const scriptExtensions = new Set(['.ts', '.tsx', '.js']);
 const resolveModule = enhancedResolve.create.sync({
@@ -91,7 +92,7 @@ export function buildBrowserDependencyGraph(
 ) {
   const graphRoots = [
     ...(includeVue
-      ? [vueComponents, core + 'src/', core + 'styles/', core + 'tests/browser/']
+      ? [vueComponents, core + 'src/', core + 'styles/', ...coreBrowserFixtureRoots]
       : []),
     ...(includeReact ? reactGraphRoots : []),
   ];
@@ -203,9 +204,13 @@ export function selectReactSpecs(
   changes: string[],
   root: string,
 ) {
-  const { reverse, specs, specDocs, docsPreviewSpecs } = graph;
-  const all = () => ({ specs, docsPages: [] as string[], docsPreviewSpecs: new Set(specs) });
-  const changed = changes.filter((file) => file.startsWith(react) || file.startsWith(core));
+  const { reverse, specs, specDocs } = graph;
+  const all = () => ({ specs, docsPages: [] as string[] });
+  const changed = changes.filter(
+    (file) =>
+      file.startsWith(react) ||
+      (file.startsWith(core) && !path.matchesGlob(file, core + 'tests/*.test.ts')),
+  );
   // A removed dependency cannot be resolved against the current checkout.
   if (
     changed.some(
@@ -230,14 +235,15 @@ export function selectReactSpecs(
   }
   const pages = JSON.parse(
     readFileSync(resolve(root, 'packages/sd-vue-docs/src/generated/docs-manifest.json'), 'utf8'),
-  ) as { slug: string }[];
+  ) as { slug: string; demos: string[] }[];
   const docsPages = pages
+    .filter(({ demos }) => demos.length > 0)
     .map(({ slug }) => slug)
     .filter((slug) => slug.startsWith('components/') && components.has(slug.slice(11)));
   if (docsPages.length > 0) affected.add(scenarios);
   const selected = specs.filter((file) => affected.has(file));
   // Fall back when a changed file has no known relationship to a browser spec.
   return selected.length
-    ? { specs: selected, docsPages: changed.includes(scenarios) ? [] : docsPages, docsPreviewSpecs }
+    ? { specs: selected, docsPages: changed.includes(scenarios) ? [] : docsPages }
     : all();
 }

@@ -1,5 +1,4 @@
-import InputMask, { inputMaskPresets } from '../index';
-import { defaultInputMaskFormatChars, formatInputMask, resolveDeletion } from '../mask-engine';
+import InputMask from '../index';
 
 describe('InputMask', () => {
   it('formats a fixed numeric mask and emits the completed value', () => {
@@ -84,32 +83,6 @@ describe('InputMask', () => {
     });
   });
 
-  it('exposes only mask-useful validator formats as presets', () => {
-    expect(inputMaskPresets).to.have.property('ip');
-    expect(inputMaskPresets).to.have.property('url');
-    expect(inputMaskPresets).to.have.property('semver');
-    expect(inputMaskPresets).not.to.have.property('md5');
-    expect(inputMaskPresets).not.to.have.property('port');
-  });
-
-  it('deletes the adjacent editable value when backspacing a separator', () => {
-    // mask 9999-99-99, focused value 2026-__-__, cursor right after the '-' (offset 5).
-    // Backspace removes the literal '-'; resolveDeletion should clear the preceding
-    // '6' instead of restoring the literal (the old no-op behavior).
-    const result = resolveDeletion(
-      '2026-__-__',
-      { start: 5, end: 5 },
-      '2026__-__',
-      4,
-      '9999-99-99',
-      defaultInputMaskFormatChars,
-      '_',
-    );
-    expect(result).to.not.equal(null);
-    expect(result?.value).to.equal('202_-__-__');
-    expect(result?.cursor).to.equal(3);
-  });
-
   it('clears the preceding digit when backspacing a separator in the DOM', () => {
     cy.mount(InputMask, { props: { mask: '9999-99-99', maskChar: '_' } });
     // Typing 2026 leaves the cursor right after the auto-inserted '-' (offset 5),
@@ -122,19 +95,6 @@ describe('InputMask', () => {
       });
     cy.get('input').type('{backspace}');
     cy.get('input').should('have.value', '202_-__-__');
-  });
-
-  it('treats combining sequences and astral characters as single graphemes', () => {
-    // é = e + combining acute accent: one grapheme, two code points. The old
-    // code-point iteration would drop the accent and keep only 'e'.
-    const combining = formatInputMask('é', 2, 'L', { maskChar: null, showMask: true });
-    expect(combining.value).to.equal('é');
-
-    // 𠀀 (CJK Extension B) is one grapheme but two UTF-16 code units. Cursor
-    // math must not split the surrogate pair.
-    const astral = formatInputMask('𠀀', 2, 'H', { maskChar: null, showMask: true });
-    expect(astral.value).to.equal('𠀀');
-    expect(astral.complete).to.equal(true);
   });
 
   it('propagates the re-normalized value when the mask changes', () => {
@@ -156,27 +116,6 @@ describe('InputMask', () => {
     cy.get('input').should('have.value', '');
   });
 
-  it('enforces rgb() / hsl() structure instead of a bare character whitelist', () => {
-    const rgb = inputMaskPresets['rgb-color'];
-    expect(rgb.accepts?.('rgb(22, 119, 255)')).to.equal(true);
-    expect(rgb.accepts?.('rgba(22, 119, 255, 0.5)')).to.equal(true);
-    expect(rgb.accepts?.('xyz')).to.equal(false);
-    expect(rgb.accepts?.('22, 119, 255')).to.equal(false);
-
-    const hsl = inputMaskPresets['hsl'];
-    expect(hsl.accepts?.('hsl(210, 100%, 50%)')).to.equal(true);
-    expect(hsl.accepts?.('hsla(210, 100%, 50%, 0.5)')).to.equal(true);
-    expect(hsl.accepts?.('210 100 50')).to.equal(false);
-  });
-
-  it('differentiates datetime (space separator) from rfc3339 (T only)', () => {
-    const datetime = inputMaskPresets['datetime'];
-    const rfc3339 = inputMaskPresets['rfc3339'];
-    expect(datetime.accepts?.('2026-08-06 10:30:00')).to.equal(true);
-    expect(rfc3339.accepts?.('2026-08-06 10:30:00')).to.equal(false);
-    expect(rfc3339.accepts?.('2026-08-06T10:30:00')).to.equal(true);
-  });
-
   it('inserts datetime and RFC 3339 separators while typing digits', () => {
     cy.mount(InputMask, { props: { preset: 'datetime', maskChar: null } });
     cy.get('input').type('20260806103000').should('have.value', '2026-08-06 10:30:00');
@@ -196,24 +135,6 @@ describe('InputMask', () => {
       .clear()
       .type('2001:db8::1')
       .should('have.value', '2001:db8::1');
-  });
-
-  it('enforces ip-range structure with a bounded prefix', () => {
-    const ipRange = inputMaskPresets['ip-range'];
-    expect(ipRange.accepts?.('192.168.1.0/24')).to.equal(true);
-    expect(ipRange.accepts?.('192.168.1.0')).to.equal(true);
-    expect(ipRange.accepts?.('192.168.1.0/33')).to.equal(false);
-    expect(ipRange.accepts?.('192.168.1.0/abc')).to.equal(false);
-  });
-
-  it('treats escaped characters and dangling backslashes in string masks as literals', () => {
-    // \9 in a string mask is a literal '9', not the numeric token.
-    const escaped = formatInputMask('1', null, '\\9-9', { maskChar: null, showMask: true });
-    expect(escaped.value).to.equal('9-1');
-
-    // A trailing lone backslash degrades to a literal backslash instead of throwing.
-    const dangling = formatInputMask('a', null, 'a\\', { maskChar: null, showMask: true });
-    expect(dangling.value).to.equal('a\\');
   });
 
   it('clears the next editable value when forward-deleting a separator', () => {

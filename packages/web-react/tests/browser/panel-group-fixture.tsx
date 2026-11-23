@@ -15,6 +15,8 @@ export function PanelGroupFixture() {
   const [pose, setPose] = useState(false);
   const [reversed, setReversed] = useState(false);
   const [mounted, setMounted] = useState(true);
+  const [removeOnRelease, setRemoveOnRelease] = useState(false);
+  const [sizedVisible, setSizedVisible] = useState(true);
   const [width, setWidth] = useState(600);
   const [defaultSize, setDefaultSize] = useState(160);
   const [events, setEvents] = useState<string[]>([]);
@@ -61,6 +63,9 @@ export function PanelGroupFixture() {
       onSizeChange={(value) => {
         setSize(value);
         record(`size:${value}`);
+        if (removeOnRelease && typeof value === 'number' && value >= 320) {
+          setSizedVisible(false);
+        }
       }}
       onCollapsedChange={(value) => {
         setCollapsed(value);
@@ -109,7 +114,7 @@ export function PanelGroupFixture() {
             onMoving={() => record('group:moving')}
             onMoveEnd={() => record('group:end')}
           >
-            {reversed ? [fill, grip, sized] : [sized, grip, fill]}
+            {sizedVisible ? (reversed ? [fill, grip, sized] : [sized, grip, fill]) : fill}
           </PanelGroup>
         )}
       </div>
@@ -154,6 +159,9 @@ export function PanelGroupFixture() {
       </button>
       <button data-testid="panel-width" onClick={() => setWidth(800)}>
         Resize container
+      </button>
+      <button data-testid="panel-remove-sized" onClick={() => setRemoveOnRelease(true)}>
+        Remove sized panel on release
       </button>
       <button data-testid="panel-default" onClick={() => setDefaultSize(220)}>
         Reset default

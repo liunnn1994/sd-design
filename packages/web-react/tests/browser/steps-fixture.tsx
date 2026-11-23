@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { Steps, Step, Button, type StepsType } from '../../src/index';
+import { Button } from '../../src/button/index.js';
+import { Steps, Step, type StepsType } from '../../src/steps/index.js';
 
 export function StepsFixture() {
   const [current, setCurrent] = useState(1);

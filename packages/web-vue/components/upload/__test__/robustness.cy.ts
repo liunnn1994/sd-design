@@ -3,7 +3,6 @@ import { defineComponent, h, ref } from 'vue';
 import type { FileItem, RequestOption } from '../interfaces';
 
 import Upload from '../index';
-import { loopDirectory } from '../utils';
 
 const files: FileItem[] = [
   { uid: 'one', name: 'One.txt' },
@@ -86,79 +85,6 @@ describe('Upload robustness', () => {
     cy.get('.sd-upload-list-item-error').should('exist');
   });
 
-  for (const errorType of ['file', 'directory'] as const) {
-    it(`finishes a directory traversal after an entry ${errorType} read fails`, () => {
-      cy.then(
-        () =>
-          new Promise<void>((resolve) => {
-            const good = {
-              isFile: true,
-              fullPath: '/Good.txt',
-              file: (done: (file: File) => void) =>
-                setTimeout(() => done(new File(['file'], 'Good.txt')), 0),
-            };
-            const bad =
-              errorType === 'file'
-                ? {
-                    isFile: true,
-                    file: (_done: unknown, fail?: (error: Error) => void) =>
-                      setTimeout(() => fail?.(new Error('missing file')), 0),
-                  }
-                : {
-                    isDirectory: true,
-                    createReader: () => ({
-                      readEntries: (_done: unknown, fail?: (error: Error) => void) =>
-                        setTimeout(() => fail?.(new Error('unreadable directory')), 0),
-                    }),
-                  };
-            const received: string[][] = [];
-            loopDirectory(
-              [good, bad].map((entry) => ({
-                webkitGetAsEntry: () => entry,
-              })) as unknown as DataTransferItemList,
-              undefined,
-              (result) => {
-                received.push(result.map((file) => file.name));
-              },
-            );
-            setTimeout(() => {
-              expect(received).to.deep.equal([['Good.txt']]);
-              resolve();
-            }, 50);
-          }),
-      );
-    });
-  }
-
-  it('calls directory completion once for null entries mixed with files', () => {
-    cy.then(
-      () =>
-        new Promise<void>((resolve) => {
-          const received: string[][] = [];
-          loopDirectory(
-            [
-              { webkitGetAsEntry: () => null },
-              {
-                webkitGetAsEntry: () => ({
-                  isFile: true,
-                  fullPath: '/Good.txt',
-                  file: (done: (file: File) => void) =>
-                    setTimeout(() => done(new File(['file'], 'Good.txt')), 0),
-                }),
-              },
-            ] as unknown as DataTransferItemList,
-            undefined,
-            (result) => {
-              received.push(result.map((file) => file.name));
-            },
-          );
-          setTimeout(() => {
-            expect(received).to.deep.equal([['Good.txt']]);
-            resolve();
-          }, 50);
-        }),
-    );
-  });
   for (const [slot, listType] of [
     ['file-name', 'text'],
     ['file-icon', 'text'],

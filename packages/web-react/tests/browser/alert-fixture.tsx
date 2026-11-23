@@ -1,17 +1,22 @@
 import { useState } from 'react';
 
-import { Alert, Button, ConfigProvider } from '../../src/index';
+import { Alert } from '../../src/alert/index.js';
+import { Button } from '../../src/button/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
 import enUS from '../../src/locale/lang/en-us';
 
 export function AlertFixture() {
   const [events, setEvents] = useState('');
   const [mounted, setMounted] = useState(true);
+  const [compact, setCompact] = useState(false);
   return (
     <section>
+      <Button onClick={() => setCompact(!compact)}>切换通知布局</Button>
       <Alert
         data-testid="alert-basic"
-        title="通知标题"
-        closable
+        type={compact ? 'normal' : 'info'}
+        title={compact ? undefined : '通知标题'}
+        closable={!compact}
         onClose={(event) => setEvents((value) => value + event.type + ',')}
         onAfterClose={() => setEvents((value) => value + 'after,')}
       >
@@ -20,9 +25,9 @@ export function AlertFixture() {
       <output data-testid="alert-events">{events}</output>
       <Alert
         data-testid="alert-banner"
-        type="warning"
-        banner
-        center
+        type={compact ? 'success' : 'warning'}
+        banner={!compact}
+        center={!compact}
         action={<Button onClick={() => setEvents('action')}>通知操作</Button>}
       >
         横幅内容

@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   affectedBy,
   buildBrowserDependencyGraph,
+  coreBrowserFixtureRoots,
 } from '../../../scripts/browser-dependency-graph.ts';
 import { sharedDependenciesChanged } from './release-dependencies.ts';
 
@@ -88,7 +89,9 @@ export function selectAffectedSpecs({
     return all();
 
   const changed = new Set<string>();
-  const helpers = changes.filter((file) => file.startsWith('packages/web-core/tests/browser/'));
+  const helpers = changes.filter((file) =>
+    coreBrowserFixtureRoots.some((prefix) => file.startsWith(prefix)),
+  );
   if (helpers.some((file) => !browserReverse.has(file))) return all();
   const referencedSpecs = new Set<string>();
   const referencedComponents = new Set<string>();
@@ -116,6 +119,8 @@ export function selectAffectedSpecs({
     if (!file.startsWith(packagePrefix)) continue;
     const relative = file.slice(packagePrefix.length);
     if (relative === 'package.json') continue;
+    // Existing specs are selected through the file graph without invalidating runtime dependents.
+    if (referencedSpecs.has(relative)) continue;
     if (
       relative.startsWith('cypress/e2e/') ||
       /^cypress\.(?:markdown|theme)\.config\.ts$/.test(relative)
@@ -154,7 +159,11 @@ export function discoverMetadata(
   root = repositoryRoot,
   graph?: ReturnType<typeof buildBrowserDependencyGraph>,
   tracked = fg.sync(
-    ['packages/web-vue/components/**/*', 'packages/web-core/{src,styles,tests/browser}/**/*'],
+    [
+      'packages/web-vue/components/**/*',
+      'packages/web-core/{src,styles}/**/*',
+      ...coreBrowserFixtureRoots.map((prefix) => `${prefix}**/*`),
+    ],
     { cwd: root },
   ),
 ) {

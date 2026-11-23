@@ -1,8 +1,6 @@
-import { checkComponentDocs } from './docs-contract';
-
 describe('BloomMenu React', { scrollBehavior: false }, () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/bloom-menu.html');
     cy.get('[data-testid="bloom-main"]').scrollIntoView({ offset: { top: -220, left: 0 } });
   });
   afterEach(() =>
@@ -200,7 +198,4 @@ describe('BloomMenu React', { scrollBehavior: false }, () => {
   });
 });
 
-describe('BloomMenu documentation', () => {
-  it('documents shared bloom-menu scenes and framework navigation', () =>
-    checkComponentDocs('bloom-menu'));
-});
+export {};

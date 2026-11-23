@@ -7,7 +7,19 @@ function Fixture() {
   const query = new URLSearchParams(location.search);
   const [events, setEvents] = useState<string[]>([]);
   const [clicks, setClicks] = useState(0);
-  const [format, setFormat] = useState(query.has('literal') ? 'HH:mm [seconds]' : 'HH:mm:ss');
+  const initialFormat = query.has('meridiem')
+    ? 'hh:mm:ss a'
+    : query.has('literal')
+      ? 'HH:mm [seconds]'
+      : 'HH:mm:ss';
+  const [format, setFormat] = useState(initialFormat);
+  const initialValue = query.has('meridiem')
+    ? '01:30:00 pm'
+    : query.has('literal')
+      ? '13:30 seconds'
+      : query.has('epoch')
+        ? 0
+        : '13:30:00';
   const [hours, setHours] = useState(false);
   const record = (event: string) => setEvents((items) => [...items, event]);
   return (
@@ -15,7 +27,7 @@ function Fixture() {
       <button onClick={() => setHours(!hours)}>Toggle twelve hour</button>
       <button onClick={() => setFormat('HH:mm')}>Short format</button>
       <TimePicker
-        defaultValue={query.has('literal') ? '13:30 seconds' : query.has('epoch') ? 0 : '13:30:00'}
+        defaultValue={initialValue}
         defaultPopupVisible={!query.has('layout')}
         format={format}
         use12Hours={query.has('12') || hours}

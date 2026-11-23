@@ -5,10 +5,12 @@ import { Popover } from '../../src/popover/index';
 export function PopoverFixture() {
   const [scrollbar, setScrollbar] = useState(true);
   const [count, setCount] = useState(0);
-  const [requests, setRequests] = useState(0);
+  const [requests, setRequests] = useState<boolean[]>([]);
+  const [controlledOpen, setControlledOpen] = useState(false);
+  const [hoverEvents, setHoverEvents] = useState<boolean[]>([]);
   const [showDefault, setShowDefault] = useState(false);
   return (
-    <section>
+    <section style={{ minHeight: '180vh' }}>
       <Popover
         trigger="click"
         title={<strong>弹出标题</strong>}
@@ -25,29 +27,51 @@ export function PopoverFixture() {
       </Popover>
       <Popover
         trigger="click"
-        popupVisible={false}
-        onPopupVisibleChange={() => setRequests(requests + 1)}
+        popupVisible={controlledOpen}
+        onPopupVisibleChange={(next) => setRequests((previous) => [...previous, next])}
         content="受控内容"
       >
         <button>拒绝打开 Popover</button>
       </Popover>
-      <output data-testid="popover-requests">{requests}</output>
+      <button onClick={() => setControlledOpen(!controlledOpen)}>Toggle controlled popover</button>
+      <output data-testid="popover-requests">{requests.join('|')}</output>
       <button onClick={() => setShowDefault(!showDefault)}>挂载默认打开</button>
       {showDefault && (
         <Popover defaultPopupVisible title="默认标题" content="默认打开内容">
           <button>默认打开触发器</button>
         </Popover>
       )}
-      <Popover
-        trigger="click"
-        content={
-          <Popover trigger="click" position="right" content="嵌套 Popover 内容">
-            <button>打开子 Popover</button>
-          </Popover>
-        }
-      >
-        <button>打开父 Popover</button>
+      <Popover trigger="focus" content="Focus content">
+        <button>Focus reference</button>
       </Popover>
+      <Popover
+        content="Hover content"
+        position="right"
+        autoFitPosition={false}
+        contentClass="custom-popover-content"
+        contentStyle={{ backgroundColor: 'rgb(18, 52, 86)' }}
+        arrowClass="custom-popover-arrow"
+        onPopupVisibleChange={(next) => setHoverEvents((previous) => [...previous, next])}
+      >
+        <button>Hover reference</button>
+      </Popover>
+      <output data-testid="popover-hover-events">{hoverEvents.join('|')}</output>
+      <Popover trigger="contextMenu" content="Context content" popupContainer="#popover-host">
+        <button>Context reference</button>
+      </Popover>
+      <div id="popover-host" />
+      <div style={{ marginTop: 660 }}>
+        <Popover
+          trigger="click"
+          content={
+            <Popover trigger="click" position="right" content="嵌套 Popover 内容">
+              <button>打开子 Popover</button>
+            </Popover>
+          }
+        >
+          <button>打开父 Popover</button>
+        </Popover>
+      </div>
     </section>
   );
 }

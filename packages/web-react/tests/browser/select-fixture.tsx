@@ -1,14 +1,10 @@
 import { useRef, useState } from 'react';
 
-import {
-  Select,
-  ConfigProvider,
-  Form,
-  FormItem,
-  type SelectInstance,
-  type SelectModelValue,
-  type SelectOption,
-} from '../../src/index';
+import type { SelectInstance, SelectModelValue, SelectOption } from '../../src/select';
+
+import { ConfigProvider } from '../../src/config-provider';
+import { Form, FormItem } from '../../src/form';
+import { Select } from '../../src/select';
 
 const options: SelectOption[] = [
   { value: '', label: 'Empty choice' },
@@ -25,6 +21,7 @@ const options: SelectOption[] = [
   },
 ];
 const many = Array.from({ length: 500 }, (_, value) => ({ value, label: `Choice ${value}` }));
+
 export function SelectFixture() {
   const [value, setValue] = useState<SelectModelValue>('');
   const [multiple, setMultiple] = useState<SelectModelValue>(['locked']);
@@ -39,6 +36,14 @@ export function SelectFixture() {
   const [customOpen, setCustomOpen] = useState(false);
   const [customValue, setCustomValue] = useState<SelectModelValue>('a');
   const [switchMultiple, setSwitchMultiple] = useState(false);
+  const [switchBordered, setSwitchBordered] = useState(true);
+  const [formDisabled, setFormDisabled] = useState(false);
+  const [openGuard, setOpenGuard] = useState(false);
+  const [remoteOptions, setRemoteOptions] = useState<SelectOption[]>([]);
+  const [remotePending, setRemotePending] = useState(false);
+  const [fallback, setFallback] = useState({ id: 1, label: 'Original fallback' });
+  const [regions, setRegions] = useState(false);
+  const [regionsOpen, setRegionsOpen] = useState(true);
   const instance = useRef<SelectInstance>(null);
   const record = (event: string) => setEvents((events) => [...events, event]);
   return (
@@ -55,8 +60,10 @@ export function SelectFixture() {
         options={options}
         defaultValue="a"
         multiple={switchMultiple}
+        bordered={switchBordered}
       />
       <button onClick={() => setSwitchMultiple(!switchMultiple)}>Select switch mode</button>
+      <button onClick={() => setSwitchBordered(!switchBordered)}>Toggle select border</button>
       <Select
         data-testid="select-single"
         ref={instance}
@@ -154,6 +161,28 @@ export function SelectFixture() {
       />
       <button onClick={() => setRenamed(!renamed)}>Select fields</button>
       <output data-testid="select-object-value">{JSON.stringify(objectValue)}</output>
+      <Select
+        data-testid="select-parent-fallback"
+        value={fallback}
+        valueKey="id"
+        fallbackOption={(value) => ({ value, label: (value as typeof fallback).label })}
+      />
+      <button onClick={() => setFallback({ ...fallback, label: 'Updated fallback' })}>
+        Replace Select fallback object
+      </button>
+      {new URLSearchParams(location.search).has('regions') && (
+        <>
+          <button onClick={() => setRegions(!regions)}>Toggle Select regions</button>
+          <button onClick={() => setRegionsOpen(!regionsOpen)}>Toggle Select regions popup</button>
+          <Select
+            options={['Retained choice']}
+            popupVisible={regionsOpen}
+            unmountOnClose
+            header={regions ? <span>Live header</span> : undefined}
+            footer={regions ? <span>Live footer</span> : undefined}
+          />
+        </>
+      )}
       <ConfigProvider
         virtualListProps={providerVirtual ? { height: 120, itemSize: 36 } : undefined}
         selectSpinProps={{ tip: 'Provider loading' }}
@@ -239,6 +268,65 @@ export function SelectFixture() {
           />
         </FormItem>
       </Form>
+      <button onClick={() => setFormDisabled(!formDisabled)}>Toggle Select Form disabled</button>
+      <button onClick={() => setOpenGuard(!openGuard)}>Toggle guarded popup</button>
+      <Form model={{}} disabled={formDisabled}>
+        <FormItem>
+          <Select
+            data-testid="select-form-guard"
+            popupVisible={openGuard}
+            readonly={readonly ? 'Selection locked' : false}
+            options={['Guard A', 'Guard B']}
+            defaultValue="Guard A"
+            onChange={(next) => record(`guard:${JSON.stringify(next)}`)}
+            style={{ width: 220 }}
+          />
+        </FormItem>
+      </Form>
+      <Select
+        data-testid="select-remote"
+        options={remoteOptions}
+        filterOption={false}
+        loading={remotePending}
+        searchDelay={60}
+        spinProps={{ tip: 'Loading matches' }}
+        style={{ width: 220 }}
+        onChange={(value) => record(`remote:${JSON.stringify(value)}`)}
+        onSearch={async (next) => {
+          setRemotePending(true);
+          try {
+            const response = await fetch(`/select-search?q=${encodeURIComponent(next)}`);
+            setRemoteOptions(await response.json());
+          } finally {
+            setRemotePending(false);
+          }
+        }}
+      />
+      <Select
+        data-testid="select-group-filter"
+        options={[
+          { isGroup: true, label: 'Greek', options: [{ value: 'a', label: 'Alpha' }] },
+          { isGroup: true, label: 'English', options: [{ value: 'b', label: 'Bravo' }] },
+        ]}
+        filterOption={(query, option) => String(option.value).includes(query)}
+        renderOption={(option) => <strong>Choice {option.label}</strong>}
+        header={<span>Choice list header</span>}
+        footer={<span>Choice list footer</span>}
+        empty={<span>No matching value</span>}
+        showHeaderOnEmpty
+        showFooterOnEmpty
+        style={{ width: 240 }}
+      />
+      <Select
+        data-testid="select-tag-overflow"
+        multiple
+        options={options}
+        defaultValue={['a', 'b', 0]}
+        maxTagCount={1}
+        renderTag={(option) => <strong>Selected {option.label}</strong>}
+        onChange={(value) => record(`overflow:${JSON.stringify(value)}`)}
+        style={{ width: 240 }}
+      />
     </section>
   );
 }

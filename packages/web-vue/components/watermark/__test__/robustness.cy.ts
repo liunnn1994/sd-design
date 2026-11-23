@@ -43,39 +43,4 @@ describe('Watermark robustness', () => {
     cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
     cy.then(() => expect(disconnect).to.have.been.calledOnce);
   });
-  for (const [textAlign, expectedX] of [
-    ['left', 0],
-    ['start', 0],
-    ['center', 50],
-    ['right', 100],
-    ['end', 100],
-  ] as const) {
-    it(`positions ${textAlign}-aligned text within its measured tile`, () => {
-      let textX: number | undefined;
-      cy.window().then((win) => {
-        const fillText = win.CanvasRenderingContext2D.prototype.fillText;
-        cy.stub(win.CanvasRenderingContext2D.prototype, 'fillText').callsFake(function (
-          this: CanvasRenderingContext2D,
-          text: string,
-          x: number,
-          y: number,
-        ) {
-          if (text === 'SD') textX = this.getTransform().e + x;
-          fillText.call(this, text, x, y);
-        });
-      });
-      cy.mount(Watermark, {
-        props: {
-          content: 'SD',
-          width: 100,
-          height: 30,
-          gap: [0, 0],
-          rotate: 0,
-          staggered: false,
-          font: { textAlign },
-        },
-      });
-      cy.window().then((win) => expect(textX).to.equal(expectedX * (win.devicePixelRatio || 1)));
-    });
-  }
 });

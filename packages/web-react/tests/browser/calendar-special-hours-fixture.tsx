@@ -6,7 +6,9 @@ export function CalendarSpecialHoursFixture() {
   const horizontal = params.has('horizontal');
   const schedules = params.has('schedules');
   const resize = params.has('resize');
+  const external = params.has('external');
   const [drops, setDrops] = useState(0);
+  const [dropped, setDropped] = useState('');
   return (
     <>
       <Calendar
@@ -18,6 +20,7 @@ export function CalendarSpecialHoursFixture() {
         timeTo={1020}
         snapToInterval={30}
         editableEvents
+        allDayEvents={external}
         style={{ height: 600, width: 800 }}
         schedules={
           schedules
@@ -44,8 +47,14 @@ export function CalendarSpecialHoursFixture() {
           setDrops((value) => value + 1);
           return true;
         }}
+        onEventDropped={
+          external
+            ? (result) => setDropped(`${result.external}:${result.event?.allDay}`)
+            : undefined
+        }
       />
       <output data-testid="drops">{drops}</output>
+      {external && <output data-testid="dropped">{dropped}</output>}
     </>
   );
 }

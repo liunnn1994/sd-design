@@ -1,5 +1,4 @@
 import { moveMouseAway, moveMouseTo } from '../../../web-core/tests/browser/hover-intent';
-import { checkComponentDocs } from './docs-contract';
 
 describe('PanelGroup React', { scrollBehavior: false }, () => {
   const main = '[data-testid="panel-main"]';
@@ -13,7 +12,7 @@ describe('PanelGroup React', { scrollBehavior: false }, () => {
       .trigger('pointermove', { clientX: 400 + dx, clientY: 150 + dy, pointerId: 1 })
       .trigger('pointerup', { clientX: 400 + dx, clientY: 150 + dy, pointerId: 1 });
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/panel-group.html');
     cy.get(main).scrollIntoView();
     cy.get(sized).should('have.css', 'width', '200px');
   });
@@ -101,6 +100,39 @@ describe('PanelGroup React', { scrollBehavior: false }, () => {
     );
     cy.get('[data-testid="panel-size"]').should('have.text', '320');
     cy.get(sized).should('have.css', 'width', '320px');
+  });
+  it('publishes press and release without moving the panel', () => {
+    const point = { clientX: 400, clientY: 150, pointerId: 1 };
+    cy.get(grip).trigger('pointerdown', point);
+    cy.get('[data-testid="panel-events"]').should('have.text', 'panel:start|group:start');
+    cy.get(grip).trigger('pointerup', point);
+    cy.get('[data-testid="panel-events"]').should(
+      'have.text',
+      'panel:start|group:start|panel:end|group:end',
+    );
+    cy.get(sized).should('have.css', 'width', '200px');
+    cy.get('body').should('not.have.css', 'user-select', 'none');
+  });
+  it('releases the fill panel layout when the sized panel is removed by its final resize', () => {
+    button('remove-sized');
+    const point = { clientX: 400, clientY: 150, pointerId: 1 };
+    cy.get(grip).trigger('pointerdown', point);
+    cy.get(grip).trigger('pointermove', { ...point, clientX: 480 });
+    cy.get('[data-testid="panel-size"]').should('have.text', '280');
+    cy.get(grip).trigger('pointerup', { ...point, clientX: 520 });
+    cy.get(sized).should('not.exist');
+    cy.get(grip).should('not.exist');
+    cy.get(`${main} > .sd-panel-fill`).should('have.css', 'overflow', 'visible');
+    cy.get('[data-testid="panel-fill-content"]').should('have.css', 'width', '600px');
+    cy.get('body').should('not.have.css', 'user-select', 'none');
+  });
+  it('refreshes accessible bounds after layout changes outside React', () => {
+    const group = '[data-testid="panel-uncontrolled"]';
+    const edge = `${group} > .sd-panel > .sd-panel-separator-edge [role="separator"]`;
+    cy.get(edge).should('have.attr', 'aria-valuemax', '500');
+    cy.get(group).invoke('css', 'width', '320px');
+    cy.get(`${group} > .sd-panel-fill`).should('have.css', 'width', '160px');
+    cy.get(edge).should('have.attr', 'aria-valuemax', '320');
   });
   it('restores the controlled size on Escape and releases the document lock', () => {
     cy.get(grip).trigger('pointerdown', { clientX: 400, clientY: 150, pointerId: 1 });
@@ -218,30 +250,4 @@ describe('PanelGroup React', { scrollBehavior: false }, () => {
       else cy.get(main).should('not.exist');
     });
   }
-});
-
-describe('PanelGroup documentation', () => {
-  it('documents shared panel-group scenes and framework navigation', () =>
-    checkComponentDocs('panel-group'));
-
-  it('uses the resize lines as the basic example frame edges', () => {
-    const origin = Cypress.expose('docsOrigin') ?? 'http://127.0.0.1:5188';
-    cy.visit(origin + '/react/components/panel-group/');
-    cy.get('[data-example="panel-group/basic"]')
-      .scrollIntoView()
-      .find('.demo-block__preview-content > astro-island:not([ssr])', { timeout: 20000 })
-      .find('.single-panel-demo')
-      .should(($demo) => {
-        const demo = $demo[0];
-        const content = demo.querySelector('.single-panel-demo-content')!;
-        const line = '.sd-resizebox-trigger-icon-wrapper';
-        const rightGrip = demo.querySelector(`.sd-resizebox-trigger-vertical > ${line}`)!;
-        const bottomGrip = demo.querySelector(`.sd-resizebox-trigger-horizontal > ${line}`)!;
-        const bounds = content.getBoundingClientRect();
-        expect(Cypress.$(content)).to.have.css('border-right-color', 'rgba(0, 0, 0, 0)');
-        expect(Cypress.$(content)).to.have.css('border-bottom-color', 'rgba(0, 0, 0, 0)');
-        expect(rightGrip.getBoundingClientRect().right).to.equal(bounds.right);
-        expect(bottomGrip.getBoundingClientRect().bottom).to.equal(bounds.bottom);
-      });
-  });
 });

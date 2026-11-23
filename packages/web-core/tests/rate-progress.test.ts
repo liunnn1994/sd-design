@@ -190,6 +190,11 @@ test('Rate keyboard half steps clamp to the effective grading count and never cl
   state.setDisabled(true);
   assert.equal(state.key('Home'), false);
   assert.equal(state.events.length, 4);
+
+  const empty = setup({ count: 5 }, 0);
+  assert.equal(empty.key('ArrowLeft'), true);
+  assert.equal(empty.foundation.getValue(), 0);
+  assert.deepEqual(empty.events, []);
 });
 
 test('Rate threshold colors apply per character and half selection uses the current character color', () => {
@@ -266,6 +271,24 @@ test('Progress line keeps unbounded widths, exact displayed percentages and grad
   assert.equal(getProgressBackground(''), undefined);
   options.percent = -0.2;
   assert.equal(model.getBarStyle().width, '-20%');
+});
+
+test('Progress line strokes override each size default until the explicit width is removed', () => {
+  for (const [size, height] of [
+    ['small', '3px'],
+    ['large', '8px'],
+  ] as const) {
+    const options: ProgressLineOptions = { size, percent: 0.5, width: 160, strokeWidth: 4 };
+    const model = createProgressLineFoundation(options);
+    assert.deepEqual(model.getStyle(), {
+      width: '160px',
+      height: '4px',
+      backgroundColor: undefined,
+    });
+    options.width = '75%';
+    options.strokeWidth = undefined;
+    assert.deepEqual(model.getStyle(), { width: '75%', height, backgroundColor: undefined });
+  }
 });
 
 test('Progress circle geometry preserves mini and normal width/stroke defaults and explicit zeros', () => {

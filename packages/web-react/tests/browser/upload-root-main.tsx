@@ -12,10 +12,13 @@ function Fixture() {
   const ref = useRef<UploadInstance>(null);
   const request = useRef<RequestOption>(null);
   const [events, setEvents] = useState<string[]>([]);
+  const [removable, setRemovable] = useState(false);
+  const hooks = query.has('hooks');
   return (
     <>
       <button onClick={() => ref.current?.submit()}>Submit</button>
       <button onClick={() => request.current?.onSuccess({ url: '/done' })}>Complete</button>
+      {hooks && <button onClick={() => setRemovable(true)}>Allow removal</button>}
       <Upload
         ref={ref}
         data-testid="upload-root"
@@ -25,11 +28,12 @@ function Fixture() {
         onClick={query.has('nolist') ? () => setEvents((old) => [...old, 'click']) : undefined}
         autoUpload={!query.has('manual')}
         limit={1}
+        lockKey={query.get('lock') ?? undefined}
         listType={query.has('picture') ? 'picture' : 'text'}
         imagePreview={query.has('picture')}
         showLink={false}
         defaultFileList={
-          query.has('picture')
+          query.has('picture') && !query.has('local')
             ? [{ uid: 'preview', name: 'preview.svg', status: 'done', url: image }]
             : []
         }
@@ -38,15 +42,38 @@ function Fixture() {
         data={{ team: 'engineering' }}
         headers={{ 'X-Upload-Test': 'react-adapter' }}
         responseUrlKey="url"
+        onBeforeUpload={
+          hooks
+            ? async (file) => new File([file], `processed-${file.name}`, { type: file.type })
+            : undefined
+        }
+        onBeforeRemove={
+          hooks
+            ? async () => {
+                setEvents((old) => [...old, `remove:${removable}`]);
+                return removable;
+              }
+            : undefined
+        }
         customRequest={
           query.has('real')
             ? undefined
             : (option) => {
                 request.current = option;
-                return { abort() {} };
+                if (query.has('lock')) setEvents((old) => [...old, 'request']);
+                if (hooks) setEvents((old) => [...old, `request:${option.fileItem.file?.name}`]);
+                return {
+                  abort() {
+                    if (query.has('lock')) setEvents((old) => [...old, 'abort']);
+                  },
+                };
               }
         }
-        onError={(file) => setEvents((old) => [...old, `error:${file.name}`])}
+        onError={(file) => {
+          const response = file.response as { code?: string } | undefined;
+          const reason = query.has('lock') ? (response?.code ?? file.name) : file.name;
+          setEvents((old) => [...old, `error:${reason}`]);
+        }}
         onSuccess={(file) => setEvents((old) => [...old, `success:${file.name}`])}
         onPreview={(file) => setEvents((old) => [...old, `preview:${file.name}`])}
       />

@@ -171,12 +171,55 @@ describe('React TimePicker root', () => {
   });
   it('keeps controlled popup requests closed until the parent accepts', () => {
     cy.visit('/time-picker-root.html?popup&reject&custom');
+    cy.get('.sd-picker').should('not.exist');
+    cy.get('[data-testid="custom"]').should('have.attr', 'aria-haspopup', 'dialog');
     cy.get('[data-testid="custom"]').click().should('contain.text', '|false');
+    cy.get('[data-testid="custom"]').should('have.attr', 'aria-expanded', 'false');
+    cy.get('[data-testid="custom"]').should('not.have.attr', 'aria-controls');
     cy.get('[data-testid="events"]').should('contain.text', 'popup:true');
     cy.contains('button', 'External popup').click();
     cy.get('[data-testid="custom"]').should('contain.text', '|true');
+    cy.get('[data-testid="custom"]').should('have.attr', 'aria-expanded', 'true');
+    cy.get('[data-testid="custom"]').should(([$trigger]) => {
+      const popup = $trigger.ownerDocument.getElementById($trigger.getAttribute('aria-controls')!);
+      expect(Boolean(popup?.querySelector('.sd-timepicker-container'))).to.equal(true);
+    });
     cy.get('.sd-timepicker-container').should('be.visible');
   });
+  for (const lock of ['Disabled', 'Readonly']) {
+    it(`blocks direct selection when an open picker becomes ${lock.toLowerCase()}`, () => {
+      cy.visit('/time-picker-root.html?popup&open&instant&reject');
+      const hour = () => cy.get('.sd-timepicker-column').first().contains('li', /^11$/);
+      hour().should('be.visible');
+      cy.contains('button', lock).click();
+      hour().click({ force: true });
+      cy.get('.sd-picker input').should('have.value', '09:00:00');
+      cy.get('[data-testid="events"]')
+        .invoke('text')
+        .should('not.match', /(?:^|\|)(?:select|value|change):/);
+      cy.contains('button', lock).click();
+      hour().click();
+      cy.get('[data-testid="events"]').should(
+        'contain.text',
+        'select:11:00:00|value:11:00:00|change:11:00:00',
+      );
+    });
+
+    it(`disables both localized footer actions when an open picker becomes ${lock.toLowerCase()}`, () => {
+      cy.visit('/time-picker-root.html?popup&open');
+      const footer = () => cy.get('.sd-timepicker-footer-btn-wrapper');
+      footer().contains('button', '此刻').should('be.enabled');
+      footer().contains('button', '确定').should('be.enabled');
+      cy.contains('button', lock).click();
+      footer()
+        .find('button')
+        .should('have.length', 2)
+        .each(($button) => cy.wrap($button).should('be.disabled'));
+      cy.get('[data-testid="events"]')
+        .invoke('text')
+        .should('not.match', /(?:^|\|)(?:select|value|change):/);
+    });
+  }
   it('locks an open panel and refuses pending confirmation after readonly changes', () => {
     cy.visit('/time-picker-root.html?open');
     cy.get('.sd-timepicker-column').first().contains('li', /^11$/).click();
@@ -269,6 +312,16 @@ describe('React TimePicker Vue contract boundaries', () => {
     cy.get('.sd-timepicker-column').eq(1).contains('li', /^45$/).click();
     cy.get('.sd-timepicker-footer-btn-wrapper button').last().click();
     cy.get('.sd-picker input').should('have.value', '13:45:00');
+  });
+
+  it('switches AM and PM when the format alone implies a twelve-hour clock', () => {
+    cy.visit('/time-picker-boundaries.html?meridiem');
+    cy.get('.sd-timepicker-column').should('have.length', 4);
+    cy.get('.sd-picker input').should('have.value', '01:30:00 pm');
+    cy.get('.sd-timepicker-column').eq(3).contains('li', /^am$/).click();
+    cy.get('.sd-timepicker-footer-btn-wrapper').contains('button', '确定').click();
+    cy.get('.sd-picker input').should('have.value', '01:30:00 am');
+    cy.get('[data-testid="events"]').should('contain.text', 'change:01:30:00 am|date:true');
   });
   for (const hide of [false, true]) {
     it(`normalizes disabled hours through AM and PM with hide=${hide}`, () => {

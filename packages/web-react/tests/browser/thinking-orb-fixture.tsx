@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import enUS from '../../src/locale/lang/en-us';
 import {
   ThinkingOrb,
-  ConfigProvider,
   type ThinkingOrbState,
   type ThinkingOrbSize,
-} from '../../src/index';
-import enUS from '../../src/locale/lang/en-us';
+} from '../../src/thinking-orb/index.js';
 const states: ThinkingOrbState[] = [
   'working',
   'searching',

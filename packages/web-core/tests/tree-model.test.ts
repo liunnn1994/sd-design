@@ -10,6 +10,7 @@ import { createTreeFoundation } from '../dist/tree/foundation.js';
 import { getTreeKeyAction } from '../dist/tree/keyboard.js';
 import {
   getDefaultExpandedKeys,
+  getSearchExpandedKeys,
   getFlattenTreeData,
   getKey2TreeNode,
   getPublicCheckedKeys,
@@ -197,6 +198,23 @@ test('default expansion preserves explicit empty keys, ancestor ordering and str
   );
   assert.deepEqual(getDefaultExpandedKeys(initial), ['root']);
   assert.deepEqual(getDefaultExpandedKeys({ ...initial, defaultExpandAll: false }), ['root']);
+});
+
+test('a search expands branch keys without replacing the caller’s expansion state', () => {
+  const { state } = fixture();
+  const nodes = [...state.nodes.values()];
+  const expandedKeys: TreeNodeKey[] = [];
+  assert.equal(getSearchExpandedKeys(nodes, false), undefined);
+  assert.deepEqual(getSearchExpandedKeys(nodes, true), ['root']);
+  const visibleKeys = (searching: boolean) =>
+    getVisibleTreeNodes({
+      nodes,
+      expandedKeys: getSearchExpandedKeys(nodes, searching) ?? expandedKeys,
+      expandingKeys: [],
+    }).map((node) => node.key);
+  assert.deepEqual(visibleKeys(true), ['root', 0, '0']);
+  assert.deepEqual(visibleKeys(false), ['root']);
+  assert.deepEqual(expandedKeys, []);
 });
 
 test('visibility honors expansion transitions and deduplicates after all filter callbacks', () => {

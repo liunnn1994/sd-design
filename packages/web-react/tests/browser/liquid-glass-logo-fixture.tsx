@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 
+import { ConfigProvider } from '../../src/config-provider/index.js';
 import {
   LiquidGlassLogo,
-  ConfigProvider,
   type LiquidGlassLogoProps,
   type LiquidGlassLogoExposed,
-} from '../../src/index';
+} from '../../src/liquid-glass-logo/index.js';
 export function LiquidGlassLogoFixture() {
   const [options, setOptions] = useState<LiquidGlassLogoProps>({
     ending: 'wordmark',

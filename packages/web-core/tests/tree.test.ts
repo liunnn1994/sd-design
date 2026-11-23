@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import type { CheckNode } from '../src/tree/types.ts';
+import type { CheckNode, TreeModelNode, TreeData } from '../src/tree/types.ts';
 
 import { getCheckedStateByCheck, getCheckedStateByInitKeys } from '../dist/tree/check.js';
+import { generateTreeData } from '../dist/tree/data.js';
+import { getFlattenTreeData, getKey2TreeNode } from '../dist/tree/query.js';
 
 function fixture() {
   const root: CheckNode = { key: 'parent', checkable: true };
@@ -76,4 +78,90 @@ test('initial keys preserve numeric identity and derive linked parents', () => {
   });
   assert.deepEqual(new Set(checked), new Set([1, 2, 'parent']));
   assert.deepEqual(half, []);
+});
+
+const treeOptions = {
+  checkable: true,
+  selectable: true,
+  draggable: false,
+  blockNode: false,
+  showLine: false,
+  loadMore: false,
+};
+
+test('tree data preserves typed keys, inherits flags and honors overrides in either direction', () => {
+  const data = [
+    { key: 0, title: 'Numeric' },
+    { key: '0', title: 'String' },
+    { key: 1, checkable: false, selectable: false, draggable: true },
+    { key: 2, checkable: true, selectable: true, draggable: false },
+  ];
+  const normal = getKey2TreeNode(getFlattenTreeData(generateTreeData(data, treeOptions)));
+  const reversed = getKey2TreeNode(
+    getFlattenTreeData(
+      generateTreeData(data, {
+        ...treeOptions,
+        checkable: false,
+        selectable: false,
+        draggable: true,
+      }),
+    ),
+  );
+  const flags = ({ checkable, selectable, draggable }: TreeModelNode<TreeData>) => [
+    checkable,
+    selectable,
+    draggable,
+  ];
+  assert.equal(normal.get(0)!.title, 'Numeric');
+  assert.equal(normal.get('0')!.title, 'String');
+  assert.deepEqual(flags(normal.get(0)!), [true, true, false]);
+  assert.deepEqual(flags(normal.get(1)!), [false, false, true]);
+  assert.deepEqual(flags(reversed.get(0)!), [false, false, true]);
+  assert.deepEqual(flags(reversed.get(2)!), [true, true, false]);
+});
+
+test('tree checking respects checkbox-disabled branches, strict mode and leaf-only initialization', () => {
+  const nodes = getKey2TreeNode(
+    getFlattenTreeData(
+      generateTreeData(
+        [
+          {
+            key: 'root',
+            children: [
+              { key: 'leaf' },
+              { key: 'blocked', disableCheckbox: true, children: [{ key: 'nested' }] },
+            ],
+          },
+        ],
+        treeOptions,
+      ),
+    ),
+  );
+  const root = nodes.get('root')!;
+  const initial = (
+    keys: string[],
+    options?: { checkStrictly?: boolean; onlyCheckLeaf?: boolean },
+  ) => getCheckedStateByInitKeys({ initCheckedKeys: keys, key2TreeNode: nodes, ...options });
+  const toggle = (
+    node: typeof root,
+    checked: boolean,
+    checkedKeys: string[],
+    checkStrictly = false,
+  ) => getCheckedStateByCheck({ node, checked, checkedKeys, indeterminateKeys: [], checkStrictly });
+
+  const [checked] = toggle(root, true, []);
+  assert.deepEqual(new Set(checked), new Set(['root', 'leaf']));
+  assert.deepEqual(toggle(root, false, ['root', 'leaf']), [[], []]);
+  assert.deepEqual(toggle(root, true, [], true), [['root'], []]);
+  assert.deepEqual(toggle(root, false, ['root', 'leaf'], true), [['leaf'], []]);
+  assert.deepEqual(toggle(nodes.get('nested')!, true, []), [['nested'], []]);
+  assert.deepEqual(initial(['nested']), [['nested'], []]);
+  assert.deepEqual(initial(['root'], { checkStrictly: true }), [['root'], []]);
+  assert.deepEqual(initial(['root'], { onlyCheckLeaf: true }), [[], []]);
+  const [leaves] = initial(['root', 'leaf'], { onlyCheckLeaf: true });
+  assert.deepEqual(new Set(leaves), new Set(['root', 'leaf']));
+  for (const keys of [['root'], ['leaf', 'root']]) {
+    const [value] = initial(keys);
+    assert.deepEqual(value.toSorted(), ['leaf', 'root']);
+  }
 });

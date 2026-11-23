@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Countdown, Statistic } from '../../src/index';
+import { Countdown, Statistic } from '../../src/statistic/index.js';
 
 function Examples() {
   const [now] = useState(() => Date.now());

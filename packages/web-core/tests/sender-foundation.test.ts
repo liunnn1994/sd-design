@@ -1,5 +1,6 @@
 import type { Writable } from 'type-fest';
 
+import { createEditor } from 'lexical';
 import assert from 'node:assert/strict';
 import { test, type TestContext } from 'node:test';
 
@@ -344,6 +345,32 @@ test('Sender editor synchronization is ready-gated and rebuilds values before ch
   assert.equal(fixture.calls.length, before);
 });
 
+test('Sender preserves its skill during editor replacement and rejects updates from a disposed editor', () => {
+  const { foundation, state, events } = setup();
+  const firstEditor = createEditor();
+  const replacement = createEditor();
+  const fixture = editorFixture();
+  const skill = { value: 'search' };
+  state.activeSkill = skill;
+  state.editor = fixture.editor;
+  foundation.handleSlotEditorReady(firstEditor);
+
+  fixture.content = [];
+  foundation.handleSlotEditorChange(undefined, { editor: replacement });
+  assert.equal(state.activeSkill, skill);
+  assert.deepEqual(events, []);
+
+  foundation.handleSlotEditorReady(replacement);
+  fixture.content = [];
+  foundation.handleSlotEditorChange(undefined, { editor: firstEditor });
+  assert.equal(state.activeSkill, skill);
+  assert.deepEqual(events, []);
+
+  foundation.handleSlotEditorChange(undefined, { editor: replacement });
+  assert.equal(state.activeSkill, undefined);
+  assert.equal(events[0]?.[0], 'change');
+});
+
 test('Sender clear restores the prop skill and runtime config before requesting the tagged editor update', () => {
   const { foundation, state, props } = setup(),
     fixture = editorFixture();
@@ -467,6 +494,27 @@ test('Sender file paste prevents default before file/paste notifications and sto
   foundation.handleSlotPaste(event);
   assert.deepEqual(order, ['prevent', 'files', 'paste', 'stop']);
   assert.equal(reads, 2);
+});
+
+test('Sender slot paste preserves native text handling when the clipboard also has a file', () => {
+  const { foundation, events } = setup();
+  const event = {
+    clipboardData: {
+      files: { length: 1 },
+      getData(type: string) {
+        assert.equal(type, 'text/plain');
+        return 'Paste this text';
+      },
+    },
+    preventDefault() {
+      assert.fail('Text paste must retain the native default');
+    },
+    stopPropagation() {
+      assert.fail('Text paste must reach the editor');
+    },
+  } as unknown as ClipboardEvent;
+  foundation.handleSlotPaste(event);
+  assert.deepEqual(events, [['paste', event]]);
 });
 
 test('Sender native textarea resolution retains raw, exposed-element, descendant and container fallbacks', (t) => {

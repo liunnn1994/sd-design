@@ -7086,7 +7086,7 @@
       "padding-bottom": "8px",
       "overflow-x": "hidden",
       "white-space": "pre-wrap",
-      "max-height": "160px",
+      "max-height": "500px",
       "--markstream-pre-diff-line-number-width": "2ch"
     },
     "panes": [
@@ -7296,7 +7296,7 @@
       "padding-bottom": "8px",
       "overflow-x": "hidden",
       "white-space": "pre-wrap",
-      "max-height": "160px",
+      "max-height": "500px",
       "--markstream-pre-diff-line-number-width": "2ch"
     },
     "panes": [
@@ -7502,7 +7502,7 @@
       "padding-bottom": "8px",
       "overflow-x": "hidden",
       "white-space": "pre-wrap",
-      "max-height": "160px",
+      "max-height": "500px",
       "--markstream-pre-diff-line-number-width": "2ch"
     },
     "panes": [
@@ -7852,7 +7852,7 @@
       "padding-bottom": "8px",
       "overflow-x": "hidden",
       "white-space": "pre-wrap",
-      "max-height": "160px",
+      "max-height": "500px",
       "--markstream-pre-diff-line-number-width": "2ch"
     },
     "panes": [
@@ -8202,7 +8202,7 @@
       "padding-bottom": "8px",
       "overflow-x": "hidden",
       "white-space": "pre-wrap",
-      "max-height": "160px",
+      "max-height": "500px",
       "--markstream-pre-diff-line-number-width": "3ch"
     },
     "panes": [
@@ -8330,7 +8330,7 @@
       "padding-bottom": "8px",
       "overflow-x": "hidden",
       "white-space": "pre-wrap",
-      "max-height": "160px",
+      "max-height": "500px",
       "--markstream-pre-diff-line-number-width": "2ch"
     },
     "panes": [

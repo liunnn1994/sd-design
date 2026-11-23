@@ -130,8 +130,15 @@ describe('Transfer', () => {
     });
   });
 
-  it('filters lists via search input and emits search with panel type on Enter', () => {
-    cy.mount(Transfer, { props: { data, showSearch: true } });
+  it('commits each panel search and clears the target filter independently', () => {
+    cy.mount(Transfer, {
+      props: {
+        data,
+        defaultValue: ['option4'],
+        showSearch: true,
+        targetInputSearchProps: { allowClear: true },
+      },
+    });
     // 限定到搜索容器：面板内的 checkbox 也是 input 元素
     cy.get('.sd-transfer-view-source .sd-transfer-view-search input').first().type('Option 1');
     cy.get('.sd-transfer-view-source .sd-transfer-list-item').should('have.length', 1);
@@ -148,6 +155,17 @@ describe('Transfer', () => {
       const searches = wrapper.emitted('search');
       expect(searches).to.have.length(2);
       expect(searches?.[1]).to.deep.equal(['x', 'target']);
+    });
+    cy.get('.sd-transfer-view-target .sd-transfer-view-search input').focus();
+    cy.get('.sd-transfer-view-target .sd-input-clear-btn').click();
+    cy.get('.sd-transfer-view-target .sd-transfer-list-item')
+      .should('have.length', 1)
+      .and('contain.text', 'Option 4');
+    cy.get('.sd-transfer-view-source .sd-transfer-list-item')
+      .should('have.length', 1)
+      .and('contain.text', 'Option 1');
+    cy.get('@vue').should(({ wrapper }) => {
+      expect(wrapper.emitted('search')?.[2]).to.deep.equal(['', 'target']);
     });
   });
 
@@ -177,9 +195,10 @@ describe('Transfer', () => {
   it('shows indeterminate header checkbox on partial selection', () => {
     cy.mount(Transfer, { props: { data } });
     cy.get('.sd-transfer-list-item .sd-checkbox-target').first().click({ force: true });
-    cy.get('.sd-transfer-view-source .sd-transfer-view-header .sd-checkbox').should(
-      'have.class',
-      'sd-checkbox-indeterminate',
+    cy.get('.sd-transfer-view-source .sd-transfer-view-header input').should(
+      'have.prop',
+      'indeterminate',
+      true,
     );
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('select')?.[0]).to.deep.equal([['option1']]);
@@ -274,20 +293,6 @@ describe('Transfer', () => {
     cy.get('.sd-transfer-view-target .sd-transfer-list-item').should('have.length', 1);
     cy.get('@vue').should(({ wrapper }) => expect(wrapper.emitted('change')).to.equal(undefined));
   });
-
-  for (const selected of [['disabled'], [...data.map((item) => item.value), 'disabled']]) {
-    it(`computes select-all status from enabled selected items (${selected.length} selected)`, () => {
-      cy.mount(Transfer, {
-        props: {
-          data: [...data, { value: 'disabled', label: 'Disabled', disabled: true }],
-          defaultSelected: selected,
-        },
-      });
-      cy.get('.sd-transfer-view-source .sd-transfer-view-header .sd-checkbox')
-        .should(selected.length > 1 ? 'have.class' : 'not.have.class', 'sd-checkbox-checked')
-        .and('not.have.class', 'sd-checkbox-indeterminate');
-    });
-  }
 
   it('removes an item only once in simple one-way mode', () => {
     cy.mount(Transfer, { props: { data, simple: true, oneWay: true, defaultValue: ['option1'] } });

@@ -38,6 +38,14 @@ export interface TreeQueryNode<T> {
   children?: TreeQueryNode<T>[];
 }
 
+export function getSearchExpandedKeys<N extends TreeQueryNode<unknown>>(
+  nodes: N[],
+  searching: boolean,
+): TreeNodeKey[] | undefined {
+  if (!searching) return undefined;
+  return nodes.filter((node) => node.children?.length).map((node) => node.key);
+}
+
 export function getDefaultExpandedKeys<N extends TreeQueryNode<unknown>>(options: {
   nodes: N[];
   key2TreeNode: ReadonlyMap<TreeNodeKey, N>;

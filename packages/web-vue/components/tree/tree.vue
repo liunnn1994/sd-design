@@ -30,6 +30,7 @@
   import { getActiveTreeKey, getTreeKeyAction } from '@sdata/web-core/tree/keyboard';
   import {
     getDefaultExpandedKeys as getInitialExpandedKeys,
+    getSearchExpandedKeys,
     getVisibleTreeNodes,
   } from '@sdata/web-core/tree/query';
 
@@ -716,11 +717,18 @@
   );
 
   const currentExpandKeys = ref<TreeNodeKey[]>([]);
+  const visibleExpandedKeys = computed(
+    () =>
+      getSearchExpandedKeys(
+        flattenTreeData.value,
+        !!props.searchValue && !!filterTreeNode?.value,
+      ) ?? mergedExpandedKeys.value,
+  );
 
   const visibleTreeNodeList = computed(() =>
     getVisibleTreeNodes<TreeNodeData, Node>({
       nodes: flattenTreeData.value,
-      expandedKeys: mergedExpandedKeys.value,
+      expandedKeys: visibleExpandedKeys.value,
       expandingKeys: currentExpandKeys.value,
       filter: filterTreeNode?.value,
     }),
@@ -775,7 +783,7 @@
       key,
       eventKey: e.key,
       visibleNodes: visibleTreeNodeList.value,
-      expandedKeys: mergedExpandedKeys.value,
+      expandedKeys: visibleExpandedKeys.value,
       canLoadMore: !!onLoadMore.value,
     });
     if (!action) return;
@@ -972,7 +980,7 @@
     checkedKeys: mergedCheckedKeys,
     indeterminateKeys,
     selectedKeys: mergedSelectedKeys,
-    expandedKeys: mergedExpandedKeys,
+    expandedKeys: visibleExpandedKeys,
     loadingKeys,
     currentExpandKeys,
     activeKey: effectiveActiveKey,

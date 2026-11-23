@@ -28,17 +28,15 @@ describe('Markdown HTML whitespace', () => {
     cy.get('.sd-btn').should('not.exist');
   });
 
-  for (const whitespace of [' ', '\n\t']) {
-    it(`preserves ${JSON.stringify(whitespace)} between adjacent inline elements`, () => {
-      cy.mount(Html, {
-        props: {
-          node: {
-            type: 'html_block',
-            content: `<p><a href="#one">one</a>${whitespace}<a href="#two">two</a></p>`,
-          },
+  it('preserves whitespace between adjacent inline elements', () => {
+    cy.mount(Html, {
+      props: {
+        node: {
+          type: 'html_block',
+          content: '<p><a href="#one">one</a>\n\t<a href="#two">two</a></p>',
         },
-      });
-      cy.get('.sd-typography').should('have.text', `one${whitespace}two`);
+      },
     });
-  }
+    cy.get('.sd-typography').should('have.text', 'one\n\ttwo');
+  });
 });

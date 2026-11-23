@@ -1,6 +1,22 @@
 name: Non-browser tests
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/web-core/**'
+      - 'packages/web-vue/scripts/browser-source-imports.ts'
+      - 'packages/web-vue/scripts/find-affected-cypress-specs*.ts'
+      - 'scripts/*browser*.ts'
+      - '.github/workflows/non-browser-tests.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/web-core/**'
+      - 'packages/web-vue/scripts/browser-source-imports.ts'
+      - 'packages/web-vue/scripts/find-affected-cypress-specs*.ts'
+      - 'scripts/*browser*.ts'
+      - '.github/workflows/non-browser-tests.yml'
   schedule:
     - cron: '0 18 * * *'
   workflow_dispatch:
@@ -38,7 +54,9 @@ jobs:
           install_args: 'node npm:pnpm'
       - name: Install dependencies
         run: pnpm run install:ci
-      - name: Build Core
-        run: pnpm --filter @sdata/web-core run build
+      - name: Run shared Core tests
+        run: pnpm run test:core
+      - name: Verify browser spec selection
+        run: node --test scripts/select-browser-specs.test.ts packages/web-vue/scripts/find-affected-cypress-specs.test.ts
       - name: Run React non-browser tests
         run: pnpm --filter @sdata/web-react run test

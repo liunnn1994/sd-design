@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { Button, Skeleton, SkeletonLine, SkeletonShape } from '../../src/index';
+import { Button } from '../../src/button/index.js';
+import { Skeleton, SkeletonLine, SkeletonShape } from '../../src/skeleton/index.js';
 
 export function SkeletonFixture() {
   const [loading, setLoading] = useState(true);

@@ -17,9 +17,10 @@ describe('Image source lifecycle', () => {
     hydratedContainer = undefined;
   });
   it('hydrates an already decoded server image without waiting for another load event', () => {
+    const load = cy.spy().as('load');
     cy.mount({ template: '<div />' });
     cy.document().then(async (document) => {
-      const props = { src, title: 'Hydrated caption', width: 100, height: 80 };
+      const props = { src, title: 'Hydrated caption', width: 100, height: 80, onLoad: load };
       hydratedContainer = document.createElement('div');
       hydratedContainer.innerHTML = await renderToString(createSSRApp(Image, props));
       document.body.appendChild(hydratedContainer);
@@ -29,11 +30,13 @@ describe('Image source lifecycle', () => {
       expect(image.naturalWidth).to.equal(1);
       hydratedApp = createSSRApp(Image, props);
       hydratedApp.mount(hydratedContainer);
+      expect(hydratedContainer.querySelector('img')).to.equal(image);
     });
     cy.get('.sd-image-overlay').should('not.exist');
     cy.get('.sd-image-footer').should('contain', 'Hydrated caption');
     cy.get('.sd-image-img').click(8, 8);
     cy.get('.sd-image-preview-img').should('have.attr', 'src', src);
+    cy.get('@load').should('not.have.been.called');
   });
   for (const empty of [undefined, '']) {
     it(`clears the decoded image and restores loading after ${String(empty)}`, () => {

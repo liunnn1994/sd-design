@@ -1,17 +1,22 @@
 import { useState } from 'react';
 
-import { Button, Collapse, CollapseItem } from '../../src/index';
+import { Button } from '../../src/button/index.js';
+import { Collapse, CollapseItem } from '../../src/collapse/index.js';
 
 export function CollapseFixture() {
   const [destroy, setDestroy] = useState(true);
   const [keys, setKeys] = useState<(string | number)[]>([]);
   const [requests, setRequests] = useState(0);
   const [showIcon, setShowIcon] = useState(true);
+  const [iconPosition, setIconPosition] = useState<'left' | 'right'>('right');
   return (
     <section>
       <Button onClick={() => setDestroy(!destroy)}>切换折叠销毁</Button>
       <Button onClick={() => setKeys(keys.length ? [] : [0])}>外部展开面板</Button>
       <Button onClick={() => setShowIcon(!showIcon)}>切换折叠图标</Button>
+      <Button onClick={() => setIconPosition(iconPosition === 'right' ? 'left' : 'right')}>
+        切换折叠图标位置
+      </Button>
       <output data-testid="collapse-requests">{requests}</output>
       <Collapse
         data-testid="accordion"
@@ -19,7 +24,7 @@ export function CollapseFixture() {
         defaultActiveKey={['first']}
         destroyOnHide={destroy}
         showExpandIcon={showIcon}
-        expandIconPosition="right"
+        expandIconPosition={iconPosition}
         bordered={false}
         expandIcon={({ active, position }) => (
           <b>
@@ -59,6 +64,9 @@ export function CollapseFixture() {
       <Collapse data-testid="editable-collapse">
         <CollapseItem itemKey="input" header={<input aria-label="标题输入" />}>
           编辑标题内容
+        </CollapseItem>
+        <CollapseItem itemKey="second" header="独立面板" showExpandIcon={false}>
+          <input aria-label="独立面板输入" />
         </CollapseItem>
       </Collapse>
     </section>

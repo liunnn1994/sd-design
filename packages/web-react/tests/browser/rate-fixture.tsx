@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-import { Rate, ConfigProvider, Form, FormItem } from '../../src/index';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { Form, FormItem } from '../../src/form/index.js';
+import { Rate } from '../../src/rate/index.js';
 
 export function RateFixture() {
   const [value, setValue] = useState(2);

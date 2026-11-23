@@ -90,6 +90,41 @@ describe('Calendar complete root prop boundaries', () => {
   }
 });
 
+describe('Calendar complete root horizontal week', () => {
+  it('keeps weekdays when switching orientation and restores weekends in horizontal view', () => {
+    cy.visit('/calendar.html?fixture=prop-boundaries');
+    const body = '.sd-calendar__body';
+    const cells = `${body} > .sd-calendar__cell`;
+    const weekdays = [6, 7, 8, 9, 10].map((day) => String(new Date(2025, 0, day).getTime()));
+    cy.contains('button', 'Horizontal weekdays').click();
+    cy.get(body)
+      .should('have.length', 1)
+      .and(($body) => {
+        expect($body[0].style.getPropertyValue('--sd-calendar-grid-columns')).to.equal('1');
+        expect($body[0].style.getPropertyValue('--sd-calendar-grid-rows')).to.equal('5');
+      });
+    cy.get(cells).should(($cells) => {
+      expect([...$cells].map((cell) => cell.getAttribute('data-start'))).to.deep.equal(weekdays);
+    });
+    cy.contains('button', 'Change orientation').click();
+    cy.get(body)
+      .should('have.length', 1)
+      .and(($body) => {
+        expect($body[0].style.getPropertyValue('--sd-calendar-grid-columns')).to.equal('5');
+        expect($body[0].style.getPropertyValue('--sd-calendar-grid-rows')).to.equal('1');
+      });
+    cy.get(cells).should(($cells) => {
+      expect([...$cells].map((cell) => cell.getAttribute('data-start'))).to.deep.equal(weekdays);
+    });
+    cy.contains('button', 'Change orientation').click();
+    cy.contains('button', 'Show weekends').click();
+    cy.get(cells).should('have.length', 7);
+    cy.get(body).should(($body) => {
+      expect($body[0].style.getPropertyValue('--sd-calendar-grid-rows')).to.equal('7');
+    });
+  });
+});
+
 describe('Calendar complete root resize lifecycle', () => {
   beforeEach(() => cy.visit('/calendar.html?fixture=resize-lifecycle'));
   const move = (fractions: number[], release?: number) =>
@@ -329,6 +364,37 @@ describe('Calendar complete root locale controls', () => {
       cy.get('#english .sd-calendar__nav--today').should('have.text', '今天');
     });
   }
+});
+
+describe('Calendar complete root week navigation', () => {
+  beforeEach(() => cy.visit('/calendar.html?fixture=locale-root&week'));
+
+  it('renders the ISO week rollover in both English and Chinese titles', () => {
+    for (const id of ['english', 'provider']) {
+      const calendar = `#${id}`;
+      cy.get(`${calendar} .sd-calendar__title small`).should('contain.text', '53');
+      cy.get(`${calendar} .sd-calendar__nav--next`).click();
+      cy.get(`${calendar} .sd-calendar__title small`)
+        .should('have.length', 1)
+        .and(($title) => expect($title.text().trim()).to.match(/\s1$/));
+    }
+  });
+
+  it('keeps Monday and Sunday starts independent after both calendars navigate', () => {
+    const monday = '#english';
+    const sunday = '#global';
+    cy.get(`${monday} .sd-calendar__nav--next`).click();
+    cy.get(`${sunday} .sd-calendar__nav--next`).click();
+    for (const [calendar, day] of [
+      [monday, 4],
+      [sunday, 3],
+    ] as const) {
+      cy.get(`${calendar} .sd-calendar__body`).should('have.length', 1);
+      cy.get(`${calendar} .sd-calendar__cell`)
+        .first()
+        .should('have.attr', 'data-start', String(new Date(2021, 0, day).getTime()));
+    }
+  });
 });
 
 export {};

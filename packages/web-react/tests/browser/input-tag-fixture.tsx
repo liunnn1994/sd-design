@@ -1,13 +1,10 @@
 import { useRef, useState } from 'react';
 
-import {
-  InputTag,
-  ConfigProvider,
-  Form,
-  FormItem,
-  type InputTagInstance,
-  type InputTagValue,
-} from '../../src/index';
+import type { InputTagInstance, InputTagValue } from '../../src/input-tag';
+
+import { ConfigProvider } from '../../src/config-provider';
+import { Form, FormItem } from '../../src/form';
+import { InputTag } from '../../src/input-tag';
 
 export function InputTagFixture() {
   const [events, setEvents] = useState<string[]>([]);
@@ -17,6 +14,10 @@ export function InputTagFixture() {
   const [external, setExternal] = useState<InputTagValue | undefined>(['external']);
   const [values, setValues] = useState<InputTagValue>([]);
   const [ordered, setOrdered] = useState<InputTagValue>(['first', 'second', 'third']);
+  const [prefix, setPrefix] = useState(true);
+  const [suffix, setSuffix] = useState(true);
+  const [remapped, setRemapped] = useState(false);
+  const [guard, setGuard] = useState<'disabled' | 'readonly'>();
   const instance = useRef<InputTagInstance>(null);
   const record = (value: string) => setEvents((list) => [...list, value]);
   return (
@@ -44,6 +45,16 @@ export function InputTagFixture() {
         onPressEnter={(value) => record(`enter:${value}`)}
         onRemove={(value) => record(`remove:${value}`)}
         onClear={() => record('clear')}
+      />
+      <InputTag
+        data-testid="tags-disabled-input"
+        disabledInput
+        allowClear
+        defaultValue={['Existing']}
+        placeholder="Choose tags"
+        onChange={(value) => record(`locked-input-change:${JSON.stringify(value)}`)}
+        onFocus={() => record('locked-input-focus')}
+        onBlur={() => record('locked-input-blur')}
       />
       <InputTag
         data-testid="tags-controlled"
@@ -97,9 +108,39 @@ export function InputTagFixture() {
         retainInputValue={{ create: true, blur: false }}
         fitWidth
         placeholder="Enter value"
-        prefix={<b>Prefix</b>}
-        suffix={<b>Suffix</b>}
+        prefix={prefix ? <b>Prefix</b> : undefined}
+        suffix={suffix ? <b>Suffix</b> : undefined}
       />
+      <InputTag
+        data-testid="tags-retain-blur"
+        defaultInputValue="initial draft"
+        retainInputValue={{ blur: true }}
+        onValueChange={(value) => record(`initial-draft:${JSON.stringify(value)}`)}
+      />
+      <button onMouseDown={(event) => event.preventDefault()} onClick={() => setPrefix(!prefix)}>
+        Toggle tag prefix
+      </button>
+      <button onMouseDown={(event) => event.preventDefault()} onClick={() => setSuffix(!suffix)}>
+        Toggle tag suffix
+      </button>
+      <InputTag
+        data-testid="tags-live-mapping"
+        defaultValue={[
+          {
+            value: 'original',
+            label: 'Default label',
+            id: 'existing',
+            title: 'Mapped label',
+            closable: true,
+          },
+        ]}
+        fieldNames={remapped ? { value: 'id', label: 'title' } : undefined}
+        uniqueValue
+        onValueChange={(value) => record(`mapped-update:${value.length}`)}
+        onPressEnter={(value) => record(`mapped-enter:${value}`)}
+        onRemove={(value) => record(`mapped-remove:${value}`)}
+      />
+      <button onClick={() => setRemapped(true)}>Change tag mapping</button>
       <InputTag
         data-testid="tags-readonly"
         readonly="Tags are locked"
@@ -125,6 +166,30 @@ export function InputTagFixture() {
           </FormItem>
         </Form>
       </ConfigProvider>
+      <InputTag
+        data-testid="tags-counter-identity"
+        defaultValue={['__sd__more', 'second', 'hidden']}
+        maxTagCount={2}
+        onValueChange={(value) => record(`counter:${JSON.stringify(value)}`)}
+      />
+      <InputTag
+        data-testid="tags-removal"
+        defaultValue={[
+          'removable',
+          { value: 'locked', label: 'Locked', closable: true, tagProps: { closable: false } },
+        ]}
+        onRemove={(value) => record(`boundary:${value}`)}
+      />
+      <InputTag
+        data-testid="tags-guarded"
+        defaultValue={[{ value: 'keep', label: 'Keep', tagProps: { closable: true } }]}
+        disabled={guard === 'disabled'}
+        readonly={guard === 'readonly'}
+        onRemove={(value) => record(`guarded:${value}`)}
+      />
+      <button onClick={() => setGuard('disabled')}>Disable guarded tags</button>
+      <button onClick={() => setGuard('readonly')}>Make guarded tags readonly</button>
+      <button onClick={() => setGuard(undefined)}>Enable guarded tags</button>
       <output data-testid="tag-events">{events.join('|')}</output>
     </section>
   );

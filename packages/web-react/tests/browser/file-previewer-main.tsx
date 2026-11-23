@@ -3,9 +3,11 @@ import { createRoot } from 'react-dom/client';
 
 import type { FilePreviewerInstance, FilePreviewerType } from '../../src/file-previewer/index.js';
 
+import { Drawer } from '../../src/drawer';
 import { FilePreviewer } from '../../src/file-previewer/index.js';
 import { createTestPdf } from './file-preview-pdf-data.js';
 import '../../styles/file-previewer.scss';
+import '../../styles/drawer.scss';
 
 const image =
   'data:image/svg+xml,' +
@@ -15,7 +17,9 @@ const image =
 function Fixture() {
   const query = new URLSearchParams(location.search);
   const type = (query.get('type') || 'image') as FilePreviewerType;
+  const stack = query.get('stack');
   const [visible, setVisible] = useState(false);
+  const [lowerVisible, setLowerVisible] = useState(false);
   const [bubbles, setBubbles] = useState(0);
   const [events, setEvents] = useState<string[]>([]);
   const [documentParams] = useState(() => ({ data: createTestPdf() }));
@@ -26,9 +30,43 @@ function Fixture() {
       <button onClick={() => api.current?.close()}>Ref close</button>
       <button onClick={() => api.current?.onError()}>Ref error</button>
       <button onClick={() => api.current?.onLoad()}>Ref loaded</button>
+      {stack && (
+        <>
+          <button onClick={() => setLowerVisible(true)}>Open lower owner</button>
+          <button onClick={() => setLowerVisible(false)}>Close lower owner</button>
+        </>
+      )}
       <output>{events.join(',')}</output>
       <span data-testid="bubbles">{bubbles}</span>
-      <div id="preview-container" style={{ position: 'relative', width: 600, height: 500 }} />
+      <div
+        id="preview-container"
+        style={{
+          position: 'relative',
+          width: 600,
+          height: 500,
+          overflow: stack ? 'auto' : undefined,
+        }}
+      >
+        {stack && <div style={{ height: 700 }} />}
+      </div>
+      {stack === 'drawer' && (
+        <Drawer
+          title="Lower drawer owner"
+          visible={lowerVisible}
+          unmountOnClose
+          popupContainer="#preview-container"
+        />
+      )}
+      {stack === 'preview' && (
+        <FilePreviewer
+          src={image}
+          type="image"
+          title="Lower preview owner"
+          visible={lowerVisible}
+          popupContainer="#preview-container"
+          renderContent={() => <span>Lower preview content</span>}
+        />
+      )}
       <FilePreviewer
         ref={api}
         src={type === 'image' ? image : '/test.pdf'}

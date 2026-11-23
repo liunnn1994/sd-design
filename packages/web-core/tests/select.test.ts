@@ -74,6 +74,7 @@ test('group modeling preserves raw tag payloads and the first duplicate in the m
   );
   assert.deepEqual(calls, []);
   assert.equal(getValidOptions(groups, { inputValue: 'absent', filterOption: true }).length, 0);
+  assert.deepEqual(getValidOptions(groups, { inputValue: 'absent', filterOption: false }), groups);
 });
 
 function fixture() {
@@ -285,6 +286,7 @@ test('navigation honors selected keys, composition/loading, wraparound and settl
   let active: string | undefined;
   let popup = true;
   let loading = false;
+  let enterToOpen = true;
   const enabled = ['a', 'b', 'c'];
   const scheduled: (() => void)[] = [];
   const calls: string[] = [];
@@ -295,7 +297,7 @@ test('navigation honors selected keys, composition/loading, wraparound and settl
     getDefaultActiveFirst: () => false,
     getLoading: () => loading,
     getPopupVisible: () => popup,
-    getEnterToOpen: () => true,
+    getEnterToOpen: () => enterToOpen,
     setActiveKey: (value) => {
       active = value;
     },
@@ -307,6 +309,7 @@ test('navigation honors selected keys, composition/loading, wraparound and settl
     },
     setPopupVisible: (value) => {
       popup = value;
+      calls.push(`popup:${value}`);
     },
     afterRender: (task) => {
       scheduled.push(task);
@@ -335,4 +338,17 @@ test('navigation honors selected keys, composition/loading, wraparound and settl
   assert.equal(nav.getNextActiveKey('up'), 'b');
   nav.enabledKeysChanged(['b']);
   assert.equal(active, 'b');
+
+  calls.length = 0;
+  nav.keydown('Escape', event);
+  assert.equal(popup, false);
+  nav.keydown('Escape', event);
+  enterToOpen = false;
+  nav.keydown('Enter', event);
+  assert.deepEqual(calls, ['popup:false', 'prevent']);
+
+  enterToOpen = true;
+  nav.keydown('Enter', event);
+  assert.equal(popup, true);
+  assert.deepEqual(calls.slice(2), ['popup:true', 'prevent']);
 });

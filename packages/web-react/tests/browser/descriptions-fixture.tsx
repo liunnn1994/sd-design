@@ -1,13 +1,23 @@
 import { useState } from 'react';
 
-import type { DescLayout } from '../../src/index';
+import type { DescData, DescLayout } from '../../src/descriptions/index.js';
 
-import { Button, ConfigProvider, Descriptions, DescriptionsItem } from '../../src/index';
+import { Button } from '../../src/button/index.js';
+import { ConfigProvider } from '../../src/config-provider/index.js';
+import { Descriptions, DescriptionsItem } from '../../src/descriptions/index.js';
+
+const initialData: DescData[] = [
+  { label: 'A', value: () => <b>第一项</b> },
+  { label: 'B', value: '第二项', span: 2 },
+  { label: 'C', value: '第三项' },
+  { label: 'D', value: '第四项' },
+];
 
 export function DescriptionsFixture() {
   const [layout, setLayout] = useState<DescLayout>('horizontal');
   const [fixed, setFixed] = useState(false);
   const [items, setItems] = useState(false);
+  const [data, setData] = useState(initialData);
   return (
     <section>
       <select
@@ -21,6 +31,10 @@ export function DescriptionsFixture() {
       </select>
       <Button onClick={() => setFixed(!fixed)}>切换固定列数</Button>
       <Button onClick={() => setItems(!items)}>切换描述子项</Button>
+      <Button onClick={() => setData([{ label: 'E', value: '替换项', span: 2 }, initialData[0]])}>
+        更新描述数据
+      </Button>
+      <Button onClick={() => setData([])}>清空描述数据</Button>
       <ConfigProvider size="small">
         <Descriptions
           data-testid="descriptions"
@@ -31,12 +45,7 @@ export function DescriptionsFixture() {
           tableLayout="fixed"
           align={{ label: 'right', value: 'center' }}
           labelStyle={{ color: 'rgb(255, 0, 0)' }}
-          data={[
-            { label: 'A', value: () => <b>第一项</b> },
-            { label: 'B', value: '第二项', span: 2 },
-            { label: 'C', value: '第三项' },
-            { label: 'D', value: '第四项' },
-          ]}
+          data={data}
           renderLabel={({ label, index }) => `${index}:${label}`}
         >
           {items ? (
