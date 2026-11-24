@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.4.1...web-react-v1.5.0) (2026-11-23)
+
+
+### Features
+
+* 🆕 桌面端使用 windows7 作为基线，移动端使用标准“基准” ([e5d9d1e](https://github.com/liunnn1994/sd-design/commit/e5d9d1e7813bfc85dca696910784a1b1e491cc51))
+
 ## [1.4.1](https://github.com/liunnn1994/sd-design/compare/web-react-v1.4.0...web-react-v1.4.1) (2026-11-20)
 
 
