@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.5.0...web-react-v1.6.0) (2026-11-24)
+
+
+### Features
+
+* 🆕 现代 web 标准化 ([9345a15](https://github.com/liunnn1994/sd-design/commit/9345a15ae0770a3138593912d067b0bbf46bcbc8))
+
 # [1.5.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.4.1...web-react-v1.5.0) (2026-11-23)
 
 
