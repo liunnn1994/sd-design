@@ -1,3 +1,10 @@
+# [7.14.0](https://github.com/liunnn1994/sd-design/compare/web-core-v7.13.0...web-core-v7.14.0) (2026-11-24)
+
+
+### Features
+
+* 🆕 现代 web 标准化 ([9345a15](https://github.com/liunnn1994/sd-design/commit/9345a15ae0770a3138593912d067b0bbf46bcbc8))
+
 # [7.13.0](https://github.com/liunnn1994/sd-design/compare/web-core-v7.12.0...web-core-v7.13.0) (2026-11-23)
 
 
