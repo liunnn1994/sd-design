@@ -56,4 +56,4 @@ jobs:
         timeout-minutes: 90
         env:
           SPECS: ${{ matrix.specs }}
-        run: pnpm run cypress:run --posix-exit-codes --spec "$SPECS"
+        run: node scripts/run-cypress-shard.ts "$SPECS"

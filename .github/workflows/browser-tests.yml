@@ -64,7 +64,7 @@ jobs:
               case "$file" in
                 .github/workflows/browser-tests.yml|scripts/select-browser-specs.ts|scripts/browser-dependency-graph.ts|packages/web-vue/scripts/browser-source-imports.ts|.mise.toml|.npmrc|package.json|pnpm-lock.yaml|pnpm-workspace.yaml)
                   BASE=; vue=true; react=true; docs=true ;;
-                .github/workflows/vue-browser-shards.yml|packages/web-vue/scripts/find-affected-cypress-specs.ts)
+                .github/workflows/vue-browser-shards.yml|packages/web-vue/scripts/find-affected-cypress-specs.ts|packages/web-vue/scripts/run-cypress-shard.ts)
                   BASE=; vue=true ;;
                 packages/web-core/tests/*.test.ts)
                   ;;

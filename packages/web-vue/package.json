@@ -130,7 +130,7 @@
     "pretest": "pnpm run icongen",
     "test": "pnpm run test:non-browser && pnpm run cypress:run",
     "test:non-browser": "pnpm run test:cypress-config && pnpm run test:icons && pnpm run test:markdown:types && pnpm run test:model-selector:production && pnpm run test:bloom-menu:ssr && pnpm run test:calendar:ssr && pnpm run test:file-previewer:ssr && pnpm run test:image:ssr && pnpm run test:tour:ssr && pnpm run test:watermark:ssr && pnpm run test:text-input:ssr",
-    "test:cypress-config": "node --test ./scripts/cypress-config.test.ts",
+    "test:cypress-config": "node --test ./scripts/cypress-config.test.ts ./scripts/run-cypress-shard.test.ts",
     "test:icons": "node --test ./scripts/__test__/react-icon-generation.test.ts",
     "test:text-input:ssr": "node --test ./scripts/text-input-ssr.test.ts",
     "test:image:ssr": "node --test ./scripts/image-ssr.test.ts",

@@ -7,6 +7,7 @@ on:
       - 'packages/web-core/**'
       - 'packages/web-vue/scripts/browser-source-imports.ts'
       - 'packages/web-vue/scripts/find-affected-cypress-specs*.ts'
+      - 'packages/web-vue/scripts/run-cypress-shard*.ts'
       - 'scripts/*browser*.ts'
       - '.github/workflows/non-browser-tests.yml'
   pull_request:
@@ -15,6 +16,7 @@ on:
       - 'packages/web-core/**'
       - 'packages/web-vue/scripts/browser-source-imports.ts'
       - 'packages/web-vue/scripts/find-affected-cypress-specs*.ts'
+      - 'packages/web-vue/scripts/run-cypress-shard*.ts'
       - 'scripts/*browser*.ts'
       - '.github/workflows/non-browser-tests.yml'
   schedule:
