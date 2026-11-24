@@ -68,7 +68,7 @@ export const buildSpecialHoursDisallowed = (normalizedByWeekday: SpecialHours): 
   const byWeekday: DisallowedHours['byWeekday'] = {};
   let hasAny = false;
   for (const weekday in normalizedByWeekday) {
-    if (!Object.prototype.hasOwnProperty.call(normalizedByWeekday, weekday)) continue;
+    if (!Object.hasOwn(normalizedByWeekday, weekday)) continue;
     const day = normalizedByWeekday[weekday];
     if (!day) continue;
 
@@ -95,7 +95,7 @@ export const buildSpecialHoursDisallowed = (normalizedByWeekday: SpecialHours): 
     const schedSrc = day.schedules;
     if (schedSrc && typeof schedSrc === 'object') {
       for (const scheduleId in schedSrc) {
-        if (!Object.prototype.hasOwnProperty.call(schedSrc, scheduleId)) continue;
+        if (!Object.hasOwn(schedSrc, scheduleId)) continue;
         const ranges = schedSrc[scheduleId];
         if (!ranges) continue;
         const arr = [];

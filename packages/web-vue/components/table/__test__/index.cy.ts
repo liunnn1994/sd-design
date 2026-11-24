@@ -16,12 +16,11 @@ const demoColumns: TableColumnData[] = [
   { title: 'Name', dataIndex: 'name' },
   { title: 'Age', dataIndex: 'age' },
 ];
-const JSONCopy = <T>(val: T): T => JSON.parse(JSON.stringify(val));
 
 describe('Table', () => {
   it('renders correctly after deleting data on the last page', () => {
-    const data = reactive(JSONCopy(demoData));
-    const columns = JSONCopy(demoColumns);
+    const data = reactive(structuredClone(demoData));
+    const columns = structuredClone(demoColumns);
     const current = ref(5);
     const pagination = reactive({
       current,
@@ -46,7 +45,7 @@ describe('Table', () => {
     }));
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
+        columns: structuredClone(demoColumns),
         data,
         pagination: false,
         virtualListProps: { height: 200, itemSize: 32 },
@@ -67,7 +66,7 @@ describe('Table', () => {
     }));
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
+        columns: structuredClone(demoColumns),
         data,
         pagination: false,
         stickyHeader: 0,
@@ -81,8 +80,8 @@ describe('Table', () => {
   });
 
   it('sorts on header click', () => {
-    const data = reactive(JSONCopy(demoData));
-    const columns = JSONCopy(demoColumns);
+    const data = reactive(structuredClone(demoData));
+    const columns = structuredClone(demoColumns);
     columns[1].sortable = { sortDirections: ['ascend', 'descend'] };
     const handleChange = cy.spy().as('handleChange');
     cy.mount(Table, {
@@ -111,8 +110,8 @@ describe('Table', () => {
   });
 
   it('sorts from the keyboard and exposes an operable sorter control', () => {
-    const data = reactive(JSONCopy(demoData));
-    const columns = JSONCopy(demoColumns);
+    const data = reactive(structuredClone(demoData));
+    const columns = structuredClone(demoColumns);
     columns[1].sortable = { sortDirections: ['ascend', 'descend'] };
     cy.mount(Table, { props: { columns, data, pagination: false } });
 
@@ -130,7 +129,7 @@ describe('Table', () => {
   });
 
   it('exposes table grid semantics (table/rowgroup/row/columnheader/cell)', () => {
-    const data = JSONCopy(demoData);
+    const data = structuredClone(demoData);
     const columns: TableColumnData[] = [
       { title: 'Name', dataIndex: 'name' },
       { title: 'Age', dataIndex: 'age', sortable: { sortDirections: ['ascend', 'descend'] } },
@@ -170,8 +169,8 @@ describe('Table', () => {
   it('emits select/selectionChange/update:selectedKeys when a row checkbox is clicked', () => {
     cy.mount(Table, {
       props: {
-        'columns': JSONCopy(demoColumns),
-        'data': JSONCopy(demoData),
+        'columns': structuredClone(demoColumns),
+        'data': structuredClone(demoData),
         'rowSelection': { type: 'checkbox' },
         'onSelect': cy.spy().as('onSelect'),
         'onSelectionChange': cy.spy().as('onSelectionChange'),
@@ -205,7 +204,7 @@ describe('Table', () => {
     ];
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
+        columns: structuredClone(demoColumns),
         data,
         rowSelection: { type: 'checkbox', showCheckedAll: true },
         onSelectAll: cy.spy().as('onSelectAll'),
@@ -233,8 +232,8 @@ describe('Table', () => {
   it('marks the header checkbox indeterminate for partial selection', () => {
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         rowSelection: { type: 'checkbox', showCheckedAll: true },
         defaultSelectedKeys: ['1'],
       },
@@ -247,8 +246,8 @@ describe('Table', () => {
   it('supports radio selection replacing the previous choice', () => {
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         rowSelection: { type: 'radio' },
         onSelect: cy.spy().as('onRadioSelect'),
       },
@@ -266,8 +265,8 @@ describe('Table', () => {
   it('keeps controlled selectedKeys unchanged in the UI while emitting updates', () => {
     cy.mount(Table, {
       props: {
-        'columns': JSONCopy(demoColumns),
-        'data': JSONCopy(demoData),
+        'columns': structuredClone(demoColumns),
+        'data': structuredClone(demoData),
         'rowSelection': { type: 'checkbox' },
         'selectedKeys': ['1'],
         'onUpdate:selectedKeys': cy.spy().as('onControlledUpdate'),
@@ -284,8 +283,8 @@ describe('Table', () => {
   it('checks rows from defaultSelectedKeys without emitting select events', () => {
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         rowSelection: { type: 'checkbox' },
         defaultSelectedKeys: ['2', '4'],
       },
@@ -300,7 +299,7 @@ describe('Table', () => {
     const columns: TableColumnData[] = [
       { title: 'Name', dataIndex: 'name', ellipsis: true, align: 'center' },
     ];
-    cy.mount(Table, { props: { columns, data: JSONCopy(demoData), pagination: false } });
+    cy.mount(Table, { props: { columns, data: structuredClone(demoData), pagination: false } });
     cy.get('.sd-table-tbody .sd-table-td-content')
       .first()
       .should('have.class', 'sd-table-text-ellipsis');

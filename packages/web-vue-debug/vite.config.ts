@@ -5,9 +5,9 @@ import { defineConfig } from 'vite';
 
 import { createSassStyleSupport } from '../web-vue/scripts/utils/sass-support.mts';
 
-const webVueComponentsRoot = resolve(__dirname, '../web-vue/components');
+const webVueComponentsRoot = resolve(import.meta.dirname, '../web-vue/components');
 const webVueStyleRoot = resolve(webVueComponentsRoot, 'style');
-const projectRoot = resolve(__dirname, '..');
+const projectRoot = resolve(import.meta.dirname, '..');
 const webVueIndexScssPath = resolve(webVueComponentsRoot, 'index.scss');
 const virtualStyleId = 'virtual:web-vue-source-styles.css';
 const resolvedVirtualStyleId = `\0${virtualStyleId}`;

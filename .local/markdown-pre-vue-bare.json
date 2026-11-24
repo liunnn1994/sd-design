@@ -1,0 +1,25 @@
+{
+  "styles": {
+    "font-family": "\"SF Mono\", Monaco, Consolas, \"Ubuntu Mono\", \"Liberation Mono\", \"Courier New\", monospace",
+    "font-size": "12px",
+    "line-height": "18px",
+    "padding-top": "8px",
+    "padding-right": "6.59766px",
+    "padding-bottom": "8px",
+    "padding-left": "6.59766px",
+    "max-height": "500px",
+    "white-space": "pre-wrap",
+    "overflow-wrap": "anywhere",
+    "overflow-x": "hidden",
+    "background-color": "rgb(255, 255, 255)",
+    "color": "rgb(57, 58, 52)",
+    "border-top-width": "0px",
+    "margin-top": "0px",
+    "tab-size": "4"
+  },
+  "height": 88,
+  "header": null,
+  "text": "const text = \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\";\nsecond",
+  "logicalLines": 0,
+  "theme": "vitesse-light"
+}

@@ -5,7 +5,7 @@ import type { ScreenMap, SiderBreakpoint } from '../dist/_utils/responsive-obser
 
 import observer, { responsiveArray, responsiveMap } from '../dist/_utils/responsive-observe.js';
 
-function browser(t: TestContext, legacy = false) {
+function browser(t: TestContext) {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window');
   const queries = new Map<
     string,
@@ -17,21 +17,18 @@ function browser(t: TestContext, legacy = false) {
       matchMedia(query: string) {
         const state = { matches: false, handlers: new Set<(e: { matches: boolean }) => void>() };
         queries.set(query, state);
-        const add = (_event: string, handler: (e: { matches: boolean }) => void) =>
-          state.handlers.add(handler);
-        const remove = (_event: string, handler: (e: { matches: boolean }) => void) =>
-          state.handlers.delete(handler);
         return {
           get matches() {
             return state.matches;
           },
-          ...(legacy
-            ? {
-                addListener: (handler: (e: { matches: boolean }) => void) => add('change', handler),
-                removeListener: (handler: (e: { matches: boolean }) => void) =>
-                  remove('change', handler),
-              }
-            : { addEventListener: add, removeEventListener: remove }),
+          addEventListener(event: string, handler: (e: { matches: boolean }) => void) {
+            assert.equal(event, 'change');
+            state.handlers.add(handler);
+          },
+          removeEventListener(event: string, handler: (e: { matches: boolean }) => void) {
+            assert.equal(event, 'change');
+            state.handlers.delete(handler);
+          },
         };
       },
     },
@@ -106,18 +103,6 @@ test('responsive removes native listeners only after the last subscriber and kee
   assert.notEqual(c, a);
   assert.notEqual(c, b);
   observer.unsubscribe(c);
-});
-
-test('responsive legacy MediaQueryList listeners receive changes and are removed', (t) => {
-  const { queries, change } = browser(t, true);
-  const seen: ScreenMap[] = [];
-  const token = observer.subscribe((screens) => {
-    seen.push(screens);
-  });
-  change('xs', true);
-  assert.equal(seen.at(-1)?.xs, true);
-  observer.unsubscribe(token);
-  assert.ok([...queries.values()].every((query) => query.handlers.size === 0));
 });
 
 test('responsive manual dispatch preserves the supplied map identity and subscribed state', (t) => {

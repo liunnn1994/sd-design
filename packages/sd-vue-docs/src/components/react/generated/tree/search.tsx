@@ -118,14 +118,17 @@ export default function Example() {
                 <>{formatValue(getNodeTitle(nodeData))}</>
               ) : (
                 <span>
-                  {formatValue(getNodeTitle(nodeData).substr(0, getNodeMatchIndex(nodeData)))}
+                  {formatValue(getNodeTitle(nodeData).slice(0, getNodeMatchIndex(nodeData)))}
                   <span className={'sd:text-[var(--color-primary-light-4)]'}>
                     {formatValue(
-                      getNodeTitle(nodeData).substr(getNodeMatchIndex(nodeData), searchKey.length),
+                      getNodeTitle(nodeData).slice(
+                        getNodeMatchIndex(nodeData),
+                        getNodeMatchIndex(nodeData) + searchKey.length,
+                      ),
                     )}
                   </span>
                   {formatValue(
-                    getNodeTitle(nodeData).substr(getNodeMatchIndex(nodeData) + searchKey.length),
+                    getNodeTitle(nodeData).slice(getNodeMatchIndex(nodeData) + searchKey.length),
                   )}
                 </span>
               )}

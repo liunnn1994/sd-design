@@ -76,6 +76,7 @@ function loadBrowserslistTargets() {
       if (subCommand === 'dlx') {
         throw new Error(
           `获取 Browserslist 结果失败: ${error instanceof Error ? error.message : String(error)}`,
+          { cause: error },
         );
       }
     }

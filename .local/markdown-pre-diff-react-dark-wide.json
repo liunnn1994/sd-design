@@ -1,0 +1,353 @@
+{
+  "width": 598,
+  "height": 500,
+  "busy": "false",
+  "classes": [
+    "markstream-pre--diff-preview",
+    "markstream-pre--line-numbers"
+  ],
+  "styles": {
+    "font-size": "14px",
+    "line-height": "22px",
+    "padding-left": "0px",
+    "padding-right": "0px",
+    "padding-top": "8px",
+    "padding-bottom": "8px",
+    "overflow-x": "hidden",
+    "white-space": "pre-wrap",
+    "max-height": "500px",
+    "--markstream-pre-diff-line-number-width": "2ch"
+  },
+  "panes": [
+    {
+      "classes": "markstream-pre__diff-pane markstream-pre__diff-pane--original",
+      "width": 293,
+      "height": 616,
+      "layouts": [
+        {
+          "width": 293,
+          "height": 22,
+          "contentHeight": 22,
+          "numberHeight": 22,
+          "synced": "22px",
+          "color": "rgb(153, 153, 153)",
+          "fill": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "width": 293,
+          "height": 198,
+          "contentHeight": 198,
+          "numberHeight": 198,
+          "synced": "198px",
+          "color": "rgb(210, 86, 86)",
+          "fill": "rgba(203, 118, 118, 0.2)"
+        },
+        {
+          "width": 293,
+          "height": 22,
+          "contentHeight": 0,
+          "numberHeight": 0,
+          "synced": "22px",
+          "color": "rgb(153, 153, 153)",
+          "fill": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "width": 293,
+          "height": 22,
+          "contentHeight": 22,
+          "numberHeight": 0,
+          "synced": "22px",
+          "color": "rgb(153, 153, 153)",
+          "fill": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "rows": [
+        {
+          "classes": "context",
+          "code": "start 1",
+          "number": "1",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 2",
+          "number": "2",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 3",
+          "number": "3",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 4",
+          "number": "4",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 5",
+          "number": "5",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 6",
+          "number": "6",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 7",
+          "number": "7",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 8",
+          "number": "8",
+          "layout": 0
+        },
+        {
+          "classes": "removed",
+          "code": "old wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text wide text ",
+          "number": "9",
+          "layout": 1
+        },
+        {
+          "classes": "spacer empty",
+          "code": "",
+          "number": "",
+          "layout": 2
+        },
+        {
+          "classes": "context",
+          "code": "end 1",
+          "number": "10",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 2",
+          "number": "11",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 3",
+          "number": "12",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 4",
+          "number": "13",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 5",
+          "number": "14",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 6",
+          "number": "15",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 7",
+          "number": "16",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 8",
+          "number": "17",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 9",
+          "number": "18",
+          "layout": 0
+        },
+        {
+          "classes": "metadata metadata-removed",
+          "code": "No newline at end of file",
+          "number": "",
+          "layout": 3
+        }
+      ]
+    },
+    {
+      "classes": "markstream-pre__diff-pane markstream-pre__diff-pane--modified",
+      "width": 293,
+      "height": 616,
+      "layouts": [
+        {
+          "width": 293,
+          "height": 22,
+          "contentHeight": 22,
+          "numberHeight": 22,
+          "synced": "22px",
+          "color": "rgb(153, 153, 153)",
+          "fill": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "width": 293,
+          "height": 198,
+          "contentHeight": 22,
+          "numberHeight": 198,
+          "synced": "198px",
+          "color": "rgb(110, 196, 156)",
+          "fill": "rgba(77, 147, 117, 0.2)"
+        },
+        {
+          "width": 293,
+          "height": 22,
+          "contentHeight": 22,
+          "numberHeight": 22,
+          "synced": "22px",
+          "color": "rgb(110, 196, 156)",
+          "fill": "rgba(77, 147, 117, 0.2)"
+        },
+        {
+          "width": 293,
+          "height": 22,
+          "contentHeight": 22,
+          "numberHeight": 0,
+          "synced": "22px",
+          "color": "rgb(153, 153, 153)",
+          "fill": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "rows": [
+        {
+          "classes": "context",
+          "code": "start 1",
+          "number": "1",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 2",
+          "number": "2",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 3",
+          "number": "3",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 4",
+          "number": "4",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 5",
+          "number": "5",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 6",
+          "number": "6",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 7",
+          "number": "7",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "start 8",
+          "number": "8",
+          "layout": 0
+        },
+        {
+          "classes": "added",
+          "code": "new",
+          "number": "9",
+          "layout": 1
+        },
+        {
+          "classes": "added",
+          "code": "extra",
+          "number": "10",
+          "layout": 2
+        },
+        {
+          "classes": "context",
+          "code": "end 1",
+          "number": "11",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 2",
+          "number": "12",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 3",
+          "number": "13",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 4",
+          "number": "14",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 5",
+          "number": "15",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 6",
+          "number": "16",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 7",
+          "number": "17",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 8",
+          "number": "18",
+          "layout": 0
+        },
+        {
+          "classes": "context",
+          "code": "end 9",
+          "number": "19",
+          "layout": 0
+        },
+        {
+          "classes": "metadata metadata-added",
+          "code": "No newline at end of file",
+          "number": "",
+          "layout": 3
+        }
+      ]
+    }
+  ]
+}

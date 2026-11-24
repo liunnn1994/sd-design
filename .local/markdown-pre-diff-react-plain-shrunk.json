@@ -1,0 +1,19 @@
+{
+  "width": 318,
+  "height": 16,
+  "busy": "false",
+  "classes": [],
+  "styles": {
+    "font-size": "16px",
+    "line-height": "26px",
+    "padding-left": "9.60156px",
+    "padding-right": "9.60156px",
+    "padding-top": "8px",
+    "padding-bottom": "8px",
+    "overflow-x": "hidden",
+    "white-space": "pre-wrap",
+    "max-height": "500px",
+    "--markstream-pre-diff-line-number-width": ""
+  },
+  "panes": []
+}

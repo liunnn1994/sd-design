@@ -124,7 +124,6 @@ test('Sider activation keys prevent default before toggling with the original gu
 });
 
 function withMedia(
-  legacy: boolean,
   run: (media: {
     queries: string[];
     subscriptions: unknown[][];
@@ -137,25 +136,13 @@ function withMedia(
   let listener: ((event: MediaQueryListEvent) => void) | undefined;
   const mql = {
     matches: true,
-    ...(legacy
-      ? {
-          addListener(fn: typeof listener) {
-            listener = fn;
-            subscriptions.push(['add', fn]);
-          },
-          removeListener(fn: typeof listener) {
-            subscriptions.push(['remove', fn]);
-          },
-        }
-      : {
-          addEventListener(type: string, fn: typeof listener) {
-            listener = fn;
-            subscriptions.push(['add', type, fn]);
-          },
-          removeEventListener(type: string, fn: typeof listener) {
-            subscriptions.push(['remove', type, fn]);
-          },
-        }),
+    addEventListener(type: string, fn: typeof listener) {
+      listener = fn;
+      subscriptions.push(['add', type, fn]);
+    },
+    removeEventListener(type: string, fn: typeof listener) {
+      subscriptions.push(['remove', type, fn]);
+    },
   };
   Object.defineProperty(globalThis, 'window', {
     configurable: true,
@@ -180,33 +167,35 @@ function withMedia(
   }
 }
 
-for (const legacy of [false, true])
-  test(`Sider breakpoint ${legacy ? 'legacy' : 'modern'} listener preserves initial notification, transitions and cleanup`, () => {
-    withMedia(legacy, ({ queries, subscriptions, fire }) => {
-      const { props, state, events, foundation } = fixture();
-      props.breakpoint = 'md';
-      const cleanup = foundation.setupResponsive();
-      assert.deepEqual(queries, ['screen and (max-width: 767.98px)']);
-      assert.deepEqual(events, [
-        ['breakpoint', true, true],
-        ['collapse', true, 'responsive', true],
-      ]);
-      fire(true);
-      assert.deepEqual(events.at(-1), ['breakpoint', true, true]);
-      fire(false);
-      assert.deepEqual(events.at(-1), ['collapse', false, 'responsive', false]);
-      state.below = true;
-      const before = events.length;
-      cleanup!();
-      assert.equal(state.below, false);
-      assert.equal(events.length, before);
-      assert.equal(subscriptions[0]!.at(-1), subscriptions[1]!.at(-1));
-      assert.equal(subscriptions[1]![0], 'remove');
-    });
+test('Sider breakpoint change listener preserves initial notification, transitions and cleanup', () => {
+  withMedia(({ queries, subscriptions, fire }) => {
+    const { props, state, events, foundation } = fixture();
+    props.breakpoint = 'md';
+    const cleanup = foundation.setupResponsive();
+    assert.deepEqual(queries, ['screen and (max-width: 767.98px)']);
+    assert.deepEqual(events, [
+      ['breakpoint', true, true],
+      ['collapse', true, 'responsive', true],
+    ]);
+    fire(true);
+    assert.deepEqual(events.at(-1), ['breakpoint', true, true]);
+    fire(false);
+    assert.deepEqual(events.at(-1), ['collapse', false, 'responsive', false]);
+    state.below = true;
+    const before = events.length;
+    cleanup!();
+    assert.equal(state.below, false);
+    assert.equal(events.length, before);
+    const listener = subscriptions[0]![2];
+    assert.deepEqual(subscriptions, [
+      ['add', 'change', listener],
+      ['remove', 'change', listener],
+    ]);
   });
+});
 
 test('Sider breakpoint notification can synchronously accept controlled state before collapse comparison', () => {
-  withMedia(false, () => {
+  withMedia(() => {
     const { props, state } = fixture();
     props.breakpoint = 'xxxl';
     props.collapsed = false;
@@ -228,7 +217,7 @@ test('Sider breakpoint notification can synchronously accept controlled state be
 });
 
 test('Sider breakpoint map remains distinct from Grid media queries and unknown values do not subscribe', () => {
-  withMedia(false, ({ queries }) => {
+  withMedia(({ queries }) => {
     const { props, foundation } = fixture();
     for (const [breakpoint, max] of [
       ['xs', '479.98'],

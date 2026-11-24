@@ -1,0 +1,53 @@
+[
+  {
+    "class": "code-block-header",
+    "height": 52.6875,
+    "styles": {
+      "line-height": "22.001px",
+      "font-size": "14px",
+      "font-family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"",
+      "color": "rgb(237, 237, 237)",
+      "background-color": "rgb(31, 31, 31)",
+      "border-bottom-color": "rgb(51, 51, 51)",
+      "padding-top": "6px",
+      "padding-bottom": "6px",
+      "border-bottom-width": "1px",
+      "gap": "16px",
+      "--ms-leading-body": "1.5715"
+    }
+  },
+  {
+    "class": "code-header-title",
+    "height": 18.84375,
+    "styles": {
+      "line-height": "18.858px",
+      "font-size": "12px",
+      "font-family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"",
+      "color": "rgb(153, 153, 153)",
+      "background-color": "rgba(0, 0, 0, 0)",
+      "border-bottom-color": "rgb(153, 153, 153)",
+      "padding-top": "0px",
+      "padding-bottom": "0px",
+      "border-bottom-width": "0px",
+      "gap": "normal",
+      "--ms-leading-body": "1.5715"
+    }
+  },
+  {
+    "class": "code-header-caption",
+    "height": 18.84375,
+    "styles": {
+      "line-height": "18.858px",
+      "font-size": "12px",
+      "font-family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"",
+      "color": "rgb(153, 153, 153)",
+      "background-color": "rgba(0, 0, 0, 0)",
+      "border-bottom-color": "rgb(153, 153, 153)",
+      "padding-top": "0px",
+      "padding-bottom": "0px",
+      "border-bottom-width": "0px",
+      "gap": "normal",
+      "--ms-leading-body": "1.5715"
+    }
+  }
+]

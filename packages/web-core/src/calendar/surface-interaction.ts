@@ -91,7 +91,7 @@ export function createCalendarRootController(
   };
   return {
     mount() {
-      if (typeof window !== 'undefined' && window.hasOwnProperty('ontouchstart'))
+      if (typeof window !== 'undefined' && Object.hasOwn(window, 'ontouchstart'))
         adapter.element?.addEventListener('contextmenu', contextMenuHandler);
     },
     sync() {

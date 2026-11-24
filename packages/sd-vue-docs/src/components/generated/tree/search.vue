@@ -5,12 +5,15 @@
       <template #title="nodeData">
         <template v-if="getNodeMatchIndex(nodeData) < 0">{{ getNodeTitle(nodeData) }}</template>
         <span v-else>
-          {{ getNodeTitle(nodeData).substr(0, getNodeMatchIndex(nodeData)) }}
+          {{ getNodeTitle(nodeData).slice(0, getNodeMatchIndex(nodeData)) }}
           <span class="sd:text-[var(--color-primary-light-4)]">
             {{
-              getNodeTitle(nodeData).substr(getNodeMatchIndex(nodeData), searchKey.length)
+              getNodeTitle(nodeData).slice(
+                getNodeMatchIndex(nodeData),
+                getNodeMatchIndex(nodeData) + searchKey.length,
+              )
             }} </span
-          >{{ getNodeTitle(nodeData).substr(getNodeMatchIndex(nodeData) + searchKey.length) }}
+          >{{ getNodeTitle(nodeData).slice(getNodeMatchIndex(nodeData) + searchKey.length) }}
         </span>
       </template>
     </sd-tree>

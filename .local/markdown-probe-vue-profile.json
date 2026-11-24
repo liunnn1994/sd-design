@@ -1,0 +1,101 @@
+[
+  {
+    "probe": "paragraph",
+    "profile": {
+      "font": "normal 400 14px Arial",
+      "lineHeight": 22.001,
+      "wrapperOverhead": 15.998999999999999,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<p data-v-c4381289=\"\" data-v-3e0766e2=\"\" dir=\"auto\" class=\"paragraph-node\"><span data-v-c4381289=\"\" class=\"text-node\">Probe paragraph text</span></p>"
+  },
+  {
+    "probe": "list-item",
+    "profile": {
+      "font": "normal 400 14px Arial",
+      "lineHeight": 22.001,
+      "wrapperOverhead": 6.998999999999999,
+      "widthAdjustment": 6,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<ul data-v-3e0766e2=\"\" class=\"m-0 p-0\"><li data-v-a2b8a81c=\"\" data-v-3e0766e2=\"\" class=\"list-item\" dir=\"auto\"><p data-v-a2b8a81c=\"\" dir=\"auto\" class=\"paragraph-node\"><span data-v-a2b8a81c=\"\" class=\"text-node\">Probe paragraph text</span></p></li></ul>"
+  },
+  {
+    "probe": "list",
+    "profile": {
+      "font": "normal 400 14px Arial",
+      "lineHeight": 22.001,
+      "wrapperOverhead": 27.999,
+      "widthAdjustment": 18,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<ul data-v-99cb95e0=\"\" data-v-3e0766e2=\"\" class=\"list-node list-disc\"><li data-v-a2b8a81c=\"\" data-v-99cb95e0=\"\" class=\"list-item\" dir=\"auto\"><p data-v-a2b8a81c=\"\" dir=\"auto\" class=\"paragraph-node\"><span data-v-a2b8a81c=\"\" class=\"text-node\">Probe paragraph text</span></p></li></ul>"
+  },
+  {
+    "probe": "heading-1",
+    "profile": {
+      "font": "normal 700 36px Arial",
+      "lineHeight": 43.2,
+      "wrapperOverhead": 35.8,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h1 data-v-2d6f45ba=\"\" data-v-3e0766e2=\"\" class=\"heading-node heading-1\" dir=\"auto\"><span data-v-2d6f45ba=\"\" class=\"text-node\">Probe heading</span></h1>"
+  },
+  {
+    "probe": "heading-2",
+    "profile": {
+      "font": "normal 600 24px Arial",
+      "lineHeight": 32.4,
+      "wrapperOverhead": 65.6,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h2 data-v-2d6f45ba=\"\" data-v-3e0766e2=\"\" class=\"heading-node heading-2\" dir=\"auto\"><span data-v-2d6f45ba=\"\" class=\"text-node\">Probe heading</span></h2>"
+  },
+  {
+    "probe": "heading-3",
+    "profile": {
+      "font": "normal 600 20px Arial",
+      "lineHeight": 30,
+      "wrapperOverhead": 42,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h3 data-v-2d6f45ba=\"\" data-v-3e0766e2=\"\" class=\"heading-node heading-3\" dir=\"auto\"><span data-v-2d6f45ba=\"\" class=\"text-node\">Probe heading</span></h3>"
+  },
+  {
+    "probe": "heading-4",
+    "profile": {
+      "font": "normal 600 16px Arial",
+      "lineHeight": 20,
+      "wrapperOverhead": 26,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h4 data-v-2d6f45ba=\"\" data-v-3e0766e2=\"\" class=\"heading-node heading-4\" dir=\"auto\"><span data-v-2d6f45ba=\"\" class=\"text-node\">Probe heading</span></h4>"
+  },
+  {
+    "probe": "heading-5",
+    "profile": {
+      "font": "normal 500 16px Arial",
+      "lineHeight": 20,
+      "wrapperOverhead": 20,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h5 data-v-2d6f45ba=\"\" data-v-3e0766e2=\"\" class=\"heading-node heading-5\" dir=\"auto\"><span data-v-2d6f45ba=\"\" class=\"text-node\">Probe heading</span></h5>"
+  },
+  {
+    "probe": "heading-6",
+    "profile": {
+      "font": "normal 500 16px Arial",
+      "lineHeight": 20,
+      "wrapperOverhead": 20,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h6 data-v-2d6f45ba=\"\" data-v-3e0766e2=\"\" class=\"heading-node heading-6\" dir=\"auto\"><span data-v-2d6f45ba=\"\" class=\"text-node\">Probe heading</span></h6>"
+  }
+]

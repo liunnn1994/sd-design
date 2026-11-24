@@ -80,11 +80,7 @@ const responsiveObserve: {
       if (!matchMediaQuery) return;
       const handler = this.matchHandlers[matchMediaQuery];
       if (handler && handler.mql && handler.listener) {
-        if (handler.mql.removeEventListener) {
-          handler.mql.removeEventListener('change', handler.listener);
-        } else {
-          handler.mql.removeListener(handler.listener);
-        }
+        handler.mql.removeEventListener('change', handler.listener);
       }
     });
   },
@@ -102,11 +98,7 @@ const responsiveObserve: {
         );
       };
       const mql = window.matchMedia(matchMediaQuery);
-      if (mql.addEventListener) {
-        mql.addEventListener('change', listener);
-      } else {
-        mql.addListener(listener);
-      }
+      mql.addEventListener('change', listener);
 
       this.matchHandlers[matchMediaQuery] = {
         mql,

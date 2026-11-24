@@ -260,14 +260,19 @@ describe('Layout', () => {
 });
 
 describe('Sider responsive', () => {
-  it('triggers breakpoint when matched', () => {
-    stubMatchMedia(true);
+  it('triggers breakpoint when the viewport crosses it in either direction', () => {
+    cy.viewport(900, 700);
     const onBreakpoint = cy.spy().as('onBreakpoint');
     mountTpl(
       `<Layout><Sider breakpoint="md" @breakpoint="onBreakpoint">Sider</Sider><Content>Content</Content></Layout>`,
       { setup: () => ({ onBreakpoint }) },
     );
+    cy.get('@onBreakpoint').should('have.been.calledOnceWith', false);
+    cy.viewport(500, 700);
     cy.get('@onBreakpoint').should('have.been.calledWith', true);
+    cy.viewport(900, 700);
+    cy.get('@onBreakpoint').should('have.callCount', 3);
+    cy.get('@onBreakpoint').its('thirdCall.args').should('deep.equal', [false]);
   });
 
   it('auto-collapses an uncontrolled sider when the breakpoint matches', () => {

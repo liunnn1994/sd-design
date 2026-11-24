@@ -1,0 +1,64 @@
+{
+  "styles": {
+    "font-family": "\"SF Mono\", Monaco, Consolas, \"Ubuntu Mono\", \"Liberation Mono\", \"Courier New\", monospace",
+    "font-size": "12px",
+    "line-height": "18px",
+    "padding-top": "8px",
+    "padding-right": "6.59766px",
+    "padding-bottom": "8px",
+    "padding-left": "41.5859px",
+    "max-height": "500px",
+    "white-space": "pre-wrap",
+    "overflow-wrap": "anywhere",
+    "overflow-x": "hidden",
+    "background-color": "rgb(255, 255, 255)",
+    "color": "rgb(57, 58, 52)",
+    "border-top-width": "0px",
+    "margin-top": "0px",
+    "tab-size": "4"
+  },
+  "height": 88,
+  "header": {
+    "height": 39,
+    "title": "TypeScript",
+    "metrics": [
+      {
+        "class": "code-block-header flex justify-between items-center border-b px-[var(--ms-inset-panel-x)] py-[var(--ms-inset-panel-y)] border-[var(--code-border)] bg-[var(--code-header-bg)] text-[var(--code-fg)]",
+        "height": 39,
+        "styles": {
+          "line-height": "22.001px",
+          "font-size": "14px",
+          "font-family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"",
+          "color": "rgb(26, 26, 26)",
+          "background-color": "rgb(238, 238, 238)",
+          "border-bottom-color": "rgb(222, 222, 222)",
+          "padding-top": "6px",
+          "padding-bottom": "6px",
+          "border-bottom-width": "1px",
+          "gap": "16px",
+          "--ms-leading-body": "1.5715"
+        }
+      },
+      {
+        "class": "code-header-title",
+        "height": 18.84375,
+        "styles": {
+          "line-height": "18.858px",
+          "font-size": "12px",
+          "font-family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"",
+          "color": "rgb(110, 110, 110)",
+          "background-color": "rgba(0, 0, 0, 0)",
+          "border-bottom-color": "rgb(110, 110, 110)",
+          "padding-top": "0px",
+          "padding-bottom": "0px",
+          "border-bottom-width": "0px",
+          "gap": "normal",
+          "--ms-leading-body": "1.5715"
+        }
+      }
+    ]
+  },
+  "text": "const text = \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\";\nsecond",
+  "logicalLines": 2,
+  "theme": "vitesse-light"
+}

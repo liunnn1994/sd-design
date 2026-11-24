@@ -102,19 +102,11 @@ export function createSiderFoundation(
         callbacks.breakpoint(m.matches);
         if (state.mergedCollapsed !== m.matches) setCollapsed(m.matches, 'responsive');
       };
-      if (typeof mql.addEventListener === 'function') {
-        mql.addEventListener('change', handler as (e: MediaQueryListEvent) => void);
-      } else if (typeof mql.addListener === 'function') {
-        mql.addListener(handler as (e: MediaQueryListEvent) => void);
-      }
+      mql.addEventListener('change', handler);
       handler(mql);
       return () => {
         state.below = false;
-        if (typeof mql.removeEventListener === 'function') {
-          mql.removeEventListener('change', handler as (e: MediaQueryListEvent) => void);
-        } else if (typeof mql.removeListener === 'function') {
-          mql.removeListener(handler as (e: MediaQueryListEvent) => void);
-        }
+        mql.removeEventListener('change', handler);
       };
     },
     get railHoverEnabled() {

@@ -1,0 +1,36 @@
+[
+  {
+    "class": "code-block-header",
+    "height": 39,
+    "styles": {
+      "line-height": "22.001px",
+      "font-size": "14px",
+      "font-family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"",
+      "color": "rgb(26, 26, 26)",
+      "background-color": "rgb(238, 238, 238)",
+      "border-bottom-color": "rgb(222, 222, 222)",
+      "padding-top": "6px",
+      "padding-bottom": "6px",
+      "border-bottom-width": "1px",
+      "gap": "16px",
+      "--ms-leading-body": "1.5715"
+    }
+  },
+  {
+    "class": "code-header-title",
+    "height": 18.84375,
+    "styles": {
+      "line-height": "18.858px",
+      "font-size": "12px",
+      "font-family": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\"",
+      "color": "rgb(110, 110, 110)",
+      "background-color": "rgba(0, 0, 0, 0)",
+      "border-bottom-color": "rgb(110, 110, 110)",
+      "padding-top": "0px",
+      "padding-bottom": "0px",
+      "border-bottom-width": "0px",
+      "gap": "normal",
+      "--ms-leading-body": "1.5715"
+    }
+  }
+]

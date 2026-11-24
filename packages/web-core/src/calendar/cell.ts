@@ -389,7 +389,7 @@ export function createCalendarCellRules<Schedule extends CalendarCellSchedule>(
 
     return schedules.map((schedule: Schedule) => {
       const scheduleKey = String(schedule.id);
-      const ranges = Object.prototype.hasOwnProperty.call(byScheduleId, scheduleKey)
+      const ranges = Object.hasOwn(byScheduleId, scheduleKey)
         ? byScheduleId[scheduleKey]
         : defaultRanges;
 

@@ -15,14 +15,13 @@ const demoColumns: TableColumnData[] = [
   { title: 'Name', dataIndex: 'name' },
   { title: 'Age', dataIndex: 'age' },
 ];
-const JSONCopy = <T>(val: T): T => JSON.parse(JSON.stringify(val));
 
 describe('Table features', () => {
   it('expands rows with record.expand and emits expand events', () => {
     const data = demoData.map((row) => ({ ...row, expand: `Expanded ${row.name}` }));
     cy.mount(Table, {
       props: {
-        'columns': JSONCopy(demoColumns),
+        'columns': structuredClone(demoColumns),
         data,
         'pagination': false,
         'expandable': {},
@@ -59,8 +58,8 @@ describe('Table features', () => {
   it('renders expand-row slot content', () => {
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         pagination: false,
         expandable: {},
       },
@@ -77,7 +76,7 @@ describe('Table features', () => {
     const data = demoData.map((row) => ({ ...row, expand: `Expanded ${row.name}` }));
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
+        columns: structuredClone(demoColumns),
         data,
         pagination: false,
         expandable: {},
@@ -93,7 +92,7 @@ describe('Table features', () => {
       { key: '2', name: 'Node2' },
     ];
     cy.mount(Table, {
-      props: { columns: JSONCopy(demoColumns), data, pagination: false },
+      props: { columns: structuredClone(demoColumns), data, pagination: false },
     });
     cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 2);
     cy.get('.sd-table-expand-btn').first().click();
@@ -118,7 +117,7 @@ describe('Table features', () => {
     ];
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
+        columns: structuredClone(demoColumns),
         data,
         pagination: false,
         rowSelection: { type: 'checkbox', checkStrictly: false },
@@ -139,7 +138,7 @@ describe('Table features', () => {
   });
 
   it('filters rows after confirming the filter popup', () => {
-    const columns = JSONCopy(demoColumns);
+    const columns = structuredClone(demoColumns);
     columns[0].filterable = {
       filters: [{ text: 'Jane 1', value: '1' }],
       filter: (values: string[], record: TableData) => record.name.includes(values[0]),
@@ -148,7 +147,7 @@ describe('Table features', () => {
     cy.mount(Table, {
       props: {
         columns,
-        data: JSONCopy(demoData),
+        data: structuredClone(demoData),
         pagination: false,
         onFilterChange: cy.spy().as('onFilterChange'),
         onChange: cy.spy().as('onFilterTableChange'),
@@ -169,36 +168,36 @@ describe('Table features', () => {
   });
 
   it('applies defaultFilteredValue on first render', () => {
-    const columns = JSONCopy(demoColumns);
+    const columns = structuredClone(demoColumns);
     columns[0].filterable = {
       filters: [{ text: 'Jane 1', value: '1' }],
       filter: (values: string[], record: TableData) => record.name.includes(values[0]),
       defaultFilteredValue: ['1'],
     };
-    cy.mount(Table, { props: { columns, data: JSONCopy(demoData), pagination: false } });
+    cy.mount(Table, { props: { columns, data: structuredClone(demoData), pagination: false } });
     cy.get('.sd-table-tbody .sd-table-tr').should('have.length', 1);
     cy.get('.sd-table-filters-active').should('exist');
   });
 
   it('applies defaultSortOrder and exposes aria-sort', () => {
-    const columns = JSONCopy(demoColumns);
+    const columns = structuredClone(demoColumns);
     columns[1].sortable = {
       sortDirections: ['ascend', 'descend'],
       defaultSortOrder: 'descend',
     };
-    cy.mount(Table, { props: { columns, data: JSONCopy(demoData), pagination: false } });
+    cy.mount(Table, { props: { columns, data: structuredClone(demoData), pagination: false } });
     cy.get('.sd-table-th').eq(1).should('have.attr', 'aria-sort', 'descending');
     cy.get('.sd-table-th').eq(1).should('have.class', 'sd-table-col-sorted');
     cy.get('.sd-table-tbody .sd-table-td-content').first().should('have.text', 'Jane Doe5');
   });
 
   it('cycles sorterChange through ascend, descend and empty', () => {
-    const columns = JSONCopy(demoColumns);
+    const columns = structuredClone(demoColumns);
     columns[1].sortable = { sortDirections: ['ascend', 'descend'] };
     cy.mount(Table, {
       props: {
         columns,
-        data: JSONCopy(demoData),
+        data: structuredClone(demoData),
         pagination: false,
         onSorterChange: cy.spy().as('onSorterChange'),
       },
@@ -214,8 +213,8 @@ describe('Table features', () => {
   it('emits pageChange and change when a page is selected', () => {
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         pagination: { pageSize: 2 },
         onPageChange: cy.spy().as('onPageChange'),
         onChange: cy.spy().as('onPageTableChange'),
@@ -238,8 +237,8 @@ describe('Table features', () => {
   it('hides pagination when pagination is false', () => {
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         pagination: false,
       },
     });
@@ -249,8 +248,8 @@ describe('Table features', () => {
   it('renders pagination above the table when pagePosition is top', () => {
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         pagePosition: 'top',
       },
     });
@@ -260,7 +259,7 @@ describe('Table features', () => {
 
   it('renders pagination-left and pagination-right slots', () => {
     cy.mount(Table, {
-      props: { columns: JSONCopy(demoColumns), data: JSONCopy(demoData) },
+      props: { columns: structuredClone(demoColumns), data: structuredClone(demoData) },
       slots: {
         'pagination-left': () => h('span', { class: 'my-pg-left' }, 'Left'),
         'pagination-right': () => h('span', { class: 'my-pg-right' }, 'Right'),
@@ -273,8 +272,8 @@ describe('Table features', () => {
   it('emits cell/row/header click, dblclick and contextmenu events', () => {
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         pagination: false,
         onCellClick: cy.spy().as('onCellClick'),
         onRowClick: cy.spy().as('onRowClick'),
@@ -320,8 +319,8 @@ describe('Table features', () => {
     const onCellMouseLeave = cy.spy();
     cy.mount(Table, {
       props: {
-        columns: JSONCopy(demoColumns),
-        data: JSONCopy(demoData),
+        columns: structuredClone(demoColumns),
+        data: structuredClone(demoData),
         pagination: false,
         onCellMouseEnter,
         onCellMouseLeave,

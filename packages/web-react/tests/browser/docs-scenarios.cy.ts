@@ -39,6 +39,11 @@ const interactions: Record<string, (() => void) | undefined> = {
     cy.contains(source, '选项 2').should('not.exist');
     cy.contains(target, '选项 2').should('be.visible');
   },
+  'tree/search': () => {
+    cy.get('input').type('0-0');
+    cy.contains('span', /^0-0$/).should('be.visible');
+    cy.contains('主干节点 0-1').should('not.exist');
+  },
 };
 
 describe('all shared documentation scenarios', () => {

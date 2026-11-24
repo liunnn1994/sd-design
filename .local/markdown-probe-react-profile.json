@@ -1,0 +1,101 @@
+[
+  {
+    "probe": "paragraph",
+    "profile": {
+      "font": "normal 400 14px Arial",
+      "lineHeight": 22.001,
+      "wrapperOverhead": 15.998999999999999,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<p dir=\"auto\" class=\"paragraph-node\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe paragraph text</span><span></span></span></p>"
+  },
+  {
+    "probe": "list-item",
+    "profile": {
+      "font": "normal 400 14px Arial",
+      "lineHeight": 22.001,
+      "wrapperOverhead": 6.998999999999999,
+      "widthAdjustment": 6,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<ul class=\"m-0 p-0\"><li class=\"list-item pl-1.5 my-2\" dir=\"auto\"><p dir=\"auto\" class=\"paragraph-node\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe paragraph text</span><span></span></span></p></li></ul>"
+  },
+  {
+    "probe": "list",
+    "profile": {
+      "font": "normal 400 14px Arial",
+      "lineHeight": 22.001,
+      "wrapperOverhead": 36.998999999999995,
+      "widthAdjustment": 27.765625,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<ul class=\"list-node my-5 pl-[calc(13/8*1em)] list-disc max-lg:my-[calc(4/3*1em)] max-lg:pl-[calc(14/9*1em)]\"><li class=\"list-item pl-1.5 my-2\" dir=\"auto\"><p dir=\"auto\" class=\"paragraph-node\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe paragraph text</span><span></span></span></p></li></ul>"
+  },
+  {
+    "probe": "heading-1",
+    "profile": {
+      "font": "normal 700 36px Arial",
+      "lineHeight": 43.2,
+      "wrapperOverhead": 35.8,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h1 dir=\"auto\" class=\"heading-node font-semibold heading-1\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe heading</span><span></span></span></h1>"
+  },
+  {
+    "probe": "heading-2",
+    "profile": {
+      "font": "normal 600 24px Arial",
+      "lineHeight": 32.4,
+      "wrapperOverhead": 65.6,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h2 dir=\"auto\" class=\"heading-node font-semibold heading-2\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe heading</span><span></span></span></h2>"
+  },
+  {
+    "probe": "heading-3",
+    "profile": {
+      "font": "normal 600 20px Arial",
+      "lineHeight": 30,
+      "wrapperOverhead": 42,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h3 dir=\"auto\" class=\"heading-node font-semibold heading-3\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe heading</span><span></span></span></h3>"
+  },
+  {
+    "probe": "heading-4",
+    "profile": {
+      "font": "normal 600 16px Arial",
+      "lineHeight": 20,
+      "wrapperOverhead": 26,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h4 dir=\"auto\" class=\"heading-node font-semibold heading-4\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe heading</span><span></span></span></h4>"
+  },
+  {
+    "probe": "heading-5",
+    "profile": {
+      "font": "normal 500 16px Arial",
+      "lineHeight": 20,
+      "wrapperOverhead": 20,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h5 dir=\"auto\" class=\"heading-node font-semibold heading-5\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe heading</span><span></span></span></h5>"
+  },
+  {
+    "probe": "heading-6",
+    "profile": {
+      "font": "normal 500 16px Arial",
+      "lineHeight": 20,
+      "wrapperOverhead": 20,
+      "widthAdjustment": 0,
+      "whiteSpace": "pre-wrap"
+    },
+    "html": "<h6 dir=\"auto\" class=\"heading-node font-semibold heading-6\"><span class=\"text-node whitespace-pre-wrap break-words\"><span>Probe heading</span><span></span></span></h6>"
+  }
+]
