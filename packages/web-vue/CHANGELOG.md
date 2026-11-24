@@ -1,3 +1,15 @@
+# [7.15.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.14.0...web-vue-v7.15.0) (2026-11-24)
+
+
+### Bug Fixes
+
+* 🐛 修复构建报错 ([e5dfdc3](https://github.com/liunnn1994/sd-design/commit/e5dfdc3e877ea4854cff9ec53422255374810756))
+
+
+### Features
+
+* 🆕 现代 web 标准化 ([9345a15](https://github.com/liunnn1994/sd-design/commit/9345a15ae0770a3138593912d067b0bbf46bcbc8))
+
 # [7.14.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.13.1...web-vue-v7.14.0) (2026-11-23)
 
 
