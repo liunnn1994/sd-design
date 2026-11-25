@@ -131,7 +131,7 @@ jobs:
           args=()
           if [ "$RELEASE_DRY_RUN" = "true" ]; then args+=(--dry-run); fi
           for package in web-core web-vue web-react; do
-            node packages/web-vue/node_modules/semantic-release/bin/semantic-release.js --extends ./packages/$package/release.config.ts "${args[@]}"
+            node packages/web-vue/scripts/run-release.ts "$package" "${args[@]}"
             check_main_tip
           done
 

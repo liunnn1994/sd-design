@@ -279,6 +279,24 @@ test('package release configs isolate version tags and Git assets', async () => 
   assert.equal(mcpConfig.tagFormat, 'mcp-v${version}');
 });
 
+test('production release entry point loads the custom publishing plugins', async (t) => {
+  const { root, git } = await fixture(t);
+  const refsBefore = git('ls-remote', 'origin');
+  const runner = fileURLToPath(new URL('./run-release.ts', import.meta.url));
+  for (const name of releasePackages) {
+    const result = spawnSync(process.execPath, [runner, name, '--dry-run'], {
+      cwd: root,
+      encoding: 'utf8',
+      env: { ...process.env, GH_TOKEN: '', GITHUB_TOKEN: '' },
+    });
+    assert.ifError(result.error);
+    assert.match(result.stdout, /Loaded plugin "prepare" from .*semantic-release[\\/]exec/);
+    assert.match(result.stdout, /Loaded plugin "publish" from .*semantic-release[\\/]exec/);
+    assert.doesNotMatch(result.stdout, /Loaded plugin "publish" from "@semantic-release\/npm"/);
+  }
+  assert.equal(git('ls-remote', 'origin'), refsBefore);
+});
+
 for (const scenario of [
   { file: 'packages/web-vue/change.ts', message: 'fix: Vue only', expected: [null, '8.1.1', null] },
   {
@@ -321,7 +339,7 @@ for (const scenario of [
       const config = createReleaseConfig(name);
       const result = await semanticRelease(
         {
-          extends: fileURLToPath(new URL(`../../${name}/release.config.ts`, import.meta.url)),
+          ...config,
           // Only GitHub authentication is omitted; all version/notes/prepare/publish plugins are real.
           plugins: config.plugins.filter(
             ([entry]) => !/[\\/]github[\\/]index.js$/.test(String(entry)),
