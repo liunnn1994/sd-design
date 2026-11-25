@@ -86,7 +86,8 @@ export function MarkdownHeightProbes({
     };
   }, [width, measurementKey]);
   // Probe keys must not write into the document's streamed text cache.
-  const probeCtx = { ...ctx, textStreamState: undefined, typewriter: false, fade: false };
+  const { textStreamState: _textStreamState, ...rest } = ctx;
+  const probeCtx = { ...rest, typewriter: false, fade: false };
   const props = { ctx: probeCtx, renderNode, typewriter: false, fade: false };
   const cls = 'node-content node-content-flow-root';
   return (

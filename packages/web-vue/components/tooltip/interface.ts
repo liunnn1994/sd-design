@@ -15,7 +15,7 @@ export interface TooltipProps {
    * @en Whether the tooltip is visible
    * @vModel
    */
-  popupVisible?: boolean;
+  popupVisible?: boolean | undefined;
   /**
    * @zh 文字气泡默认是否可见（非受控模式）
    * @en Whether the tooltip is visible by default (uncontrolled mode)
@@ -35,7 +35,7 @@ export interface TooltipProps {
    * @zh 文字气泡内容
    * @en Tooltip content
    */
-  content?: string;
+  content?: string | undefined;
   /**
    * @zh 弹出位置
    * @en Popup position

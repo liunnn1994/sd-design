@@ -9,7 +9,7 @@ import type {
   RichTextEditorComponentNodeData,
 } from '@sdata/web-core/rich-text-editor/types';
 import type { CSSProperties, HTMLAttributes, ReactNode, Ref } from 'react';
-import type { JsonObject, JsonValue } from 'type-fest';
+import type { JsonObject, JsonValue, UndefinedOnPartial } from 'type-fest';
 
 import type { TagProps } from '../tag/index.js';
 
@@ -34,14 +34,14 @@ export interface RichTextEditorSlots {
 }
 export interface RichTextEditorProps
   extends
-    Partial<RichTextEditorOptions>,
+    UndefinedOnPartial<Partial<RichTextEditorOptions>>,
     Omit<
       HTMLAttributes<HTMLDivElement>,
       'defaultValue' | 'onChange' | 'onError' | 'onFocus' | 'onBlur' | 'onUpdate'
     > {
   ref?: Ref<RichTextEditorRef>;
   value?: RichTextEditorOptions['modelValue'];
-  placeholder?: string;
+  placeholder?: string | undefined;
   autoSize?: boolean | RichTextEditorAutoSize;
   spellcheck?: boolean;
   ariaLabel?: string;
@@ -52,7 +52,7 @@ export interface RichTextEditorProps
   onChange?: (...args: RichTextEditorEmits['change']) => void;
   onUpdate?: (...args: RichTextEditorEmits['update']) => void;
   onReady?: (...args: RichTextEditorEmits['ready']) => void;
-  onFocus?: (...args: RichTextEditorEmits['focus']) => void;
-  onBlur?: (...args: RichTextEditorEmits['blur']) => void;
+  onFocus?: ((...args: RichTextEditorEmits['focus']) => void) | undefined;
+  onBlur?: ((...args: RichTextEditorEmits['blur']) => void) | undefined;
   onError?: (...args: RichTextEditorEmits['error']) => void;
 }

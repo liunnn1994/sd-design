@@ -13,7 +13,7 @@ export interface NumberFlowDigitContext {
   position: number;
   length: number;
   trend: number;
-  highestChangedPosition?: number;
+  highestChangedPosition?: number | undefined;
 }
 
 export interface NumberFlowPluginContext {
@@ -52,7 +52,7 @@ export interface NumberFlowProps {
    * @zh 数值后缀
    * @en Suffix rendered after the number
    */
-  suffix?: string;
+  suffix?: string | undefined;
   /**
    * @zh 数值变化趋势，指定后各数字按该方向滚动
    * @en Direction the digits scroll in; fixing it makes all changes follow one direction

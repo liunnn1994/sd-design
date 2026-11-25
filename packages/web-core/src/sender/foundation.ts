@@ -289,8 +289,10 @@ export function createSenderFoundation<
       return;
     }
     const textarea = getNativeTextarea();
-    if (textarea) textarea.focus({ preventScroll: options?.preventScroll });
-    else state.exposedTextarea?.focus?.();
+    if (textarea) {
+      const preventScroll = options?.preventScroll;
+      textarea.focus(preventScroll === undefined ? {} : { preventScroll });
+    } else state.exposedTextarea?.focus?.();
     if (!textarea) return;
     const cursor = options?.cursor ?? 'end';
     const position = cursor === 'start' ? 0 : textarea.value.length;

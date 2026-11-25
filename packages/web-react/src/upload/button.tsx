@@ -1,6 +1,7 @@
 import type { UploadInputOptions } from '@sdata/web-core/upload/input';
 import type { ListType } from '@sdata/web-core/upload/types';
 import type { ReactNode, HTMLAttributes } from 'react';
+import type { UndefinedOnPartial } from 'type-fest';
 
 import { createUploadInput } from '@sdata/web-core/upload/input';
 import { useReducer, useRef, useState } from 'react';
@@ -11,14 +12,16 @@ import IconPlus from '../icon/icon-plus.js';
 import IconUpload from '../icon/icon-upload.js';
 import { useI18n } from '../locale/index.js';
 
-export interface UploadButtonProps extends Partial<Omit<UploadInputOptions, 'uploadFiles'>> {
+export interface UploadButtonProps extends UndefinedOnPartial<
+  Partial<Omit<UploadInputOptions, 'uploadFiles'>>
+> {
   uploadFiles(files: File[]): void;
   listType?: ListType;
   tip?: ReactNode;
-  draggable?: boolean;
+  draggable?: boolean | undefined;
   hide?: boolean;
   children?: ReactNode;
-  rootAttrs?: HTMLAttributes<HTMLElement>;
+  rootAttrs?: HTMLAttributes<HTMLElement> | undefined;
 }
 export function UploadButton(props: UploadButtonProps) {
   const {

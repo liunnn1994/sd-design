@@ -58,7 +58,7 @@
     },
     loading: Boolean,
     spinProps: Object as PropType<SpinProps>,
-    activeKey: String,
+    activeKey: String as PropType<string | undefined>,
     multiple: Boolean,
     checkStrictly: Boolean,
     pathLabel: Boolean,

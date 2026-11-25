@@ -20,7 +20,7 @@
   defineOptions({ name: 'AutoTooltip', inheritAttrs: false });
 
   const props = defineProps<{
-    tooltipProps?: TooltipProps;
+    tooltipProps?: TooltipProps | undefined;
   }>();
   defineSlots<{
     default?: () => VNode[];

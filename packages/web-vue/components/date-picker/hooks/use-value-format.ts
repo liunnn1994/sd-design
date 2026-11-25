@@ -9,8 +9,8 @@ export { getReturnValue, getReturnRangeValue } from '@sdata/web-core/date-picker
 
 export function useReturnValue(props: {
   format: ValueFormat;
-  utcOffset?: number;
-  timezone?: string;
+  utcOffset?: number | undefined;
+  timezone?: string | undefined;
 }) {
   const { format, utcOffset, timezone } = toRefs(props);
 

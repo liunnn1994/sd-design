@@ -63,7 +63,7 @@
        * @en Value
        * @vModel
        */
-      modelValue?: CheckboxModelValue;
+      modelValue?: CheckboxModelValue | undefined;
       /**
        * @zh 默认是否选中（非受控状态）
        * @en Whether checked by default (uncontrolled state)
@@ -73,17 +73,17 @@
        * @zh 选项的 `value`
        * @en The `value` of the option
        */
-      value?: CheckboxValue;
+      value?: CheckboxValue | undefined;
       /**
        * @zh 是否禁用
        * @en Whether to disable
        */
-      disabled?: boolean;
+      disabled?: boolean | undefined;
       /**
        * @zh 是否为半选状态
        * @en Whether it is half-selected
        */
-      indeterminate?: boolean;
+      indeterminate?: boolean | undefined;
       /**
        * @zh 原生 input 的 tabindex（默认不渲染，input 保持原生可聚焦；树节点内传 -1 把 checkbox 移出 Tab 序列，改由 treeitem 统一聚焦/操作）
        * @en tabindex for the native input (omitted by default so the input stays natively focusable; pass -1 in tree nodes to remove the checkbox from the Tab order and operate it via the treeitem)

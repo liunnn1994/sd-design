@@ -64,7 +64,7 @@
      * @zh 内部标记：作为面板自带边缘杆使用（不与外部 Separator 组件混用）
      * @en Internal flag: used as the panel's built-in edge grip
      */
-    own?: PanelController;
+    own?: PanelController | undefined;
   }>();
 
   const { t } = useI18n();

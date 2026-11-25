@@ -4,6 +4,7 @@ import type { TreeNodeDomEventName } from '@sdata/web-core/tree/node';
 import type { TreeModelNode, TreeModelOptions } from '@sdata/web-core/tree/types';
 import type { ComponentPropsWithoutRef, Ref } from 'react';
 
+import { definedProps } from '@sdata/web-core/_utils/defined-props';
 import {
   getSearchExpandedKeys,
   getVisibleTreeNodes,
@@ -201,7 +202,7 @@ export function Tree<T extends TreeNodeData = TreeNodeData>({
       checkedStrategy,
       loadMore,
       onLoadError,
-      events: {
+      events: definedProps({
         updateSelected: onSelectedKeysChange,
         updateChecked: onCheckedKeysChange,
         updateHalfChecked: onHalfCheckedKeysChange,
@@ -209,7 +210,7 @@ export function Tree<T extends TreeNodeData = TreeNodeData>({
         select: onSelect,
         check: onCheck,
         expand: onExpand,
-      },
+      }),
     },
     model,
   );
@@ -234,13 +235,13 @@ export function Tree<T extends TreeNodeData = TreeNodeData>({
     root,
     nodes: model.key2TreeNode,
     allowDrop,
-    events: {
+    events: definedProps({
       start: onDragStart,
       end: onDragEnd,
       over: onDragOver,
       leave: onDragLeave,
       drop: onDrop,
-    },
+    }),
   });
   useImperativeHandle(ref, () => ({
     ...state.foundation,

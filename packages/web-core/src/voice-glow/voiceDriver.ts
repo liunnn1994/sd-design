@@ -93,7 +93,7 @@ export interface VoiceDriverConfig {
 
 export interface VoiceSource {
   /** Audio to analyse; wins over `getLevel`. */
-  stream?: MediaStream | null;
+  stream?: MediaStream | null | undefined;
   /** Manual 0–1 level, sampled every frame. */
   getLevel?: () => number;
 }
@@ -123,7 +123,7 @@ interface VoiceInstance {
   el: HTMLElement;
   config: VoiceDriverConfig;
   source: VoiceSource;
-  onLevel?: (level: number) => void;
+  onLevel?: ((level: number) => void) | undefined;
   /** The band canvas and its context, when the element carries one. */
   canvas: HTMLCanvasElement | null;
   ctx: CanvasRenderingContext2D | null;

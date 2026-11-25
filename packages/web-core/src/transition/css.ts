@@ -10,7 +10,7 @@ function maxDuration(durations: string, delays: string) {
 
 export function runCssTransition(
   element: HTMLElement,
-  options: { name: string; enter: boolean; duration?: number; finish(): void },
+  options: { name: string; enter: boolean; duration?: number | undefined; finish(): void },
 ) {
   const phase = options.enter ? 'enter' : 'leave';
   const from = `${options.name}-${phase}-from`;

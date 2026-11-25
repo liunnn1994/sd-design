@@ -183,18 +183,18 @@
       type: Boolean,
     },
     showConfirmBtn: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     prefixCls: {
       type: String,
       required: true,
     },
     shortcuts: {
-      type: Array as PropType<ShortcutType[]>,
+      type: Array as PropType<ShortcutType[] | undefined>,
       default: () => [],
     },
     shortcutsPosition: {
-      type: String as PropType<RangePickerProps['shortcutsPosition']>,
+      type: String as PropType<RangePickerProps['shortcutsPosition'] | undefined>,
       default: 'bottom',
     },
     format: {
@@ -202,7 +202,7 @@
       required: true,
     },
     dayStartOfWeek: {
-      type: Number as PropType<WeekStart>,
+      type: Number as PropType<WeekStart | undefined>,
       default: 0,
     },
     disabledDate: {
@@ -226,7 +226,7 @@
       default: () => ({}),
     },
     confirmBtnDisabled: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     disabled: {
       type: Array as PropType<boolean[]>,
@@ -236,13 +236,13 @@
       type: Boolean,
     },
     startHeaderMode: {
-      type: String as PropType<'year' | 'month'>,
+      type: String as PropType<'year' | 'month' | undefined>,
     },
     endHeaderMode: {
-      type: String as PropType<'year' | 'month'>,
+      type: String as PropType<'year' | 'month' | undefined>,
     },
     abbreviation: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     hideNotInViewDates: {
       type: Boolean,

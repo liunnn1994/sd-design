@@ -9,14 +9,14 @@ export interface TableExpansionOptions {
   defaultExpandAllRows?: boolean;
 }
 export interface TableExpansionStateProps<Raw> {
-  expandedKeys?: RowKey[];
-  defaultExpandedKeys?: RowKey[];
+  expandedKeys?: RowKey[] | undefined;
+  defaultExpandedKeys?: RowKey[] | undefined;
   defaultExpandAllRows?: boolean;
-  expandable?: TableExpansionOptions;
+  expandable?: TableExpansionOptions | undefined;
   allRowKeys: RowKey[];
-  onExpand?(key: RowKey, record: Raw): void;
-  onExpandedChange?(keys: RowKey[]): void;
-  onExpandedKeysChange?(keys: RowKey[]): void;
+  onExpand?: ((key: RowKey, record: Raw) => void) | undefined;
+  onExpandedChange?: ((keys: RowKey[]) => void) | undefined;
+  onExpandedKeysChange?: ((keys: RowKey[]) => void) | undefined;
 }
 export function useTableExpand<Raw>(props: TableExpansionStateProps<Raw>) {
   const current = useRef(props);

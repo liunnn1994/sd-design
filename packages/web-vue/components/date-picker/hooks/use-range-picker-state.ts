@@ -13,8 +13,8 @@ interface PickerStateProps {
   modelValue: (CalendarValue | undefined)[] | undefined;
   defaultValue: (CalendarValue | undefined)[] | undefined;
   format: string;
-  utcOffset?: number;
-  timezone?: string;
+  utcOffset?: number | undefined;
+  timezone?: string | undefined;
 }
 
 export default function useRangePickerState(props: PickerStateProps) {

@@ -27,7 +27,7 @@ export interface TableDataOptions {
   rowKey: TableRowKey;
   columns: Map<string, TableColumnData>;
   filters: Filters;
-  sorter?: Sorter;
+  sorter?: Sorter | undefined;
   page: number;
   pageSize: number;
   pagination: boolean;

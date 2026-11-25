@@ -27,8 +27,8 @@ export interface SelectDropdownProps {
   emptyContent?: ReactNode;
   showHeaderOnEmpty?: boolean;
   showFooterOnEmpty?: boolean;
-  onScroll?: (event: Event) => void;
-  onReachBottom?: (event: Event) => void;
+  onScroll?: ((event: Event) => void) | undefined;
+  onReachBottom?: ((event: Event) => void) | undefined;
   children?: ReactNode;
   ref?: Ref<SelectDropdownRef>;
 }

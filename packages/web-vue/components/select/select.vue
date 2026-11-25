@@ -206,7 +206,7 @@
       default: '',
     },
     size: {
-      type: String as PropType<Size>,
+      type: String as PropType<Size | undefined>,
     },
     placeholder: String,
     /**
@@ -237,7 +237,7 @@
       type: Object as PropType<SpinProps>,
     },
     disabled: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
     /**

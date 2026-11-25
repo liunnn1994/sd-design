@@ -26,7 +26,7 @@ export interface MarkdownVirtualControllerConfig {
   threadKey?: string;
   measurementKey?: string;
   indexPrefix: string;
-  final?: boolean;
+  final?: boolean | undefined;
   virtual?: boolean;
   coordinated?: boolean;
   maxLiveNodes?: number;
@@ -34,13 +34,13 @@ export interface MarkdownVirtualControllerConfig {
   renderedCount?: number;
   isNodeRendered?(index: number): boolean;
   customParagraph?: boolean;
-  textProbeProfile?: MarkdownTextProbeProfile;
+  textProbeProfile?: MarkdownTextProbeProfile | undefined;
   estimateCodeHeight?(node: unknown, width: number): { height: number } | null;
   scrollRoot?: HTMLElement | null;
   settleMode?: 'auto' | 'manual';
   settledToken?: string | number | boolean;
   heightCacheLimit?: number;
-  heightCache?: MarkstreamHeightCache | null;
+  heightCache?: MarkstreamHeightCache | null | undefined;
   heightCacheWidth?: number;
   heightDiffThresholdPx?: number;
   emitIntervalMs?: number;

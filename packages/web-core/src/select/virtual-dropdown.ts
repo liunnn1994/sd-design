@@ -8,7 +8,11 @@ export function resolveDropdownVirtualListProps<
   },
 >(
   virtualListProps?: T,
-  triggerProps?: { popupStyle?: { maxHeight?: number | string; height?: number | string } },
+  triggerProps?: {
+    popupStyle?:
+      | { maxHeight?: number | string | undefined; height?: number | string | undefined }
+      | undefined;
+  },
   defaultItemSize?: number,
 ): T | undefined {
   if (!virtualListProps) return undefined;

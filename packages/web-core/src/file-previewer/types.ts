@@ -77,7 +77,7 @@ export type FilePreviewerPdfProps = Simplify<
 export interface FilePreviewerContentSlotProps {
   src: string;
   type: FilePreviewerType;
-  title?: string;
+  title?: string | undefined;
   visible: boolean;
   fullscreen: boolean;
   status: FilePreviewerStatus;

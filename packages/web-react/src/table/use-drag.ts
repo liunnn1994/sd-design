@@ -10,7 +10,7 @@ import { usePrefix } from '../config-provider/index.js';
 
 export function useTableDrag(options: {
   root: HTMLElement | null;
-  draggable?: TableDraggable;
+  draggable?: TableDraggable | undefined;
   getSortedData(): TableDataWithRaw[];
   onChange(): void;
 }) {

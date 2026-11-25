@@ -7,13 +7,13 @@ import { useLayoutEffect, useReducer, useRef, useState } from 'react';
 export interface CascaderSelectionProps {
   value?: CascaderModelValue;
   defaultValue?: CascaderModelValue;
-  multiple?: boolean;
-  pathMode?: boolean;
-  checkStrictly?: boolean;
-  readonly?: boolean;
-  valueKey?: string;
-  onValueChange?(value: CascaderModelValue): void;
-  onChange?(value: CascaderModelValue): void;
+  multiple?: boolean | undefined;
+  pathMode?: boolean | undefined;
+  checkStrictly?: boolean | undefined;
+  readonly?: boolean | undefined;
+  valueKey?: string | undefined;
+  onValueChange?: ((value: CascaderModelValue) => void) | undefined;
+  onChange?: ((value: CascaderModelValue) => void) | undefined;
 }
 export function useCascaderSelection<P>(
   props: CascaderSelectionProps,

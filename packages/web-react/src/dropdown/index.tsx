@@ -29,11 +29,11 @@ export type DropdownPosition = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';
 export interface DropdownProps extends Omit<TriggerProps, 'position' | 'onSelect' | 'onScroll'> {
   position?: DropdownPosition;
   popupMaxHeight?: boolean | number;
-  hideOnSelect?: boolean;
+  hideOnSelect?: boolean | undefined;
   isEmpty?: boolean;
   header?: ReactNode;
   footer?: ReactNode;
-  onSelect?: (value: DropdownValue, event: Event) => void;
+  onSelect?: ((value: DropdownValue, event: Event) => void) | undefined;
   onScroll?: (event: Event) => void;
   onReachBottom?: (event: Event) => void;
 }
@@ -49,8 +49,8 @@ interface PanelProps {
   isEmpty?: boolean;
   trigger: string | string[];
   className?: string;
-  onScroll?: (event: Event) => void;
-  onReachBottom?: (event: Event) => void;
+  onScroll?: ((event: Event) => void) | undefined;
+  onReachBottom?: ((event: Event) => void) | undefined;
 }
 function DropdownPanel(props: PanelProps) {
   const prefix = usePrefix('dropdown');
@@ -201,7 +201,7 @@ function DropdownRoot({
 
 export interface DoptionProps extends Omit<ComponentPropsWithRef<'li'>, 'value' | 'onClick'> {
   value?: DropdownValue;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   active?: boolean;
   uninjectContext?: boolean;
   icon?: ReactNode;

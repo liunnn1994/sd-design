@@ -49,7 +49,7 @@
       required: true,
     },
     value: {
-      type: [Number, String],
+      type: [Number, String] as PropType<number | string | undefined>,
     },
     visible: {
       type: Boolean,

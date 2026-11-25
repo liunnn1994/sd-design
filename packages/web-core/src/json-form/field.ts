@@ -19,7 +19,11 @@ export function normalizeJsonFormField(field: string, adapter: JsonFormAdapter) 
   return segments.join('.');
 }
 export function getJsonFormRules(
-  schema: { formItemRules?: FieldRule | FieldRule[]; required?: boolean; label?: string },
+  schema: {
+    formItemRules?: FieldRule | FieldRule[] | undefined;
+    required?: boolean;
+    label?: string | undefined;
+  },
   translate: (key: string, label?: string) => string,
 ) {
   if (schema.formItemRules) {
@@ -96,7 +100,7 @@ export function getJsonFormPlaceholder(
   return undefined;
 }
 export function getJsonFormComponentProps(
-  schema: { componentProps?: Record<string, unknown>; type?: string },
+  schema: { componentProps?: Record<string, unknown> | undefined; type?: string },
   prefixCls: string,
   getPlaceholder: () => string | undefined,
 ) {

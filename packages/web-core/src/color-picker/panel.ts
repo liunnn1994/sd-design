@@ -112,7 +112,7 @@ export function createColorPanel(adapter: {
     enableMultipleGradient: boolean;
     onChange?: (value: string, trigger: ColorPickerChangeTrigger) => void;
     onRecentColorsChange?: (value: string[]) => void;
-    onPaletteBarChange?: (context: { color: ColorObject }) => void;
+    onPaletteBarChange?: ((context: { color: ColorObject }) => void) | undefined;
   };
   state: ColorValueState;
   format: ColorFormat;

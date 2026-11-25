@@ -4,10 +4,10 @@ import { getFiles, loopDirectory } from './utils.js';
 export interface UploadInputOptions {
   disabled: boolean;
   directory: boolean;
-  accept?: string;
+  accept?: string | undefined;
   multiple: boolean;
   uploadFiles(files: File[]): void;
-  onButtonClick?: (event: Event) => Promise<FileList> | void;
+  onButtonClick?: ((event: Event) => Promise<FileList> | void) | undefined;
 }
 export interface UploadInputAdapter {
   readonly options: UploadInputOptions;

@@ -69,23 +69,23 @@
       default: 'info',
     },
     showIcon: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: true,
     },
     closable: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
     duration: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: 3000,
     },
     timerVersion: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: 0,
     },
     resetOnUpdate: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
   });

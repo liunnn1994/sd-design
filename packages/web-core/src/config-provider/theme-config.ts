@@ -7,7 +7,7 @@ const object = (value: unknown): value is Record<string, unknown> =>
 
 export function validateThemeConfig(input: unknown): {
   valid: boolean;
-  data?: SdThemeConfig;
+  data?: SdThemeConfig | undefined;
   errors: string[];
 } {
   const errors: string[] = [];

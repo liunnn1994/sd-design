@@ -18,14 +18,14 @@ import { useDateHeader } from './use-date-header.js';
 
 export interface RangeDateHeaderOptions {
   mode: Mode;
-  startHeaderMode?: Mode;
-  endHeaderMode?: Mode;
-  value?: CalendarValue[];
-  defaultValue?: CalendarValue[];
+  startHeaderMode?: Mode | undefined;
+  endHeaderMode?: Mode | undefined;
+  value?: CalendarValue[] | undefined;
+  defaultValue?: CalendarValue[] | undefined;
   selectedValue: Array<Dayjs | undefined>;
   format: string;
-  utcOffset?: number;
-  timezone?: string;
+  utcOffset?: number | undefined;
+  timezone?: string | undefined;
   onChange?(value: Dayjs[]): void;
 }
 

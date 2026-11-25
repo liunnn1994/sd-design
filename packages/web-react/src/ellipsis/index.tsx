@@ -24,8 +24,8 @@ export interface EllipsisExposed {
 }
 export type EllipsisInstance = EllipsisExposed;
 export interface EllipsisProps extends HTMLAttributes<HTMLElement> {
-  lineClamp?: number | string;
-  expandTrigger?: 'click';
+  lineClamp?: number | string | undefined;
+  expandTrigger?: 'click' | undefined;
   tooltip?: boolean | EllipsisTooltipProps;
   tooltipContent?: ReactNode;
   ref?: Ref<EllipsisExposed>;

@@ -9,10 +9,11 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { useFormItem } from '../form/context.js';
 import { useAfterRender } from './use-after-render.js';
 
-export interface TextInputProps extends Partial<TextInputOptions> {
+export interface TextInputProps extends Partial<Omit<TextInputOptions, 'maxLength'>> {
+  maxLength?: TextInputOptions['maxLength'] | undefined;
   value?: string | null;
   defaultValue?: string;
-  size?: 'mini' | 'small' | 'medium' | 'large';
+  size?: 'mini' | 'small' | 'medium' | 'large' | undefined;
   disabled?: boolean;
   error?: boolean;
   onValueChange?: (value: string) => void;

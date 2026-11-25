@@ -139,27 +139,27 @@ export interface CropperProps {
    * @zh 自定义 Cropper 内部模板
    * @en Custom cropper template
    */
-  template?: string;
+  template?: string | undefined;
   /**
    * @zh 选区 x 坐标
    * @en Selection x position
    */
-  selectionX?: number;
+  selectionX?: number | undefined;
   /**
    * @zh 选区 y 坐标
    * @en Selection y position
    */
-  selectionY?: number;
+  selectionY?: number | undefined;
   /**
    * @zh 选区宽度
    * @en Selection width
    */
-  selectionWidth?: number;
+  selectionWidth?: number | undefined;
   /**
    * @zh 选区高度
    * @en Selection height
    */
-  selectionHeight?: number;
+  selectionHeight?: number | undefined;
   /**
    * @zh 容器宽度
    * @en Container width

@@ -166,7 +166,7 @@
      * @en Whether to allow clearing the text
      */
     allowClear: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
     /**

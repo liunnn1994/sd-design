@@ -2,7 +2,7 @@ import { getThemeCSSVariables, type SDThemeNormalized, type SdThemeMode } from '
 
 interface GlobalThemeLayer {
   variables: Record<string, string>;
-  mode?: SdThemeMode;
+  mode?: SdThemeMode | undefined;
 }
 
 interface GlobalThemeTarget {

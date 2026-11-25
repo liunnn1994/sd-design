@@ -30,7 +30,7 @@
       required: true,
     },
     step: {
-      type: Number,
+      type: Number as import('vue').PropType<number | undefined>,
       default: 5,
     },
     pages: {

@@ -9,7 +9,7 @@ import { FilterTreeNode } from '../interface';
 export default function useFilterTreeNode(props: {
   searchValue: string;
   flattenTreeData: Node[];
-  filterMethod?: FilterTreeNode;
+  filterMethod?: FilterTreeNode | undefined;
   disableFilter?: boolean;
   fieldNames: TreeFieldNames | undefined;
 }) {

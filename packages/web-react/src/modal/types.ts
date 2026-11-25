@@ -27,7 +27,7 @@ export interface ModalProps
   alignCenter?: boolean;
   unmountOnClose?: boolean;
   hideCancel?: boolean;
-  simple?: boolean;
+  simple?: boolean | undefined;
   closable?: boolean;
   okText?: ReactNode;
   cancelText?: ReactNode;

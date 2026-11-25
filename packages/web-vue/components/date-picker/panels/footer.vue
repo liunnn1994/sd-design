@@ -37,13 +37,13 @@
       required: true,
     },
     showTodayBtn: {
-      type: Boolean,
+      type: Boolean as import('vue').PropType<boolean | undefined>,
     },
     showConfirmBtn: {
-      type: Boolean,
+      type: Boolean as import('vue').PropType<boolean | undefined>,
     },
     confirmBtnDisabled: {
-      type: Boolean,
+      type: Boolean as import('vue').PropType<boolean | undefined>,
     },
   });
 

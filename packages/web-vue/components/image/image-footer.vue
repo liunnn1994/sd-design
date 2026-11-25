@@ -20,10 +20,10 @@
 
   defineProps({
     title: {
-      type: String,
+      type: String as import('vue').PropType<string | undefined>,
     },
     description: {
-      type: String,
+      type: String as import('vue').PropType<string | undefined>,
     },
   });
 

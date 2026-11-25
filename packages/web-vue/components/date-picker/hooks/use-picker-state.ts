@@ -12,8 +12,8 @@ interface PickerStateProps {
   modelValue: CalendarValue | undefined;
   defaultValue: CalendarValue | undefined;
   format: string;
-  utcOffset?: number;
-  timezone?: string;
+  utcOffset?: number | undefined;
+  timezone?: string | undefined;
 }
 
 export default function usePickerState(props: PickerStateProps) {

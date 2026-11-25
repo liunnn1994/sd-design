@@ -30,7 +30,10 @@ export type {
   VoiceMicrophoneState,
 } from './use-voice-microphone.js';
 export type VoiceGlowInstance = HTMLDivElement;
-export interface VoiceGlowProps extends CoreProps<CSSProperties>, ComponentPropsWithRef<'div'> {}
+export interface VoiceGlowProps
+  extends
+    CoreProps<CSSProperties>,
+    Omit<ComponentPropsWithRef<'div'>, keyof CoreProps<CSSProperties>> {}
 export function VoiceGlow({
   type = voiceGlowPropDefaults.type,
   scale,

@@ -32,13 +32,13 @@ export interface TextareaProps
     >,
     Omit<TextInputProps, 'size' | 'onPressEnter'>,
     Pick<ComponentPropsWithoutRef<'textarea'>, TextInputEventNames> {
-  placeholder?: string;
+  placeholder?: string | undefined;
   fitWidth?: boolean;
   maxWFull?: boolean;
   readonly?: boolean | string;
-  showWordLimit?: boolean;
-  allowClear?: boolean;
-  autoSize?: TextareaAutoSize;
+  showWordLimit?: boolean | undefined;
+  allowClear?: boolean | undefined;
+  autoSize?: TextareaAutoSize | undefined;
   textareaAttrs?: ComponentPropsWithoutRef<'textarea'>;
   suffix?: ReactNode;
   onKeyDown?: (event: KeyboardEvent) => void;

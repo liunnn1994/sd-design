@@ -164,8 +164,8 @@ export type JsonFormA2UI_0_9_1ComponentNode =
 
 export interface TranslatedJsonFormSchema {
   field: string;
-  label?: string;
+  label?: string | undefined;
   type?: string;
-  componentProps?: Record<string, unknown>;
+  componentProps?: Record<string, unknown> | undefined;
   children?: TranslatedJsonFormSchema[];
 }

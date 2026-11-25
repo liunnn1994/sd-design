@@ -82,14 +82,14 @@ export interface VoiceGlowProps<Style = unknown> {
    * thing, on top of the type preset and the individual geometry props.
    * @default 1 (0.45 for `type="pill"`)
    */
-  scale?: number;
+  scale?: number | undefined;
 
   /**
    * Audio to react to. When set, the beam analyses this stream (level plus
    * low / mid / high bands) and ignores `level`. Get one from the
    * `useVoiceMicrophone` hook or any `getUserMedia` / WebRTC source.
    */
-  stream?: MediaStream | null;
+  stream?: MediaStream | null | undefined;
 
   /**
    * Manual drive, 0–1, used when no `stream` is given. A number re-renders
@@ -130,7 +130,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * never looks dead. 0 hides it completely between sounds.
    * @default 0.18
    */
-  idle?: number;
+  idle?: number | undefined;
 
   /**
    * Period of the idle breathing in seconds.
@@ -143,14 +143,14 @@ export interface VoiceGlowProps<Style = unknown> {
    * height. The rise is centered on the bottom edge.
    * @default 1.2 (1.8 on the light theme; 1.35 for `pill`, 3 for `mobile`)
    */
-  reach?: number;
+  reach?: number | undefined;
 
   /**
    * How far the glow widens at full level, as a fraction of its resting
    * width. Side lobes drift outward as well, so a loud sound spreads.
    * @default 1.05 (0.8 on the light theme; 1.1 for `pill`, 0.45 for `mobile`)
    */
-  spread?: number;
+  spread?: number | undefined;
 
   /**
    * Let the low / mid / high bands move the colored lobes independently
@@ -168,7 +168,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * flows right to left; 0 holds the lobes in place.
    * @default 48
    */
-  flow?: number;
+  flow?: number | undefined;
 
   /**
    * Processing state — turn it on once the voice has been captured and
@@ -187,14 +187,14 @@ export interface VoiceGlowProps<Style = unknown> {
    * again).
    * @default 1.1 (1.05 for `type="mobile"`)
    */
-  processingDuration?: number;
+  processingDuration?: number | undefined;
 
   /**
    * How lit the glow is held while processing, 0–1, as if a voice were
    * speaking at that level.
    * @default 0.55 (0.35 for `type="mobile"`)
    */
-  processingLevel?: number;
+  processingLevel?: number | undefined;
 
   /**
    * Seconds the morph between the voice glow and the travelling beam
@@ -210,7 +210,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * it near the centre, higher runs it out to the corners.
    * @default 1.55 (2 for `pill`, 1 for `mobile`)
    */
-  processingTravel?: number;
+  processingTravel?: number | undefined;
 
   /**
    * How the processing beam eases into each turn of its sweep: 1 runs at
@@ -218,7 +218,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * higher dwells there longer before heading back.
    * @default 2.1
    */
-  processingCurve?: number;
+  processingCurve?: number | undefined;
 
   /**
    * How much the coloured glow rides the element's corner arcs while
@@ -227,7 +227,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * the corner either way.
    * @default 0.45 (0 for `type="pill"`, 0.4 for `type="mobile"`)
    */
-  cornerFollow?: number;
+  cornerFollow?: number | undefined;
 
   /**
    * Color variant for the beam
@@ -240,7 +240,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * seven, any CSS hex or rgb. Slots you leave out (or that fail to
    * parse) keep the variant's colour for the theme.
    */
-  colors?: string[];
+  colors?: string[] | undefined;
 
   /**
    * The band's colours: the core ridge and its chromatic fringes above,
@@ -248,7 +248,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * defaults (white core with red / green / blue fringes on dark, a pink
    * core with rose / lavender / sky on light).
    */
-  bandColors?: { core?: string; above?: string; mid?: string; below?: string };
+  bandColors?: { core?: string; above?: string; mid?: string; below?: string } | undefined;
 
   /**
    * Theme mode — adapts beam colors for dark or light backgrounds;
@@ -267,13 +267,13 @@ export interface VoiceGlowProps<Style = unknown> {
    * Hue drift range in degrees (the palette wanders ± this far)
    * @default 24 (dark) / 40 (light)
    */
-  hueRange?: number;
+  hueRange?: number | undefined;
 
   /**
    * Period of the hue drift in seconds
    * @default 12 (dark) / 8.5 (light)
    */
-  hueDuration?: number;
+  hueDuration?: number | undefined;
 
   /**
    * Whether the effect is on. Off fades the beam out and stops the audio
@@ -295,26 +295,26 @@ export interface VoiceGlowProps<Style = unknown> {
    * Custom border radius in pixels. When omitted, the component
    * auto-detects the border-radius of the first child element.
    */
-  borderRadius?: number;
+  borderRadius?: number | undefined;
 
   /**
    * Brightness multiplier for the glow
    * @default 1.15 (dark chat input) / 0.95 (light); the dark theme itself is 1.1, `pill` runs 1.35, `mobile` 1.2 on dark
    */
-  brightness?: number;
+  brightness?: number | undefined;
 
   /**
    * Saturation multiplier for the glow
    * @default 1.2 (dark) / 1.6 (light); `pill` and `mobile` run 1.5 on dark
    */
-  saturation?: number;
+  saturation?: number | undefined;
 
   /**
    * Multiplies the bloom blur radius, so the halo reads tighter (< 1) or
    * wider and softer (> 1).
    * @default 1
    */
-  glowSize?: number;
+  glowSize?: number | undefined;
 
   /**
    * Per-layer opacity multipliers on the theme's own: the crisp edge
@@ -323,17 +323,17 @@ export interface VoiceGlowProps<Style = unknown> {
    * `--voice-bloom-opacity` CSS hooks.
    * @default 1
    */
-  strokeOpacity?: number;
+  strokeOpacity?: number | undefined;
   /**
    * @zh 内层光晕的不透明度（0–1）
    * @en Opacity of the inner glow, 0–1
    */
-  innerOpacity?: number;
+  innerOpacity?: number | undefined;
   /**
    * @zh 外层光晕的不透明度（0–1）
    * @en Opacity of the outer bloom, 0–1
    */
-  bloomOpacity?: number;
+  bloomOpacity?: number | undefined;
 
   /* ── Shape ──────────────────────────────────────────────────────────
    * Each multiplier below defaults to the tuned geometry. They scale
@@ -347,7 +347,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * around it. 0 keeps the contour at its plain ellipse.
    * @default 60
    */
-  bend?: number;
+  bend?: number | undefined;
   /* ── Band ──────────────────────────────────────────────────────────
    * The light along the bend's contour — an organic bell drawn on its own
    * layer, exp(-(|x| / spread)^curve), flattening onto the edge at both
@@ -356,29 +356,29 @@ export interface VoiceGlowProps<Style = unknown> {
    * and it turns with the hue drift. */
 
   /** Opacity of the band, 0 hides it. @default 1.55 (1.8 for `mobile`; on light 1.7, or 2 for `pill`) */
-  bandStrength?: number;
+  bandStrength?: number | undefined;
   /** Thickness of the band. @default 2.15 */
-  bandWidth?: number;
+  bandWidth?: number | undefined;
   /** Height of the band's peak as a fraction of the glow's ceiling, 0.1–1.3. @default 0.35 */
-  bandPosition?: number;
+  bandPosition?: number | undefined;
   /** Bell exponent: below 2 an exponential, cusp-like rise; 2 a gaussian; above, a flatter top. @default 1.75 */
-  bandCurve?: number;
+  bandCurve?: number | undefined;
   /** Bell width as a fraction of the glow's half-range: small is a narrow spike with long tails, large a broad dome. @default 0.87 */
-  bandSpread?: number;
+  bandSpread?: number | undefined;
   /** Asymmetry, −0.6–0.6: positive widens the right side and steepens the left. @default 0.12 */
-  bandSkew?: number;
+  bandSkew?: number | undefined;
   /** Vertical shift of the whole band line in px; negative sinks it toward the edge. @default -27 */
-  bandOffset?: number;
+  bandOffset?: number | undefined;
   /** How far the band's ends rise again toward the corners, as a fraction of its peak, 0–1 — the line opens upward at the edges instead of dying flat. @default 0.59 (0 for `pill`) */
-  bandTail?: number;
+  bandTail?: number | undefined;
   /** Where the tail's rise starts, as a share of the distance from the beam's centre to the element's edge (0.85 = only the last 15%); it always reaches the full lift exactly at the corner. @default 0.67 */
-  bandTailPosition?: number;
+  bandTailPosition?: number | undefined;
   /** Exponent of the rise: 1 a straight ramp, 2 a parabola, higher a hook that stays low and whips up at the corner. @default 2.4 */
-  bandTailCurve?: number;
+  bandTailCurve?: number | undefined;
   /** Px the band runs past each side of the element, so the hook peaks outside and is cropped by the component's edge. Scales with `scale`. @default 15 */
-  bandTailOverflow?: number;
+  bandTailOverflow?: number | undefined;
   /** Chromatic aberration — how far the red and blue fringes split from the core, 0–1. @default 0.89 */
-  bandAberration?: number;
+  bandAberration?: number | undefined;
 
   /**
    * Distortion — how much the glow under the band warps sideways, 0–1.
@@ -390,24 +390,24 @@ export interface VoiceGlowProps<Style = unknown> {
    * The edge stroke stays crisp. 0 turns the filter off entirely.
    * @default 0.62
    */
-  distortion?: number;
+  distortion?: number | undefined;
   /** Grain of the distortion's noise: below 1 broad slow waves, above 1 finer ripples. @default 2.3 */
-  distortionDetail?: number;
+  distortionDetail?: number | undefined;
 
   /** Width of every colour lobe, all layers. @default 0.65 */
-  glowWidth?: number;
+  glowWidth?: number | undefined;
   /** Height of every colour lobe, all layers. @default 1.25 */
-  glowHeight?: number;
+  glowHeight?: number | undefined;
   /** Distance between the lobes (and the ring the flow travels). @default 0.85 */
-  lobeSpacing?: number;
+  lobeSpacing?: number | undefined;
   /** Width of the visible ellipse the glow is masked to. @default 0.75 */
-  rangeWidth?: number;
+  rangeWidth?: number | undefined;
   /** Height of the visible ellipse the glow is masked to. @default 1 */
-  rangeHeight?: number;
+  rangeHeight?: number | undefined;
   /** Where each lobe fades out — below 1 crisper, above 1 softer. @default 1.07 */
-  softness?: number;
+  softness?: number | undefined;
   /** The white hot spot at the centre of the edge. @default 1 */
-  coreSize?: number;
+  coreSize?: number | undefined;
   /**
    * The epicentre: a soft white wash under the band line at the centre of
    * the edge, so the source reads lighter than the band. 0–3: up to 1 the
@@ -415,28 +415,28 @@ export interface VoiceGlowProps<Style = unknown> {
    * grows, washing out more of the colour beneath.
    * @default 0 (1.8 on the light theme)
    */
-  coreLight?: number;
+  coreLight?: number | undefined;
   /** Width of the epicentre wash. @default 1 */
-  coreLightWidth?: number;
+  coreLightWidth?: number | undefined;
   /** Height of the epicentre wash. @default 1 */
-  coreLightHeight?: number;
+  coreLightHeight?: number | undefined;
   /** Size of the colours painted into the 1px edge stroke. @default 1 */
-  strokeScale?: number;
+  strokeScale?: number | undefined;
   /** Size of the soft light inside the element. @default 1 */
-  innerScale?: number;
+  innerScale?: number | undefined;
   /** Extra height of the inner light — how far it reaches into the element. @default 1 */
-  innerHeight?: number;
+  innerHeight?: number | undefined;
   /** Size of the blurred halo. @default 1 */
-  bloomScale?: number;
+  bloomScale?: number | undefined;
   /** Extra height of the halo — how far the soft light climbs. @default 1 */
-  bloomHeight?: number;
+  bloomHeight?: number | undefined;
 
   /**
    * Overall strength/opacity of the effect (0–1).
    * Only affects the beam layers — not the children.
    * @default 1 (dark) / 0.8 (light); 1 on both for `type="mobile"`
    */
-  strength?: number;
+  strength?: number | undefined;
 
   /**
    * Additional class name for the container
@@ -455,7 +455,7 @@ export interface VoiceGlowProps<Style = unknown> {
    * pseudo-elements and `[data-voice-beam-bloom]`, and keyframes are named
    * `*-{id}` — and it is substituted per instance.
    */
-  css?: string;
+  css?: string | undefined;
 
   /**
    * Called every frame with the smoothed level (0–1) the beam is showing.

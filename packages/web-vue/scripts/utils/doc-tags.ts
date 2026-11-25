@@ -1,3 +1,5 @@
+import type { PropDescriptor } from 'vue-docgen-api';
+
 /**
  * vue-docgen-api 各描述符的文案字段并不一致：prop 用 `description`，event 用
  * `content`，而 slot 又回到 `description`。这里按优先级取值，避免因为字段名
@@ -30,4 +32,18 @@ export function isPrivateApi(tags: unknown) {
       (tag.title === 'access' && 'description' in tag && tag.description === 'private')
     );
   });
+}
+export function getDocgenPropTypeName(type: PropDescriptor['type']) {
+  if (type?.name !== 'union') return type?.name;
+  if (!('elements' in type) || !Array.isArray(type.elements)) return type.name;
+  const elements: unknown[] = type.elements;
+  const members = elements.filter(
+    (member): member is { name: string } =>
+      !!member &&
+      typeof member === 'object' &&
+      'name' in member &&
+      typeof member.name === 'string' &&
+      member.name !== 'undefined',
+  );
+  return members.length === 1 ? members[0].name : type.name;
 }

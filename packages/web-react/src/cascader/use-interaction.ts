@@ -4,14 +4,14 @@ import { createCascaderInteraction } from '@sdata/web-core/cascader/interaction'
 import { useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 
 export interface CascaderInteractionProps {
-  inputValue?: string;
+  inputValue?: string | undefined;
   defaultInputValue?: string;
   popupVisible: boolean;
   allowSearch?: boolean;
   searchDelay?: number;
-  onInputValueChange?(value: string): void;
-  onSearch?(value: string): void;
-  onClear?(): void;
+  onInputValueChange?: ((value: string) => void) | undefined;
+  onSearch?: ((value: string) => void) | undefined;
+  onClear?: (() => void) | undefined;
 }
 export function useCascaderInteraction<P>(
   props: CascaderInteractionProps,

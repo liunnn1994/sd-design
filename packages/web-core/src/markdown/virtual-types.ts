@@ -32,7 +32,7 @@ export interface MarkstreamHeightCacheEntry extends MarkstreamMeasuredHeightCach
 export type MarkstreamHeightCache = MarkstreamHeightCacheEntry[];
 export interface MarkstreamVirtualMetrics {
   sessionKey: string;
-  threadKey?: string;
+  threadKey?: string | undefined;
   phase: MarkstreamVirtualPhase;
   nodeCount: number;
   liveRange: { start: number; end: number };
@@ -52,14 +52,14 @@ export interface MarkstreamVirtualMetrics {
 }
 export interface MarkstreamVirtualState {
   sessionKey: string;
-  threadKey?: string;
+  threadKey?: string | undefined;
   anchor?: MarkstreamVirtualAnchor;
   anchorCaptured?: boolean;
   metrics: MarkstreamVirtualMetrics;
   width: number;
   contentHash?: string;
-  measurementKey?: string;
-  heightCache?: MarkstreamHeightCache;
+  measurementKey?: string | undefined;
+  heightCache?: MarkstreamHeightCache | undefined;
 }
 export interface MarkstreamCaptureVirtualStateOptions {
   requireViewport?: boolean;
@@ -75,7 +75,7 @@ export interface MarkstreamRendererHandle {
     state: MarkstreamVirtualState,
     options?: {
       restoreAnchor?: boolean;
-      restoreToken?: string | number | boolean;
+      restoreToken?: string | number | boolean | undefined;
       allowUncapturedAnchor?: boolean;
     },
   ): void;

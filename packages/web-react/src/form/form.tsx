@@ -39,7 +39,7 @@ export interface FormProps<T extends Record<string, unknown> = Record<string, un
   model: T;
   onModelChange?: (model: T) => void;
   scrollToFirstError?: boolean | ScrollIntoViewOptions;
-  onSubmit?: (result: { values: T; errors?: FormErrors }, event: Event) => void;
+  onSubmit?: (result: { values: T; errors?: FormErrors | undefined }, event: Event) => void;
   onSubmitSuccess?: (values: T, event: Event) => void;
   onSubmitFailed?: (result: { values: T; errors: FormErrors }, event: Event) => void;
   ref?: Ref<FormInstance>;

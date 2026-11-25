@@ -45,11 +45,12 @@ export function getCascaderViewValues<P>(
   options: {
     showPath: boolean;
     separator: string;
-    formatLabel?: (options: CascaderOption<P>[]) => string;
+    formatLabel?: ((options: CascaderOption<P>[]) => string) | undefined;
     fallback: boolean | ((value: CascaderSingleValue) => string);
   },
 ) {
-  const result: { value: string; label: string; closable: boolean; tagProps?: P }[] = [];
+  const result: { value: string; label: string; closable: boolean; tagProps?: P | undefined }[] =
+    [];
   values.forEach((value, key) => {
     const option = leaves.get(key);
     if (option)

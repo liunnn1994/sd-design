@@ -1290,7 +1290,7 @@ interface GenerateStylesOptions {
   saturation: number;
   hueRange: number;
   theme: 'dark' | 'light';
-  hairlineOpacity?: number;
+  hairlineOpacity?: number | undefined;
 }
 
 /**

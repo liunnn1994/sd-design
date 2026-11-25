@@ -3,8 +3,8 @@ import { isFunction, isObject } from '../_utils/is.js';
 
 export interface TextInputOptions {
   maxLength: number | { length: number; errorOnly?: boolean };
-  wordLength?: (value: string) => number;
-  wordSlice?: (value: string, maxLength: number) => string;
+  wordLength?: ((value: string) => number) | undefined;
+  wordSlice?: ((value: string, maxLength: number) => string) | undefined;
 }
 
 export interface TextInputAdapter {

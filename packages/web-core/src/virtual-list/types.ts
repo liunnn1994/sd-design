@@ -23,9 +23,9 @@ export type ScrollDirection = 'vertical' | 'horizontal';
 export type ScrollAlign = 'start' | 'center' | 'end' | 'nearest';
 
 export interface ScrollToOptions {
-  align?: 'auto' | 'top' | 'bottom' | ScrollAlign;
-  smooth?: boolean;
-  offset?: number;
+  align?: 'auto' | 'top' | 'bottom' | ScrollAlign | undefined;
+  smooth?: boolean | undefined;
+  offset?: number | undefined;
 }
 
 export interface ScrollIntoViewOptions {

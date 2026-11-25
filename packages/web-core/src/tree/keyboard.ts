@@ -3,7 +3,7 @@ import type { TreeNodeKey } from './types.js';
 type NavigationNode = {
   key: TreeNodeKey;
   isLeaf: boolean;
-  children?: { key: TreeNodeKey }[];
+  children?: { key: TreeNodeKey }[] | undefined;
   pathParentKeys: TreeNodeKey[];
   checkable?: boolean;
   disableCheckbox?: boolean;

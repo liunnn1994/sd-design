@@ -17,6 +17,7 @@
 <script setup lang="ts">
   import { computed, ref, toRef, type PropType, type Slots } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import { createTreeSelectPanelFoundation } from '@sdata/web-core/tree-select/panel';
 
   import type { ScrollbarProps } from '../scrollbar';
@@ -78,10 +79,12 @@
     },
     (value) => emit('change', value),
   );
-  const computedTreeProps = computed<Partial<TreeComponentProps>>(() => ({
-    ...(props.treeProps as Partial<TreeComponentProps>),
-    ...foundation.getSelectionProps(),
-  }));
+  const computedTreeProps = computed<Partial<TreeComponentProps>>(() =>
+    definedProps({
+      ...(props.treeProps as Partial<TreeComponentProps>),
+      ...foundation.getSelectionProps(),
+    }),
+  );
 
   const treeWrapperClassName = computed(() => [
     `${prefixCls}-tree-wrapper`,

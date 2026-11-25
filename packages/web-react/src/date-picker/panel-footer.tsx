@@ -6,13 +6,13 @@ import { useDatePickerTranslate } from './context.js';
 
 export interface DatePanelFooterProps {
   prefixCls: string;
-  showTodayBtn?: boolean;
-  showConfirmBtn?: boolean;
-  confirmBtnDisabled?: boolean;
+  showTodayBtn?: boolean | undefined;
+  showConfirmBtn?: boolean | undefined;
+  confirmBtnDisabled?: boolean | undefined;
   extra?: ReactNode;
   buttons?: ReactNode;
   onTodayClick?(): void;
-  onConfirmClick?(): void;
+  onConfirmClick?: (() => void) | undefined;
 }
 
 export function DatePanelFooter({

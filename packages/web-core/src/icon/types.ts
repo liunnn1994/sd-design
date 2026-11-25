@@ -1,7 +1,7 @@
 export interface IconBaseProps {
-  size?: number | string;
-  rotate?: number;
-  spin?: boolean;
+  size?: number | string | undefined;
+  rotate?: number | undefined;
+  spin?: boolean | undefined;
 }
 
 export interface IconStrokeProps extends IconBaseProps {
@@ -11,7 +11,7 @@ export interface IconStrokeProps extends IconBaseProps {
 }
 
 export interface IconFontProps extends IconBaseProps {
-  type?: string;
+  type?: string | undefined;
 }
 
 export interface IconFontOptions<Extra = Record<string, unknown>> {

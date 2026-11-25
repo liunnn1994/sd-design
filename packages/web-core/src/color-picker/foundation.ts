@@ -17,8 +17,8 @@ export function getColorPreviewStyle(state: ColorValueState): Record<string, str
 }
 export function createColorPicker(adapter: {
   readonly props: {
-    modelValue?: string;
-    recentColors?: RecentColorsValue;
+    modelValue?: string | undefined;
+    recentColors?: RecentColorsValue | undefined;
     disabled: boolean;
     readonly: boolean | string;
     colorModes: ColorModes;

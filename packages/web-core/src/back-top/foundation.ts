@@ -8,7 +8,7 @@ import { createScrollTween } from '../_utils/tween.js';
 export function createBackTop(adapter: {
   readonly props: {
     visibleHeight: number;
-    targetContainer?: string | HTMLElement;
+    targetContainer?: string | HTMLElement | undefined;
     duration: number;
     easing: string;
   };

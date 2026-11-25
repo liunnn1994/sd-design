@@ -10,23 +10,23 @@ import type { TreeNodeData } from '../tree/node.js';
 import { useAfterRender } from '../_shared/use-after-render.js';
 
 export interface TreeSelectSelectionProps<T extends TreeNodeData> {
-  value?: TreeSelectValue;
-  defaultValue?: TreeSelectValue;
-  multiple?: boolean;
+  value?: TreeSelectValue | undefined;
+  defaultValue?: TreeSelectValue | undefined;
+  multiple?: boolean | undefined;
   treeCheckable?: boolean;
-  treeCheckStrictly?: boolean;
-  labelInValue?: boolean;
+  treeCheckStrictly?: boolean | undefined;
+  labelInValue?: boolean | undefined;
   disabled?: boolean;
   readonly?: boolean;
-  showPath?: boolean;
-  separator?: string;
-  fieldNames?: TreeFieldNames;
-  fallbackOption?: FallbackOption<T>;
+  showPath?: boolean | undefined;
+  separator?: string | undefined;
+  fieldNames?: TreeFieldNames | undefined;
+  fallbackOption?: FallbackOption<T> | undefined;
   inputValue?: string;
-  retainInputValue?: boolean;
-  onValueChange?(value: TreeSelectValue | undefined): void;
-  onChange?(value: TreeSelectValue | undefined): void;
-  onClear?(): void;
+  retainInputValue?: boolean | undefined;
+  onValueChange?: ((value: TreeSelectValue | undefined) => void) | undefined;
+  onChange?: ((value: TreeSelectValue | undefined) => void) | undefined;
+  onClear?: (() => void) | undefined;
 }
 export function useTreeSelectSelection<T extends TreeNodeData>(
   props: TreeSelectSelectionProps<T>,

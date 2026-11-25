@@ -12,8 +12,8 @@ import { getJsonFormSlotProp } from './slots.js';
 
 export interface JsonFormControlSchema {
   type?: string;
-  label?: string;
-  componentProps?: object;
+  label?: string | undefined;
+  componentProps?: object | undefined;
   componentEvents?: Record<string, unknown>;
   componentSlots?: Record<string, ReactNode | ((...args: never[]) => ReactNode)>;
 }

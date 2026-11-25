@@ -6,18 +6,18 @@ import { getNow } from '../_utils/date.js';
 
 export interface CellClassNameProps {
   prefixCls: string;
-  value?: Dayjs;
-  rangeValues?: Array<Dayjs | undefined>;
+  value?: Dayjs | undefined;
+  rangeValues?: Array<Dayjs | undefined> | undefined;
   isSameTime: IsSameTime;
-  mode?: Mode;
-  now?: Dayjs;
+  mode?: Mode | undefined;
+  now?: Dayjs | undefined;
 }
 
 export function getDateCellClassName(
   props: CellClassNameProps,
   cellData: Cell,
   disabled: boolean,
-  range: { readonly start?: Dayjs; readonly end?: Dayjs },
+  range: { readonly start?: Dayjs | undefined; readonly end?: Dayjs | undefined },
 ) {
   const { value, isSameTime, mode, prefixCls } = props;
 

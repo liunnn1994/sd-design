@@ -125,13 +125,13 @@
      * @zh 输入框尺寸
      * @en Size of the input
      */
-    size: String as PropType<Size>,
+    size: String as PropType<Size | undefined>,
     /**
      * @zh 是否允许清除
      * @en Whether to allow clearing
      */
     allowClear: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
     /**
@@ -162,7 +162,7 @@
      * @zh 占位符
      * @en Placeholder of the input
      */
-    placeholder: String,
+    placeholder: String as PropType<string | undefined>,
     /**
      * @zh 宽度是否适应文字内容
      * @en Whether the width adapts to the text content
@@ -184,7 +184,9 @@
      * @en Maximum length. Accepts an object with `length` and `errorOnly`
      */
     maxLength: {
-      type: [Number, Object] as PropType<number | { length: number; errorOnly?: boolean }>,
+      type: [Number, Object] as PropType<
+        number | { length: number; errorOnly?: boolean } | undefined
+      >,
       default: 0,
     },
     /**
@@ -199,12 +201,12 @@
      * @zh 自定义字数统计方法
      * @en Custom function used to count words
      */
-    wordLength: Function as PropType<(value: string) => number>,
+    wordLength: Function as PropType<((value: string) => number) | undefined>,
     /**
      * @zh 自定义超长文本的截断方法
      * @en Custom function used to slice overlong text
      */
-    wordSlice: Function as PropType<(value: string, maxLength: number) => string>,
+    wordSlice: Function as PropType<((value: string, maxLength: number) => string) | undefined>,
     /**
      * @zh 透传给原生 `input` 的属性
      * @en Attributes forwarded to the native `input`
@@ -231,12 +233,12 @@
      * @zh 前缀内容
      * @en Content prepended to the input
      */
-    prepend: String,
+    prepend: String as PropType<string | undefined>,
     /**
      * @zh 后缀内容
      * @en Content appended to the input
      */
-    append: String,
+    append: String as PropType<string | undefined>,
   });
 
   const emit = defineEmits<{

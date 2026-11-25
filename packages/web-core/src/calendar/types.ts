@@ -2,7 +2,7 @@ export type CalendarId = string | number;
 export interface CalendarRange {
   start: Date;
   end: Date;
-  schedule?: CalendarId | null;
+  schedule?: CalendarId | null | undefined;
 }
 export interface SpecialHoursRange {
   from: number;
@@ -68,7 +68,7 @@ export interface CalendarEventInput {
   [key: string]: unknown;
   start: Date | string;
   end: Date | string;
-  schedule?: CalendarId | null;
+  schedule?: CalendarId | null | undefined;
   allDay?: boolean;
   _?: CalendarEventMeta;
 }

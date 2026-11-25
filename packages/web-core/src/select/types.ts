@@ -46,7 +46,7 @@ export interface SelectOptionData {
    * @zh 多选标签透传属性
    * @en Extra props for rendered tags
    */
-  tagProps?: Record<string, unknown>;
+  tagProps?: Record<string, unknown> | undefined;
   [other: string]: unknown;
 }
 

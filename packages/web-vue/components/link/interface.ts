@@ -6,7 +6,7 @@ export interface LinkProps {
    * @zh 链接地址
    * @en Link address
    */
-  href?: string;
+  href?: string | undefined;
   /**
    * @zh 链接的状态
    * @en Link status
@@ -18,7 +18,7 @@ export interface LinkProps {
    * @en Whether to show background when hover
    * @version 2.7.0
    */
-  hoverable?: boolean;
+  hoverable?: boolean | undefined;
   /**
    * @zh 图标
    * @en icon
@@ -30,29 +30,29 @@ export interface LinkProps {
    * @en Whether to enable ellipsis for the default slot content
    * @defaultValue true
    */
-  ellipsis?: boolean;
+  ellipsis?: boolean | undefined;
   /**
    * @zh 默认内容省略的最大显示行数
    * @en Maximum number of displayed lines for ellipsis content
    */
-  ellipsisLineClamp?: number | string;
+  ellipsisLineClamp?: number | string | undefined;
   /**
    * @zh 省略内容的展开触发方式
    * @en Trigger mode for ellipsis expansion
    * @values 'click'
    */
-  ellipsisExpandTrigger?: 'click';
+  ellipsisExpandTrigger?: 'click' | undefined;
   /**
    * @zh 省略时是否展示提示。可传入 Tooltip 属性。
    * @en Whether to show a tooltip when ellipsis is active. Tooltip props are supported.
    * @defaultValue true
    */
-  ellipsisTooltip?: boolean | EllipsisTooltipProps;
+  ellipsisTooltip?: boolean | EllipsisTooltipProps | undefined;
   /**
    * @zh 图标提示文案
    * @en Tooltip content for the icon
    */
-  iconTooltip?: string;
+  iconTooltip?: string | undefined;
   /**
    * @zh 链接是否为加载中状态
    * @en Whether the link is in the loading state

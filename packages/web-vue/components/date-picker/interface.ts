@@ -119,10 +119,10 @@ export interface RangePickerProps extends Omit<BasePickerProps, 'inputProps'> {
 }
 
 export interface HeaderIcons {
-  prev?: Slot;
-  prevDouble?: Slot;
-  next?: Slot;
-  nextDouble?: Slot;
+  prev?: Slot | undefined;
+  prevDouble?: Slot | undefined;
+  next?: Slot | undefined;
+  nextDouble?: Slot | undefined;
 }
 
 export interface StartHeaderProps {

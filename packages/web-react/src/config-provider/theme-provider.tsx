@@ -14,15 +14,15 @@ import { createContext, createElement, useContext, useLayoutEffect, useRef, useS
 import { usePrefix } from './index.js';
 
 export interface ThemeProviderProps extends HTMLAttributes<HTMLElement> {
-  theme?: SdThemeConfig;
-  themeMode?: SdThemeMode;
-  global?: boolean;
+  theme?: SdThemeConfig | undefined;
+  themeMode?: SdThemeMode | undefined;
+  global?: boolean | undefined;
   tag?: string;
 }
 
 interface ThemeContextValue {
   variables: Record<string, string>;
-  mode?: SdThemeMode;
+  mode?: SdThemeMode | undefined;
   popupContainer: HTMLElement | null;
 }
 

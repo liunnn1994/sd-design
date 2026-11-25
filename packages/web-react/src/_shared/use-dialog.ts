@@ -10,7 +10,7 @@ import { runCssTransition } from '@sdata/web-core/transition/css';
 import { useLayoutEffect, useRef, useState } from 'react';
 
 export interface DialogOptions {
-  visible?: boolean;
+  visible?: boolean | undefined;
   defaultVisible?: boolean;
   popupContainer?: string | HTMLElement;
   renderToBody?: boolean;
@@ -19,15 +19,15 @@ export interface DialogOptions {
   transitionKey?: string;
   maskAnimationName: string;
   closeSelector: string;
-  onBeforeOk?: BeforeOk;
-  onBeforeCancel?: () => boolean;
-  onVisibleChange?: (visible: boolean) => void;
-  onOk?: (event: Event) => void;
-  onCancel?: (event: Event) => void;
-  onOpen?: () => void;
-  onClose?: () => void;
-  onBeforeOpen?: () => void;
-  onBeforeClose?: () => void;
+  onBeforeOk?: BeforeOk | undefined;
+  onBeforeCancel?: (() => boolean) | undefined;
+  onVisibleChange?: ((visible: boolean) => void) | undefined;
+  onOk?: ((event: Event) => void) | undefined;
+  onCancel?: ((event: Event) => void) | undefined;
+  onOpen?: (() => void) | undefined;
+  onClose?: (() => void) | undefined;
+  onBeforeOpen?: (() => void) | undefined;
+  onBeforeClose?: (() => void) | undefined;
   beforeOpening?: () => void;
   beforeClosed?: () => void;
 }

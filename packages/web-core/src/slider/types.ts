@@ -4,7 +4,7 @@ export type SliderValue = number | [number, number];
 export type SliderFormatTooltip = (value: number) => string;
 export type SliderChangeHandler = (value: SliderValue) => void;
 export interface SliderOptions {
-  modelValue?: SliderValue;
+  modelValue?: SliderValue | undefined;
   range: boolean;
   min: number;
   max: number;

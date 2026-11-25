@@ -36,13 +36,13 @@ export interface CalendarEventViewProps extends CoreEventProps {
   event: CalendarEvent;
   leaving?: boolean;
   onAfterLeave?: () => void;
-  className?: string;
+  className?: string | undefined;
   style?: CSSProperties;
   onDeleted(id: CalendarId): void;
-  renderEvent?: (event: CalendarEvent) => ReactNode;
-  renderViewEvent?: Record<string, (event: CalendarEvent) => ReactNode>;
-  renderAllDayEvent?: (event: CalendarEvent) => ReactNode;
-  renderEventContent?: (event: CalendarEvent) => ReactNode;
+  renderEvent?: ((event: CalendarEvent) => ReactNode) | undefined;
+  renderViewEvent?: Record<string, (event: CalendarEvent) => ReactNode> | undefined;
+  renderAllDayEvent?: ((event: CalendarEvent) => ReactNode) | undefined;
+  renderEventContent?: ((event: CalendarEvent) => ReactNode) | undefined;
 }
 
 function DeleteButton({

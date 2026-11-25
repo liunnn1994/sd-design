@@ -30,7 +30,7 @@
   );
   const slots = defineSlots<{
     default?: () => VNode[];
-    tr?: (props: { rowIndex?: number; record?: unknown }) => VNode[];
+    tr?: (props: { rowIndex?: number | undefined; record?: unknown }) => VNode[];
   }>();
   const prefixCls = getPrefixCls('table');
   const cls = computed(() => [

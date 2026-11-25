@@ -15,12 +15,14 @@ export interface DatePanelHeaderProps {
   title: string;
   mode?: Mode;
   value?: Dayjs;
-  icons?: { prev?: ReactNode; prevDouble?: ReactNode; next?: ReactNode; nextDouble?: ReactNode };
-  onPrev?(event: MouseEvent): void;
-  onSuperPrev?(event: MouseEvent): void;
-  onNext?(event: MouseEvent): void;
-  onSuperNext?(event: MouseEvent): void;
-  onLabelClick?(label: 'year' | 'month'): void;
+  icons?:
+    | { prev?: ReactNode; prevDouble?: ReactNode; next?: ReactNode; nextDouble?: ReactNode }
+    | undefined;
+  onPrev?: ((event: MouseEvent) => void) | undefined;
+  onSuperPrev?: ((event: MouseEvent) => void) | undefined;
+  onNext?: ((event: MouseEvent) => void) | undefined;
+  onSuperNext?: ((event: MouseEvent) => void) | undefined;
+  onLabelClick?: ((label: 'year' | 'month') => void) | undefined;
 }
 
 export function DatePanelHeader({

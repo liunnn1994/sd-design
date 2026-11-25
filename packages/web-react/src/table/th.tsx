@@ -30,8 +30,8 @@ export interface ThProps extends HTMLAttributes<HTMLElement> {
   operations?: TableOperationColumn[];
   dataColumns?: TableColumnData[];
   resizable?: boolean;
-  component?: ElementType;
-  renderTh?(data: { column: TableColumnData }): ReactElement;
+  component?: ElementType | undefined;
+  renderTh?: ((data: { column: TableColumnData }) => ReactElement) | undefined;
 }
 export function Th({
   column = {},

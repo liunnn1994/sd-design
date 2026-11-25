@@ -1,4 +1,5 @@
-import type { CSSProperties, PointerEvent } from 'react';
+import type { MotionStyle } from 'framer-motion';
+import type { PointerEvent } from 'react';
 
 import {
   createBloomMenuFoundation,
@@ -165,7 +166,7 @@ export function BloomMenu({
     [foundation, offset?.left, offset?.top],
   );
   const source = data.current.triggerStyle;
-  const panelStyle = {
+  const panelStyle: MotionStyle & Record<`--${string}`, string | number> = {
     '--bloom-menu-columns': foundation.getNormalizedColumns(),
     '--bloom-menu-source-width': `${source.width}px`,
     '--bloom-menu-source-height': `${source.height}px`,
@@ -174,7 +175,7 @@ export function BloomMenu({
     '--bloom-menu-source-border-radius': source.borderRadius,
     '--bloom-menu-source-box-shadow': source.boxShadow,
     '--bloom-menu-source-color': source.color,
-  } as CSSProperties;
+  };
   return (
     <div
       {...attrs}

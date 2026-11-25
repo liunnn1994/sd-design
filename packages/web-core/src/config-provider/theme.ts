@@ -7,7 +7,7 @@ export type ThemeTokenValue = string | number;
 export type ThemeTokenMap = Record<string, ThemeTokenValue>;
 
 export interface SdThemeMeta {
-  name?: string;
+  name?: string | undefined;
   schemaVersion?: number;
   cssVarPrefix?: string;
 }

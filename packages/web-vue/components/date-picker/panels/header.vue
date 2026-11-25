@@ -1,12 +1,12 @@
 <template>
   <div :class="`${prefixCls}-header`">
-    <div :class="getIconClassName(showSuperPrev)" @click="onSuperPrev">
+    <div :class="getIconClassName(showSuperPrev)" @click="onSuperPrev?.($event)">
       <template v-if="showSuperPrev">
         <component v-if="icons && icons.prevDouble" :is="icons.prevDouble" />
         <IconDoubleLeft v-else />
       </template>
     </div>
-    <div :class="getIconClassName(showPrev)" @click="onPrev">
+    <div :class="getIconClassName(showPrev)" @click="onPrev?.($event)">
       <template v-if="showPrev">
         <component v-if="icons && icons.prev" :is="icons.prev" />
         <IconLeft v-else />
@@ -30,13 +30,13 @@
       </template>
       <template v-else>{{ title }}</template>
     </div>
-    <div :class="getIconClassName(showNext)" @click="onNext">
+    <div :class="getIconClassName(showNext)" @click="onNext?.($event)">
       <template v-if="showNext">
         <component v-if="icons && icons.next" :is="icons.next" />
         <IconRight v-else />
       </template>
     </div>
-    <div :class="getIconClassName(showSuperNext)" @click="onSuperNext">
+    <div :class="getIconClassName(showSuperNext)" @click="onSuperNext?.($event)">
       <template v-if="showSuperNext">
         <component v-if="icons && icons.nextDouble" :is="icons.nextDouble" />
         <IconDoubleRight v-else />
@@ -85,19 +85,19 @@
       type: Object as PropType<HeaderIcons>,
     },
     onPrev: {
-      type: Function as PropType<ClickCallbackFunc>,
+      type: Function as PropType<ClickCallbackFunc | undefined>,
     },
     onSuperPrev: {
-      type: Function as PropType<ClickCallbackFunc>,
+      type: Function as PropType<ClickCallbackFunc | undefined>,
     },
     onNext: {
-      type: Function as PropType<ClickCallbackFunc>,
+      type: Function as PropType<ClickCallbackFunc | undefined>,
     },
     onSuperNext: {
       type: Function as PropType<ClickCallbackFunc>,
     },
     onLabelClick: {
-      type: Function as PropType<HeaderLabelClickFunc>,
+      type: Function as PropType<HeaderLabelClickFunc | undefined>,
     },
   });
 

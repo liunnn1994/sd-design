@@ -836,7 +836,7 @@ test('Carousel keeps its compound component and injection-key deep entries', asy
 test('Tour keeps the native driver engine identity and its existing deep component entry', async () => {
   const { readFile } = await import('node:fs/promises');
   const declaration = await readFile(new URL('../es/tour/tour.vue.d.ts', import.meta.url), 'utf8');
-  assert.match(declaration, /DefineComponent<Config, TourController/);
+  assert.match(declaration, /DefineComponent<TourProps, TourController/);
   assert.doesNotMatch(declaration, /node_modules/);
   const native = await import('driver.js');
   const shared = await import('@sdata/web-core/tour/engine');

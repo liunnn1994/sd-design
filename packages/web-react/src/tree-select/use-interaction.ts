@@ -2,19 +2,19 @@ import { createTreeSelectInteraction } from '@sdata/web-core/tree-select/interac
 import { useReducer, useRef, useState } from 'react';
 
 export interface TreeSelectInteractionProps {
-  inputValue?: string;
-  defaultInputValue?: string;
-  popupVisible?: boolean;
-  defaultPopupVisible?: boolean;
-  show?: boolean;
-  defaultShow?: boolean;
-  readonly?: boolean | string;
+  inputValue?: string | undefined;
+  defaultInputValue?: string | undefined;
+  popupVisible?: boolean | undefined;
+  defaultPopupVisible?: boolean | undefined;
+  show?: boolean | undefined;
+  defaultShow?: boolean | undefined;
+  readonly?: boolean | string | undefined;
   disabled?: boolean;
-  allowSearch?: boolean | { retainInputValue?: boolean };
-  onInputValueChange?(value: string): void;
-  onSearch?(value: string): void;
-  onPopupVisibleChange?(value: boolean): void;
-  onShowChange?(value: boolean): void;
+  allowSearch?: boolean | { retainInputValue?: boolean } | undefined;
+  onInputValueChange?: ((value: string) => void) | undefined;
+  onSearch?: ((value: string) => void) | undefined;
+  onPopupVisibleChange?: ((value: boolean) => void) | undefined;
+  onShowChange?: ((value: boolean) => void) | undefined;
 }
 export function useTreeSelectInteraction(
   props: TreeSelectInteractionProps,

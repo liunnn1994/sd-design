@@ -375,11 +375,11 @@
       type: Object as PropType<Partial<TimePickerProps>>,
     },
     showNowBtn: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: true,
     },
     dayStartOfWeek: {
-      type: Number as PropType<WeekStart>,
+      type: Number as PropType<WeekStart | undefined>,
       default: 0,
     },
     modelValue: {

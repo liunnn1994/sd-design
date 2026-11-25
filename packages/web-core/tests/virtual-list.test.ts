@@ -197,8 +197,8 @@ test('VirtualList key lookup retains zero/empty keys, index precedence and live 
   foundation.scrollTo({ index: 2, key: 0, align: 'auto' });
   assert.deepEqual(calls, [
     ['index', 0, { align: 'end', smooth: false, offset: 0 }],
-    ['index', 1, { align: 'start', smooth: undefined, offset: undefined }],
-    ['index', 2, { align: 'nearest', smooth: undefined, offset: undefined }],
+    ['index', 1, { align: 'start' }],
+    ['index', 2, { align: 'nearest' }],
   ]);
   calls.length = 0;
   props.keyField = () => {
@@ -216,9 +216,7 @@ test('VirtualList unknown keys and negative object indices are ignored while dir
   foundation.scrollTo({ index: -1 });
   assert.equal(calls.length, 0);
   foundation.scrollToItem(-1);
-  assert.deepEqual(calls, [
-    ['index', -1, { align: 'nearest', smooth: undefined, offset: undefined }],
-  ]);
+  assert.deepEqual(calls, [['index', -1, { align: 'nearest' }]]);
 });
 test('VirtualList numeric and smooth pixel scrolling use the selected native axis', () => {
   const { props, env, foundation } = fixture();

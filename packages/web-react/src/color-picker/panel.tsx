@@ -24,7 +24,7 @@ import { useColorPanel, type ColorPanelOptions } from './use-panel.js';
 
 export interface ColorPanelProps extends ColorPanelOptions {
   showPrimaryColorPreview?: boolean;
-  rootProps?: ComponentPropsWithRef<'div'>;
+  rootProps?: ComponentPropsWithRef<'div'> | undefined;
 }
 
 export function ColorPanel(props: ColorPanelProps) {

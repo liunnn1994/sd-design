@@ -4,7 +4,7 @@ import { BaseType } from '../_utils/types';
 import { Filters, Sorter, TableColumnData, TableData, TableDataWithRaw } from './interface';
 
 export interface TableContext {
-  loadMore?: (record: TableData, done: (children?: TableData[]) => void) => void;
+  loadMore?: ((record: TableData, done: (children?: TableData[]) => void) => void) | undefined;
   addLazyLoadData: (children: TableData[] | undefined, record: TableDataWithRaw) => void;
   slots: Slots;
   sorter: Sorter | undefined;

@@ -62,13 +62,13 @@
   });
 
   const props = defineProps({
-    type: String as PropType<'source' | 'target'>,
+    type: String as PropType<'source' | 'target' | undefined>,
     data: {
       type: Object as PropType<TransferItem>,
       required: true,
     },
     allowClear: Boolean,
-    disabled: Boolean,
+    disabled: Boolean as PropType<boolean | undefined>,
     draggable: Boolean,
     simple: Boolean,
   });
@@ -88,7 +88,7 @@
 
   const foundation = createTransferItemFoundation({
     isSimple: () => props.simple,
-    isDisabled: () => props.disabled,
+    isDisabled: () => props.disabled ?? false,
     getValue: () => props.data.value,
     getType: () => props.type,
     moveTo: (values, target) => transferCtx?.moveTo(values, target),

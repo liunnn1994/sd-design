@@ -67,6 +67,7 @@ export interface CascaderProps
       | 'onChange'
       | 'defaultValue'
       | 'opened'
+      | 'multiple'
       | 'children'
       | 'onInputValueChange'
     >,

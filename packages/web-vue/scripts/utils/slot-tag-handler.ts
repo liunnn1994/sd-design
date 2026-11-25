@@ -30,7 +30,8 @@ export const slotTagHandler: ScriptHandler = (documentation, path) => {
               ? slotTag.content
               : 'default';
           const slotDescriptor = documentation.getSlotDescriptor(name);
-          slotDescriptor.description = jsDoc.description;
+          if (jsDoc.description === undefined) delete slotDescriptor.description;
+          else slotDescriptor.description = jsDoc.description;
 
           const bindingsTag = jsDoc.tags.filter((tag) => tag.title === 'binding');
           if (bindingsTag.length) {

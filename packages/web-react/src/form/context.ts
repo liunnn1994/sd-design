@@ -9,16 +9,16 @@ import type { ColProps } from '../grid/index.js';
 
 export interface FormContextValue {
   model: Record<string, unknown>;
-  rules?: Record<string, FieldRule | FieldRule[]>;
+  rules?: Record<string, FieldRule | FieldRule[]> | undefined;
   size?: ConfigProviderProps['size'];
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   layout?: 'horizontal' | 'vertical' | 'inline';
-  id?: string;
+  id?: string | undefined;
   labelAlign?: 'left' | 'right';
   labelColProps?: ColProps;
   wrapperColProps?: ColProps;
-  labelColStyle?: CSSProperties;
-  wrapperColStyle?: CSSProperties;
+  labelColStyle?: CSSProperties | undefined;
+  wrapperColStyle?: CSSProperties | undefined;
   autoLabelWidth?: boolean;
   maxLabelWidth?: number;
   setValue(field: string, value: unknown): void;
@@ -31,7 +31,7 @@ export interface FormItemContextValue {
   size?: ConfigProviderProps['size'];
   disabled: boolean;
   error: boolean;
-  feedback?: ValidateStatus;
+  feedback?: ValidateStatus | undefined;
   fieldId: string;
   eventHandlers: FormItemEventHandler;
   updateValidateState(field: string, state: { status: ValidateStatus | ''; message: string }): void;
@@ -43,8 +43,8 @@ export const FormItemContext = createContext<FormItemContextValue | undefined>(u
 export function useFormItem(
   props: {
     size?: ConfigProviderProps['size'];
-    disabled?: boolean;
-    error?: boolean;
+    disabled?: boolean | undefined;
+    error?: boolean | undefined;
     uninject?: boolean;
   } = {},
 ) {

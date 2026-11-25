@@ -5,6 +5,7 @@
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
     "strict": true,
+    "exactOptionalPropertyTypes": true,
     "declaration": true,
     "outDir": "dist",
     "rootDir": "src",

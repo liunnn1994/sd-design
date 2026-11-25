@@ -51,10 +51,10 @@ export function createColorControl(adapter: {
 
 export function createGradientThumb(adapter: {
   readonly props: {
-    disabled?: boolean;
-    onSelect?: () => void;
-    onMove?: (clientX: number) => void;
-    onRemove?: () => void;
+    disabled?: boolean | undefined;
+    onSelect?: (() => void) | undefined;
+    onMove?: ((clientX: number) => void) | undefined;
+    onRemove?: (() => void) | undefined;
   };
   schedule(callback: () => void): void;
 }) {

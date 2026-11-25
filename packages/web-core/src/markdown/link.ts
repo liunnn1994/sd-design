@@ -35,13 +35,13 @@ export function getMarkdownLinkData(
 }
 
 export interface MarkdownLinkStyleOptions {
-  color?: string;
-  underlineHeight?: number;
-  underlineBottom?: number | string;
-  animationDuration?: number;
-  animationOpacity?: number;
-  animationTiming?: string;
-  animationIteration?: string | number;
+  color?: string | undefined;
+  underlineHeight?: number | undefined;
+  underlineBottom?: number | string | undefined;
+  animationDuration?: number | undefined;
+  animationOpacity?: number | undefined;
+  animationTiming?: string | undefined;
+  animationIteration?: string | number | undefined;
 }
 export function getMarkdownLinkLoadingStyle({
   color,

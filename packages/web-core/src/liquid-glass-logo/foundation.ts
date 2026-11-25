@@ -100,7 +100,7 @@ export function normalizeLiquidGlassLogo(value: LiquidGlassLogoTuning): LiquidGl
 
 /** 合并主题与显式参数；背景图模式关闭不透明底板。 */
 export function resolveLiquidGlassLogo(
-  options: Partial<LiquidGlassLogoTuning>,
+  options: { [Key in keyof LiquidGlassLogoTuning]?: LiquidGlassLogoTuning[Key] | undefined },
   backgroundImage = false,
 ): LiquidGlassLogoTuning {
   const defined = Object.fromEntries(

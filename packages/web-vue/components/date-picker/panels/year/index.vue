@@ -52,7 +52,7 @@
       required: true,
     },
     headerOperations: {
-      type: Object as PropType<HeaderOperations>,
+      type: Object as PropType<HeaderOperations | undefined>,
       default: () => ({}),
     },
     headerIcons: {
@@ -60,10 +60,10 @@
       default: () => ({}),
     },
     value: {
-      type: Object as PropType<Dayjs>,
+      type: Object as PropType<Dayjs | undefined>,
     },
     disabledDate: {
-      type: Function as PropType<DisabledDate>,
+      type: Function as PropType<DisabledDate | undefined>,
     },
     rangeValues: {
       type: Array as PropType<Array<Dayjs | undefined>>,

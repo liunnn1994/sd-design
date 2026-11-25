@@ -1,5 +1,8 @@
 import type { NodeRendererProps, CustomComponentMap } from 'markstream-react';
+import type { ComponentProps } from 'react';
 import type { IsAny } from 'type-fest';
+
+import { createRef } from 'react';
 
 import type {
   MarkdownRenderProps,
@@ -7,7 +10,16 @@ import type {
   MarkstreamScrollRootRef,
 } from '../../src/markdown-render/types.js';
 
+import {
+  CodeBlockNode,
+  type CodeBlockNodeHandle,
+  type CodeBlockNodeReactHandle,
+} from '../../src/markdown-render/index.js';
+
 type Checked<Type> = IsAny<Type> extends true ? never : Type;
+type CodeBlockRef = ComponentProps<typeof CodeBlockNode>['ref'];
+const codeBlockRef = createRef<Checked<CodeBlockNodeHandle>>() satisfies CodeBlockRef;
+const reactCodeBlockRef = createRef<Checked<CodeBlockNodeReactHandle>>() satisfies CodeBlockRef;
 const upstreamProps: Checked<NodeRendererProps> = { content: 'Markdown' };
 const sdProps: Checked<MarkdownRenderProps> = {
   content: 'SD Markdown',
@@ -33,6 +45,8 @@ const unkeyed: MarkstreamVirtualScrollOptions = { enabled: true };
 // @ts-expect-error SD imported height caches require a measurement width.
 const unmeasured: MarkstreamVirtualScrollOptions = { heightCache: [] };
 void [
+  codeBlockRef,
+  reactCodeBlockRef,
   upstreamProps,
   sdProps,
   invalidContent,

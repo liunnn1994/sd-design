@@ -18,11 +18,11 @@ export interface FileMediaViewProps {
   src: string;
   type: 'audio' | 'video';
   status: FilePreviewerStatus;
-  mediaProps?: FilePreviewerMediaProps;
+  mediaProps?: FilePreviewerMediaProps | undefined;
   close(): void;
   onLoad(): void;
   onError(): void;
-  renderMedia?(state: FilePreviewerMediaSlotProps): ReactNode;
+  renderMedia?: ((state: FilePreviewerMediaSlotProps) => ReactNode) | undefined;
 }
 
 export function FileMediaView({

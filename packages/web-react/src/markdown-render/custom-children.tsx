@@ -1,6 +1,7 @@
 import type { CustomComponentMap, NodeComponentProps, RenderContext } from 'markstream-react';
 import type { ComponentType } from 'react';
 
+import { definedProps } from '@sdata/web-core/_utils/defined-props';
 import {
   getMarkdownCustomNodeProps,
   isMarkdownBuiltinNode,
@@ -66,17 +67,20 @@ function withRecursiveChildren(Component: CustomComponentMap[string]) {
   const existing = wrappers.get(Component);
   if (existing) return existing;
   const Content = Component as ComponentType<
-    NodeComponentProps<CustomNode> & { loading?: boolean }
+    NodeComponentProps<CustomNode> & { loading?: boolean | undefined }
   >;
   function CustomNode(props: NodeComponentProps<CustomNode>) {
     const nested = useContext(MarkdownNestedRendererContext);
     if (!nested) return createElement(Content, props);
     const { Renderer, props: inherited } = nested;
+    const { indexKey: _inheritedIndexKey, ...inheritedOptions } = inherited;
     const { node, indexKey } = props;
     const options = {
-      ...inherited,
-      customId: props.customId ?? inherited.customId,
-      indexKey: indexKey == null ? undefined : String(indexKey),
+      ...inheritedOptions,
+      ...definedProps({
+        customId: props.customId ?? inherited.customId,
+        indexKey: indexKey == null ? undefined : String(indexKey),
+      }),
       batchRendering: false,
       deferNodesUntilVisible: false,
       renderAsFragment: true,
@@ -99,7 +103,9 @@ function withRecursiveChildren(Component: CustomComponentMap[string]) {
       children,
     });
   }
-  CustomNode.markstreamDisplay = Component.markstreamDisplay;
+  if (Component.markstreamDisplay !== undefined) {
+    CustomNode.markstreamDisplay = Component.markstreamDisplay;
+  }
   wrappers.set(Component, CustomNode);
   wrappers.set(CustomNode, CustomNode);
   return CustomNode;

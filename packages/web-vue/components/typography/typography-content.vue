@@ -14,7 +14,7 @@
   const props = defineProps<{
     content?: VNodeChild;
     tags: (keyof HTMLElementTagNameMap)[];
-    markStyle?: CSSProperties;
+    markStyle?: CSSProperties | undefined;
   }>();
 
   const VNodeRenderer = ({ content }: { content?: VNodeChild }) => content;

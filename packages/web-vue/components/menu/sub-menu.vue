@@ -2,11 +2,15 @@
   <component
     :is="computedPopup ? SubMenuPop : SubMenuInline"
     :key="computedKey"
-    v-bind="$attrs"
-    :title="title"
-    :selectable="computedPopup ? selectable : undefined"
+    v-bind="{
+      ...$attrs,
+      ...definedProps({
+        title,
+        selectable: computedPopup ? selectable : undefined,
+        popupMaxHeight: computedPopup ? popupMaxHeight : undefined,
+      }),
+    }"
     :is-children-selected="isChildrenSelected"
-    :popup-max-height="computedPopup ? popupMaxHeight : undefined"
   >
     <template v-for="name in forwardedSlotNames" #[name]="slotData">
       <slot :name="name" v-bind="slotData ?? {}" />
@@ -37,6 +41,7 @@
     type PropType,
   } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import { isMenuPopup, hasMenuSelectedDescendant } from '@sdata/web-core/menu/foundation';
 
   import IconDown from '../icon/icon-down';

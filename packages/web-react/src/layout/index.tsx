@@ -79,7 +79,7 @@ const LayoutContext = createContext<ReturnType<typeof createLayoutRegistry> | nu
 export const SiderContext = createContext<{
   siderCollapsed: boolean;
   siderRail: boolean;
-  siderRailWidth?: number;
+  siderRailWidth?: number | undefined;
   theme: 'light' | 'dark';
 } | null>(null);
 

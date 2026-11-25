@@ -51,17 +51,17 @@
       default: 'medium',
     },
     strokeWidth: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
     },
     width: {
-      type: [Number, String],
+      type: [Number, String] as PropType<number | string | undefined>,
       default: '100%',
     },
     color: {
-      type: [String, Object],
+      type: [String, Object] as PropType<string | Record<string, unknown> | undefined>,
       default: undefined,
     },
-    trackColor: String,
+    trackColor: String as PropType<string | undefined>,
     formatText: {
       type: Function,
       default: undefined,

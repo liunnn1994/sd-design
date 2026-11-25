@@ -70,8 +70,8 @@ interface CarouselContextValue {
   parentCls: string;
   count: number;
   mergedIndexes: CarouselIndexes;
-  previousIndex?: number;
-  slideDirection?: 'positive' | 'negative';
+  previousIndex?: number | undefined;
+  slideDirection?: 'positive' | 'negative' | undefined;
   animationName: string;
   transitionTimingFunction: string;
   moveSpeed: number;

@@ -37,7 +37,7 @@ export interface TypographyTextProps
   extends
     Partial<BaseProps>,
     Omit<HTMLAttributes<HTMLElement>, keyof BaseProps | 'onChange' | 'onCopy'> {
-  ref?: Ref<HTMLElement>;
+  ref?: Ref<HTMLElement> | undefined;
   editTooltipProps?: Omit<TooltipProps, 'children'>;
   copyTooltipProps?: Omit<TooltipProps, 'children'>;
   copyTooltip?: (copied: boolean) => ReactNode;
@@ -57,7 +57,7 @@ export interface TypographyTitleProps extends TypographyTextProps {
 }
 export interface TypographyParagraphProps extends TypographyTextProps {
   blockquote?: boolean;
-  cite?: string;
+  cite?: string | undefined;
   spacing?: 'default' | 'close';
 }
 export type TypographyProps = ComponentPropsWithRef<'article'>;

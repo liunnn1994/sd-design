@@ -9,15 +9,15 @@ export interface TableSelectionOptions {
   defaultSelectedRowKeys?: RowKey[];
 }
 export interface TableSelectionStateProps<Raw> {
-  selectedKeys?: RowKey[];
-  defaultSelectedKeys?: RowKey[];
-  rowSelection?: TableSelectionOptions;
+  selectedKeys?: RowKey[] | undefined;
+  defaultSelectedKeys?: RowKey[] | undefined;
+  rowSelection?: TableSelectionOptions | undefined;
   currentAllRowKeys: RowKey[];
   currentAllEnabledRowKeys: RowKey[];
-  onSelectAll?(checked: boolean): void;
-  onSelect?(keys: RowKey[], key: RowKey, record: Raw): void;
-  onSelectionChange?(keys: RowKey[]): void;
-  onSelectedKeysChange?(keys: RowKey[]): void;
+  onSelectAll?: ((checked: boolean) => void) | undefined;
+  onSelect?: ((keys: RowKey[], key: RowKey, record: Raw) => void) | undefined;
+  onSelectionChange?: ((keys: RowKey[]) => void) | undefined;
+  onSelectedKeysChange?: ((keys: RowKey[]) => void) | undefined;
 }
 export function useTableRowSelection<Raw>(props: TableSelectionStateProps<Raw>) {
   const current = useRef(props);

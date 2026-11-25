@@ -16,13 +16,13 @@ export const useOptions = ({
   valueKey,
   fieldNames,
 }: {
-  options?: Ref<SelectOption[]>;
-  extraOptions?: Ref<SelectOption[]>;
-  inputValue?: Ref<string>;
-  filterOption?: Ref<FilterOption>;
-  showExtraOptions?: Ref<boolean>;
-  valueKey?: Ref<string>;
-  fieldNames?: Ref<SelectFieldNames | undefined>;
+  options?: Ref<SelectOption[]> | undefined;
+  extraOptions?: Ref<SelectOption[]> | undefined;
+  inputValue?: Ref<string> | undefined;
+  filterOption?: Ref<FilterOption> | undefined;
+  showExtraOptions?: Ref<boolean> | undefined;
+  valueKey?: Ref<string> | undefined;
+  fieldNames?: Ref<SelectFieldNames | undefined> | undefined;
 }) => {
   const mergedFieldNames = computed(() => ({
     ...DEFAULT_FIELD_NAMES,

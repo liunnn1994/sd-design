@@ -3,11 +3,11 @@ import type { InjectionKey } from 'vue';
 import type { FilterOption } from './interface';
 
 export interface SelectContext {
-  multiple?: boolean;
-  valueKey?: string;
-  inputValue?: string;
-  filterOption?: FilterOption;
-  component?: string;
+  multiple?: boolean | undefined;
+  valueKey?: string | undefined;
+  inputValue?: string | undefined;
+  filterOption?: FilterOption | undefined;
+  component?: string | undefined;
   valueKeys: string[];
   activeKey: string | undefined;
   onSelect: (key: string, ev: Event) => void;

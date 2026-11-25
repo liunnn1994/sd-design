@@ -16,7 +16,7 @@ export interface TreeSelectPanelProps<T extends TreeNodeData> {
   ellipsis?: TreeProps<T>['ellipsis'];
   selectedKeys?: TreeNodeKey[];
   showCheckable?: boolean;
-  scrollbar?: boolean | ScrollbarProps;
+  scrollbar?: boolean | ScrollbarProps | undefined;
   onChange?(keys: TreeNodeKey[]): void;
 }
 export function TreeSelectPanel<T extends TreeNodeData>({

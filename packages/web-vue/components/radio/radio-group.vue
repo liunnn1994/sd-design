@@ -45,7 +45,7 @@
        * @en Value
        * @vModel
        */
-      modelValue?: RadioValue;
+      modelValue?: RadioValue | undefined;
       /**
        * @zh 默认值（非受控状态）
        * @en Default value (uncontrolled state)

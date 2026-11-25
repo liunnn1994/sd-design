@@ -16,12 +16,12 @@ export interface CalendarHeaderProps {
   controller: Controller;
   previousLabel: string;
   nextLabel: string;
-  renderHeader?: (view: HeaderView) => ReactNode;
-  renderTitle?: (view: HeaderView) => ReactNode;
+  renderHeader?: ((view: HeaderView) => ReactNode) | undefined;
+  renderTitle?: ((view: HeaderView) => ReactNode) | undefined;
   renderViewTitle?: Record<string, (view: HeaderView) => ReactNode>;
   previousButton?: ReactNode;
   nextButton?: ReactNode;
-  renderTodayButton?: (options: { navigate(): void; active: boolean }) => ReactNode;
+  renderTodayButton?: ((options: { navigate(): void; active: boolean }) => ReactNode) | undefined;
 }
 
 export function CalendarHeader({

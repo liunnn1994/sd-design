@@ -6,9 +6,9 @@ export type Filters = Record<string, string[]>;
 
 /** Query rules do not consume framework renderers or column slots. */
 export interface QueryColumn {
-  dataIndex?: string;
-  sortable?: { sortOrder?: SortDirection; defaultSortOrder?: SortDirection };
-  filterable?: { filteredValue?: string[]; defaultFilteredValue?: string[] };
+  dataIndex?: string | undefined;
+  sortable?: { sortOrder?: SortDirection; defaultSortOrder?: SortDirection } | undefined;
+  filterable?: { filteredValue?: string[]; defaultFilteredValue?: string[] } | undefined;
 }
 
 export function getDefaultFilters(columns: QueryColumn[]): Filters {

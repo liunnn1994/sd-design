@@ -14,8 +14,8 @@ import { isDisabledDate } from './utils.js';
 export interface DateDisabledOptions {
   mode?: Mode;
   showTime?: boolean;
-  disabledDate?: DisabledDate | RangeDisabledDate;
-  disabledTime?: DisabledTime | RangeDisabledTime;
+  disabledDate?: DisabledDate | RangeDisabledDate | undefined;
+  disabledTime?: DisabledTime | RangeDisabledTime | undefined;
   isRange?: boolean;
 }
 

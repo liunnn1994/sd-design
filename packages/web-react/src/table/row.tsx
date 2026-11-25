@@ -8,14 +8,14 @@ import { useTableRoot } from './use-root.js';
 
 export interface TableRowGroupProps extends HTMLAttributes<HTMLElement> {
   ref?: Ref<HTMLElement>;
-  component?: ElementType;
+  component?: ElementType | undefined;
   children?: ReactNode;
 }
 export interface TheadProps extends TableRowGroupProps {
-  renderThead?(): ReactElement;
+  renderThead?: (() => ReactElement) | undefined;
 }
 export interface TbodyProps extends TableRowGroupProps {
-  renderTbody?(): ReactElement;
+  renderTbody?: (() => ReactElement) | undefined;
 }
 export function Thead({ component = 'div', renderThead, className, ...props }: TheadProps) {
   const prefix = usePrefix('table');
@@ -39,7 +39,7 @@ export interface TrProps extends TableRowGroupProps {
   checked?: boolean;
   rowIndex?: number;
   record?: TableDataWithRaw;
-  renderTr?(data: TableRowRenderData): ReactElement;
+  renderTr?: ((data: TableRowRenderData) => ReactElement) | undefined;
 }
 export function Tr({
   component = 'div',

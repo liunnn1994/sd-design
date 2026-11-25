@@ -38,7 +38,7 @@ export function createFitWidthMeasurer() {
       );
       if (key !== measurementKey) {
         const prepared = prepareWithSegments(text, font, {
-          whiteSpace: options.whiteSpace,
+          ...(options.whiteSpace === undefined ? {} : { whiteSpace: options.whiteSpace }),
           letterSpacing,
         });
         measuredWidth = measureNaturalWidth(prepared) + (options.additionalWidth ?? 0);

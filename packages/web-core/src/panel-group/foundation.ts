@@ -60,8 +60,12 @@ export function createPanelContentAnimation(adapter: {
   readonly keepMounted: boolean | undefined;
   readonly fold:
     | {
-        shown?: { opacity?: string | number; transform?: string };
-        hidden?: { opacity?: string | number; transform?: string };
+        shown?:
+          | { opacity?: string | number | undefined; transform?: string | undefined }
+          | undefined;
+        hidden?:
+          | { opacity?: string | number | undefined; transform?: string | undefined }
+          | undefined;
       }
     | undefined;
   readonly transition: PanelTransition | undefined;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { Config, Driver as TourController } from 'driver.js';
+  import type { Driver as TourController } from 'driver.js';
 
   import type { VNodeChild } from 'vue';
   import { computed, onBeforeUnmount, onMounted, onUpdated, shallowRef, watch } from 'vue';
@@ -12,12 +12,12 @@
   } from '@sdata/web-core/tour/foundation';
   import { useResizeObserver } from '@vueuse/core';
 
-  import type { TourPopoverDom as PopoverDOM, TourSlotProps } from './types';
+  import type { TourPopoverDom as PopoverDOM, TourProps, TourSlotProps } from './types';
 
   defineOptions({ name: 'Tour', inheritAttrs: false });
 
   // Vue 会将未传入的 Boolean prop 转为 false；保留 undefined 才能沿用 driver.js 默认值。
-  const props = withDefaults(defineProps<Config>(), {
+  const props = withDefaults(defineProps<TourProps>(), {
     animate: undefined,
     smoothScroll: undefined,
     scrollIntoView: undefined,

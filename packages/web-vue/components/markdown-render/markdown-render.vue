@@ -1,7 +1,7 @@
 <template>
   <UpstreamMarkdownRender
     ref="renderer"
-    v-bind="{ ...props, ...$attrs }"
+    v-bind="{ ...definedProps(props), ...$attrs }"
     :class="cls"
     :is-dark="resolvedDark"
     @copy="emit('copy', $event)"
@@ -20,6 +20,7 @@
 <script setup lang="ts">
   import { computed, inject, provide, ref, watch } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import { getMarkdownCodeVisualOptions } from '@sdata/web-core/markdown/code-height';
   import { scheduleMarkdownPreDiffRefresh } from '@sdata/web-core/markdown/pre-diff';
   import { MarkdownRender as UpstreamMarkdownRender } from 'markstream-vue';
@@ -93,7 +94,7 @@
   provideMarkdownComponents(markdownComponents, () => props.customId);
   provide(
     markdownContextKey,
-    computed(() => ({ ...props, isDark: resolvedDark.value })),
+    computed(() => ({ ...definedProps(props), isDark: resolvedDark.value })),
   );
   defineExpose<MarkdownRenderMethods>({
     getVirtualMetrics: (...args) => renderer.value!.getVirtualMetrics(...args),

@@ -25,7 +25,7 @@ export interface UseReadonlyTipOptions {
 export function createReadonlyTip(adapter: {
   readonly readonly: boolean | string | undefined;
   readonly disabled: boolean;
-  readonly duration?: number;
+  readonly duration?: number | undefined;
   setVisible(value: boolean): void;
 }) {
   const duration = adapter.duration ?? 2000;

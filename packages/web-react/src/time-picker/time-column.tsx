@@ -12,8 +12,8 @@ export function TimeColumn({
 }: {
   prefix: string;
   list: TimeList;
-  value?: number | string;
-  visible?: boolean;
+  value?: number | string | undefined;
+  visible?: boolean | undefined;
   onSelect(value: number | string): void;
 }) {
   const wrapper = useRef<HTMLDivElement>(null);

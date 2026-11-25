@@ -34,7 +34,7 @@ export interface DatePickerStateOptions {
   utcOffset?: number;
   timezone?: string;
   showTime?: boolean;
-  showConfirm?: boolean;
+  showConfirm?: boolean | undefined;
   disabled?: boolean;
   readonly?: boolean | string;
   disabledDate?: DisabledDate;

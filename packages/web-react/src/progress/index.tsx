@@ -18,7 +18,7 @@ export type { ProgressType };
 export interface ProgressProps extends Omit<ComponentPropsWithRef<'div'>, 'children' | 'color'> {
   type?: ProgressType;
   size?: Size;
-  percent?: number;
+  percent?: number | undefined;
   steps?: number;
   animation?: boolean;
   strokeWidth?: number;

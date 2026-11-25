@@ -84,7 +84,7 @@ export type SenderResolvedSlotConfig = SenderSlotConfig & { value?: unknown };
 export interface SenderValue {
   value: string;
   slotConfig: SenderResolvedSlotConfig[];
-  skill?: SenderSkill;
+  skill?: SenderSkill | undefined;
 }
 
 export interface SenderRef {

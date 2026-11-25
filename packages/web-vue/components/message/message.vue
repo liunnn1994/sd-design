@@ -55,31 +55,31 @@
 
   const props = defineProps({
     type: {
-      type: String as PropType<MessageType | 'loading' | 'normal'>,
+      type: String as PropType<MessageType | 'loading' | 'normal' | undefined>,
       default: 'info',
     },
     closable: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
     showIcon: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: true,
     },
     duration: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: 3000,
     },
     timerVersion: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: 0,
     },
     resetOnUpdate: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
     resetOnHover: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: true,
     },
   });

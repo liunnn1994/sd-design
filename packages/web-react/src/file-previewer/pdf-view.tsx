@@ -14,11 +14,11 @@ import { usePdf } from './use-pdf.js';
 
 export interface FilePdfViewProps {
   src: string;
-  pdfProps?: FilePreviewerPdfProps;
+  pdfProps?: FilePreviewerPdfProps | undefined;
   close?(): void;
   onStatus?(status: FilePreviewerStatus): void;
   status?: FilePreviewerStatus;
-  renderPdf?(state: FilePreviewerPdfSlotProps): ReactNode;
+  renderPdf?: ((state: FilePreviewerPdfSlotProps) => ReactNode) | undefined;
 }
 export function FilePdfView({
   src,

@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 
 export function getStatisticInitialValue(props: {
   animation: boolean;
-  valueFrom?: number;
-  value?: number | Date;
+  valueFrom?: number | undefined;
+  value?: number | Date | undefined;
 }) {
   return props.animation && props.valueFrom !== undefined ? props.valueFrom : props.value;
 }
@@ -20,7 +20,12 @@ export const formatStatisticDate = (value: number | Date | undefined, format: st
   format ? dayjs(value).format(format) : value;
 
 export function createStatistic(adapter: {
-  readonly props: { animation: boolean; start: boolean; valueFrom?: number; value?: number | Date };
+  readonly props: {
+    animation: boolean;
+    start: boolean;
+    valueFrom?: number | undefined;
+    value?: number | Date | undefined;
+  };
   display: number | Date | undefined;
   afterRender(): Promise<unknown>;
 }) {

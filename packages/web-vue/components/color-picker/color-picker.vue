@@ -359,7 +359,7 @@
         popupOffset: 4,
         animationName: 'slide-dynamic-origin',
         ...props.triggerProps,
-        floatingOptions: props.floatingOptions ?? props.triggerProps?.floatingOptions,
+        ...(props.floatingOptions === undefined ? {} : { floatingOptions: props.floatingOptions }),
       }) satisfies Partial<TriggerProps>,
   );
   const triggerSlotProps = computed<ColorPickerTriggerSlotProps>(() => ({

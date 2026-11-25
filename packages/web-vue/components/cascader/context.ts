@@ -8,7 +8,7 @@ export interface CascaderContext {
   setSelectedPath: (key?: string) => void;
   loadOption: (option: CascaderOptionInfo) => void;
   isLoading: (option: CascaderOptionInfo) => boolean;
-  formatLabel?: (options: CascaderOption[]) => string;
+  formatLabel?: ((options: CascaderOption[]) => string) | undefined;
   separator?: string;
   slots: Slots;
   valueMap: Map<string, CascaderSingleValue>;

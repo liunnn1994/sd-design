@@ -5,7 +5,7 @@ import { getFlattenTreeData, getKey2TreeNode } from '@sdata/web-core/tree/query'
 import { useRef } from 'react';
 
 export function useTreeData<T extends TreeData>(
-  props: Partial<TreeModelOptions<T>> & { treeData?: T[] },
+  props: Partial<TreeModelOptions<T>> & { treeData?: T[] | undefined },
 ) {
   const keys = useRef(new WeakMap<T, TreeNodeKey[]>());
   const treeData = generateTreeData(

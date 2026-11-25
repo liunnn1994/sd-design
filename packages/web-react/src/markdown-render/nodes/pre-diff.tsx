@@ -27,12 +27,18 @@ export function MarkdownPreDiff({
   inline: boolean;
   wrap: boolean;
   theme: string;
-  hideUnchangedRegions?: boolean | DiffPreviewCollapseOptions;
+  hideUnchangedRegions?: boolean | DiffPreviewCollapseOptions | undefined;
 }) {
   const [cache] = useState(createDiffMatchCache);
   const collapse = typeof hideUnchangedRegions === 'object' ? hideUnchangedRegions : undefined;
   const panes = useMemo(
-    () => buildDiffPreviewPanes({ ...node, inline, matchCache: cache, hideUnchangedRegions }),
+    () =>
+      buildDiffPreviewPanes({
+        ...node,
+        inline,
+        matchCache: cache,
+        ...(hideUnchangedRegions === undefined ? {} : { hideUnchangedRegions }),
+      }),
     [
       node.code,
       node.originalCode,

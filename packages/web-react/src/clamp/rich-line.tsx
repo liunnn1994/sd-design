@@ -38,7 +38,7 @@ export interface RichLineClampProps
   onExpandedChange?: (expanded: boolean) => void;
   onClampChange?: (clamped: boolean) => void;
   ref?: Ref<ClampExposed>;
-  rootRef?: Ref<HTMLElement>;
+  rootRef?: Ref<HTMLElement> | undefined;
 }
 
 export function RichLineClamp({

@@ -70,7 +70,7 @@ export interface TagProps<Tooltip extends TagTooltipOptions = TagTooltipOptions>
    * @zh 标签默认选中状态（标签可选中时可用）
    * @en Whether the tag is checked by default (available when the tag is checkable)
    */
-  defaultChecked?: boolean;
+  defaultChecked?: boolean | undefined;
   /**
    * @zh 标签内容不换行。已废弃，建议改用 ellipsis。
    * @en Tag content does not wrap. Deprecated, use ellipsis instead.

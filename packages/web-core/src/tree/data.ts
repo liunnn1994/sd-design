@@ -16,7 +16,7 @@ interface NodeOptions<T extends TreeData> {
   treeProps: TreeModelOptions<T>;
   keyCache: WeakMap<T, TreeNodeKey[]>;
   keyIndex: number;
-  parentNode?: TreeModelNode<T>;
+  parentNode?: TreeModelNode<T> | undefined;
   isTail?: boolean;
 }
 

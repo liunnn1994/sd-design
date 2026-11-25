@@ -2,7 +2,7 @@ import { isFunction } from '../_utils/is.js';
 
 export function createModalInstance(adapter: {
   readonly callbacks: {
-    onClose?: () => void;
+    onClose?: (() => void) | undefined;
     onOk?: (event?: Event) => void;
     onCancel?: (event?: Event) => void;
   };

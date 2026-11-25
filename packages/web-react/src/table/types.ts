@@ -72,7 +72,7 @@ export interface TableCellData {
 export interface TableColumnData {
   dataIndex?: string;
   title?: TableContent;
-  width?: number;
+  width?: number | undefined;
   minWidth?: number;
   align?: 'left' | 'center' | 'right';
   fixed?: 'left' | 'right';
@@ -143,25 +143,25 @@ export type OperationName = 'selection-checkbox' | 'selection-radio' | 'expand' 
 export interface TableOperationColumn {
   name: OperationName | (string & {});
   title?: TableContent;
-  width?: number;
+  width?: number | undefined;
   fixed?: boolean;
   render?(record: TableData): ReactNode;
   isLastLeftFixed?: boolean;
 }
 export interface TableComponents {
   operations(operations: {
-    dragHandle?: TableOperationColumn;
-    expand?: TableOperationColumn;
-    selection?: TableOperationColumn;
+    dragHandle?: TableOperationColumn | undefined;
+    expand?: TableOperationColumn | undefined;
+    selection?: TableOperationColumn | undefined;
   }): TableOperationColumn[];
 }
 export interface TableChangeExtra {
   type: 'pagination' | 'sorter' | 'filter' | 'drag';
   page?: number;
   pageSize?: number;
-  sorter?: Sorter;
+  sorter?: Sorter | undefined;
   filters?: Filters;
-  dragTarget?: TableData;
+  dragTarget?: TableData | undefined;
 }
 export const TABLE_PAGE_POSITION = ['tl', 'top', 'tr', 'bl', 'bottom', 'br'] as const;
 export type TablePagePosition = (typeof TABLE_PAGE_POSITION)[number];
@@ -194,8 +194,8 @@ export interface TableInstance {
   scrollIntoView(options: ScrollOptions): void;
 }
 export interface TableRowRenderData {
-  rowIndex?: number;
-  record?: TableData;
+  rowIndex?: number | undefined;
+  record?: TableData | undefined;
 }
 export interface TableProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -214,12 +214,14 @@ export interface TableProps extends Omit<
   spinProps?: SpinProps;
   rowSelection?: TableRowSelection;
   expandable?: TableExpandable;
-  scroll?: {
-    x?: number | string;
-    y?: number | string;
-    minWidth?: number | string;
-    maxHeight?: number | string;
-  };
+  scroll?:
+    | {
+        x?: number | string;
+        y?: number | string;
+        minWidth?: number | string;
+        maxHeight?: number | string;
+      }
+    | undefined;
   pagination?: boolean | Partial<PaginationProps>;
   pagePosition?: TablePagePosition;
   indentSize?: number;

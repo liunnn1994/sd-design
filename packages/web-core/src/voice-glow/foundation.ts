@@ -1,4 +1,4 @@
-import type { SetRequired } from 'type-fest';
+import type { SetRequired, UndefinedOnPartial } from 'type-fest';
 
 import type { VoiceGlowProps } from './types.js';
 
@@ -43,7 +43,7 @@ export const voiceGlowPropDefaults = {
 } as const satisfies Partial<VoiceGlowProps>;
 export interface VoiceGlowState {
   readonly id: string;
-  readonly props: VoiceGlowFoundationProps;
+  readonly props: UndefinedOnPartial<VoiceGlowFoundationProps>;
   readonly wrapper: HTMLElement | undefined;
   isActive: boolean;
   isFading: boolean;

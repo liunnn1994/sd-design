@@ -1,7 +1,7 @@
 <template>
   <component :is="hostTag" v-bind="{ ...hostAttrs, ...nodeEvents }">
     <component :is="HtmlContent" v-if="canAdapt" />
-    <UpstreamHtml v-else :node="node" :custom-id="customId" :html-policy="policy" />
+    <UpstreamHtml v-else :node="node" v-bind="definedProps({ customId })" :html-policy="policy" />
   </component>
 </template>
 <script setup lang="ts">
@@ -11,6 +11,7 @@
   import type { VNodeChild } from 'vue';
   import { computed, h, inject, useAttrs } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import { createMarkdownHtmlFoundation } from '@sdata/web-core/markdown/html';
   import { HtmlBlockNode, HtmlInlineNode } from 'markstream-vue';
 

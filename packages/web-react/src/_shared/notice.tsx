@@ -52,7 +52,7 @@ interface Item extends Omit<ReactNoticeConfig, 'id'> {
 interface Manager {
   key: number;
   container: HTMLElement;
-  context?: NoticeContext;
+  context?: NoticeContext | undefined;
   position: string;
   subscribe(callback: () => void): () => void;
   snapshot(): Item[];

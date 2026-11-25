@@ -15,17 +15,17 @@ const KEY_STEP = 10;
 const KEY_STEP_FAST = 50;
 
 export interface PanelOptions {
-  collapsed?: boolean;
-  defaultSize?: PanelSize;
-  maxSize?: PanelSize;
-  minSize?: PanelSize;
-  onCollapsedChange?: (collapsed: boolean) => void;
+  collapsed?: boolean | undefined;
+  defaultSize?: PanelSize | undefined;
+  maxSize?: PanelSize | undefined;
+  minSize?: PanelSize | undefined;
+  onCollapsedChange?: ((collapsed: boolean) => void) | undefined;
   onSizeChange?: (size: PanelSize) => void;
   onMoveStart?: (event: PointerEvent) => void;
   onMoving?: (event: PointerEvent) => void;
   onMoveEnd?: (event: PointerEvent) => void;
   size: PanelSize;
-  transition?: PanelTransition;
+  transition?: PanelTransition | undefined;
 }
 
 export interface PanelState {

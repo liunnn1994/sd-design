@@ -90,14 +90,14 @@
       type: Array as PropType<string[]>,
       required: true,
     },
-    activeKey: String,
+    activeKey: String as PropType<string | undefined>,
     totalLevel: {
       type: Number,
       required: true,
     },
     multiple: Boolean,
     checkStrictly: Boolean,
-    virtualListProps: Object as PropType<VirtualListProps>,
+    virtualListProps: Object as PropType<VirtualListProps | undefined>,
   });
 
   const prefixCls = getPrefixCls('cascader');

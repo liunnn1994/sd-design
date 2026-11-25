@@ -82,17 +82,17 @@
       default: 'medium',
     },
     strokeWidth: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
     },
     width: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: undefined,
     },
     color: {
-      type: [String, Object],
+      type: [String, Object] as PropType<string | Record<string, unknown> | undefined>,
       default: undefined,
     },
-    trackColor: String,
+    trackColor: String as PropType<string | undefined>,
     status: {
       type: String,
       default: undefined,
@@ -102,7 +102,7 @@
       default: true,
     },
     pathStrokeWidth: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
     },
   });
 

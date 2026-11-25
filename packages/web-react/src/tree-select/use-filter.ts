@@ -8,9 +8,9 @@ import type { TreeNodeData } from '../tree/node.js';
 export function useTreeSelectFilter<T extends TreeNodeData>(props: {
   searchValue: string;
   nodes: TreeModelNode<T>[];
-  fieldNames?: TreeFieldNames;
-  filterMethod?(keyword: string, node: T): boolean;
-  disableFilter?: boolean;
+  fieldNames?: TreeFieldNames | undefined;
+  filterMethod?: ((keyword: string, node: T) => boolean) | undefined;
+  disableFilter?: boolean | undefined;
 }) {
   const [keys, setKeys] = useState<Set<TreeNodeKey>>();
   const keyField = props.fieldNames?.key ?? 'key';

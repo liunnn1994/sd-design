@@ -183,7 +183,9 @@ export function LiquidGlassLogo({
       backgroundTintOpacity,
     ],
   );
-  const [measured, setMeasured] = useState<{ width?: number; scale: number }>({ scale: 1 });
+  const [measured, setMeasured] = useState<{ width?: number | undefined; scale: number }>({
+    scale: 1,
+  });
   const [ready, setReady] = useState(false);
   const [fallback, setFallback] = useState(false);
   const live = useRef({ tuning, autoWidth, onReady, onError });

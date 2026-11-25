@@ -9,13 +9,16 @@ export type { TriggerEvent, TriggerPosition } from '@sdata/web-core/_utils/const
 export type { TriggerPopupTranslate } from '@sdata/web-core/trigger/position';
 
 export interface TriggerProps
-  extends Partial<TriggerOptions>, Omit<HTMLAttributes<HTMLElement>, 'children' | 'content'> {
+  extends
+    Partial<Omit<TriggerOptions, 'unmountOnClose'>>,
+    Omit<HTMLAttributes<HTMLElement>, 'children' | 'content'> {
   children: ReactElement;
   ref?: Ref<HTMLElement>;
   content?: ReactNode;
-  popupVisible?: boolean;
+  popupVisible?: boolean | undefined;
+  unmountOnClose?: boolean | undefined;
   defaultPopupVisible?: boolean;
-  trigger?: TriggerEvent | TriggerEvent[];
+  trigger?: TriggerEvent | TriggerEvent[] | undefined;
   position?: TriggerPosition;
   popupOffset?: number;
   popupTranslate?: TriggerPopupTranslate;
@@ -31,7 +34,7 @@ export interface TriggerProps
   autoFitPopupMinWidth?: boolean;
   autoFitPopupSize?: boolean;
   autoFixPosition?: boolean;
-  popupContainer?: string | HTMLElement;
+  popupContainer?: string | HTMLElement | undefined;
   referenceElement?: HTMLElement | null;
   updateAtScroll?: boolean;
   autoFitTransformOrigin?: boolean;
@@ -40,7 +43,7 @@ export interface TriggerProps
   autoFitPosition?: boolean;
   renderToBody?: boolean;
   scrollToClose?: boolean;
-  floatingOptions?: FloatingOptions;
+  floatingOptions?: FloatingOptions | undefined;
   ariaHasPopup?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
   ariaDescribedbyPopup?: boolean;
   onPopupVisibleChange?: (visible: boolean) => void;

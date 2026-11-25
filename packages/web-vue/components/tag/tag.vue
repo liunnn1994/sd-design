@@ -161,7 +161,7 @@
      * @en Whether the tag is checked by default (available when the tag is checkable)
      */
     defaultChecked: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: true,
     },
     /**

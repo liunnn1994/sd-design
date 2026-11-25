@@ -1,6 +1,7 @@
 import type { MarkdownTextProbeProfile } from '@sdata/web-core/markdown/text-height';
 import type { RenderContext } from 'markstream-react';
 
+import { definedProps } from '@sdata/web-core/_utils/defined-props';
 import { getMarkdownTypewriterMode } from '@sdata/web-core/markdown/cursor';
 import {
   getMarkdown,
@@ -282,7 +283,7 @@ export function MarkdownRenderer(props: MarkdownRenderProps) {
   const [controller] = useState(() =>
     createMarkdownVirtualController({
       config: () => ({
-        ...live.current.props.virtualScroll,
+        ...definedProps(live.current.props.virtualScroll ?? {}),
         ...live.current,
         coordinated: live.current.props.virtualScroll?.enabled === true,
         scrollRoot: resolveScrollRoot(live.current.props.virtualScroll?.scrollRoot),
@@ -377,40 +378,42 @@ export function MarkdownRenderer(props: MarkdownRenderProps) {
     streamVersion.current++;
   }
   const ctx: RenderContext = {
-    customId: props.customId,
+    ...definedProps({
+      customId: props.customId,
+      final,
+      streamingComponents: props.streamingComponents,
+      htmlComponents: props.htmlComponents,
+      renderCodeBlocksAsPre: props.renderCodeBlocksAsPre,
+      codeBlockOptions: props.codeBlockOptions,
+      codeBlockProps: props.codeBlockProps,
+      mermaidProps: props.mermaidProps,
+      d2Props: props.d2Props,
+      infographicProps: props.infographicProps,
+    }),
     isDark,
-    final,
     indexKey: indexPrefix,
     typewriter,
     fade: props.fade ?? mode.fade,
     textStreamState: textState.current,
     streamRenderVersion: streamVersion.current,
     customComponents: renderComponents,
-    streamingComponents: props.streamingComponents,
-    htmlComponents: props.htmlComponents,
     customHtmlTags: customTags,
     htmlPolicy: props.htmlPolicy ?? 'safe',
     showTooltips: props.showTooltips ?? mode.showTooltips,
-    renderCodeBlocksAsPre: props.renderCodeBlocksAsPre,
     codeBlockStream: props.codeBlockStream ?? true,
-    codeBlockOptions: props.codeBlockOptions,
-    codeBlockProps: props.codeBlockProps,
-    mermaidProps: props.mermaidProps,
-    d2Props: props.d2Props,
-    infographicProps: props.infographicProps,
-    codeBlockThemes: {
+    codeBlockThemes: definedProps({
       themes: props.themes,
       darkTheme: props.codeBlockDarkTheme,
       lightTheme: props.codeBlockLightTheme,
       minWidth: props.codeBlockMinWidth,
       maxWidth: props.codeBlockMaxWidth,
-    },
+    }),
     events: {
       onCopy: (code) => {
         props.onCopyCode?.(code);
         props.onCopy?.(code);
       },
-      onHandleArtifactClick: props.onHandleArtifactClick,
+      ...definedProps({ onHandleArtifactClick: props.onHandleArtifactClick }),
     },
   };
   const itemRefs = useRef(new Map<number, (element: HTMLDivElement | null) => void>());

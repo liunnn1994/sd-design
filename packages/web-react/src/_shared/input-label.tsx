@@ -36,7 +36,7 @@ export interface InputLabelProps extends Omit<
   enabledInput?: boolean;
   formatLabel?: (data?: SelectViewValue) => string;
   retainInputValue?: boolean;
-  renderLabel?: (data: SelectViewValue) => React.ReactNode;
+  renderLabel?: ((data: SelectViewValue) => React.ReactNode) | undefined;
 }
 
 export function InputLabel(props: InputLabelProps) {

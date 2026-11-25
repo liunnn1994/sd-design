@@ -260,34 +260,23 @@ test('Core migration rejects a mismatched historical manifest', async (t) => {
   assert.equal(git('tag', '--list', 'web-core-v*'), '');
 });
 
-test('all package configs load with the real semantic-release loader and isolate Git assets', async () => {
-  const loaderUrl = new URL('../node_modules/semantic-release/lib/get-config.js', import.meta.url);
-  const { default: getConfig } = await import(loaderUrl.href);
-  const cwd = fileURLToPath(new URL('../../../', import.meta.url));
+test('package release configs isolate version tags and Git assets', async () => {
   for (const name of releasePackages) {
-    const { options, plugins } = await getConfig(
-      { cwd, env: process.env, logger: { log() {}, success() {}, error() {} } },
-      { extends: `./packages/${name}/release.config.ts` },
+    const { default: config }: { default: ReturnType<typeof createReleaseConfig> } = await import(
+      `../../${name}/release.config.ts`
     );
-    assert.equal(options.tagFormat, `${name}-v\${version}`);
-    assert.equal(typeof plugins.publish, 'function');
-    const gitPlugin = options.plugins.find(([entry]: [string]) =>
-      /[\\/]git[\\/]index.js$/.test(entry),
-    );
-    assert.deepEqual(gitPlugin[1].assets, [
+    assert.equal(config.tagFormat, `${name}-v\${version}`);
+    const gitOptions = config.plugins.find(([entry]) =>
+      /[\\/]git[\\/]index.js$/.test(String(entry)),
+    )?.[1];
+    assert.ok(gitOptions && 'assets' in gitOptions);
+    assert.deepEqual(gitOptions.assets, [
       `packages/${name}/CHANGELOG.md`,
       `packages/${name}/package.json`,
     ]);
   }
-  const { options } = await getConfig(
-    {
-      cwd: path.join(cwd, 'packages/sd-mcp'),
-      env: process.env,
-      logger: { log() {}, success() {}, error() {} },
-    },
-    {},
-  );
-  assert.equal(options.tagFormat, 'mcp-v${version}');
+  const { default: mcpConfig } = await import('../../sd-mcp/release.config.ts');
+  assert.equal(mcpConfig.tagFormat, 'mcp-v${version}');
 });
 
 for (const scenario of [
@@ -332,7 +321,7 @@ for (const scenario of [
       const config = createReleaseConfig(name);
       const result = await semanticRelease(
         {
-          ...config,
+          extends: fileURLToPath(new URL(`../../${name}/release.config.ts`, import.meta.url)),
           // Only GitHub authentication is omitted; all version/notes/prepare/publish plugins are real.
           plugins: config.plugins.filter(
             ([entry]) => !/[\\/]github[\\/]index.js$/.test(String(entry)),

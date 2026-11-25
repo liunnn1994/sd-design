@@ -5,7 +5,7 @@
       <slot v-else-if="slots.element" name="element" />
       <DotLoading v-else-if="mergedDot" :size="mergedSize" />
       <component :is="configCtx.slots.loading" v-else-if="configCtx?.slots.loading" />
-      <IconLoading v-else spin :size="mergedSize" />
+      <IconLoading v-else spin v-bind="mergedSize === undefined ? {} : { size: mergedSize }" />
     </div>
     <div v-if="slots.tip || mergedTip" :class="`${prefixCls}-tip`">
       <slot v-if="$slots.tip" name="tip" />

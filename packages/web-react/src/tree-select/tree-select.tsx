@@ -1,6 +1,7 @@
 import type { TreeSelectValue } from '@sdata/web-core/tree-select/types';
 import type { Ref, ReactNode, CSSProperties } from 'react';
 
+import { definedProps } from '@sdata/web-core/_utils/defined-props';
 import {
   resolveAllowClear,
   resolveAllowSearch,
@@ -65,7 +66,7 @@ export interface TreeSelectProps<T extends TreeNodeData = TreeNodeData>
       | 'defaultValue'
       | 'children'
     >,
-    Omit<TreeSelectSelectionProps<T>, 'readonly'>,
+    Omit<TreeSelectSelectionProps<T>, keyof TreeSelectInteractionProps | 'readonly'>,
     TreeSelectInteractionProps {
   ref?: Ref<TreeSelectInstance>;
   data?: T[];
@@ -328,7 +329,7 @@ export function TreeSelect<T extends TreeNodeData = TreeNodeData>(props: TreeSel
                   : scrollbar
               }
               ellipsis={mergedEllipsis}
-              treeProps={{
+              treeProps={definedProps({
                 ...treeProps,
                 data,
                 virtualListProps: virtual,
@@ -343,7 +344,7 @@ export function TreeSelect<T extends TreeNodeData = TreeNodeData>(props: TreeSel
                 multiple: isMultiple,
                 filterTreeNode: filter.filterTreeNode,
                 searchValue: interaction.inputValue,
-              }}
+              })}
             />
           )}
           {footer != null && (!isEmpty || showFooterOnEmpty) && (

@@ -17,15 +17,15 @@ export interface TimePickerTriggerSlotProps {
 export interface BasePanelProps {
   disableConfirm: boolean;
   use12Hours: boolean;
-  step?: { hour?: number; minute?: number; second?: number };
-  disabledHours?: () => number[];
-  disabledMinutes?: (selectedHour?: number) => number[];
-  disabledSeconds?: (selectedHour?: number, selectedMinute?: number) => number[];
+  step?: { hour?: number; minute?: number; second?: number } | undefined;
+  disabledHours?: (() => number[]) | undefined;
+  disabledMinutes?: ((selectedHour?: number) => number[]) | undefined;
+  disabledSeconds?: ((selectedHour?: number, selectedMinute?: number) => number[]) | undefined;
   hideDisabledOptions: boolean;
 }
 
 export interface PanelProps extends Omit<BasePanelProps, 'disableConfirm'> {
-  value?: Dayjs;
+  value?: Dayjs | undefined;
   defaultValue?: Dayjs;
   format: string;
   visible: boolean;
@@ -41,7 +41,7 @@ export interface RangePanelProps extends Omit<PanelProps, 'value'> {
 export interface TimeListItem {
   value: number | string;
   label: string;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   selected?: boolean;
 }
 

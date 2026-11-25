@@ -482,7 +482,7 @@
   const siderContext = reactive<{
     siderCollapsed: boolean;
     siderRail: boolean;
-    siderRailWidth?: number;
+    siderRailWidth?: number | undefined;
     theme: 'light' | 'dark';
   }>({
     siderCollapsed: mergedCollapsed.value,

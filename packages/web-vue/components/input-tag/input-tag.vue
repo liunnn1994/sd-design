@@ -193,7 +193,7 @@
      * @zh 输入框的值
      * @en Value of the inner input
      */
-    inputValue: String,
+    inputValue: String as PropType<string | undefined>,
     /**
      * @zh 输入框的默认值（非受控状态）
      * @en Default value of the inner input (uncontrolled state)
@@ -203,7 +203,7 @@
      * @zh 占位符
      * @en Placeholder of the inner input
      */
-    placeholder: String,
+    placeholder: String as PropType<string | undefined>,
     /**
      * @zh 宽度是否适应内容
      * @en Whether the width adapts to the content
@@ -299,7 +299,7 @@
      * @zh 透传给内部输入框的属性
      * @en Attributes forwarded to the inner input
      */
-    inputAttrs: Object as PropType<Record<string, unknown>>,
+    inputAttrs: Object as PropType<Record<string, unknown> | undefined>,
   });
 
   const emit = defineEmits<{

@@ -27,7 +27,7 @@ export interface CascaderOption<P = unknown> {
    * @en Displayed tag attributes
    * @version 2.8.0
    */
-  tagProps?: P;
+  tagProps?: P | undefined;
   /**
    * @zh 下一级选项
    * @en Next level options
@@ -60,7 +60,7 @@ export interface CascaderOptionInfo<P = unknown> extends CascaderOptionWithTotal
   disabled: boolean;
   selectionDisabled: boolean;
   isLeaf: boolean;
-  parent?: CascaderOptionInfo<P>;
+  parent?: CascaderOptionInfo<P> | undefined;
   children?: CascaderOptionInfo<P>[];
   path: CascaderOptionInfo<P>[];
   pathValue: CascaderPathValue;

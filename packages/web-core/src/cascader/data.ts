@@ -262,7 +262,7 @@ export const getOptionLabel = <P = unknown>(
     separator = ' / ',
     showPath = true,
   }: {
-    separator?: string;
+    separator?: string | undefined;
     showPath?: boolean;
   } = {},
 ) => {

@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 import { parse as parseComponent } from 'vue-docgen-api';
 
 import { toKebabCase } from './utils/convert-case.ts';
-import { extractDescription, isPrivateApi } from './utils/doc-tags.ts';
+import { extractDescription, getDocgenPropTypeName, isPrivateApi } from './utils/doc-tags.ts';
 import { getPackage } from './utils/package.ts';
 import { slotTagHandler } from './utils/slot-tag-handler.ts';
 
@@ -71,7 +71,7 @@ const resolveComponent = (doc: ComponentDoc) => ({
       ?.filter((descriptor) => !isPrivateApi(descriptor.tags))
       ?.map((descriptor) => ({
         name: toKebabCase(descriptor.name),
-        type: descriptor.type?.name,
+        type: getDocgenPropTypeName(descriptor.type),
         description: extractDescription(descriptor.tags, 'description'),
       }))
       .filter((item) => Boolean(item.description.en)) ?? [],
@@ -104,7 +104,7 @@ const isValidType = (type = '') => {
 
 const transformToVetur = (components: ReturnType<typeof resolveComponent>[]) => {
   const tags: Record<string, { attributes: string[] }> = {};
-  const attributes: Record<string, { description: string; type?: string }> = {};
+  const attributes: Record<string, { description: string; type?: string | undefined }> = {};
 
   for (const component of components) {
     const attrs: string[] = [];
@@ -137,7 +137,7 @@ const transformToVetur = (components: ReturnType<typeof resolveComponent>[]) => 
 
 const transformToWebTypes = (
   components: ReturnType<typeof resolveComponent>[],
-  { version }: { version?: string },
+  { version }: { version?: string | undefined },
 ) => {
   const json = {
     $schema: 'https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json',
@@ -153,7 +153,7 @@ const transformToWebTypes = (
           attributes: {
             name: string;
             description: string;
-            value: { type?: string; kind: string };
+            value: { type?: string | undefined; kind: string };
           }[];
           events: { name: string; description: string }[];
           slots: { name: string; description: string }[];

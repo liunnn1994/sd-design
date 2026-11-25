@@ -3,7 +3,7 @@ import type { InjectionKey, Slots } from 'vue';
 export interface CollapseContext {
   activeKeys: (string | number)[];
   slots: Slots;
-  showExpandIcon?: boolean;
+  showExpandIcon?: boolean | undefined;
   expandIconPosition: string;
   destroyOnHide: boolean;
   handleClick: (key: string | number, e: Event) => void;

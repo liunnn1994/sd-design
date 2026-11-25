@@ -17,8 +17,10 @@ export interface CalendarTimeColumnProps {
   calendar: CalendarSurfaceHost & { config: { currentTimeLabel: boolean } };
   now: Date;
   allDayLabel?: ReactNode;
-  renderTimeCell?: (params: CalendarTimeCellRenderParams) => ReactNode;
-  renderCurrentTimeLabel?: (params: { now: Date; timeFormatted: string }) => ReactNode;
+  renderTimeCell?: ((params: CalendarTimeCellRenderParams) => ReactNode) | undefined;
+  renderCurrentTimeLabel?:
+    | ((params: { now: Date; timeFormatted: string }) => ReactNode)
+    | undefined;
 }
 
 export function CalendarTimeColumn({

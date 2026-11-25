@@ -11,13 +11,13 @@ export interface ButtonProps {
   size?: Size;
   long?: boolean;
   /** 是否开启默认内容省略，默认 true */
-  ellipsis?: boolean;
+  ellipsis?: boolean | undefined;
   /** 默认内容省略的最大显示行数 */
   ellipsisLineClamp?: number | string;
   /** 省略内容的展开触发方式 */
   ellipsisExpandTrigger?: 'click';
   /** 省略提示配置，默认 true */
-  ellipsisTooltip?: boolean | EllipsisTooltipProps;
+  ellipsisTooltip?: boolean | EllipsisTooltipProps | undefined;
   loading?: boolean;
   loadingFixedWidth?: boolean;
   disabled?: boolean;
@@ -28,5 +28,5 @@ export interface ButtonProps {
    * @zh 按钮的文字气泡配置。传入字符串时作为气泡内容；传入对象时可完整继承 Tooltip 的所有属性。
    * @en Tooltip configuration for the button. A string is used as the tooltip content; an object inherits all Tooltip props.
    */
-  tooltip?: string | TooltipProps;
+  tooltip?: string | TooltipProps | undefined;
 }

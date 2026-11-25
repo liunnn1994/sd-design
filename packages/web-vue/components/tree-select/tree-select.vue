@@ -97,22 +97,24 @@
             :show-checkable="mergedTreeCheckable"
             :scrollbar="scrollbar"
             :ellipsis="mergedTreeProps.ellipsis"
-            :tree-props="{
-              actionOnNodeClick: selectable === 'leaf' ? 'expand' : undefined,
-              blockNode: true,
-              ...mergedTreeProps,
-              data: mergedData,
-              checkStrictly: treeCheckStrictly,
-              checkedStrategy: mergedTreeCheckedStrategy,
-              fieldNames,
-              multiple,
-              loadMore,
-              filterTreeNode: computedFilterTreeNode,
-              size,
-              checkable: isCheckable,
-              selectable: isSelectable,
-              searchValue: searchValue,
-            }"
+            :tree-props="
+              definedProps({
+                actionOnNodeClick: selectable === 'leaf' ? 'expand' : undefined,
+                blockNode: true,
+                ...mergedTreeProps,
+                data: mergedData,
+                checkStrictly: treeCheckStrictly,
+                checkedStrategy: mergedTreeCheckedStrategy,
+                fieldNames,
+                multiple,
+                loadMore,
+                filterTreeNode: computedFilterTreeNode,
+                size,
+                checkable: isCheckable,
+                selectable: isSelectable,
+                searchValue: searchValue,
+              })
+            "
             :tree-slots="pickSubCompSlots($slots, 'tree')"
             @change="onSelectChange"
           />
@@ -141,6 +143,7 @@
     inject,
   } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import { createTreeSelectFoundation } from '@sdata/web-core/tree-select/foundation';
   import { createTreeSelectInteraction } from '@sdata/web-core/tree-select/interaction';
   import {

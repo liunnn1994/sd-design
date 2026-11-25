@@ -2,7 +2,7 @@
   <Tooltip v-bind="mergedTooltipProps">
     <component
       :is="renderComponent"
-      v-bind="{ ...triggerProps, ...attrs }"
+      v-bind="{ ...definedProps(triggerProps), ...attrs }"
       :disabled="isDisabled"
       :class="componentClass"
       :aria-label="
@@ -24,6 +24,7 @@
 <script setup lang="ts">
   import { computed, onBeforeUnmount, onBeforeUpdate, shallowRef, useAttrs, useSlots } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import copy from '@sdata/web-core/clipboard';
   import { createCopyFoundation, getCopyDisabled } from '@sdata/web-core/copy/foundation';
 

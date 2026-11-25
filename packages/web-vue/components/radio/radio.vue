@@ -60,7 +60,7 @@
        * @en Value
        * @vModel
        */
-      modelValue?: RadioValue;
+      modelValue?: RadioValue | undefined;
       /**
        * @zh 默认是否选中（非受控状态）
        * @en Whether checked by default (uncontrolled state)
@@ -80,7 +80,7 @@
        * @zh 是否禁用
        * @en Whether to disable
        */
-      disabled?: boolean;
+      disabled?: boolean | undefined;
       /**
        * @private
        * @zh 是否忽略外层 Group 的上下文

@@ -18,8 +18,8 @@ interface Item {
   visible: boolean;
   container: HTMLElement;
   instance: Instance;
-  context?: ModalContext;
-  root?: Root;
+  context?: ModalContext | undefined;
+  root?: Root | undefined;
   committed?: boolean;
 }
 const content = (value: ModalContent) => (typeof value === 'function' ? <>{value()}</> : value);

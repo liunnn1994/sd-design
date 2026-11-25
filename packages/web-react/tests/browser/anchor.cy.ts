@@ -27,8 +27,31 @@ describe('React anchor', () => {
       'location',
     );
     cy.contains('button', 'Toggle Anchor boundary').click();
+    cy.get('#anchor-sections-a').then(([container]) => {
+      container.style.scrollPaddingTop = '64px';
+    });
     cy.get('[data-testid="anchor"] a[href="#anchor-a2"]').click();
     cy.get('#anchor-sections-a').should(($el) => expect($el[0].scrollTop).to.be.closeTo(180, 1));
+  });
+
+  it('keeps the numeric boundary from the physical top in a vertical writing mode', () => {
+    cy.contains('button', 'Mount Anchor').click();
+    cy.contains('button', 'Toggle Anchor boundary').click();
+    cy.get('#anchor-sections-a').then(([container]) => {
+      container.style.writingMode = 'vertical-rl';
+      container.style.display = 'flex';
+      container.style.height = '300px';
+      container.querySelectorAll('section').forEach((section) => {
+        section.style.flexShrink = '0';
+      });
+    });
+    cy.get('[data-testid="anchor"] a[href="#anchor-a2"]').click();
+    cy.get('#anchor-sections-a').should(([container]) => {
+      const target = container.querySelector('#anchor-a2')!;
+      expect(target.getBoundingClientRect().top - container.getBoundingClientRect().top).to.equal(
+        20,
+      );
+    });
   });
 
   it('registers renamed Anchor links, removes stale links and resolves literal ids', () => {

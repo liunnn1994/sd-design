@@ -11,7 +11,41 @@ import type { BaseNode } from 'markstream-vue';
  * @zh 与锁定版本的上游属性保持一致；默认值由上游组件自己拥有。
  * @en Props of the pinned upstream renderer.
  */
-export type MarkdownRenderProps = NodeRendererProps;
+interface MarkdownRendererInheritedDefaults {
+  final?: NodeRendererProps['final'];
+  debugPerformance?: NodeRendererProps['debugPerformance'];
+  viewportPriority?: NodeRendererProps['viewportPriority'];
+  codeBlockStream?: NodeRendererProps['codeBlockStream'];
+  renderCodeBlocksAsPre?: NodeRendererProps['renderCodeBlocksAsPre'];
+  showTooltips?: NodeRendererProps['showTooltips'];
+  isDark?: NodeRendererProps['isDark'];
+  typewriter?: NodeRendererProps['typewriter'];
+  smoothStreaming?: NodeRendererProps['smoothStreaming'];
+  fade?: NodeRendererProps['fade'];
+  batchRendering?: NodeRendererProps['batchRendering'];
+  deferNodesUntilVisible?: NodeRendererProps['deferNodesUntilVisible'];
+  nodeVirtual?: NodeRendererProps['nodeVirtual'];
+  renderAsFragment?: NodeRendererProps['renderAsFragment'];
+}
+// The Vue SFC compiler needs literal keys when extracting runtime props from Omit.
+export type MarkdownRenderProps = Omit<
+  NodeRendererProps,
+  | 'final'
+  | 'debugPerformance'
+  | 'viewportPriority'
+  | 'codeBlockStream'
+  | 'renderCodeBlocksAsPre'
+  | 'showTooltips'
+  | 'isDark'
+  | 'typewriter'
+  | 'smoothStreaming'
+  | 'fade'
+  | 'batchRendering'
+  | 'deferNodesUntilVisible'
+  | 'nodeVirtual'
+  | 'renderAsFragment'
+> &
+  MarkdownRendererInheritedDefaults;
 export type UpstreamMarkdownRenderInstance = InstanceType<typeof UpstreamMarkdownRender>;
 export type MarkdownRenderMethods = Pick<
   UpstreamMarkdownRenderInstance,

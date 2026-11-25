@@ -1,9 +1,17 @@
-import { omitBy } from 'es-toolkit';
+import type { UndefinedOnPartial } from 'type-fest';
 
-import type { TourConfig, TourController, TourPopoverDom, TourSlotProps } from './types.js';
+import type {
+  TourConfig,
+  TourProps,
+  TourController,
+  TourPopoverDom,
+  TourSlotProps,
+} from './types.js';
 
-export function getTourConfig(props: TourConfig): TourConfig {
-  return omitBy(props, (value) => value === undefined);
+import { definedProps } from '../_utils/defined-props.js';
+
+export function getTourConfig(props: UndefinedOnPartial<TourProps>): TourConfig {
+  return definedProps(props);
 }
 
 export function getTourSlotProps(

@@ -12,11 +12,11 @@ import { useState } from 'react';
 import { useCascaderLazyLoad } from './use-lazy-load.js';
 
 export function useCascaderOptions<P>(props: {
-  options?: CascaderOption<P>[];
-  fieldNames?: CascaderFieldNames;
-  valueKey?: string;
-  checkStrictly?: boolean;
-  loadMore?: CascaderLoader<P>;
+  options?: CascaderOption<P>[] | undefined;
+  fieldNames?: CascaderFieldNames | undefined;
+  valueKey?: string | undefined;
+  checkStrictly?: boolean | undefined;
+  loadMore?: CascaderLoader<P> | undefined;
 }) {
   const [lazyLoadOptions, setLazyLoadOptions] = useState<CascaderLazyLoadOptions<P>>({});
   const optionMap = new Map<string, CascaderOptionInfo<P>>();

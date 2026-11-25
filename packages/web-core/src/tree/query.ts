@@ -1,6 +1,6 @@
 import type { TreeNodeKey } from './types.js';
 
-export function getFlattenTreeData<N extends { children?: N[] }>(tree: N[]): N[] {
+export function getFlattenTreeData<N extends { children?: N[] | undefined }>(tree: N[]): N[] {
   const flattened: N[] = [];
   function visit(nodes: N[] | undefined) {
     nodes?.forEach((node) => {
@@ -22,20 +22,20 @@ export function isNodeSelectable(node: { selectable: boolean; disabled?: boolean
   return node.selectable && !node.disabled;
 }
 
-export function isNodeExpandable<N>(node: { isLeaf?: boolean; children?: N[] }) {
+export function isNodeExpandable<N>(node: { isLeaf?: boolean; children?: N[] | undefined }) {
   return !node.isLeaf && node.children;
 }
 
-export function isLeafNode(node: { isLeaf?: boolean; children?: unknown[] }) {
+export function isLeafNode(node: { isLeaf?: boolean; children?: unknown[] | undefined }) {
   return typeof node.isLeaf === 'boolean' ? node.isLeaf : !node.children;
 }
 
 export interface TreeQueryNode<T> {
   key: TreeNodeKey;
   treeNodeData: T;
-  parentKey?: TreeNodeKey;
+  parentKey?: TreeNodeKey | undefined;
   pathParentKeys: TreeNodeKey[];
-  children?: TreeQueryNode<T>[];
+  children?: TreeQueryNode<T>[] | undefined;
 }
 
 export function getSearchExpandedKeys<N extends TreeQueryNode<unknown>>(
@@ -49,7 +49,7 @@ export function getSearchExpandedKeys<N extends TreeQueryNode<unknown>>(
 export function getDefaultExpandedKeys<N extends TreeQueryNode<unknown>>(options: {
   nodes: N[];
   key2TreeNode: ReadonlyMap<TreeNodeKey, N>;
-  defaultExpandedKeys?: TreeNodeKey[];
+  defaultExpandedKeys?: TreeNodeKey[] | undefined;
   autoExpandParent: boolean;
   defaultExpandAll: boolean;
   defaultExpandSelected: boolean;
@@ -86,7 +86,7 @@ export function getVisibleTreeNodes<T, N extends TreeQueryNode<T>>(options: {
   nodes: N[];
   expandedKeys: TreeNodeKey[];
   expandingKeys: TreeNodeKey[];
-  filter?: (node: T) => boolean;
+  filter?: ((node: T) => boolean) | undefined;
 }): N[] {
   const expanded = new Set(options.expandedKeys);
   const expanding = new Set(options.expandingKeys);
@@ -106,7 +106,7 @@ export function getVisibleTreeNodes<T, N extends TreeQueryNode<T>>(options: {
 }
 
 export function getPublicCheckedKeys<
-  N extends { parentKey?: TreeNodeKey; children?: readonly unknown[] },
+  N extends { parentKey?: TreeNodeKey | undefined; children?: readonly unknown[] | undefined },
 >(keys: TreeNodeKey[], strategy: 'all' | 'parent' | 'child', nodes: ReadonlyMap<TreeNodeKey, N>) {
   if (strategy === 'parent')
     return keys.filter((key) => {
@@ -118,11 +118,11 @@ export function getPublicCheckedKeys<
 }
 
 export function getTransitionTreeNodes<T, N extends TreeQueryNode<T>>(options: {
-  nodes?: N[];
+  nodes?: N[] | undefined;
   nodeKey: TreeNodeKey;
   expandedKeys: TreeNodeKey[];
   expanded: boolean | undefined;
-  filter?: (node: T) => boolean;
+  filter?: ((node: T) => boolean) | undefined;
 }) {
   const expandedKeys = new Set(options.expandedKeys);
   const descendants = options.nodes?.filter(

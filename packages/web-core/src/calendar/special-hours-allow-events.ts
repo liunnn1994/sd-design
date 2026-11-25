@@ -19,7 +19,7 @@ export const eventRangeViolatesAllowEvents = ({
 }: {
   start: Date;
   end: Date;
-  schedule?: CalendarId | null;
+  schedule?: CalendarId | null | undefined;
   disallowed: DisallowedHours;
   hasSchedules: boolean;
 }) => {
@@ -217,7 +217,7 @@ export const clampResizeProposedRange = ({
   proposedEnd: Date;
   prevStart: Date;
   prevEnd: Date;
-  schedule?: CalendarId | null;
+  schedule?: CalendarId | null | undefined;
   disallowed: DisallowedHours;
   hasSchedules: boolean;
 }) => {

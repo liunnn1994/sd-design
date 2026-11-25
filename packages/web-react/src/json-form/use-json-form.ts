@@ -12,11 +12,11 @@ import {
 import { useLayoutEffect, useReducer, useRef, useState } from 'react';
 
 export interface JsonFormStateOptions<Schema> {
-  value?: JsonFormModel;
-  model?: JsonFormModel;
-  adapter?: JsonFormAdapter;
+  value?: JsonFormModel | undefined;
+  model?: JsonFormModel | undefined;
+  adapter?: JsonFormAdapter | undefined;
   schemas: Schema[] | JsonFormA2UI_0_9_1ComponentNode[];
-  onValueChange?(model: JsonFormModel): void;
+  onValueChange?: ((model: JsonFormModel) => void) | undefined;
 }
 
 export function useJsonForm<Schema>(

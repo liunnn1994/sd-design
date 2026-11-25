@@ -11,6 +11,7 @@ import type {
   VirtualizerHandle,
 } from 'virtua';
 
+import { definedProps } from '@sdata/web-core/_utils/defined-props';
 import { createVirtualListFoundation } from '@sdata/web-core/virtual-list/foundation';
 import {
   createContext,
@@ -53,7 +54,7 @@ export interface VirtualListProps<T> extends Omit<
   direction?: 'vertical' | 'horizontal';
   listTag?: string;
   itemTag?: string;
-  itemSize?: ItemSizeValue<T>;
+  itemSize?: ItemSizeValue<T> | undefined;
   minItemSize?: number | string | null;
   estimatedSize?: number;
   fixedSize?: boolean;
@@ -319,11 +320,13 @@ export function VirtualList<T>({
               ref={virtualizer}
               data={resolvedItems}
               horizontal={horizontal}
-              itemSize={foundation.getItemSizeHint()}
-              bufferSize={buffer}
-              ssrCount={prerender}
-              shift={shift}
-              cache={cache}
+              {...definedProps({
+                itemSize: foundation.getItemSizeHint(),
+                bufferSize: buffer,
+                ssrCount: prerender,
+                shift,
+                cache,
+              })}
               as={ListContainer}
               item={ListItem}
               onScrollEnd={foundation.onVirtuaScrollEnd}

@@ -23,10 +23,10 @@ export interface RadioOption {
   disabled?: boolean;
 }
 export interface RadioProps extends Omit<ComponentPropsWithRef<'label'>, 'onChange'> {
-  modelValue?: RadioValue;
+  modelValue?: RadioValue | undefined;
   value?: RadioValue;
   defaultChecked?: boolean;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   type?: RadioType;
   uninjectGroupContext?: boolean;
   renderRadio?: (state: RadioRenderState) => ReactNode;

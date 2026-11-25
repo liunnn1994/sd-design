@@ -17,16 +17,16 @@ import { DatePanelHeader, type DatePanelHeaderProps } from './panel-header.js';
 export interface DatePeriodPanelProps {
   mode: 'month' | 'quarter' | 'year';
   headerValue: Dayjs;
-  headerOperations?: HeaderOperations;
+  headerOperations?: HeaderOperations | undefined;
   headerIcons?: DatePanelHeaderProps['icons'];
-  value?: Dayjs;
-  disabledDate?: DisabledDate;
+  value?: Dayjs | undefined;
+  disabledDate?: DisabledDate | undefined;
   rangeValues?: Array<Dayjs | undefined>;
-  abbreviation?: boolean;
+  abbreviation?: boolean | undefined;
   onHeaderLabelClick?: DatePanelHeaderProps['onLabelClick'];
-  renderCell?(date: Date): ReactNode;
-  onSelect?(value: Dayjs): void;
-  onCellMouseEnter?(value: Dayjs): void;
+  renderCell?: ((date: Date) => ReactNode) | undefined;
+  onSelect?: ((value: Dayjs) => void) | undefined;
+  onCellMouseEnter?: ((value: Dayjs) => void) | undefined;
 }
 
 export function DatePeriodPanel({

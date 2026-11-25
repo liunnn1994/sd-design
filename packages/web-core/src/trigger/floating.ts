@@ -7,7 +7,7 @@ import type { TriggerPopupTranslate } from './position.js';
 
 export interface TriggerFloatingOptions {
   popupOffset: number;
-  popupTranslate?: TriggerPopupTranslate;
+  popupTranslate?: TriggerPopupTranslate | undefined;
   position: TriggerPosition;
   autoFitPosition: boolean;
   autoFitPopupSize: boolean;

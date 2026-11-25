@@ -10,7 +10,7 @@
   defineOptions({ name: 'ExpandTransition' });
 
   const props = defineProps({
-    expanded: Boolean,
+    expanded: { type: Boolean as import('vue').PropType<boolean | undefined>, default: false },
   });
 
   const emit = defineEmits<{ end: [] }>();

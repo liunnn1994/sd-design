@@ -24,8 +24,8 @@ export type MenuContext = Readonly<
     openKeys: string[];
     prefixCls: string;
     collapsed: boolean;
-    expandIconDown?: () => VNodeTypes;
-    expandIconRight?: () => VNodeTypes;
+    expandIconDown?: (() => VNodeTypes) | undefined;
+    expandIconRight?: (() => VNodeTypes) | undefined;
     onSubMenuClick?: (key: string, level: number) => void;
     onMenuItemClick?: (key: string) => void;
   }

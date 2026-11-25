@@ -16,11 +16,11 @@ export function getVerificationCells(value: unknown, length: number): string[] {
 
 export function createVerificationCode(adapter: {
   readonly props: {
-    modelValue?: string;
+    modelValue?: string | undefined;
     length: number;
     readonly: boolean | string;
     disabled: boolean;
-    formatter?: (input: string, index: number, value: string) => string | boolean;
+    formatter?: ((input: string, index: number, value: string) => string | boolean) | undefined;
   };
   readonly filled: string[];
   readonly cells: readonly VerificationCell[];

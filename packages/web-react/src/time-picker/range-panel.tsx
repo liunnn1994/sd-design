@@ -9,7 +9,7 @@ export interface TimeRangePanelProps extends Omit<
   TimePanelProps,
   'value' | 'onSelect' | 'onConfirm'
 > {
-  value?: Array<Dayjs | undefined>;
+  value?: Array<Dayjs | undefined> | undefined;
   displayIndex?: number;
   onSelect(value: Array<Dayjs | undefined>): void;
   onConfirm(value: Dayjs[] | undefined): void;

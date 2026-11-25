@@ -1,3 +1,5 @@
+import type { ComputeOptions } from 'compute-scroll-into-view';
+
 import { compute } from 'compute-scroll-into-view';
 
 import type { BoundaryPosition } from './utils.js';
@@ -10,8 +12,8 @@ import { slide } from './utils.js';
 export function createAnchor(adapter: {
   readonly props: {
     boundary: BoundaryPosition | number;
-    targetOffset?: number;
-    scrollContainer?: string | HTMLElement | Window;
+    targetOffset?: number | undefined;
+    scrollContainer?: string | HTMLElement | Window | undefined;
     smooth: boolean;
     changeHash: boolean;
     lineLess: boolean;
@@ -40,15 +42,32 @@ export function createAnchor(adapter: {
       const element = getElement(hash, adapter.container) ?? getElement(hash);
       if (!element) return;
       const boundary = adapter.props.boundary;
-      const block = isNumber(boundary) ? 'start' : boundary;
-      const diff = isNumber(boundary) ? boundary : 0;
-      const actions = compute(element, { block });
+      const numericBoundary = isNumber(boundary);
+      const options: ComputeOptions = { block: numericBoundary ? 'start' : boundary };
+      if (numericBoundary) {
+        const { writingMode, direction } = getComputedStyle(element);
+        if (/^(vertical|sideways|tb)/.test(writingMode)) {
+          // The physical top is on the inline axis in vertical writing modes.
+          const inlineStartsAtBottom =
+            writingMode === 'sideways-lr' ? direction !== 'rtl' : direction === 'rtl';
+          options.block = 'nearest';
+          options.inline = inlineStartsAtBottom ? 'end' : 'start';
+        }
+        options.middleware = [
+          {
+            // A numeric boundary supplies its own offset from the scroll container's edge.
+            name: 'ignoreScrollPadding',
+            fn: () => ({ rects: { scrollPadding: { top: 0, right: 0, bottom: 0, left: 0 } } }),
+          },
+        ];
+      }
+      const actions = compute(element, options);
       if (!actions.length) return;
       const { el, top } = actions[0];
       adapter.scrolling = true;
       cancelScroll = slide(
         el as HTMLElement,
-        top - diff,
+        top - (numericBoundary ? boundary : 0),
         () => {
           adapter.scrolling = false;
         },

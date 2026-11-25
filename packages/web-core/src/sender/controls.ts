@@ -96,8 +96,8 @@ export function createSenderSwitch(
 }
 
 export const isSenderSkillCloseDisabled = (state: {
-  disabled?: boolean;
-  readonly?: boolean;
+  disabled?: boolean | undefined;
+  readonly?: boolean | undefined;
   skill: { closable?: boolean | { disabled?: boolean } };
 }) =>
   state.disabled ||

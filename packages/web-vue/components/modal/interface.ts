@@ -66,7 +66,7 @@ export interface ModalConfig {
    * @zh 是否开启简单模式
    * @en Whether to enable simple mode
    */
-  simple?: boolean;
+  simple?: boolean | undefined;
   /**
    * @zh 是否点击遮罩层可以关闭对话框
    * @en Whether to close the modal when click the mask

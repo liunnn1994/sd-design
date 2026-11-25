@@ -57,7 +57,7 @@
       default: 'start',
     },
     tooltip: {
-      type: String,
+      type: String as import('vue').PropType<string | undefined>,
     },
     attrs: Object,
   });

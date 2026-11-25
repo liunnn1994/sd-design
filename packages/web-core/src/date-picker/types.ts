@@ -50,12 +50,13 @@ export interface Cell {
     | string
     | {
         [x: string]: boolean;
-      };
+      }
+    | undefined;
 }
 
 export interface HeaderOperations {
-  onSuperPrev?: () => void;
-  onPrev?: () => void;
-  onNext?: () => void;
+  onSuperPrev?: (() => void) | undefined;
+  onPrev?: (() => void) | undefined;
+  onNext?: (() => void) | undefined;
   onSuperNext?: () => void;
 }

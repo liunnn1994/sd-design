@@ -41,7 +41,7 @@
       type: Function as PropType<(value: number) => void>,
     },
     selectProps: {
-      type: Object as PropType<PaginationSelectProps>,
+      type: Object as PropType<PaginationSelectProps | undefined>,
     },
   });
 

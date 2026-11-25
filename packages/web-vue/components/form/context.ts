@@ -14,15 +14,15 @@ import {
 
 export interface FormContext {
   layout: string;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   labelAlign: string;
   labelColProps?: ColProps;
   wrapperColProps?: ColProps;
-  labelColStyle?: CSSProperties;
-  wrapperColStyle?: CSSProperties;
+  labelColStyle?: CSSProperties | undefined;
+  wrapperColStyle?: CSSProperties | undefined;
   model: Data;
   size: Size;
-  rules?: Record<string, FieldRule | FieldRule[]>;
+  rules?: Record<string, FieldRule | FieldRule[]> | undefined;
   fields: FormItemInfo[];
   addField: (field: FormItemInfo) => void;
   removeField: (field: FormItemInfo) => void;
@@ -34,7 +34,7 @@ export interface FormContext {
   removeLabelWidth: (uid?: number) => void;
   maxLabelWidth: number;
   autoLabelWidth: boolean;
-  id?: string;
+  id?: string | undefined;
 }
 
 export interface FormItemContext {

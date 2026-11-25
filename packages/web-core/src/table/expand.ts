@@ -1,8 +1,8 @@
 import type { RowKey } from './selection.js';
 
 export function getDefaultExpandedRowKeys(options: {
-  defaultExpandedKeys?: RowKey[];
-  expandable?: { defaultExpandedRowKeys?: RowKey[]; defaultExpandAllRows?: boolean };
+  defaultExpandedKeys?: RowKey[] | undefined;
+  expandable?: { defaultExpandedRowKeys?: RowKey[]; defaultExpandAllRows?: boolean } | undefined;
   defaultExpandAllRows: boolean;
   allRowKeys: RowKey[];
 }): RowKey[] {

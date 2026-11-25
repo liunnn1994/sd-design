@@ -23,7 +23,7 @@ class ReorderBoundary extends Component<{
   root: RefObject<HTMLElement | null>;
   group: EngineGroup;
   enabled: boolean;
-  transition?: PanelTransition;
+  transition?: PanelTransition | undefined;
   children: ReactNode;
   content: ReactNode;
 }> {

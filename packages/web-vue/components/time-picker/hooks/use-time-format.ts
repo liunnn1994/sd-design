@@ -10,7 +10,7 @@ import { resolveTimeFormat } from '@sdata/web-core/time-picker/values';
 import { getColumnsFromFormat } from '../utils';
 
 interface FormatProps {
-  format?: string;
+  format?: string | undefined;
   defaultFormat?: string;
   use12Hours?: boolean;
 }

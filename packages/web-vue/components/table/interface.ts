@@ -30,13 +30,13 @@ export interface TableData {
    * @zh 是否禁用行选择器
    * @en Whether to disable the row selector
    */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /**
    * @zh 是否是叶子节点
    * @en Whether it is a leaf node
    * @version 2.13.0
    */
-  isLeaf?: boolean;
+  isLeaf?: boolean | undefined;
 
   [name: string]: unknown;
 }
@@ -44,10 +44,10 @@ export interface TableData {
 export interface TableDataWithRaw {
   raw: TableData;
   key: BaseType;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   expand?: string | RenderFunction;
   children?: TableDataWithRaw[];
-  isLeaf?: boolean;
+  isLeaf?: boolean | undefined;
   hasSubtree?: boolean;
 }
 
@@ -159,32 +159,32 @@ export interface TableColumnData {
    * @zh 列信息的标识，对应 `TableData` 中的数据
    * @en The identifier of the column information, corresponding to the data in `TableData`
    */
-  dataIndex?: string;
+  dataIndex?: string | undefined;
   /**
    * @zh 列标题
    * @en Column header
    */
-  title?: string | RenderFunction;
+  title?: string | RenderFunction | undefined;
   /**
    * @zh 列宽度
    * @en Column width
    */
-  width?: number;
+  width?: number | undefined;
   /**
    * @zh 最小列宽
    * @en Minimum column width
    */
-  minWidth?: number;
+  minWidth?: number | undefined;
   /**
    * @zh 对齐方向
    * @en Alignment direction
    */
-  align?: 'left' | 'center' | 'right';
+  align?: 'left' | 'center' | 'right' | undefined;
   /**
    * @zh 固定位置
    * @en Fixed position
    */
-  fixed?: 'left' | 'right';
+  fixed?: 'left' | 'right' | undefined;
   /**
    * @zh 是否显示省略号
    * @en Whether to show ellipsis
@@ -200,65 +200,65 @@ export interface TableColumnData {
    * @zh 排序相关选项
    * @en Sorting related options
    */
-  sortable?: TableSortable;
+  sortable?: TableSortable | undefined;
   /**
    * @zh 过滤相关选项
    * @en Filter related options
    */
-  filterable?: TableFilterable;
+  filterable?: TableFilterable | undefined;
   /**
    * @zh 表头子数据，用于表头分组
    * @en Header sub-data, used for header grouping
    */
-  children?: TableColumnData[];
+  children?: TableColumnData[] | undefined;
   /**
    * @zh 自定义单元格类名
    * @en Custom cell class
    * @version 2.36.0
    */
-  cellClass?: ClassName;
+  cellClass?: ClassName | undefined;
   /**
    * @zh 自定义表头单元格类名
    * @en Custom header cell class
    * @version 2.36.0
    */
-  headerCellClass?: ClassName;
+  headerCellClass?: ClassName | undefined;
   /**
    * @zh 自定义内容单元格类名
    * @en Custom body cell class
    * @version 2.36.0
    */
-  bodyCellClass?: ClassName | ((record: TableData) => ClassName);
+  bodyCellClass?: ClassName | ((record: TableData) => ClassName) | undefined;
   /**
    * @zh 自定义总结栏单元格类名
    * @en Custom summary cell class
    * @version 2.36.0
    */
-  summaryCellClass?: ClassName | ((record: TableData) => ClassName);
+  summaryCellClass?: ClassName | ((record: TableData) => ClassName) | undefined;
   /**
    * @zh 自定义单元格样式
    * @en Custom cell style
    * @version 2.11.0
    */
-  cellStyle?: CSSProperties;
+  cellStyle?: CSSProperties | undefined;
   /**
    * @zh 自定义表头单元格样式
    * @en Custom header cell style
    * @version 2.29.0
    */
-  headerCellStyle?: CSSProperties;
+  headerCellStyle?: CSSProperties | undefined;
   /**
    * @zh 自定义内容单元格样式
    * @en Custom body cell style
    * @version 2.29.0
    */
-  bodyCellStyle?: CSSProperties | ((record: TableData) => CSSProperties);
+  bodyCellStyle?: CSSProperties | ((record: TableData) => CSSProperties) | undefined;
   /**
    * @zh 自定义总结栏单元格样式
    * @en Custom summary cell style
    * @version 2.30.0
    */
-  summaryCellStyle?: CSSProperties | ((record: TableData) => CSSProperties);
+  summaryCellStyle?: CSSProperties | ((record: TableData) => CSSProperties) | undefined;
   /**
    * @zh 自定义列单元格的渲染
    * @en Customize the rendering of column cells
@@ -283,7 +283,7 @@ export interface TableColumnData {
   isFirstRightFixed?: boolean;
   colSpan?: number;
   rowSpan?: number;
-  index?: number;
+  index?: number | undefined;
   parent?: TableColumnData;
   _resizeWidth?: number;
 }
@@ -432,8 +432,8 @@ export type OperationName = 'selection-checkbox' | 'selection-radio' | 'expand' 
 
 export interface TableOperationColumn {
   name: OperationName | string;
-  title?: string | RenderFunction;
-  width?: number;
+  title?: string | RenderFunction | undefined;
+  width?: number | undefined;
   fixed?: boolean;
   render?: (record: TableData) => VNodeChild;
   isLastLeftFixed?: boolean;
@@ -441,9 +441,9 @@ export interface TableOperationColumn {
 
 export interface TableComponents {
   operations: (operations: {
-    dragHandle?: TableOperationColumn;
-    expand?: TableOperationColumn;
-    selection?: TableOperationColumn;
+    dragHandle?: TableOperationColumn | undefined;
+    expand?: TableOperationColumn | undefined;
+    selection?: TableOperationColumn | undefined;
   }) => TableOperationColumn[];
 }
 
@@ -467,7 +467,7 @@ export interface TableChangeExtra {
    * @zh 排序信息
    * @en Sort information
    */
-  sorter?: Sorter;
+  sorter?: Sorter | undefined;
   /**
    * @zh 筛选信息
    * @en Filter information
@@ -477,7 +477,7 @@ export interface TableChangeExtra {
    * @zh 拖拽信息
    * @en Drag and drop information
    */
-  dragTarget?: TableData;
+  dragTarget?: TableData | undefined;
 }
 
 export type TableProps = InstanceType<typeof import('./table.vue').default>['$props'];

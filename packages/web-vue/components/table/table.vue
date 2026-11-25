@@ -125,7 +125,7 @@
      * @en Table data
      */
     data: {
-      type: Array as PropType<TableData[]>,
+      type: Array as PropType<TableData[] | undefined>,
       default: () => [],
     },
     /**
@@ -205,12 +205,15 @@
      * @en Scrolling attribute configuration of the table. The `2.13.0` version adds support for character values. `2.20.0` version adds support for `minWidth`, `maxHeight`.
      */
     scroll: {
-      type: Object as PropType<{
-        x?: number | string;
-        y?: number | string;
-        minWidth?: number | string;
-        maxHeight?: number | string;
-      }>,
+      type: Object as PropType<
+        | {
+            x?: number | string;
+            y?: number | string;
+            minWidth?: number | string;
+            maxHeight?: number | string;
+          }
+        | undefined
+      >,
     },
     /**
      * @zh 分页的属性配置

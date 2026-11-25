@@ -5,6 +5,7 @@ import type {
 
 import { h, type FunctionalComponent } from 'vue';
 
+import { definedProps } from '@sdata/web-core/_utils/defined-props';
 import { loadIconFontScript } from '@sdata/web-core/icon/foundation';
 
 import IconFont from './icon-font.vue';
@@ -18,7 +19,7 @@ export const addFromIconFontCn = (options: IconFontOptions) => {
   loadIconFontScript(src);
 
   const IconFontWithOptions: FunctionalComponent<IconFontProps> = (props, { slots }) =>
-    h(IconFont, { ...props, extraProps }, slots);
+    h(IconFont, { ...definedProps(props), extraProps }, slots);
 
   IconFontWithOptions.displayName = 'IconFont';
   IconFontWithOptions.props = {

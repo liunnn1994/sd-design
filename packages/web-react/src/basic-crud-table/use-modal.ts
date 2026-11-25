@@ -14,14 +14,14 @@ import { useCrudModel } from './use-model.js';
 
 type CrudModalApis<Row extends TableData> = Partial<BasicCrudModalFoundationState<Row>['props']>;
 export interface CrudModalOptions<Row extends TableData> extends CrudModalApis<Row> {
-  model?: UnknownRecord;
-  defaultModel?: UnknownRecord;
-  visible?: boolean;
-  onModelChange?(model: UnknownRecord): void;
-  onVisibleChange?(visible: boolean): void;
+  model?: UnknownRecord | undefined;
+  defaultModel?: UnknownRecord | undefined;
+  visible?: boolean | undefined;
+  onModelChange?: ((model: UnknownRecord) => void) | undefined;
+  onVisibleChange?: ((visible: boolean) => void) | undefined;
   onSuccess: Parameters<typeof createBasicCrudModalFoundation<Row>>[1]['success'];
-  onClose?(): void;
-  onError?(error: unknown): void;
+  onClose?: (() => void) | undefined;
+  onError?: ((error: unknown) => void) | undefined;
 }
 
 export function useCrudModal<Row extends TableData>(options: CrudModalOptions<Row>) {
@@ -32,7 +32,7 @@ export function useCrudModal<Row extends TableData>(options: CrudModalOptions<Ro
   const form = useRef<JsonFormInstance>(null);
   const afterRender = useAfterRender();
   const [, redraw] = useReducer((version: number) => version + 1, 0);
-  const details = useRef<{ type: 'create' | 'edit'; row?: Row }>({ type: 'create' });
+  const details = useRef<{ type: 'create' | 'edit'; row?: Row | undefined }>({ type: 'create' });
   const [foundation] = useState(() =>
     createBasicCrudModalFoundation<Row>(
       {

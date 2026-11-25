@@ -18,7 +18,7 @@ export interface CascaderOptionContext<P = unknown> {
   setSelectedPath: (key?: string) => void;
   loadOption: (option: CascaderOptionInfo<P>) => void;
   isLoading: (option: CascaderOptionInfo<P>) => boolean;
-  formatLabel: (options: CascaderOption<P>[]) => string;
+  formatLabel: ((options: CascaderOption<P>[]) => string) | undefined;
   separator: string;
   valueMap: Map<string, CascaderSingleValue>;
   expandTrigger: 'click' | 'hover';

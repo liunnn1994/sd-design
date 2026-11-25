@@ -84,10 +84,10 @@
       default: () => [],
     },
     value: {
-      type: Object as PropType<Dayjs>,
+      type: Object as PropType<Dayjs | undefined>,
     },
     disabledDate: {
-      type: Function as PropType<DisabledDate>,
+      type: Function as PropType<DisabledDate | undefined>,
     },
     isSameTime: {
       type: Function as PropType<IsSameTime>,
@@ -100,7 +100,7 @@
       type: Boolean,
     },
     rangeValues: {
-      type: Array as PropType<Array<Dayjs | undefined>>,
+      type: Array as PropType<Array<Dayjs | undefined> | undefined>,
     },
     now: {
       type: Object as PropType<Dayjs>,

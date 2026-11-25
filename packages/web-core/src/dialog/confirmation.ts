@@ -5,7 +5,10 @@ export type BeforeOk = (
 ) => void | boolean | Promise<void | boolean>;
 
 export function createConfirmationFoundation<Args extends unknown[]>(adapter: {
-  readonly callbacks: { onBeforeOk?: BeforeOk; onBeforeCancel?: () => boolean };
+  readonly callbacks: {
+    onBeforeOk?: BeforeOk | undefined;
+    onBeforeCancel?: (() => boolean) | undefined;
+  };
   readonly loading: boolean;
   setLoading(value: boolean): void;
   setVisible(value: boolean): void;

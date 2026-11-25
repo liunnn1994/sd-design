@@ -122,14 +122,14 @@ function PageItem({
   onChange,
 }: {
   type: 'page' | 'previous' | 'next' | 'more';
-  page?: number;
-  step?: number;
+  page?: number | undefined;
+  step?: number | undefined;
   current: number;
   pages: number;
   disabled: boolean;
   simple?: boolean;
-  style?: CSSProperties;
-  activeStyle?: CSSProperties;
+  style?: CSSProperties | undefined;
+  activeStyle?: CSSProperties | undefined;
   children?: ReactNode;
   onChange(value: number): void;
 }) {

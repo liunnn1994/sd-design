@@ -17,7 +17,7 @@ export interface TimeListProps extends Pick<
   selectedMinute: number | undefined;
   selectedSecond: number | undefined;
   selectedAmpm: string;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 
 export function getTimeHours(props: TimeListProps): TimeList {

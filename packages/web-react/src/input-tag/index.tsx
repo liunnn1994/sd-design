@@ -71,11 +71,11 @@ export interface InputTagProps
   placeholder?: string;
   fitWidth?: boolean;
   maxWFull?: boolean;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   error?: boolean;
   readonly?: boolean | string;
   allowClear?: boolean;
-  size?: 'mini' | 'small' | 'medium' | 'large';
+  size?: 'mini' | 'small' | 'medium' | 'large' | undefined;
   maxTagCount?: number | 'responsive';
   retainInputValue?: boolean | { create?: boolean; blur?: boolean };
   formatTag?: (data: TagData) => string;
@@ -89,15 +89,15 @@ export interface InputTagProps
   inputAttrs?: ComponentPropsWithoutRef<'input'>;
   prefix?: ReactNode;
   suffix?: ReactNode;
-  renderTag?: (data: TagDataInfo['raw'] & TagDataInfo) => ReactNode;
+  renderTag?: ((data: TagDataInfo['raw'] & TagDataInfo) => ReactNode) | undefined;
   onValueChange?: (value: InputTagValue) => void;
   onInputValueChange?: (value: string, event: Event) => void;
   onChange?: (value: InputTagValue, event: Event) => void;
   onPressEnter?: (value: string, event: KeyboardEvent) => void;
-  onRemove?: (value: string | number, event: Event) => void;
+  onRemove?: ((value: string | number, event: Event) => void) | undefined;
   onClear?: (event: MouseEvent) => void;
-  onFocus?: (event: FocusEvent) => void;
-  onBlur?: (event: FocusEvent) => void;
+  onFocus?: ((event: FocusEvent) => void) | undefined;
+  onBlur?: ((event: FocusEvent) => void) | undefined;
   onKeyDown?: (event: KeyboardEvent) => void;
   ref?: Ref<InputTagInstance>;
 }

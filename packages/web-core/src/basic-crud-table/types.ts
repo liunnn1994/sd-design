@@ -5,7 +5,7 @@ export type BasicCrudTableDataResult<TData = UnknownRecord> =
   | { data: TData[]; total?: number; count?: number; [key: string]: unknown };
 export type BasicCrudTableModalSubmitContext<TRow = UnknownRecord> = {
   type: 'create' | 'edit';
-  row?: TRow;
+  row?: TRow | undefined;
   model: UnknownRecord;
 };
 export type InferBasicCrudTableRowFromValue<TValue> = TValue extends readonly (infer TItem)[]

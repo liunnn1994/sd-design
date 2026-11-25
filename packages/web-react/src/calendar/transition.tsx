@@ -20,7 +20,7 @@ function Frame({
   active: boolean;
   name: string;
   remove(key: string): void;
-  style?: CSSProperties;
+  style?: CSSProperties | undefined;
 }) {
   const element = useRef<HTMLDivElement>(null);
   const wasActive = useRef(active);

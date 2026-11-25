@@ -8,7 +8,7 @@ export function ImageFooter({
   extra,
   className,
   ...attrs
-}: ComponentPropsWithRef<'div'> & { description?: string; extra?: ReactNode }) {
+}: ComponentPropsWithRef<'div'> & { description?: string | undefined; extra?: ReactNode }) {
   const prefix = usePrefix('image-footer');
   return (
     <div {...attrs} className={[prefix, className].filter(Boolean).join(' ')}>

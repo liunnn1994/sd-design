@@ -29,8 +29,8 @@ export interface CrudTableOptions<Row extends TableData> extends CrudApis<Row> {
   tableData?: Row[];
   defaultTableData?: Row[];
   onTableDataChange?(rows: Row[]): void;
-  pagination?: BasicCrudTablePagination | boolean;
-  defaultPageSize?: number;
+  pagination?: BasicCrudTablePagination | boolean | undefined;
+  defaultPageSize?: number | undefined;
   fetchTableOnMounted?: boolean;
   onCreate?(): void;
   onEdit?(row: Row, context?: unknown): void;

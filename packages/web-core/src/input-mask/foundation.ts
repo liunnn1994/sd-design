@@ -1,4 +1,4 @@
-import type { SetRequired } from 'type-fest';
+import type { SetRequired, UndefinedOnPartial } from 'type-fest';
 
 import type {
   InputMaskProps,
@@ -12,7 +12,9 @@ import type {
 import { splitGraphemes } from '../_utils/grapheme.js';
 import { formatInputMask, resolveDeletion, stripMaskPlaceholders } from './mask-engine.js';
 export interface InputMaskFoundationState {
-  readonly props: SetRequired<InputMaskProps, 'defaultValue' | 'maskChar' | 'alwaysShowMask'>;
+  readonly props: UndefinedOnPartial<
+    SetRequired<InputMaskProps, 'defaultValue' | 'maskChar' | 'alwaysShowMask'>
+  >;
   readonly presets: Readonly<Record<InputMaskPresetName, InputMaskPresetDefinition>>;
   readonly inputElement: HTMLInputElement | undefined;
   focused: boolean;

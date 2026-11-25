@@ -9,10 +9,10 @@ catalog:
   vite: ^8.3.8
   vue: ^3.5.45
   'es-toolkit': ^1.53.2
-  'type-fest': ^5.10.0
-  oxlint: ^1.94.0
-  oxfmt: ^0.79.0
-  'vite-plus': ^1.7.0
+  'type-fest': ^6.0.1
+  oxlint: ^1.95.0
+  oxfmt: ^0.80.0
+  'vite-plus': ^1.8.0
   'vue-docgen-api': ^4.79.2
   tsdown: ^0.23.7
 
@@ -129,11 +129,10 @@ minimumReleaseAge: 10080
 # 任何 pnpm install 都会在全工作区重新解析时失败——已验证 lockfile、catalog 和
 # node_modules 三者会就此不一致，且与新增依赖无关。
 minimumReleaseAgeExclude:
-  - driver.js
   - oxlint
   - oxfmt
   - vite-plus
-  - '@voidzero-dev/vite-plus*'
+  - '@voidzero-dev/*'
   - typescript-native-bridge
   - '@typescript-native-bridge/*'
   - '@types/node'
@@ -143,7 +142,6 @@ minimumReleaseAgeExclude:
   - '@vitest/*'
   - '@yuku-core/*'
   - oxlint-tsgolint
-  - tinybench@6.2.2
   - vitest
   - yuku-core
   - yuku-parser
@@ -155,7 +153,7 @@ minimumReleaseAgeExclude:
   - video.js
   - markdown-it-ts
   - markstream-core
-  - markstream-react@2.0.29
+  - markstream-react
   - markstream-vue
   - stream-markdown-parser
 trustLockfile: true

@@ -11,17 +11,12 @@
         v-if="!isEmpty"
         :key="virtualizerKey"
         ref="virtuaRef"
-        v-bind="resolvedListAttrs"
+        v-bind="{ ...resolvedListAttrs, ...virtualizerOptions }"
         :data="resolvedItems"
         :horizontal="isHorizontal"
-        :item-size="itemSizeHint"
-        :buffer-size="resolvedBuffer"
-        :ssr-count="props.prerender"
         :shift="props.shift"
-        :cache="props.cache"
         :as="resolvedAs"
         :item="resolvedItem"
-        :item-props="resolvedItemProps"
         :class="listClassNames"
         :style="listStyle"
         @scroll-end="onVirtuaScrollEnd"
@@ -57,6 +52,7 @@
     watch,
   } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import { createVirtualListFoundation } from '@sdata/web-core/virtual-list/foundation';
   import {
     type OverlayScrollbars as OverlayScrollbarsInstance,
@@ -306,8 +302,6 @@
 
   const virtualizerKey = computed(foundation.getVirtualizerKey);
 
-  const resolvedBuffer = computed(() => props.buffer);
-
   const resolvedAs = computed(() => (props.listTag || 'div') as 'div');
   const resolvedItem = computed(() => (props.itemTag || 'div') as 'div');
   const resolvedListAttrs = computed(() => {
@@ -355,6 +349,15 @@
         style: CSSProperties;
       };
   });
+  const virtualizerOptions = computed(() =>
+    definedProps({
+      itemSize: itemSizeHint.value,
+      bufferSize: props.buffer,
+      ssrCount: props.prerender,
+      cache: props.cache,
+      itemProps: resolvedItemProps.value,
+    }),
+  );
 
   const viewportStyle = computed<CSSProperties>(() => {
     const style: CSSProperties = {

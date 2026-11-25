@@ -3,7 +3,7 @@ import { union } from '../_utils/array.js';
 export type RowKey = string | number;
 export interface SelectionNode {
   key: RowKey;
-  isLeaf?: boolean;
+  isLeaf?: boolean | undefined;
   children?: SelectionNode[];
 }
 export interface SelectionRecord<Raw> extends SelectionNode {

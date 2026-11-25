@@ -76,9 +76,9 @@
       type: Boolean,
       default: false,
     },
-    accept: String,
+    accept: String as PropType<string | undefined>,
     listType: String,
-    tip: String,
+    tip: String as PropType<string | undefined>,
     draggable: {
       type: Boolean,
       default: false,
@@ -93,7 +93,7 @@
     },
     hide: Boolean,
     onButtonClick: {
-      type: Function as PropType<(event: Event) => Promise<FileList> | void>,
+      type: Function as PropType<((event: Event) => Promise<FileList> | void) | undefined>,
     },
   });
 

@@ -4,16 +4,16 @@ import type { EllipsisTooltipProps } from '../ellipsis/index.js';
 import type { TooltipProps } from '../tooltip/index.js';
 
 export interface ButtonOptions {
-  type?: 'secondary' | 'primary' | 'dashed' | 'outline' | 'text';
-  shape?: 'square' | 'round' | 'circle';
-  status?: 'normal' | 'warning' | 'success' | 'danger';
-  size?: 'mini' | 'small' | 'medium' | 'large';
-  disabled?: boolean;
+  type?: 'secondary' | 'primary' | 'dashed' | 'outline' | 'text' | undefined;
+  shape?: 'square' | 'round' | 'circle' | undefined;
+  status?: 'normal' | 'warning' | 'success' | 'danger' | undefined;
+  size?: 'mini' | 'small' | 'medium' | 'large' | undefined;
+  disabled?: boolean | undefined;
 }
 
 interface ButtonContent extends ButtonOptions {
   long?: boolean;
-  loading?: boolean;
+  loading?: boolean | undefined;
   loadingFixedWidth?: boolean;
   icon?: ReactNode;
   srOnly?: ReactNode;

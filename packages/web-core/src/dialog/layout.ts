@@ -1,7 +1,11 @@
 import { isNumber, isUndefined } from '../_utils/is.js';
 
 export function applyModalLayout<
-  Style extends { width?: string | number; top?: string | number; transform?: string },
+  Style extends {
+    width?: string | number | undefined;
+    top?: string | number | undefined;
+    transform?: string | undefined;
+  },
 >(
   style: Style,
   options: {
@@ -22,7 +26,7 @@ export function applyModalLayout<
 }
 
 export function applyDrawerLayout<
-  Style extends { width?: string | number; height?: string | number },
+  Style extends { width?: string | number | undefined; height?: string | number | undefined },
 >(
   style: Style,
   placement: string,

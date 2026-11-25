@@ -1,12 +1,12 @@
 import { isArray, isNull, isUndefined } from '../_utils/is.js';
 
 export interface LayoutColumn<Column> {
-  dataIndex?: string;
-  children?: Column[];
+  dataIndex?: string | undefined;
+  children?: Column[] | undefined;
   parent?: Column;
-  fixed?: 'left' | 'right';
-  width?: number;
-  minWidth?: number;
+  fixed?: 'left' | 'right' | undefined;
+  width?: number | undefined;
+  minWidth?: number | undefined;
   _resizeWidth?: number;
   colSpan?: number;
   rowSpan?: number;
@@ -26,7 +26,7 @@ export function getTableFixedColumns(state: {
   readonly rowSelection: { fixed?: boolean } | undefined;
   readonly expandable: { fixed?: boolean } | undefined;
   readonly draggable: { fixed?: boolean } | undefined;
-  readonly columns: readonly { fixed?: 'left' | 'right' }[];
+  readonly columns: readonly { fixed?: 'left' | 'right' | undefined }[];
 }) {
   let left = false;
   let right = false;
@@ -187,7 +187,7 @@ export const getGroupColumns = <Column extends LayoutColumn<Column>>(
     }: {
       level?: number;
       parent?: Column;
-      fixed?: 'left' | 'right';
+      fixed?: 'left' | 'right' | undefined;
     } = {},
   ) => {
     for (const item of columns) {

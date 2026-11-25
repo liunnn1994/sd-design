@@ -19,7 +19,7 @@
         >
           <Transition
             :name="props.animationName"
-            :duration="props.duration"
+            v-bind="props.duration === undefined ? {} : { duration: props.duration }"
             appear
             @before-enter="onAnimationStart"
             @after-enter="handleShow"
@@ -128,8 +128,8 @@
   type ChildRef = Ref<HTMLElement | undefined> | HTMLElement;
   type TriggerClass = ClassName | (ClassName | undefined)[];
   type TriggerProps = {
-    floatingOptions?: FloatingOptions;
-    popupVisible?: boolean;
+    floatingOptions?: FloatingOptions | undefined;
+    popupVisible?: boolean | undefined;
     defaultPopupVisible?: boolean;
     trigger?: TriggerEvent | TriggerEvent[];
     position?: TriggerPosition;
@@ -143,9 +143,9 @@
     clickOutsideToClose?: boolean;
     unmountOnClose?: boolean;
     contentClass?: TriggerClass;
-    contentStyle?: CSSProperties;
+    contentStyle?: CSSProperties | undefined;
     arrowClass?: TriggerClass;
-    arrowStyle?: CSSProperties;
+    arrowStyle?: CSSProperties | undefined;
     popupStyle?: CSSProperties;
     animationName?: string;
     duration?: number | { enter: number; leave: number };
@@ -156,7 +156,7 @@
     autoFitPopupMinWidth?: boolean;
     autoFitPopupSize?: boolean;
     autoFixPosition?: boolean;
-    popupContainer?: string | HTMLElement;
+    popupContainer?: string | HTMLElement | undefined;
     updateAtScroll?: boolean;
     autoFitTransformOrigin?: boolean;
     hideEmpty?: boolean;
@@ -167,7 +167,7 @@
     scrollToClose?: boolean;
     scrollToCloseDistance?: number;
     escToClose?: boolean;
-    ariaHasPopup?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+    ariaHasPopup?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog' | undefined;
     ariaDescribedbyPopup?: boolean;
   };
 

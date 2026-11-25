@@ -77,7 +77,7 @@ export interface RichTextEditorProps {
    * @zh 提示文字
    * @en Placeholder text
    */
-  placeholder?: string;
+  placeholder?: string | undefined;
   /**
    * @zh 是否禁用
    * @en Whether the editor is disabled

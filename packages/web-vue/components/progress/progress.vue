@@ -91,7 +91,7 @@
      * @en The current percentage of the progress bar
      */
     percent: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: 0,
     },
     /**

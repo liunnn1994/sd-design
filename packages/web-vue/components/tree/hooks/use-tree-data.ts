@@ -13,12 +13,12 @@ import { generateTreeData } from '../utils/tree-data';
 
 export default function useTreeData(props: {
   treeData: TreeNodeData[];
-  fieldNames?: TreeFieldNames;
+  fieldNames?: TreeFieldNames | undefined;
   selectable?: CheckableType;
   showLine?: boolean;
   blockNode?: boolean;
   checkable?: CheckableType;
-  loadMore?: LoadMore;
+  loadMore?: LoadMore | undefined;
   draggable?: boolean;
 }) {
   const {

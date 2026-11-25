@@ -72,11 +72,11 @@ export type MenuEllipsisProps = Pick<EllipsisProps, 'lineClamp' | 'expandTrigger
 export interface MenuProps extends ComponentPropsWithRef<'div'> {
   theme?: MenuTheme;
   mode?: MenuMode;
-  levelIndent?: number;
+  levelIndent?: number | undefined;
   autoOpen?: boolean;
   collapsed?: boolean;
   defaultCollapsed?: boolean;
-  collapsedWidth?: number;
+  collapsedWidth?: number | undefined;
   accordion?: boolean;
   autoScrollIntoView?: boolean;
   showCollapseButton?: boolean;
@@ -84,12 +84,12 @@ export interface MenuProps extends ComponentPropsWithRef<'div'> {
   defaultSelectedKeys?: string[];
   openKeys?: string[];
   defaultOpenKeys?: string[];
-  scrollConfig?: Record<string, unknown>;
-  triggerProps?: Partial<TriggerProps>;
-  floatingOptions?: FloatingOptions;
-  tooltipProps?: Partial<TooltipProps>;
-  ellipsis?: boolean;
-  ellipsisProps?: MenuEllipsisProps;
+  scrollConfig?: Record<string, unknown> | undefined;
+  triggerProps?: Partial<TriggerProps> | undefined;
+  floatingOptions?: FloatingOptions | undefined;
+  tooltipProps?: Partial<TooltipProps> | undefined;
+  ellipsis?: boolean | undefined;
+  ellipsisProps?: MenuEllipsisProps | undefined;
   autoOpenSelected?: boolean;
   breakpoint?: Breakpoint;
   popupMaxHeight?: boolean | number;

@@ -8,13 +8,13 @@ import { Mode, HeaderOperations, CalendarValue } from '../interface';
 import usePanelSpan from './use-panel-span';
 
 interface HeaderValueProps {
-  mode?: Mode;
-  value?: CalendarValue;
-  defaultValue?: CalendarValue;
-  selectedValue?: Dayjs;
+  mode?: Mode | undefined;
+  value?: CalendarValue | undefined;
+  defaultValue?: CalendarValue | undefined;
+  selectedValue?: Dayjs | undefined;
   format: string;
-  utcOffset?: number;
-  timezone?: string;
+  utcOffset?: number | undefined;
+  timezone?: string | undefined;
   onChange?: (newVal: Dayjs) => void;
 }
 

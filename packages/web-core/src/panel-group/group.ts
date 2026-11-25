@@ -7,9 +7,9 @@ import { emitter } from './utils.js';
 export interface EngineGroup {
   axes: Axes;
   disabled: boolean;
-  onMoveStart?: (event: PointerEvent) => void;
-  onMoving?: (event: PointerEvent) => void;
-  onMoveEnd?: (event: PointerEvent) => void;
+  onMoveStart?: ((event: PointerEvent) => void) | undefined;
+  onMoving?: ((event: PointerEvent) => void) | undefined;
+  onMoveEnd?: ((event: PointerEvent) => void) | undefined;
   fill: {
     anchor: 'flex-start' | 'flex-end';
     size: number | '100%';

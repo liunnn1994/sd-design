@@ -51,7 +51,12 @@ export function createMarkdownParseCoalescer(initial: string, commit: (content: 
     cancel,
     update(
       value: string,
-      options: { enabled: boolean; final?: boolean; interval?: number; reset?: boolean },
+      options: {
+        enabled: boolean;
+        final?: boolean | undefined;
+        interval?: number | undefined;
+        reset?: boolean;
+      },
     ) {
       latest = value;
       if (options.reset) {

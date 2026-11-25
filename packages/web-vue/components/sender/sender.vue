@@ -536,9 +536,9 @@
     placeholder: `${prefixCls}-input-slot-placeholder`,
     component: `${prefixCls}-slot`,
   }));
-  const slotEditorStyles = computed(() => ({
-    root: props.styles.input,
-  }));
+  const slotEditorStyles = computed(() =>
+    props.styles.input === undefined ? {} : { root: props.styles.input },
+  );
 
   const handleReadonlyTipVisibleChange = (visible: boolean) => {
     readonlyTipHoverVisible.value = visible && !readonlyTipDisabled.value;

@@ -1,9 +1,7 @@
 <template>
   <UpstreamMarkdownRender
-    v-bind="options"
+    v-bind="definedProps({ ...options, customId: customId ?? options.customId, indexKey })"
     :nodes="nodes"
-    :custom-id="customId ?? options.customId"
-    :index-key="indexKey"
     render-as-fragment
     :batch-rendering="false"
     :node-virtual="false"
@@ -14,13 +12,18 @@
 
   import { computed, inject } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import { MarkdownRender as UpstreamMarkdownRender } from 'markstream-vue';
 
   import { markdownContextKey } from '../context';
   // 标准节点类型（heading/paragraph/…）在上游走 nodeProps 分支，不会收到递归渲染插槽，
   // 因此子节点必须由 SD 显式渲染；这里复用父级渲染配置，不重新解析原始文本。
   defineOptions({ inheritAttrs: false });
-  defineProps<{ nodes: BaseNode[]; customId?: string; indexKey?: string | number }>();
+  defineProps<{
+    nodes: BaseNode[];
+    customId?: string | undefined;
+    indexKey?: string | number | undefined;
+  }>();
   const context = inject(markdownContextKey);
   const options = computed(() => {
     const {

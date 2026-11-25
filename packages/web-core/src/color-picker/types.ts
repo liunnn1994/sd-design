@@ -91,7 +91,7 @@ export interface ColorObject {
   saturation: number;
   value: number;
   isGradient: boolean;
-  linearGradient?: string;
+  linearGradient?: string | undefined;
   red: number;
   green: number;
   blue: number;

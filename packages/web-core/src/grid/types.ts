@@ -3,7 +3,11 @@ export type { ResponsiveValue, ColResponsiveConfig } from '../_utils/responsive.
 export type FlexType = number | string | 'initial' | 'auto' | 'none';
 
 export interface RowProps {
-  gutter?: number | ResponsiveValue | [number | ResponsiveValue, number | ResponsiveValue];
+  gutter?:
+    | number
+    | ResponsiveValue
+    | [number | ResponsiveValue, number | ResponsiveValue]
+    | undefined;
   justify?: 'start' | 'center' | 'end' | 'space-around' | 'space-between';
   align?: 'start' | 'center' | 'end' | 'stretch';
   div?: boolean;
@@ -11,7 +15,7 @@ export interface RowProps {
 }
 
 export interface ColProps {
-  span?: number;
+  span?: number | undefined;
   offset?: number | undefined;
   order?: number | undefined;
   xs?: number | ColResponsiveConfig | undefined;

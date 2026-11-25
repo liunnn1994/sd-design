@@ -108,7 +108,7 @@ export function Switch(props: SwitchProps) {
   const checked = foundation.isChecked();
   const busy = !!loading || state.current.before || state.current.auto;
   const color = checked ? checkedColor : uncheckedColor;
-  const colorStyle: CSSProperties & { '--custom-color'?: string } =
+  const colorStyle: CSSProperties & { '--custom-color'?: string | undefined } =
     type === 'line' ? { '--custom-color': color } : { backgroundColor: color };
   const text = checked ? checkedText : uncheckedText;
   return (

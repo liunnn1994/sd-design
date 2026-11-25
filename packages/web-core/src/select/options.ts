@@ -182,8 +182,8 @@ export const getValidOptions = (
     inputValue,
     filterOption,
   }: {
-    inputValue?: string;
-    filterOption?: FilterOption;
+    inputValue?: string | undefined;
+    filterOption?: FilterOption | undefined;
   },
 ) => {
   const travel = (optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]) => {
@@ -211,8 +211,8 @@ export const isValidOption = (
     inputValue,
     filterOption,
   }: {
-    inputValue?: string;
-    filterOption?: FilterOption;
+    inputValue?: string | undefined;
+    filterOption?: FilterOption | undefined;
   },
 ) => {
   if (isFunction(filterOption)) {

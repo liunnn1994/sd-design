@@ -26,7 +26,7 @@
 
   const props = defineProps({
     pageNumber: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
     },
     current: {
       type: Number,
@@ -36,10 +36,10 @@
       default: false,
     },
     style: {
-      type: Object as PropType<CSSProperties>,
+      type: Object as PropType<CSSProperties | undefined>,
     },
     activeStyle: {
-      type: Object as PropType<CSSProperties>,
+      type: Object as PropType<CSSProperties | undefined>,
     },
   });
 

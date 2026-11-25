@@ -72,7 +72,7 @@ export interface InputMaskProps {
    * @zh 绑定值
    * @en Value
    */
-  modelValue?: string;
+  modelValue?: string | undefined;
   /**
    * @zh 默认值
    * @en Default value
@@ -82,12 +82,12 @@ export interface InputMaskProps {
    * @zh 自定义固定位置掩码
    * @en Custom fixed-position mask
    */
-  mask?: InputMaskPattern;
+  mask?: InputMaskPattern | undefined;
   /**
    * @zh 内置格式模板
    * @en Built-in format preset
    */
-  preset?: InputMaskPresetName;
+  preset?: InputMaskPresetName | undefined;
   /**
    * @zh 未填写位置的占位字符；null 表示不显示
    * @en Placeholder for unfilled positions; null hides it
@@ -97,7 +97,7 @@ export interface InputMaskProps {
    * @zh 自定义格式字符
    * @en Custom format characters
    */
-  formatChars?: Readonly<Record<string, RegExp>>;
+  formatChars?: Readonly<Record<string, RegExp>> | undefined;
   /**
    * @zh 未聚焦且为空时是否仍显示固定掩码
    * @en Whether to show a fixed mask while empty and blurred
@@ -107,7 +107,7 @@ export interface InputMaskProps {
    * @zh 写入前调整掩码值与选区
    * @en Adjust masked value and selection before committing
    */
-  beforeMaskedValueChange?: InputMaskBeforeChange;
+  beforeMaskedValueChange?: InputMaskBeforeChange | undefined;
   /**
    * @zh 输入框大小
    * @en Input size
@@ -172,7 +172,7 @@ export interface InputMaskProps {
    * @zh 内部 input 元素属性
    * @en Attributes for the inner input
    */
-  inputAttrs?: Record<string, unknown>;
+  inputAttrs?: Record<string, unknown> | undefined;
   /**
    * @zh 前置标签
    * @en Prepend label

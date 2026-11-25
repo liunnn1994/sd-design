@@ -19,7 +19,7 @@ export interface SelectViewValue extends TagData {
   value: string | number;
   label: string;
   closable: boolean;
-  option?: Record<string, unknown>;
+  option?: Record<string, unknown> | undefined;
 }
 export interface SelectViewProps extends Omit<
   InputLabelProps,
@@ -34,9 +34,9 @@ export interface SelectViewProps extends Omit<
   value: SelectViewValue[];
   loading?: boolean;
   opened?: boolean;
-  bordered?: boolean;
+  bordered?: boolean | undefined;
   multiple?: boolean;
-  allowClear?: boolean;
+  allowClear?: boolean | undefined;
   allowCreate?: boolean;
   showArrow?: boolean;
   allowSearch?: boolean;

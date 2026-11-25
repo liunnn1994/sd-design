@@ -53,8 +53,8 @@ export interface ToolbarProps extends Omit<
   spinProps?: SpinProps;
   showSearch?: boolean;
   showReset?: boolean;
-  searchBtn?: ButtonProps;
-  resetBtn?: ButtonProps;
+  searchBtn?: ButtonProps | undefined;
+  resetBtn?: ButtonProps | undefined;
   showActions?: boolean;
   searchText?: string;
   resetText?: string;

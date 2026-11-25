@@ -6,14 +6,14 @@ export interface UploadContext {
   listType?: ListType;
   disabled?: boolean;
   iconCls?: string;
-  customIcon?: CustomIcon;
+  customIcon?: CustomIcon | undefined;
   showRemoveButton?: boolean;
   showStartButton?: boolean;
   showRetryButton?: boolean;
   showCancelButton?: boolean;
   showPreviewButton?: boolean;
   showLink?: boolean;
-  imageLoading?: 'eager' | 'lazy';
+  imageLoading?: 'eager' | 'lazy' | undefined;
   download?: boolean;
   slots: Slots;
   onRemove: (fileItem: FileItem) => void;

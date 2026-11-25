@@ -8,22 +8,22 @@ import { getPublicCheckedKeys, isLeafNode, isNodeExpandable, isNodeSelectable } 
 export interface TreeStateNode<T> extends CheckNode, TreeQueryNode<T> {
   selectable: boolean;
   isLeaf: boolean;
-  children?: TreeStateNode<T>[];
+  children?: TreeStateNode<T>[] | undefined;
 }
 interface TargetState<T, E> {
-  node?: T;
-  e?: E;
+  node?: T | undefined;
+  e?: E | undefined;
 }
 interface SelectState<T, E> extends TargetState<T, E> {
-  selected?: boolean;
+  selected?: boolean | undefined;
   selectedNodes: T[];
 }
 interface ExpandState<T, E> extends TargetState<T, E> {
-  expanded?: boolean;
+  expanded?: boolean | undefined;
   expandedNodes: T[];
 }
 interface CheckState<T, E> extends TargetState<T, E> {
-  checked?: boolean;
+  checked?: boolean | undefined;
   checkedNodes: T[];
   halfCheckedKeys: TreeNodeKey[];
   halfCheckedNodes: T[];
@@ -81,11 +81,11 @@ export function createTreeFoundation<T, N extends TreeStateNode<T>, E = unknown>
     return getPublicCheckedKeys(keys, strategy, adapter.getNodes());
   }
   function emitCheck(options: {
-    targetKey?: TreeNodeKey;
-    targetChecked?: boolean;
+    targetKey?: TreeNodeKey | undefined;
+    targetChecked?: boolean | undefined;
     newCheckedKeys: TreeNodeKey[];
     newIndeterminateKeys: TreeNodeKey[];
-    event?: E;
+    event?: E | undefined;
   }) {
     const targetNode =
       options.targetKey === undefined ? undefined : adapter.getNodes().get(options.targetKey);
@@ -102,8 +102,8 @@ export function createTreeFoundation<T, N extends TreeStateNode<T>, E = unknown>
     });
   }
   function emitSelect(options: {
-    targetKey?: TreeNodeKey;
-    targetSelected?: boolean;
+    targetKey?: TreeNodeKey | undefined;
+    targetSelected?: boolean | undefined;
     newSelectedKeys: TreeNodeKey[];
     event?: E;
   }) {
@@ -118,10 +118,10 @@ export function createTreeFoundation<T, N extends TreeStateNode<T>, E = unknown>
     });
   }
   function emitExpand(options: {
-    targetKey?: TreeNodeKey;
-    targetExpanded?: boolean;
+    targetKey?: TreeNodeKey | undefined;
+    targetExpanded?: boolean | undefined;
     newExpandedKeys: TreeNodeKey[];
-    event?: E;
+    event?: E | undefined;
   }) {
     const targetNode =
       options.targetKey === undefined ? undefined : adapter.getNodes().get(options.targetKey);

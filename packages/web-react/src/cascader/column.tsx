@@ -18,11 +18,13 @@ export interface CascaderColumnProps extends ComponentPropsWithRef<'div'> {
   level?: number;
   totalLevel: number;
   selectedPath: string[];
-  activeKey?: string;
-  multiple?: boolean;
-  checkStrictly?: boolean;
+  activeKey?: string | undefined;
+  multiple?: boolean | undefined;
+  checkStrictly?: boolean | undefined;
   empty?: ReactNode;
-  virtualListProps?: Omit<VirtualListProps<CascaderOptionInfo<TagProps>>, 'items' | 'children'>;
+  virtualListProps?:
+    | Omit<VirtualListProps<CascaderOptionInfo<TagProps>>, 'items' | 'children'>
+    | undefined;
 }
 export function CascaderColumn({
   column,

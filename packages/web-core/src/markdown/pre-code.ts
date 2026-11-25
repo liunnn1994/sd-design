@@ -15,11 +15,11 @@ export function getMarkdownPreLanguage(value: unknown) {
 }
 
 export interface MarkdownPreThemeOptions {
-  isDark?: boolean;
-  theme?: string | { light?: string; dark?: string };
-  themes?: readonly [string, string];
-  darkTheme?: string;
-  lightTheme?: string;
+  isDark?: boolean | undefined;
+  theme?: string | { light?: string; dark?: string } | undefined;
+  themes?: readonly [string, string] | undefined;
+  darkTheme?: string | undefined;
+  lightTheme?: string | undefined;
 }
 export function getMarkdownPreTheme(options: MarkdownPreThemeOptions) {
   const mode = options.isDark ? 'dark' : 'light';

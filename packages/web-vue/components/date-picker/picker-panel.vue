@@ -111,14 +111,14 @@
       type: String,
     },
     headerMode: {
-      type: String as PropType<'year' | 'month'>,
+      type: String as PropType<'year' | 'month' | undefined>,
     },
     prefixCls: {
       type: String,
       required: true,
     },
     value: {
-      type: Object as PropType<Dayjs>,
+      type: Object as PropType<Dayjs | undefined>,
     },
     headerValue: {
       type: Object as PropType<Dayjs>,
@@ -131,14 +131,14 @@
       type: Boolean,
     },
     showConfirmBtn: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     shortcuts: {
-      type: Array as PropType<ShortcutType[]>,
+      type: Array as PropType<ShortcutType[] | undefined>,
       default: () => [],
     },
     shortcutsPosition: {
-      type: String as PropType<'left' | 'bottom' | 'right'>,
+      type: String as PropType<'left' | 'bottom' | 'right' | undefined>,
       default: 'bottom',
     },
     format: {
@@ -146,7 +146,7 @@
       required: true,
     },
     dayStartOfWeek: {
-      type: Number as PropType<WeekStart>,
+      type: Number as PropType<WeekStart | undefined>,
       default: 0,
     },
     disabledDate: {
@@ -162,10 +162,10 @@
       type: Boolean,
     },
     confirmBtnDisabled: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     showNowBtn: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     headerIcons: {
       type: Object as PropType<HeaderIcons>,
@@ -175,7 +175,7 @@
       type: Object as PropType<HeaderOperations>,
     },
     abbreviation: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     hideNotInViewDates: {
       type: Boolean,
@@ -225,8 +225,8 @@
 
   const hasShortcuts = computed(() => Boolean(shortcuts.value && shortcuts.value.length));
 
-  const showShortcutsNowBtn = computed(
-    () => showNowBtn.value && showConfirmBtn.value && !hasShortcuts.value,
+  const showShortcutsNowBtn = computed(() =>
+    Boolean(showNowBtn?.value && showConfirmBtn?.value && !hasShortcuts.value),
   );
 
   const showShortcuts = computed(() => showShortcutsNowBtn.value || hasShortcuts.value);

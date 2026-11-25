@@ -56,10 +56,10 @@
   const props = withDefaults(
     defineProps<{
       modelValue?: SelectViewValue;
-      inputValue?: string;
+      inputValue?: string | undefined;
       enabledInput?: boolean;
       formatLabel?: (data?: SelectViewValue) => string;
-      placeholder?: string;
+      placeholder?: string | undefined;
       retainInputValue?: boolean;
       disabled?: boolean;
       baseCls?: string;
@@ -67,7 +67,7 @@
       error?: boolean;
       focused?: boolean;
       uninjectFormItemContext?: boolean;
-      inputAttrs?: Record<string, unknown>;
+      inputAttrs?: Record<string, unknown> | undefined;
       fitWidth?: boolean;
       maxWFull?: boolean;
     }>(),

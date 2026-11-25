@@ -23,14 +23,14 @@ export interface ModelSelectorSlotProps {
   visible: boolean;
 }
 export interface ModelSelectorProps {
-  visible?: boolean;
-  defaultVisible?: boolean;
-  defaultExpanded?: boolean;
-  closeOnSelect?: boolean;
-  resetQueryOnClose?: boolean;
-  onUpdateVisible?(visible: boolean): void;
-  onVisibleChange?(visible: boolean): void;
-  onSelect?(value: string, event: Event): void;
+  visible?: boolean | undefined;
+  defaultVisible?: boolean | undefined;
+  defaultExpanded?: boolean | undefined;
+  closeOnSelect?: boolean | undefined;
+  resetQueryOnClose?: boolean | undefined;
+  onUpdateVisible?: ((visible: boolean) => void) | undefined;
+  onVisibleChange?: ((visible: boolean) => void) | undefined;
+  onSelect?: ((value: string, event: Event) => void) | undefined;
   children?: ReactNode | ((state: ModelSelectorSlotProps) => ReactNode);
 }
 const aliases = { up: 'arrowup', down: 'arrowdown', left: 'arrowleft', right: 'arrowright' };

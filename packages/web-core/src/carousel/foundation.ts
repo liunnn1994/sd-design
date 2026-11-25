@@ -33,7 +33,7 @@ export function getCarouselIndexes(
 }
 
 export function createCarousel(adapter: {
-  readonly props: { current?: number; moveSpeed: number };
+  readonly props: { current?: number | undefined; moveSpeed: number };
   readonly count: number;
   readonly indexes: CarouselIndexes;
   readonly autoPlay: CarouselAutoPlayConfig;

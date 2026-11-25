@@ -6,8 +6,8 @@ import { isFunction } from '../../_utils/is';
 import { Mode, FormatFunc, ValueFormat } from '../interface';
 
 interface FormatProps {
-  format?: string | FormatFunc;
-  valueFormat?: ValueFormat;
+  format?: string | FormatFunc | undefined;
+  valueFormat?: ValueFormat | undefined;
   mode?: Mode;
   showTime?: boolean;
 }

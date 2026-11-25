@@ -177,7 +177,9 @@
      * @en Data of the suggestion options
      */
     data: {
-      type: Array as PropType<(string | number | SelectOptionData | SelectOptionGroup)[]>,
+      type: Array as PropType<
+        (string | number | SelectOptionData | SelectOptionGroup)[] | undefined
+      >,
       default: () => [],
     },
     /**

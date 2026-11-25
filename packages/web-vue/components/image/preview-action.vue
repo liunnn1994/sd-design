@@ -53,13 +53,13 @@
      * @en Whether to disable the action
      */
     disabled: {
-      type: Boolean,
+      type: Boolean as import('vue').PropType<boolean | undefined>,
     },
   });
 
   const emit = defineEmits<{ click: [event: MouseEvent] }>();
   const onClick = (event: MouseEvent) => {
-    activatePreviewAction(props.disabled, event, (event) => emit('click', event));
+    activatePreviewAction(props.disabled ?? false, event, (event) => emit('click', event));
   };
 
   const slots = useSlots();

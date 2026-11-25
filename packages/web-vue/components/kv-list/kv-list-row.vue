@@ -92,9 +92,9 @@
   } = defineProps<{
     item: KvListWorkingItem;
     index: number;
-    type?: KvListType;
-    keyProps?: KvListKeyProps;
-    valueProps?: KvListValueProps;
+    type?: KvListType | undefined;
+    keyProps?: KvListKeyProps | undefined;
+    valueProps?: KvListValueProps | undefined;
     disabled?: boolean;
   }>();
 

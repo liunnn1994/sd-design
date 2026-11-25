@@ -32,7 +32,7 @@ export interface FileItem {
    * @zh 文件地址
    * @en The file address
    */
-  url?: string;
+  url?: string | undefined;
   /**
    * @zh 文件名
    * @en The file name
@@ -45,17 +45,17 @@ export interface RequestOption {
    * @zh 上传的URL
    * @en Uploaded URL
    * */
-  action?: string;
+  action?: string | undefined;
   /**
    * @zh 请求报文的头信息
    * @en Header information of the request message
    * */
-  headers?: Record<string, string>;
+  headers?: Record<string, string> | undefined;
   /**
    * @zh 上传文件的文件名
    * @en File name of the uploaded file
    * */
-  name?: string | ((fileItem: FileItem) => string);
+  name?: string | ((fileItem: FileItem) => string) | undefined;
   /**
    * @zh 上传文件
    * @en upload files
@@ -65,12 +65,15 @@ export interface RequestOption {
    * @zh 附加的请求信息
    * @en Additional requested information
    * */
-  data?: Record<string, string | Blob> | ((fileItem: FileItem) => Record<string, string | Blob>);
+  data?:
+    | Record<string, string | Blob>
+    | ((fileItem: FileItem) => Record<string, string | Blob>)
+    | undefined;
   /**
    * @zh 是否携带cookie信息
    * @en Whether to carry cookie information
    * */
-  withCredentials?: boolean;
+  withCredentials?: boolean | undefined;
   /**
    * @zh 更新当前文件的上传进度。percent: 当前上传进度百分比
    * @en Update the upload progress of the current file. percent: current upload progress percentage

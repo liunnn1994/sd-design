@@ -291,8 +291,8 @@
   const attrs = useAttrs();
   const [DefinePageItem, ReusePageItem] = createReusableTemplate<{
     type: PageItemType;
-    pageNumber?: number;
-    step?: number;
+    pageNumber?: number | undefined;
+    step?: number | undefined;
     simple?: boolean;
   }>();
   const prefixCls = getPrefixCls('pagination');

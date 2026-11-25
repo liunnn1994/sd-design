@@ -57,7 +57,7 @@ function SliderHandle(props: {
   max: number;
   direction: 'horizontal' | 'vertical';
   disabled: boolean;
-  formatTooltip?: SliderFormatTooltip;
+  formatTooltip?: SliderFormatTooltip | undefined;
   showTooltip: boolean;
   style: CSSProperties;
   onStart(): void;

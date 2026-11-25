@@ -15,9 +15,9 @@ export interface VirtualizerPort<Cache> {
   scrollToIndex(
     index: number,
     options: {
-      align?: ScrollAlign | undefined;
-      smooth?: boolean | undefined;
-      offset?: number | undefined;
+      align?: ScrollAlign;
+      smooth?: boolean;
+      offset?: number;
     },
   ): void;
   scrollTo(offset: number): void;
@@ -144,16 +144,24 @@ export function createVirtualListFoundation<TItem, Cache, Style = unknown>(
 
   function getResolvedOverlayOptions(): OverlayScrollbarsPartialOptions {
     const scrollbarProps = state.scrollbarProps;
-    const overlayOptions = scrollbarProps.overlayOptions ?? {};
+    const {
+      paddingAbsolute: defaultPaddingAbsolute,
+      showNativeOverlaidScrollbars: defaultShowNativeOverlaidScrollbars,
+      update: defaultUpdate,
+      ...overlayOptions
+    } = scrollbarProps.overlayOptions ?? {};
     const isTrackType = scrollbarProps.type === 'track';
+    const paddingAbsolute = scrollbarProps.paddingAbsolute ?? defaultPaddingAbsolute;
+    const showNativeOverlaidScrollbars =
+      scrollbarProps.showNativeOverlaidScrollbars ?? defaultShowNativeOverlaidScrollbars;
+    const update = (scrollbarProps.updateOptions ??
+      defaultUpdate) as OverlayScrollbarsPartialOptions['update'];
 
     return {
       ...overlayOptions,
-      paddingAbsolute: scrollbarProps.paddingAbsolute ?? overlayOptions.paddingAbsolute,
-      showNativeOverlaidScrollbars:
-        scrollbarProps.showNativeOverlaidScrollbars ?? overlayOptions.showNativeOverlaidScrollbars,
-      update: (scrollbarProps.updateOptions ??
-        overlayOptions.update) as OverlayScrollbarsPartialOptions['update'],
+      ...(paddingAbsolute === undefined ? {} : { paddingAbsolute }),
+      ...(showNativeOverlaidScrollbars === undefined ? {} : { showNativeOverlaidScrollbars }),
+      ...(update === undefined ? {} : { update }),
       overflow: {
         x: 'scroll',
         y: 'scroll',
@@ -298,10 +306,12 @@ export function createVirtualListFoundation<TItem, Cache, Style = unknown>(
   const getVirtua = () => state.virtualizer;
 
   const scrollToItem = (index: number, options?: ScrollToOptions) => {
+    const align = normalizeAlign(options?.align);
+    const { smooth, offset } = options ?? {};
     getVirtua()?.scrollToIndex(index, {
-      align: normalizeAlign(options?.align),
-      smooth: options?.smooth,
-      offset: options?.offset,
+      ...(align === undefined ? {} : { align }),
+      ...(smooth === undefined ? {} : { smooth }),
+      ...(offset === undefined ? {} : { offset }),
     });
   };
 

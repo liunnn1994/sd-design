@@ -10,15 +10,15 @@ import { useLayoutEffect, useRef, useState } from 'react';
 export interface FilePreviewStateProps {
   src?: string;
   type?: FilePreviewerType;
-  visible?: boolean;
+  visible?: boolean | undefined;
   defaultVisible?: boolean;
   fullscreen?: boolean;
   escToClose?: boolean;
   maskClosable?: boolean;
   slots?: string[];
   withMediaSkin?: boolean;
-  onClose?(): void;
-  onVisibleChange?(visible: boolean): void;
+  onClose?: (() => void) | undefined;
+  onVisibleChange?: ((visible: boolean) => void) | undefined;
 }
 export function useFilePreview(
   props: FilePreviewStateProps,

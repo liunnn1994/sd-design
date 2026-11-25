@@ -35,18 +35,18 @@ export interface TreeNodeViewProps<T extends TreeNodeData> extends ComponentProp
   node: TreeModelNode<T>;
   context: Partial<TreeNodeContext>;
   activeKey?: TreeNodeKey;
-  switcher?: boolean;
-  disableSelectActionOnly?: boolean;
-  ellipsis?: boolean | 'performant-ellipsis';
+  switcher?: boolean | undefined;
+  disableSelectActionOnly?: boolean | undefined;
+  ellipsis?: boolean | 'performant-ellipsis' | undefined;
   virtual?: boolean;
   dragState?: TreeDragState;
   gestures?: TreeGestureEvents;
-  renderTitle?(node: T, status: TreeNodeStatus): ReactNode;
-  renderIcon?(node: T, status: TreeNodeStatus): ReactNode;
-  renderSwitcherIcon?(node: T, status: TreeNodeStatus): ReactNode;
-  renderLoadingIcon?(node: T, status: TreeNodeStatus): ReactNode;
-  renderDragIcon?(node: T, status: TreeNodeStatus): ReactNode;
-  renderExtra?(node: T, status: TreeNodeStatus): ReactNode;
+  renderTitle?: ((node: T, status: TreeNodeStatus) => ReactNode) | undefined;
+  renderIcon?: ((node: T, status: TreeNodeStatus) => ReactNode) | undefined;
+  renderSwitcherIcon?: ((node: T, status: TreeNodeStatus) => ReactNode) | undefined;
+  renderLoadingIcon?: ((node: T, status: TreeNodeStatus) => ReactNode) | undefined;
+  renderDragIcon?: ((node: T, status: TreeNodeStatus) => ReactNode) | undefined;
+  renderExtra?: ((node: T, status: TreeNodeStatus) => ReactNode) | undefined;
 }
 export function TreeNodeView<T extends TreeNodeData>({
   node,

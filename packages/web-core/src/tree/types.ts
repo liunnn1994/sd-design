@@ -6,8 +6,8 @@ export interface CheckNode {
   disabled?: boolean;
   disableCheckbox?: boolean;
   checkable?: boolean;
-  parent?: CheckNode;
-  children?: CheckNode[];
+  parent?: CheckNode | undefined;
+  children?: CheckNode[] | undefined;
 }
 
 export interface TreeFieldNames {
@@ -96,13 +96,13 @@ export type TreeNodeProps<T extends TreeData = TreeData> = Omit<T, 'children'> &
 export type TreeModelNode<T extends TreeData = TreeData> = TreeNodeProps<T> & {
   treeNodeProps: TreeNodeProps<T>;
   treeNodeData: T;
-  parent?: TreeModelNode<T>;
-  parentKey?: TreeNodeKey;
+  parent?: TreeModelNode<T> | undefined;
+  parentKey?: TreeNodeKey | undefined;
   pathParentKeys: TreeNodeKey[];
-  children?: TreeModelNode<T>[];
+  children?: TreeModelNode<T>[] | undefined;
 };
 export interface TreeModelOptions<T extends TreeData = TreeData> {
-  fieldNames?: TreeFieldNames;
+  fieldNames?: TreeFieldNames | undefined;
   selectable: TreeCheckable<T>;
   checkable: TreeCheckable<T>;
   blockNode: boolean;

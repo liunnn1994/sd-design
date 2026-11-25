@@ -558,7 +558,7 @@ export function createRichTextEditorFoundation(adapter: RichTextEditorAdapter) {
         },
         {
           discrete: true,
-          onUpdate: callback,
+          ...(callback === undefined ? {} : { onUpdate: callback }),
           tag: SKIP_SCROLL_INTO_VIEW_TAG,
         },
       );

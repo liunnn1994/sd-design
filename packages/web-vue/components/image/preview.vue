@@ -121,7 +121,7 @@
      * @en Image src
      */
     src: {
-      type: String,
+      type: String as PropType<string | undefined>,
     },
     /**
      * @zh 是否可见
@@ -176,7 +176,7 @@
      * @en Set the mount point of the pop-up box, the same as the `to` of `teleport`, the default value is document.body
      */
     popupContainer: {
-      type: [Object, String] as PropType<HTMLElement | string>,
+      type: [Object, String] as PropType<HTMLElement | string | undefined>,
     },
     inGroup: {
       type: Boolean,

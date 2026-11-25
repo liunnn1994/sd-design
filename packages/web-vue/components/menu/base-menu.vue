@@ -69,7 +69,7 @@
      * @en Menu theme
      */
     theme: {
-      type: String as PropType<'light' | 'dark'>,
+      type: String as PropType<'light' | 'dark' | undefined>,
       default: 'light',
     },
     /**
@@ -182,10 +182,10 @@
      * @en Accept all `Props` of `Trigger` in pop-up mode
      */
     triggerProps: {
-      type: Object as PropType<TriggerProps>,
+      type: Object as PropType<TriggerProps | undefined>,
     },
     floatingOptions: {
-      type: Object as PropType<FloatingOptions>,
+      type: Object as PropType<FloatingOptions | undefined>,
     },
     /**
      * @zh 弹出模式下可接受所有 `ToolTip` 的 `Props`
@@ -199,7 +199,7 @@
      * @en Whether to render menu titles with the Ellipsis component
      */
     ellipsis: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
     /**
@@ -207,7 +207,7 @@
      * @en Props passed to the Ellipsis component when `ellipsis` is enabled
      */
     ellipsisProps: {
-      type: Object as PropType<MenuEllipsisProps>,
+      type: Object as PropType<MenuEllipsisProps | undefined>,
       default: undefined,
     },
     /**

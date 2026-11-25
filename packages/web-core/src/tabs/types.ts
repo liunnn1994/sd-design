@@ -5,8 +5,8 @@ export type TabTriggerEvent = 'click' | 'hover';
 export type ScrollPosition = 'start' | 'end' | 'center' | 'auto' | number;
 export interface TabItem {
   key: TabKey;
-  title?: string;
-  disabled?: boolean;
+  title?: string | undefined;
+  disabled?: boolean | undefined;
   closable?: boolean;
 }
 export interface TabData<TSlots = unknown> extends TabItem {

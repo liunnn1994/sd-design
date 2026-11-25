@@ -44,7 +44,7 @@ function serialize(value: unknown) {
   }
 }
 export function getMarkdownMeasurementKey(options: {
-  measurementKey?: string | number;
+  measurementKey?: string | number | undefined;
   isDark?: boolean;
   renderCodeBlocksAsPre?: boolean;
   codeBlockStream?: boolean;

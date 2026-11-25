@@ -9,14 +9,14 @@ import { createDatePanelBodyFoundation } from '@sdata/web-core/date-picker/panel
 export interface DatePanelBodyProps {
   prefixCls: string;
   rows?: Cell[][];
-  value?: Dayjs;
-  disabledDate?: DisabledDate;
+  value?: Dayjs | undefined;
+  disabledDate?: DisabledDate | undefined;
   isSameTime: IsSameTime;
   mode?: Mode;
   hideNotInViewDates?: boolean;
-  rangeValues?: Array<Dayjs | undefined>;
+  rangeValues?: Array<Dayjs | undefined> | undefined;
   now?: Dayjs;
-  renderCell?(date: Date): ReactNode;
+  renderCell?: ((date: Date) => ReactNode) | undefined;
   onCellClick?(cell: Cell): void;
   onCellMouseEnter?(cell: Cell): void;
 }

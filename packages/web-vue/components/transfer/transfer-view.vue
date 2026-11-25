@@ -119,7 +119,7 @@
     showSelectAll: Boolean,
     simple: Boolean,
     inputSearchProps: {
-      type: Object,
+      type: Object as import('vue').PropType<Record<string, unknown> | undefined>,
     },
   });
 

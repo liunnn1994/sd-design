@@ -98,7 +98,7 @@
      * @zh 标签的文本
      * @en Label text
      */
-    label: String,
+    label: String as PropType<string | undefined>,
     /**
      * @zh 提示内容
      * @en Tooltip text
@@ -164,7 +164,7 @@
      * @en Form item validation rules (The priority is higher than the rules of form)
      */
     rules: {
-      type: [Object, Array] as PropType<FieldRule | FieldRule[]>,
+      type: [Object, Array] as PropType<FieldRule | FieldRule[] | undefined>,
     },
     /**
      * @zh 校验状态

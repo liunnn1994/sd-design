@@ -349,10 +349,10 @@
     'select': [
       _selectedKeys: (string | number)[],
       _data: {
-        selected?: boolean;
+        selected?: boolean | undefined;
         selectedNodes: TreeNodeData[];
-        node?: TreeNodeData;
-        e?: Event;
+        node?: TreeNodeData | undefined;
+        e?: Event | undefined;
       },
     ];
     'update:selectedKeys': [_selectedKeys: (string | number)[]];
@@ -365,12 +365,12 @@
     'check': [
       _checkedKeys: (string | number)[],
       _data: {
-        checked?: boolean;
+        checked?: boolean | undefined;
         checkedNodes: TreeNodeData[];
-        node?: TreeNodeData;
+        node?: TreeNodeData | undefined;
         halfCheckedKeys: (string | number)[];
         halfCheckedNodes: TreeNodeData[];
-        e?: Event;
+        e?: Event | undefined;
       },
     ];
     'update:checkedKeys': [_checkedKeys: (string | number)[]];
@@ -384,10 +384,10 @@
     'expand': [
       _expandKeys: (string | number)[],
       _data: {
-        expanded?: boolean;
+        expanded?: boolean | undefined;
         expandedNodes: TreeNodeData[];
-        node?: TreeNodeData;
-        e?: Event;
+        node?: TreeNodeData | undefined;
+        e?: Event | undefined;
       },
     ];
     'update:expandedKeys': [_expandKeys: (string | number)[]];

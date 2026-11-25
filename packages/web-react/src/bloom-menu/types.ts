@@ -10,7 +10,10 @@ export type BloomMenuItem = CoreItem<ReactNode>;
 export interface BloomMenuProps
   extends
     CoreProps<ButtonProps, ReactNode>,
-    Omit<ComponentPropsWithRef<'div'>, 'onSelect' | 'children'> {
+    Omit<
+      ComponentPropsWithRef<'div'>,
+      keyof CoreProps<ButtonProps, ReactNode> | 'onSelect' | 'children'
+    > {
   onModelValueChange?(value: boolean): void;
   onOpen?(): void;
   onClose?(): void;

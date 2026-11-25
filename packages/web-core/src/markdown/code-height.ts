@@ -1,17 +1,19 @@
 export interface MarkdownCodeHeightOptions {
   rendererKind: 'pre' | 'stream-diffs';
-  codeBlockOptions?: {
-    fontSize?: number;
-    fontFamily?: string;
-    lineHeight?: number;
-    maxHeight?: number;
-    padding?: number;
-    tabSize?: number;
-    overflow?: string;
-    disableLineNumbers?: boolean;
-    diffStyle?: string;
-  };
-  codeBlockProps?: { showHeader?: boolean; showLineNumbers?: boolean };
+  codeBlockOptions?:
+    | {
+        fontSize?: number;
+        fontFamily?: string;
+        lineHeight?: number;
+        maxHeight?: number;
+        padding?: number;
+        tabSize?: number;
+        overflow?: string;
+        disableLineNumbers?: boolean;
+        diffStyle?: string;
+      }
+    | undefined;
+  codeBlockProps?: { showHeader?: boolean; showLineNumbers?: boolean } | undefined;
 }
 type CodeNode = Record<string, unknown>;
 const splitLines = (text: string) => text.split(/\r\n|\n|\r/);

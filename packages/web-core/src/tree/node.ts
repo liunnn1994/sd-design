@@ -40,7 +40,7 @@ export interface TreeNodeState {
   readonly actionOnNodeClick: readonly string[];
 }
 export interface TreeNodeContext {
-  treeProps: { actionOnNodeClick?: 'expand' | 'expand'[] };
+  treeProps: { actionOnNodeClick?: 'expand' | 'expand'[] | undefined };
   checkedKeys: TreeNodeKey[];
   indeterminateKeys: TreeNodeKey[];
   selectedKeys: TreeNodeKey[];

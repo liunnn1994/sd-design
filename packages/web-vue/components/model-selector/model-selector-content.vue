@@ -41,7 +41,7 @@
      * @zh 对话框的无障碍标题
      * @en Accessible dialog title
      */
-    title?: string;
+    title?: string | undefined;
     /**
      * @zh 对话框宽度
      * @en Dialog width

@@ -24,7 +24,7 @@ export interface TriggerAdapter {
   readonly methods: TriggerEvent[];
   readonly scrollToClose: boolean;
   readonly mounted: boolean;
-  readonly parentPopupHidden?: boolean;
+  readonly parentPopupHidden?: boolean | undefined;
   setVisible(visible: boolean): void;
   onVisible(visible: boolean): void;
   afterOpen(): void;

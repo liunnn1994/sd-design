@@ -29,7 +29,7 @@ export const LayoutContextInjectionKey: InjectionKey<LayoutContextProps> = Symbo
 export interface SiderContextProps {
   siderCollapsed?: boolean;
   siderRail?: boolean;
-  siderRailWidth?: number;
+  siderRailWidth?: number | undefined;
   theme?: SiderTheme;
 }
 

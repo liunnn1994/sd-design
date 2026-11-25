@@ -12,14 +12,14 @@ import {
 import { FallbackOption, LabelValue, TreeSelectValue } from '../interface';
 
 export default function useSelectedState(props: {
-  defaultValue?: TreeSelectValue;
-  modelValue?: TreeSelectValue;
+  defaultValue?: TreeSelectValue | undefined;
+  modelValue?: TreeSelectValue | undefined;
   key2TreeNode: Key2TreeNode;
   multiple?: boolean;
   treeCheckable?: boolean;
   treeCheckStrictly?: boolean;
   fallbackOption?: FallbackOption;
-  fieldNames?: TreeFieldNames;
+  fieldNames?: TreeFieldNames | undefined;
   showPath?: boolean;
   separator?: string;
 }) {

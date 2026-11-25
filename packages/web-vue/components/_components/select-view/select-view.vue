@@ -113,19 +113,19 @@
     defineProps<{
       modelValue: SelectViewValue[];
       inputValue?: string;
-      placeholder?: string;
+      placeholder?: string | undefined;
       disabled?: boolean;
       error?: boolean;
       loading?: boolean;
       opened?: boolean;
-      size?: Size;
+      size?: Size | undefined;
       bordered?: boolean;
       multiple?: boolean;
-      allowClear?: boolean;
+      allowClear?: boolean | undefined;
       allowCreate?: boolean;
       showArrow?: boolean;
       allowSearch?: boolean;
-      maxTagCount?: number | 'responsive';
+      maxTagCount?: number | 'responsive' | undefined;
       tagNowrap?: boolean;
       retainInputValue?: boolean;
       inputAttrs?: Record<string, unknown>;

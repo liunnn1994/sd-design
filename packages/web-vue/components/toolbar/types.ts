@@ -43,12 +43,12 @@ export interface ToolbarProps {
    * @zh 查询按钮属性
    * @en Props of the search button
    */
-  searchBtn?: ButtonProps;
+  searchBtn?: ButtonProps | undefined;
   /**
    * @zh 重置按钮属性
    * @en Props of the reset button
    */
-  resetBtn?: ButtonProps;
+  resetBtn?: ButtonProps | undefined;
   /**
    * @zh 是否显示右侧操作区
    * @en Whether to show the right-side action area

@@ -27,11 +27,11 @@ export interface CheckboxOption {
   indeterminate?: boolean;
 }
 export interface CheckboxProps extends Omit<ComponentPropsWithRef<'label'>, 'onChange'> {
-  modelValue?: CheckboxModelValue;
+  modelValue?: CheckboxModelValue | undefined;
   value?: CheckboxValue;
   defaultChecked?: boolean;
-  disabled?: boolean;
-  indeterminate?: boolean;
+  disabled?: boolean | undefined;
+  indeterminate?: boolean | undefined;
   tabIndex?: number;
   uninjectGroupContext?: boolean;
   renderCheckbox?: (state: CheckboxRenderState) => ReactNode;

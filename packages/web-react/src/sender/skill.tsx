@@ -19,9 +19,9 @@ export function SenderSkillTag({
   remove,
 }: {
   skill: SenderSkill;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   readonly?: boolean;
-  slots?: SenderSlots;
+  slots?: SenderSlots | undefined;
   remove(event: Event): void;
 }) {
   const prefix = usePrefix('sender');

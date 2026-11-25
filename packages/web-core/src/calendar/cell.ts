@@ -120,8 +120,8 @@ export type SpecialHourRange = {
 };
 export type PositionedSpecialHour = {
   style: Record<string, string>;
-  class?: string;
-  label?: string;
+  class?: string | undefined;
+  label?: string | undefined;
 };
 export type CalendarCellEventStyle = {
   left?: string;

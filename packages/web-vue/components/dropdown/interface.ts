@@ -20,28 +20,28 @@ export interface DropDownProps {
 
 export interface DOption {
   value: string | number;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 
   _props?: Record<string, unknown>;
-  _slots?: Slots;
+  _slots?: Slots | undefined;
 }
 
 export interface DGroup {
   isGroup: true;
   options: DropdownOption[];
-  title?: string;
+  title?: string | undefined;
 
   _props?: Record<string, unknown>;
-  _slots?: Slots;
+  _slots?: Slots | undefined;
 }
 
 export interface DSubmenu extends DOption {
   isSubmenu: true;
   render: Slot;
   children: DropdownOption[];
-  trigger?: TriggerEvent;
-  position?: TriggerPosition;
-  footer?: Slot;
+  trigger?: TriggerEvent | undefined;
+  position?: TriggerPosition | undefined;
+  footer?: Slot | undefined;
   floatingOptions?: FloatingOptions;
 }
 

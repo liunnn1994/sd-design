@@ -31,13 +31,13 @@ export interface TdProps extends HTMLAttributes<HTMLElement> {
   rowSpan?: number;
   isFixedExpand?: boolean;
   containerWidth?: number;
-  showExpandBtn?: boolean;
+  showExpandBtn?: boolean | undefined;
   indentSize?: number;
   renderExpandBtn?(record: TableDataWithRaw, stopPropagation?: boolean): ReactNode;
   summary?: boolean;
-  renderCell?(data: TableCellData): ReactNode;
-  component?: ElementType;
-  renderTd?(data: TableCellData): ReactElement;
+  renderCell?: ((data: TableCellData) => ReactNode) | undefined;
+  component?: ElementType | undefined;
+  renderTd?: ((data: TableCellData) => ReactElement) | undefined;
 }
 const emptyRecord: TableDataWithRaw = { key: '', raw: {} };
 

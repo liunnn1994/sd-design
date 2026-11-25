@@ -49,12 +49,15 @@
      * @zh 最大显示行数。不传时为单行省略。
      * @en Maximum displayed lines.
      */
-    lineClamp: { type: [Number, String] as PropType<number | string>, default: undefined },
+    lineClamp: {
+      type: [Number, String] as PropType<number | string | undefined>,
+      default: undefined,
+    },
     /**
      * @zh 展开的触发方式
      * @en Trigger mode for expansion
      */
-    expandTrigger: { type: String as PropType<'click'>, default: undefined },
+    expandTrigger: { type: String as PropType<'click' | undefined>, default: undefined },
     /**
      * @zh 省略时是否展示提示。可传入 Tooltip 属性。
      * @en Whether to show a tooltip when ellipsis is active.

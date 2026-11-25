@@ -4,7 +4,7 @@ import type { CheckableType, Node, TreeFieldNames, TreeNodeData, TreeNodeKey } f
 export { generateKey } from '@sdata/web-core/tree/data';
 
 interface TreeProps {
-  fieldNames?: TreeFieldNames;
+  fieldNames?: TreeFieldNames | undefined;
   selectable: CheckableType;
   checkable: CheckableType;
   blockNode: boolean;

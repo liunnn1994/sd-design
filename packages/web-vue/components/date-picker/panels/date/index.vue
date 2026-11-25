@@ -76,6 +76,7 @@
 <script setup lang="ts">
   import { computed, PropType, reactive, toRefs } from 'vue';
 
+  import { definedProps } from '@sdata/web-core/_utils/defined-props';
   import { getDateRows, getDateWeekList } from '@sdata/web-core/date-picker/calendar';
   import { Dayjs } from 'dayjs';
 
@@ -109,7 +110,7 @@
       type: Boolean,
     },
     value: {
-      type: Object as PropType<Dayjs>,
+      type: Object as PropType<Dayjs | undefined>,
     },
     rangeValues: {
       type: Array as PropType<Array<Dayjs | undefined>>,
@@ -119,13 +120,13 @@
       required: true,
     },
     footerValue: {
-      type: Object as PropType<Dayjs>,
+      type: Object as PropType<Dayjs | undefined>,
     },
     timePickerValue: {
-      type: Object as PropType<Dayjs>,
+      type: Object as PropType<Dayjs | undefined>,
     },
     headerOperations: {
-      type: Object as PropType<HeaderOperations>,
+      type: Object as PropType<HeaderOperations | undefined>,
       default: () => ({}),
     },
     headerIcons: {
@@ -137,10 +138,10 @@
       default: 0,
     },
     disabledDate: {
-      type: Function as PropType<DisabledDate>,
+      type: Function as PropType<DisabledDate | undefined>,
     },
     disabledTime: {
-      type: Function as PropType<DisabledTime>,
+      type: Function as PropType<DisabledTime | undefined>,
     },
     isSameTime: {
       type: Function as PropType<IsSameTime>,
@@ -153,7 +154,7 @@
       type: Boolean,
     },
     timePickerProps: {
-      type: Object as PropType<Partial<TimePickerProps>>,
+      type: Object as PropType<Partial<TimePickerProps> | undefined>,
     },
     currentView: {
       type: String as PropType<'date' | 'time'>,
@@ -165,7 +166,7 @@
       type: Boolean,
     },
     now: {
-      type: Object as PropType<Dayjs>,
+      type: Object as PropType<Dayjs | undefined>,
     },
     onHeaderLabelClick: {
       type: Function as PropType<HeaderLabelClickFunc>,
@@ -235,16 +236,18 @@
         disabledTime?.value?.(getDateValue(footerValue?.value || panelNow.value))) ||
       {},
   );
-  const mergedTimePanelProps = computed<Partial<PanelProps>>(() => ({
-    format: timePickerProps?.value?.format,
-    use12Hours: timePickerProps?.value?.use12Hours,
-    step: timePickerProps?.value?.step,
-    hideDisabledOptions: timePickerProps?.value?.hideDisabledOptions,
-    disabledHours: timePickerProps?.value?.disabledHours,
-    disabledMinutes: timePickerProps?.value?.disabledMinutes,
-    disabledSeconds: timePickerProps?.value?.disabledSeconds,
-    ...disabledTimeProps.value,
-  }));
+  const mergedTimePanelProps = computed<Partial<PanelProps>>(() =>
+    definedProps({
+      format: timePickerProps?.value?.format,
+      use12Hours: timePickerProps?.value?.use12Hours,
+      step: timePickerProps?.value?.step,
+      hideDisabledOptions: timePickerProps?.value?.hideDisabledOptions,
+      disabledHours: timePickerProps?.value?.disabledHours,
+      disabledMinutes: timePickerProps?.value?.disabledMinutes,
+      disabledSeconds: timePickerProps?.value?.disabledSeconds,
+      ...disabledTimeProps.value,
+    }),
+  );
 
   const weekList = computed(() => getDateWeekList(dayStartOfWeek.value));
 

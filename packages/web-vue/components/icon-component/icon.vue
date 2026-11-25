@@ -14,9 +14,9 @@
   defineOptions({ name: 'Icon' });
 
   const props = defineProps({
-    type: String,
-    size: [Number, String],
-    rotate: Number,
+    type: String as import('vue').PropType<string | undefined>,
+    size: [Number, String] as import('vue').PropType<number | string | undefined>,
+    rotate: Number as import('vue').PropType<number | undefined>,
     spin: Boolean,
   });
 

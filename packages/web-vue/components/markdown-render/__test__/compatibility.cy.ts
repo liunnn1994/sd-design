@@ -204,10 +204,13 @@ describe('MarkdownRender 节点事件转发', () => {
             onMouseout: cy.stub().as('nodeMouseout'),
           },
         });
-        cy.contains('a', '链接')
-          .trigger('mouseover')
-          .trigger('mouseout')
-          .trigger('click', { eventConstructor: 'MouseEvent' });
+        // Dispatch without Cypress actionability scrolling, which can trigger a native hover too.
+        cy.contains('a', '链接').then(([link]) => {
+          const BrowserMouseEvent = link.ownerDocument.defaultView!.MouseEvent;
+          for (const type of ['mouseover', 'mouseout', 'click']) {
+            link.dispatchEvent(new BrowserMouseEvent(type, { bubbles: true, cancelable: true }));
+          }
+        });
         cy.get('@nodeMouseover').should('have.been.calledOnce');
         cy.get('@nodeMouseout').should('have.been.calledOnce');
         // 两种模式各走一条互斥的委托路径，都只发一次：普通模式由渲染器根容器冒泡转发，

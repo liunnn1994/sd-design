@@ -1,6 +1,7 @@
 import type { PanelProps } from '@sdata/web-core/time-picker/types';
 import type { Dayjs } from 'dayjs';
 import type { ReactNode } from 'react';
+import type { UndefinedOnPartial } from 'type-fest';
 
 import { dayjs } from '@sdata/web-core/_utils/date';
 import {
@@ -27,7 +28,7 @@ import { usePrefix } from '../config-provider/index.js';
 import { useI18n } from '../locale/index.js';
 import { TimeColumn } from './time-column.js';
 
-export interface TimePanelProps extends Partial<PanelProps> {
+export interface TimePanelProps extends UndefinedOnPartial<Partial<PanelProps>> {
   extra?: ReactNode;
   onSelect(value: Dayjs): void;
   onConfirm(value: Dayjs): void;

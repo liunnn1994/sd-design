@@ -22,8 +22,10 @@ export interface CrudModalInstance<Row extends TableData = TableData> {
 }
 export interface CrudModalProps<Row extends TableData> extends CrudModalOptions<Row> {
   ref?: Ref<CrudModalInstance<Row>>;
-  modalProps?: Omit<ModalProps, 'visible' | 'title' | 'onBeforeOk' | 'onClose' | 'onVisibleChange'>;
-  modalFormProps?: Omit<JsonFormProps, 'model' | 'value' | 'modelValue' | 'ref'>;
+  modalProps?:
+    | Omit<ModalProps, 'visible' | 'title' | 'onBeforeOk' | 'onClose' | 'onVisibleChange'>
+    | undefined;
+  modalFormProps?: Omit<JsonFormProps, 'model' | 'value' | 'modelValue' | 'ref'> | undefined;
   slots?: Record<string, (data: UnknownRecord) => ReactNode>;
 }
 

@@ -8,26 +8,32 @@ import { isArray, isFunction, isNull, isNumber, isUndefined } from '../_utils/is
 export interface RawRow<Raw> extends Record<string, unknown> {
   children?: Raw[];
   expand?: unknown;
-  disabled?: boolean;
-  isLeaf?: boolean;
+  disabled?: boolean | undefined;
+  isLeaf?: boolean | undefined;
 }
 export interface DataRow<Raw extends RawRow<Raw>> {
   raw: Raw;
   key: RowKey;
   children?: DataRow<Raw>[];
   expand?: Raw['expand'];
-  disabled?: boolean;
-  isLeaf?: boolean;
+  disabled?: boolean | undefined;
+  isLeaf?: boolean | undefined;
   hasSubtree?: boolean;
 }
 export interface DataColumn<Raw> {
-  dataIndex?: string;
-  filterable?: { filter: (values: string[], record: Raw) => boolean };
-  sortable?: {
-    sorter?:
-      | boolean
-      | ((a: Raw, b: Raw, extra: { dataIndex: string; direction: Sorter['direction'] }) => number);
-  };
+  dataIndex?: string | undefined;
+  filterable?: { filter: (values: string[], record: Raw) => boolean } | undefined;
+  sortable?:
+    | {
+        sorter?:
+          | boolean
+          | ((
+              a: Raw,
+              b: Raw,
+              extra: { dataIndex: string; direction: Sorter['direction'] },
+            ) => number);
+      }
+    | undefined;
 }
 
 export function getRecordKey<Raw extends Record<string, unknown>>(
@@ -203,7 +209,7 @@ export function pageRows<Row>(rows: Row[], page: number, size: number, enabled: 
   return enabled && rows.length > size ? rows.slice((page - 1) * size, page * size) : rows;
 }
 export function getSummaryData<Raw extends RawRow<Raw>>(
-  columns: { dataIndex?: string }[],
+  columns: { dataIndex?: string | undefined }[],
   rows: DataRow<Raw>[],
   text: string,
 ): Record<string, unknown> {

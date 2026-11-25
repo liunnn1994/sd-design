@@ -7,8 +7,8 @@ import { useLayoutEffect, useRef, useState } from 'react';
 export function useMarkdownParseContent(options: {
   content: string;
   enabled: boolean;
-  final?: boolean;
-  interval?: number;
+  final?: boolean | undefined;
+  interval?: number | undefined;
   parser: unknown;
   parseOptions: unknown;
 }) {

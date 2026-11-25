@@ -29,7 +29,7 @@ export function useFloatingPosition(
   options: TriggerFloatingOptions & {
     autoFixPosition: boolean;
     updateAtScroll: boolean;
-    floatingOptions?: FloatingOptions;
+    floatingOptions?: FloatingOptions | undefined;
   },
 ) {
   const [position, setPosition] = useState<ComputePositionReturn>();

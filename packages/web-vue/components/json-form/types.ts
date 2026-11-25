@@ -156,7 +156,7 @@ export type JsonFormItemSlotProps<TExternal extends JsonFormExternalComponentMap
 
 type JsonFormBaseSchema<TType extends string, TExternal extends JsonFormExternalComponentMap> = {
   field: string;
-  label?: string;
+  label?: string | undefined;
   type?: TType;
   required?: boolean;
   hidden?: boolean;
@@ -167,7 +167,7 @@ type JsonFormBaseSchema<TType extends string, TExternal extends JsonFormExternal
   formItemProps?: Omit<FormItemInstance['$props'], 'field' | 'label' | 'rules'>;
   formItemRules?: FieldRule | FieldRule[];
   formItemEvents?: ComponentEventsOf<FormItemInstance['$props'] & HTMLAttributes>;
-  componentProps?: JsonFormComponentProps<TType, TExternal>;
+  componentProps?: JsonFormComponentProps<TType, TExternal> | undefined;
   componentEvents?: JsonFormComponentEvents<TType, TExternal>;
   componentSlots?: Record<string, JsonFormComponentSlotRenderer>;
   children?: JsonFormSchema<JsonFormComponentType<TExternal>, TExternal>[];
@@ -198,17 +198,17 @@ export type JsonFormProps<TExternal extends JsonFormExternalComponentMap = {}> =
    * @zh 表单数据对象（v-model）
    * @en Form data object (v-model)
    */
-  modelValue?: JsonFormModel;
+  modelValue?: JsonFormModel | undefined;
   /**
    * @zh 结构描述的适配器，用于兼容 A2UI 等外部格式
    * @en Adapter of the schema format, for A2UI and other external formats
    */
-  adapter?: JsonFormAdapter;
+  adapter?: JsonFormAdapter | undefined;
   /**
    * @zh 表单数据对象（非受控状态），字段就地变更
    * @en Form data object (uncontrolled state), mutated in place
    */
-  model?: JsonFormModel;
+  model?: JsonFormModel | undefined;
   /**
    * @zh 是否隐藏字段标签
    * @en Whether to hide field labels
@@ -228,7 +228,7 @@ export type JsonFormProps<TExternal extends JsonFormExternalComponentMap = {}> =
    * @zh 默认的表单容器组件
    * @en Default form container component
    */
-  component?: string | Component;
+  component?: string | Component | undefined;
 };
 
 export const defineJsonFormComponents = <const TExternal extends JsonFormExternalComponentMap>(

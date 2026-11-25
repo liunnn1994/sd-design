@@ -78,10 +78,10 @@
     expanded: Boolean,
     forceRenderExpand: Boolean,
     editTooltipProps: {
-      type: Object as PropType<Record<string, unknown>>,
+      type: Object as PropType<Record<string, unknown> | undefined>,
     },
     copyTooltipProps: {
-      type: Object as PropType<Record<string, unknown>>,
+      type: Object as PropType<Record<string, unknown> | undefined>,
     },
   });
 

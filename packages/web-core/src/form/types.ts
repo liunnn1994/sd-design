@@ -138,7 +138,7 @@ export interface ValidatedError {
    * @en Label text
    * @version 2.18.0
    */
-  label?: string;
+  label?: string | undefined;
   /**
    * @zh 字段名
    * @en Field name

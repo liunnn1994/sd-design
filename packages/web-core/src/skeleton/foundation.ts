@@ -1,8 +1,8 @@
 export interface SkeletonLineProps {
-  rows?: number;
-  widths?: Array<number | string>;
-  lineHeight?: number;
-  lineSpacing?: number;
+  rows?: number | undefined;
+  widths?: Array<number | string> | undefined;
+  lineHeight?: number | undefined;
+  lineSpacing?: number | undefined;
 }
 
 export function getSkeletonLines({

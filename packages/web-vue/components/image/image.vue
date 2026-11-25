@@ -136,7 +136,7 @@
      * @en Title
      */
     title: {
-      type: String,
+      type: String as PropType<string | undefined>,
     },
     /**
      * @zh 描述，将显示在底部，如果 alt 没有值，则会将其设置给 alt

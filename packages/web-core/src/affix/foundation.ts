@@ -11,7 +11,7 @@ export type AffixFixedStyle = {
 
 export function getAffixPosition(input: {
   offsetTop?: number;
-  offsetBottom?: number;
+  offsetBottom?: number | undefined;
   wrapperRect: Pick<DOMRect, 'top' | 'bottom'>;
   targetRect: Pick<DOMRect, 'top' | 'bottom'>;
   wrapperWidth: number;
@@ -44,9 +44,9 @@ export function getAffixPosition(input: {
 export function createAffix(adapter: {
   readonly props: {
     offsetTop: number;
-    offsetBottom?: number;
-    target?: string | HTMLElement | Window;
-    targetContainer?: string | HTMLElement | Window;
+    offsetBottom?: number | undefined;
+    target?: string | HTMLElement | Window | undefined;
+    targetContainer?: string | HTMLElement | Window | undefined;
   };
   readonly wrapper: HTMLElement | undefined;
   readonly content: HTMLElement | undefined;

@@ -74,7 +74,7 @@
 
   const props = defineProps({
     size: {
-      type: String as PropType<'mini' | 'small' | 'medium' | 'large'>,
+      type: String as PropType<'mini' | 'small' | 'medium' | 'large' | undefined>,
     },
     focused: {
       type: Boolean,
@@ -93,10 +93,10 @@
       type: [Boolean, String],
     },
     allowClear: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     placeholder: {
-      type: Array as PropType<string[]>,
+      type: Array as PropType<string[] | undefined>,
       default: () => [],
     },
     fitWidth: Boolean,
@@ -110,7 +110,7 @@
     },
     fitWidthFallbackText: String,
     inputValue: {
-      type: Array as PropType<(string | undefined)[]>,
+      type: Array as PropType<(string | undefined)[] | undefined>,
     },
     inputProps: {
       type: Array as PropType<Record<string, unknown>[]>,

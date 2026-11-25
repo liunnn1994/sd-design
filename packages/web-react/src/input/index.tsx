@@ -34,12 +34,12 @@ export interface InputProps
     >,
     TextInputProps,
     Pick<ComponentPropsWithoutRef<'input'>, TextInputEventNames> {
-  allowClear?: boolean;
+  allowClear?: boolean | undefined;
   readonly?: boolean | string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   fitWidth?: boolean;
   maxWFull?: boolean;
-  showWordLimit?: boolean;
+  showWordLimit?: boolean | undefined;
   inputAttrs?: ComponentPropsWithoutRef<'input'>;
   type?: 'text' | 'password';
   fitWidthFallback?: string;

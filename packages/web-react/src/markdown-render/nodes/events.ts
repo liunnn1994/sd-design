@@ -2,8 +2,8 @@ import type { HTMLAttributes, MouseEvent } from 'react';
 
 export interface MarkdownNodeEvents {
   onClick?(event: globalThis.MouseEvent, referenceId?: string): void;
-  onMouseOver?(event: globalThis.MouseEvent): void;
-  onMouseOut?(event: globalThis.MouseEvent): void;
+  onMouseOver?: ((event: globalThis.MouseEvent) => void) | undefined;
+  onMouseOut?: ((event: globalThis.MouseEvent) => void) | undefined;
 }
 export function getMarkdownReferenceId(event: Event, boundary: Element): string | undefined {
   const target =

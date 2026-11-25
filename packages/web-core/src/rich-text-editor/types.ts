@@ -78,7 +78,7 @@ export type RichTextEditorContentSnapshot = string | RichTextEditorComponentNode
 
 export interface RichTextEditorInsertOptions extends EditorUpdateOptions {
   position?: 'start' | 'end' | 'cursor';
-  replaceCharacters?: string;
+  replaceCharacters?: string | undefined;
 }
 
 export interface RichTextEditorInputNodeData extends RichTextEditorComponentNodeData {
@@ -193,13 +193,13 @@ export interface RichTextEditorRef {
 }
 
 export interface RichTextEditorOptions {
-  modelValue?: RichTextEditorValue;
-  defaultValue?: RichTextEditorValue | string | readonly RichTextEditorContentItem[];
-  editorConfig?: RichTextEditorConfig;
+  modelValue?: RichTextEditorValue | undefined;
+  defaultValue?: RichTextEditorValue | string | readonly RichTextEditorContentItem[] | undefined;
+  editorConfig?: RichTextEditorConfig | undefined;
   plugins: readonly RichTextEditorPlugin[];
   transformers: readonly Transformer[];
-  disabled?: boolean;
-  readonly?: boolean;
+  disabled?: boolean | undefined;
+  readonly?: boolean | undefined;
   history: boolean;
   historyDelay: number;
   historyMaxDepth: number | null;

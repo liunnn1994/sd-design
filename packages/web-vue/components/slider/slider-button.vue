@@ -54,7 +54,7 @@
       required: true,
     },
     formatTooltip: {
-      type: Function,
+      type: Function as PropType<Function | undefined>,
     },
     value: [String, Number],
     tooltipPosition: {

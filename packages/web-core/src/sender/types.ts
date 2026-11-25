@@ -71,7 +71,7 @@ export interface SenderCustomSlotState {
 }
 
 export interface SenderFocusOptions {
-  preventScroll?: boolean;
+  preventScroll?: boolean | undefined;
   cursor?: 'start' | 'end' | 'all' | 'slot';
   key?: string;
 }

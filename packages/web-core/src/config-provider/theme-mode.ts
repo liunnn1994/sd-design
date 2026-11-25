@@ -3,7 +3,7 @@ export type ThemeMode = 'light' | 'dark';
 export function createThemeModeFoundation(state: {
   readonly target: HTMLElement | null;
   mode: ThemeMode;
-  readonly fallbackMode?: ThemeMode;
+  readonly fallbackMode?: ThemeMode | undefined;
 }) {
   const resolveTheme = () => {
     if (typeof document === 'undefined') return;

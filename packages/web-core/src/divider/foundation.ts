@@ -1,9 +1,9 @@
 export interface DividerOptions {
   direction?: 'horizontal' | 'vertical';
   orientation?: 'left' | 'center' | 'right';
-  type?: 'solid' | 'dashed' | 'dotted' | 'double';
-  size?: number;
-  margin?: number | string;
+  type?: 'solid' | 'dashed' | 'dotted' | 'double' | undefined;
+  size?: number | undefined;
+  margin?: number | string | undefined;
 }
 
 /** Vue 与 React 共用的分割线样式规则。 */

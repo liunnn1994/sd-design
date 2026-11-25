@@ -51,7 +51,9 @@ export interface NumberFlowExposed {
 export type NumberFlowStyle = CSSProperties & Record<`--${string}`, string | number>;
 export type NumberFlowInstance = NumberFlowExposed;
 export interface NumberFlowProps
-  extends CoreProps, Omit<ComponentPropsWithoutRef<'span'>, 'prefix' | 'children' | 'style'> {
+  extends
+    CoreProps,
+    Omit<ComponentPropsWithoutRef<'span'>, keyof CoreProps | 'children' | 'style'> {
   style?: NumberFlowStyle;
   prefixContent?: ReactNode;
   suffixContent?: ReactNode;

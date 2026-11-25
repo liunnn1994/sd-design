@@ -69,7 +69,7 @@ export function createSteps<Key = number>(adapter: {
 }
 
 export function createStep(adapter: {
-  readonly props: { status?: StepStatus; disabled: boolean };
+  readonly props: { status?: StepStatus | undefined; disabled: boolean };
   readonly context: StepsState | undefined;
   readonly step: number;
 }) {

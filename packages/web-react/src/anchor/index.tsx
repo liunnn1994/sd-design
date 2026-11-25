@@ -88,8 +88,8 @@ function AnchorRoot({
   const state = useRef<{
     current: string;
     scrolling: boolean;
-    scrollContainer?: HTMLElement | Window;
-    container?: HTMLElement;
+    scrollContainer?: HTMLElement | Window | undefined;
+    container?: HTMLElement | undefined;
   }>({ current: '', scrolling: false });
   const [current, setCurrent] = useState('');
   const afterRender = useAfterRender();

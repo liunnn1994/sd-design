@@ -269,6 +269,46 @@ describe('Anchor', () => {
     });
   });
 
+  it('keeps the numeric boundary when the scroll container has scroll padding', () => {
+    cy.mount({
+      template: `
+        <div id="cy-padded-scroll" style="height: 300px; overflow: auto; scroll-padding-top: 64px;">
+          <div style="height: 600px;"></div>
+          <section id="cy-padded-target" style="height: 800px;">Target</section>
+        </div>
+        <sd-anchor scroll-container="#cy-padded-scroll" :smooth="false" :change-hash="false" :boundary="100">
+          <sd-anchor-link href="#cy-padded-target" title="Jump" />
+        </sd-anchor>
+      `,
+    });
+    cy.contains('a', 'Jump').click();
+    cy.get('#cy-padded-scroll').should(($container) => {
+      expect($container[0].scrollTop).to.equal(500);
+    });
+  });
+
+  it('keeps the numeric boundary from the physical top in a vertical writing mode', () => {
+    cy.mount({
+      template: `
+        <div id="cy-vertical-scroll" style="height: 300px; overflow: auto; display: flex; writing-mode: vertical-rl;">
+          <div style="height: 600px; flex-shrink: 0;"></div>
+          <section id="cy-vertical-target" style="height: 50px; flex-shrink: 0;">Target</section>
+          <div style="height: 600px; flex-shrink: 0;"></div>
+        </div>
+        <sd-anchor scroll-container="#cy-vertical-scroll" :smooth="false" :change-hash="false" :boundary="100">
+          <sd-anchor-link href="#cy-vertical-target" title="Jump" />
+        </sd-anchor>
+      `,
+    });
+    cy.contains('a', 'Jump').click();
+    cy.get('#cy-vertical-scroll').should(([container]) => {
+      const target = container.querySelector('#cy-vertical-target')!;
+      expect(target.getBoundingClientRect().top - container.getBoundingClientRect().top).to.equal(
+        100,
+      );
+    });
+  });
+
   it('activates the link matching the initial location hash on mount', () => {
     cy.window().then((win) => {
       win.location.hash = '#cy-s2';

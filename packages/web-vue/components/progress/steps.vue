@@ -55,12 +55,12 @@
       type: String,
     },
     color: {
-      type: [String, Object],
+      type: [String, Object] as PropType<string | Record<string, unknown> | undefined>,
       default: undefined,
     },
-    trackColor: String,
+    trackColor: String as PropType<string | undefined>,
     strokeWidth: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
     },
     status: {
       type: String,

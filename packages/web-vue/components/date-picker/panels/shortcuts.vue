@@ -44,7 +44,7 @@
       default: () => [],
     },
     showNowBtn: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
   });
 

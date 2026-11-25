@@ -10,6 +10,8 @@ import type {
   ValidateTrigger,
 } from './types.js';
 
+import { definedProps } from '../_utils/defined-props.js';
+
 export function mergeFieldRules(
   own: FieldRule | FieldRule[] | undefined,
   inherited: FieldRule | FieldRule[] | undefined,
@@ -83,7 +85,7 @@ export function createFieldFoundation(adapter: {
       },
       {
         ignoreEmptyString: true,
-        validateMessages: adapter.getMessages(),
+        ...definedProps({ validateMessages: adapter.getMessages() }),
       },
     );
 

@@ -17,10 +17,10 @@ import { CascaderColumn } from './column.js';
 export interface CascaderBasePanelProps extends ComponentPropsWithoutRef<'div'> {
   displayColumns: CascaderOptionInfo<TagProps>[][];
   selectedPath: string[];
-  activeKey?: string;
+  activeKey?: string | undefined;
   totalLevel: number;
-  multiple?: boolean;
-  checkStrictly?: boolean;
+  multiple?: boolean | undefined;
+  checkStrictly?: boolean | undefined;
   loading?: boolean;
   spinProps?: SpinProps;
   dropdown?: boolean;

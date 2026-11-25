@@ -8,14 +8,14 @@ type WatermarkStyle = Properties<string | number> & {
   [name: `--${string}`]: string | number | undefined;
 };
 export interface WatermarkOptions {
-  content?: string | string[];
-  image?: string;
-  width?: number;
-  height?: number;
-  gap?: [number, number];
-  offset?: [number, number];
+  content?: string | string[] | undefined;
+  image?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  gap?: [number, number] | undefined;
+  offset?: [number, number] | undefined;
   rotate: number;
-  font?: WatermarkFont;
+  font?: WatermarkFont | undefined;
   zIndex: number;
   alpha: number;
   antiTamper: boolean;

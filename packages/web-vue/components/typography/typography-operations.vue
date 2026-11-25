@@ -42,13 +42,13 @@
     isEllipsis: boolean;
     expanded: boolean;
     forceRenderExpand?: boolean;
-    editTooltipProps?: Record<string, unknown>;
-    copyTooltipProps?: Record<string, unknown>;
+    editTooltipProps?: Record<string, unknown> | undefined;
+    copyTooltipProps?: Record<string, unknown> | undefined;
     onEdit: () => void;
     onCopy: () => void;
     onExpand: () => void;
-    copyTooltip?: Slot;
-    copyIcon?: Slot;
-    expandNode?: Slot;
+    copyTooltip?: Slot | undefined;
+    copyIcon?: Slot | undefined;
+    expandNode?: Slot | undefined;
   }>();
 </script>

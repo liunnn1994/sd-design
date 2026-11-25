@@ -14,7 +14,7 @@ export function createImagePreview<Handle>(adapter: {
   readonly maskClosable: boolean;
   readonly actions: string[];
   readonly scaleValueVisible: boolean;
-  readonly arrows: { onPrev?: () => void; onNext?: () => void };
+  readonly arrows: { onPrev?: (() => void) | undefined; onNext?: (() => void) | undefined };
   isLastDialog(): boolean;
   isEditableTarget(event: KeyboardEvent): boolean;
   setScale(value: number): void;

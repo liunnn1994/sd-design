@@ -48,7 +48,7 @@ export type FieldString<T> = {
 };
 
 export interface SlotChildren {
-  value?: VNode[];
+  value?: VNode[] | undefined;
 }
 
 export interface ValueData {

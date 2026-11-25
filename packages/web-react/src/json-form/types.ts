@@ -60,7 +60,7 @@ export interface JsonFormSchema<
   External extends JsonFormExternalComponentMap = {},
 > {
   field: string;
-  label?: string;
+  label?: string | undefined;
   type?: Type;
   required?: boolean;
   hidden?: boolean;
@@ -71,7 +71,7 @@ export interface JsonFormSchema<
   formItemProps?: Omit<FormItemProps, 'field' | 'label' | 'rules'>;
   formItemRules?: FormItemProps['rules'];
   formItemEvents?: EventsOf<FormItemProps>;
-  componentProps?: JsonFormComponentProps<Type, External>;
+  componentProps?: JsonFormComponentProps<Type, External> | undefined;
   componentEvents?: JsonFormComponentEvents<Type, External>;
   componentSlots?: Record<string, JsonFormComponentSlotRenderer>;
   children?: JsonFormSchema<string, External>[];

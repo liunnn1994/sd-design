@@ -10,13 +10,13 @@ import {
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 export interface DateHeaderOptions {
-  mode?: Mode;
-  value?: CalendarValue;
-  defaultValue?: CalendarValue;
-  selectedValue?: Dayjs;
+  mode?: Mode | undefined;
+  value?: CalendarValue | undefined;
+  defaultValue?: CalendarValue | undefined;
+  selectedValue?: Dayjs | undefined;
   format: string;
-  utcOffset?: number;
-  timezone?: string;
+  utcOffset?: number | undefined;
+  timezone?: string | undefined;
   onChange?(value: Dayjs): void;
 }
 

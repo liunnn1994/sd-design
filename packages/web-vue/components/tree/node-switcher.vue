@@ -43,7 +43,7 @@
 
   const props = defineProps({
     prefixCls: String,
-    loading: Boolean,
+    loading: Boolean as PropType<boolean | undefined>,
     showLine: Boolean,
     treeNodeData: {
       type: Object as PropType<TreeNodeData>,
@@ -53,11 +53,11 @@
     },
     nodeStatus: {
       type: Object as PropType<{
-        loading?: boolean;
-        checked?: boolean;
-        selected?: boolean;
-        expanded?: boolean;
-        indeterminate?: boolean;
+        loading?: boolean | undefined;
+        checked?: boolean | undefined;
+        selected?: boolean | undefined;
+        expanded?: boolean | undefined;
+        indeterminate?: boolean | undefined;
         isLeaf?: boolean;
       }>,
     },

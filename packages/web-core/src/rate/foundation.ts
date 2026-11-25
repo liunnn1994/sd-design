@@ -8,8 +8,8 @@ export interface RateOptions {
   grading: boolean;
   allowHalf: boolean;
   readonly: boolean | string;
-  modelValue?: number;
-  color?: string | Record<string, string>;
+  modelValue?: number | undefined;
+  color?: string | Record<string, string> | undefined;
 }
 export interface RateAdapter {
   readonly options: RateOptions;

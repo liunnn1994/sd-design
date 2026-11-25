@@ -10,7 +10,7 @@ test('built declarations pass strict consumer checking and preserve generic clam
   const directory = await mkdtemp(path.join(packageRoot, 'node_modules', '.package-types-'));
   const source = `
 <script setup lang="ts">
-import { WrapClamp, LiquidGlassLogo } from '../../es/index.js';
+import { WrapClamp, LiquidGlassLogo, MarkdownRender, Tour } from '../../es/index.js';
 import type { LiquidGlassLogoInstance, LiquidGlassLogoProps, LiquidGlassLogoTuning } from '../../es/index.js';
 import type { VirtualListRef } from '../../es/_components/virtual-list/interface.js';
 import '../../es/button/style/index.js';
@@ -25,6 +25,8 @@ glass.pause();
 glass.play();
 </script>
 <template>
+  <MarkdownRender :final="undefined" />
+  <Tour :animate="undefined" />
   <LiquidGlassLogo v-bind="glassProps" :depth="tuning.depth"><template #fallback>苏打</template></LiquidGlassLogo>
   <SdLiquidGlassLogo ending="logo" :height="320" />
   <WrapClamp :items="[{ id: 1, label: 'One' }]" item-key="id">
@@ -34,10 +36,15 @@ glass.play();
     <template #item="{ item }">{{ item.label.toUpperCase() }}</template>
   </SdWrapClamp>
 </template>`;
-  const compile = () =>
+  const compile = (exactOptionalProperties = false) =>
     spawnSync(
       process.execPath,
-      [path.join(packageRoot, 'node_modules/vue-tsc/bin/vue-tsc.js'), '-p', directory],
+      [
+        path.join(packageRoot, 'node_modules/vue-tsc/bin/vue-tsc.js'),
+        '-p',
+        directory,
+        ...(exactOptionalProperties ? ['--exactOptionalPropertyTypes'] : []),
+      ],
       { cwd: packageRoot, encoding: 'utf8' },
     );
   try {
@@ -59,8 +66,10 @@ glass.play();
       }),
     );
     await writeFile(path.join(directory, 'consumer.vue'), source);
-    const valid = compile();
-    assert.equal(valid.status, 0, valid.stdout + valid.stderr);
+    for (const exactOptionalProperties of [false, true]) {
+      const valid = compile(exactOptionalProperties);
+      assert.equal(valid.status, 0, valid.stdout + valid.stderr);
+    }
 
     await writeFile(
       path.join(directory, 'consumer.vue'),

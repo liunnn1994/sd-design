@@ -16,21 +16,21 @@ export type ImagePreviewGroupInstance = ImagePreviewInstance;
 export type ImagePreviewActionInstance = HTMLDivElement;
 
 export interface ImagePreviewArrowProps {
-  onPrev?(): void;
-  onNext?(): void;
+  onPrev?: (() => void) | undefined;
+  onNext?: (() => void) | undefined;
 }
 export interface ImagePreviewProps extends Omit<
   ComponentPropsWithRef<'div'>,
   'onClose' | 'ref' | 'children'
 > {
   ref?: Ref<ImagePreviewInstance>;
-  src?: string;
+  src?: string | undefined;
   visible?: boolean;
   defaultVisible?: boolean;
   maskClosable?: boolean;
   closable?: boolean;
   actionsLayout?: string[];
-  popupContainer?: string | HTMLElement;
+  popupContainer?: string | HTMLElement | undefined;
   renderToBody?: boolean;
   escToClose?: boolean;
   keyboard?: boolean;
@@ -44,7 +44,7 @@ export interface ImagePreviewProps extends Omit<
   onVisibleChange?(visible: boolean): void;
 }
 export interface ImageProps extends Omit<ComponentPropsWithRef<'img'>, 'children' | 'ref'> {
-  ref?: Ref<ImageInstance>;
+  ref?: Ref<ImageInstance> | undefined;
   description?: string;
   fit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
   hideFooter?: boolean | 'never';

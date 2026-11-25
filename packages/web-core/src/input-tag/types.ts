@@ -18,7 +18,7 @@ export interface TagData<TTagProps = { closable?: boolean }> {
    * @zh 标签属性
    * @en Tag props
    */
-  tagProps?: TTagProps;
+  tagProps?: TTagProps | undefined;
   [other: string]: unknown;
 }
 

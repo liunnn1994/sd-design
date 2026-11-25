@@ -16,14 +16,14 @@ import usePanelSpan from './use-panel-span';
 
 interface RangeHeaderValueProps {
   mode: Mode;
-  startHeaderMode?: Mode;
-  endHeaderMode?: Mode;
+  startHeaderMode?: Mode | undefined;
+  endHeaderMode?: Mode | undefined;
   value: CalendarValue[] | undefined;
   defaultValue: CalendarValue[] | undefined;
   selectedValue: (Dayjs | undefined)[];
   format: string;
-  utcOffset?: number;
-  timezone?: string;
+  utcOffset?: number | undefined;
+  timezone?: string | undefined;
   onChange?: (newVal: Dayjs[]) => void;
 }
 

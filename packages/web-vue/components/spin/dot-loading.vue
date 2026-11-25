@@ -18,7 +18,7 @@
   defineOptions({ name: 'DotLoading' });
 
   const { size } = defineProps<{
-    size?: number;
+    size?: number | undefined;
   }>();
 
   const DOT_NUMBER = 5;

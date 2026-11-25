@@ -29,7 +29,7 @@
       type: Array as PropType<string[]>,
       default: () => [],
     },
-    help: String,
+    help: String as PropType<string | undefined>,
   });
 
   const prefixCls = getPrefixCls('form-item-message');

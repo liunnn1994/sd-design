@@ -20,7 +20,11 @@ import { parse as parseComponent } from 'vue-docgen-api';
 
 import type { TypeApi } from './type-api.ts';
 
-import { extractDescription, isPrivateApi } from '../../web-vue/scripts/utils/doc-tags.ts';
+import {
+  extractDescription,
+  getDocgenPropTypeName,
+  isPrivateApi,
+} from '../../web-vue/scripts/utils/doc-tags.ts';
 import { slotTagHandler } from '../../web-vue/scripts/utils/slot-tag-handler.ts';
 import { readTypeApi } from './type-api.ts';
 
@@ -116,7 +120,7 @@ const resolveComponent = (doc: ComponentDoc, retainUndocumented = false) => ({
       ?.filter((descriptor) => !isPrivateApi(descriptor.tags))
       ?.map((descriptor) => ({
         name: toKebabCase(descriptor.name),
-        type: descriptor.type?.name ?? '',
+        type: getDocgenPropTypeName(descriptor.type) ?? '',
         default: descriptor.defaultValue?.value ?? descriptor.defaultValue ?? '',
         description: extractDescription(descriptor.tags, 'description'),
       }))

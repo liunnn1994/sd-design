@@ -12,8 +12,8 @@ export interface AffixExposed {
 export type AffixInstance = AffixExposed;
 export interface AffixProps extends Omit<ComponentPropsWithoutRef<'div'>, 'onChange'> {
   offsetTop?: number;
-  offsetBottom?: number;
-  target?: string | HTMLElement | Window;
+  offsetBottom?: number | undefined;
+  target?: string | HTMLElement | Window | undefined;
   targetContainer?: string | HTMLElement | Window;
   onChange?: (fixed: boolean) => void;
   ref?: Ref<AffixExposed>;
@@ -34,7 +34,9 @@ export function Affix({
   const content = useRef<HTMLDivElement>(null);
   const live = useRef({ offsetTop, offsetBottom, target, targetContainer, onChange });
   live.current = { offsetTop, offsetBottom, target, targetContainer, onChange };
-  const state = useRef<{ fixed: boolean; target?: HTMLElement | Window }>({ fixed: false });
+  const state = useRef<{ fixed: boolean; target?: HTMLElement | Window | undefined }>({
+    fixed: false,
+  });
   const [fixed, setFixed] = useState(false);
   const [placeholder, setPlaceholder] = useState<{ width: string; height: string }>();
   const [style, setStyle] = useState<AffixFixedStyle>({});

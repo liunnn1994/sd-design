@@ -10,7 +10,7 @@ import { TimePickerProps } from '../../time-picker/interface';
 import useTimePickerValue from './use-time-picker-value';
 
 interface RangeTimePickerValueProps {
-  timePickerProps?: Partial<TimePickerProps>;
+  timePickerProps?: Partial<TimePickerProps> | undefined;
   selectedValue: Array<Dayjs | undefined> | undefined;
 }
 export default function useRangeTimePickerValue(

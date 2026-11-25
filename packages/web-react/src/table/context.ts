@@ -16,17 +16,17 @@ import type {
 } from './types.js';
 
 export interface TableContextValue extends TableSelectionContext<TableDataWithRaw> {
-  sorter?: Sorter;
+  sorter?: Sorter | undefined;
   filters?: Filters;
   filterIconAlignLeft?: boolean;
   resizingColumn?: string;
   onSorterChange?(field: string, direction: SortDirection, event: Event): void;
   onFilterChange?(field: string, values: string[], event: Event): void;
   onThMouseDown?(field: string, event: MouseEvent): void;
-  titleSlots?: Record<string, (data: { column: TableColumnData }) => ReactNode>;
-  filterSlots?: Record<string, (data: TableFilterSlotProps) => ReactNode>;
-  cellSlots?: Record<string, (data: TableCellData) => ReactNode>;
-  loadMore?: TableLoadMore;
+  titleSlots?: Record<string, (data: { column: TableColumnData }) => ReactNode> | undefined;
+  filterSlots?: Record<string, (data: TableFilterSlotProps) => ReactNode> | undefined;
+  cellSlots?: Record<string, (data: TableCellData) => ReactNode> | undefined;
+  loadMore?: TableLoadMore | undefined;
   addLazyLoadData?(children: TableData[] | undefined, row: TableDataWithRaw): void;
   onSelectAll?(checked: boolean): void;
 }

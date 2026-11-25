@@ -19,7 +19,7 @@ export function useMarkdownCursor(options: {
   root: RefObject<HTMLElement | null>;
   source: string;
   visible: string;
-  final?: boolean;
+  final?: boolean | undefined;
   suppliedNodes: boolean;
   fragment: boolean;
   typewriter: unknown;

@@ -519,7 +519,7 @@ export const createCalendarEvents = (
       exactTime = false,
     }: {
       excludeIds?: CalendarId[];
-      schedule?: CalendarId | null;
+      schedule?: CalendarId | null | undefined;
       background?: boolean;
       allDay?: boolean;
       exactTime?: boolean;

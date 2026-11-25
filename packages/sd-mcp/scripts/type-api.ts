@@ -262,7 +262,7 @@ export async function readTypeApi(webVue: string, sources: { dirname: string; fi
     {
       dirname: string;
       importName: string;
-      sourceFile?: string;
+      sourceFile?: string | undefined;
       props: ReturnType<typeof fieldsOf>;
       config?: ReturnType<typeof fieldsOf>;
       methods?: ReturnType<typeof fieldsOf>;

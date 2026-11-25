@@ -14,9 +14,9 @@ export interface ProgressOptions {
   type: ProgressType;
   steps: number;
   percent: number;
-  status?: Status;
-  width?: number | string;
-  strokeWidth?: number;
+  status?: Status | undefined;
+  width?: number | string | undefined;
+  strokeWidth?: number | undefined;
 }
 export function createProgressFoundation(options: ProgressOptions) {
   const getType = () => (options.steps > 0 ? 'steps' : options.type);
@@ -41,11 +41,11 @@ export function getProgressBackground(color?: ProgressColor) {
 const LINE_STROKE_WIDTH = { small: 3, medium: 4, large: 8 };
 export interface ProgressLineOptions {
   size: keyof typeof LINE_STROKE_WIDTH;
-  strokeWidth?: number;
+  strokeWidth?: number | undefined;
   percent: number;
   width: number | string;
-  color?: ProgressColor;
-  trackColor?: string;
+  color?: ProgressColor | undefined;
+  trackColor?: string | undefined;
 }
 export function createProgressLineFoundation(options: ProgressLineOptions) {
   const getStrokeWidth = () => options.strokeWidth ?? LINE_STROKE_WIDTH[options.size];
@@ -65,12 +65,12 @@ const CIRCLE_WIDTH = { mini: 16, small: 48, medium: 64, large: 80 };
 const CIRCLE_STROKE_WIDTH = { mini: 4, small: 3, medium: 4, large: 4 };
 export interface ProgressCircleOptions {
   size: Size;
-  width?: number;
-  strokeWidth?: number;
-  pathStrokeWidth?: number;
-  color?: ProgressColor;
+  width?: number | undefined;
+  strokeWidth?: number | undefined;
+  pathStrokeWidth?: number | undefined;
+  color?: ProgressColor | undefined;
   percent: number;
-  trackColor?: string;
+  trackColor?: string | undefined;
 }
 export function createProgressCircleFoundation(
   options: ProgressCircleOptions,
@@ -117,9 +117,9 @@ export interface ProgressStepsOptions {
   steps: number;
   percent: number;
   size?: string;
-  strokeWidth?: number;
-  color?: ProgressColor;
-  trackColor?: string;
+  strokeWidth?: number | undefined;
+  color?: ProgressColor | undefined;
+  trackColor?: string | undefined;
 }
 export function createProgressStepsFoundation(options: ProgressStepsOptions) {
   const getActiveColor = () => (typeof options.color === 'string' ? options.color : undefined);

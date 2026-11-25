@@ -13,21 +13,21 @@ export interface TreeStateProps<T extends TreeData, E> extends Omit<
   TreeCheckedStateProps,
   'key2TreeNode' | 'checkStrictly' | 'onlyCheckLeaf'
 > {
-  selectedKeys?: TreeNodeKey[];
-  defaultSelectedKeys?: TreeNodeKey[];
-  expandedKeys?: TreeNodeKey[];
-  defaultExpandedKeys?: TreeNodeKey[];
-  autoExpandParent?: boolean;
+  selectedKeys?: TreeNodeKey[] | undefined;
+  defaultSelectedKeys?: TreeNodeKey[] | undefined;
+  expandedKeys?: TreeNodeKey[] | undefined;
+  defaultExpandedKeys?: TreeNodeKey[] | undefined;
+  autoExpandParent?: boolean | undefined;
   defaultExpandAll?: boolean;
-  defaultExpandSelected?: boolean;
-  defaultExpandChecked?: boolean;
-  multiple?: boolean;
-  checkStrictly?: boolean;
-  onlyCheckLeaf?: boolean;
-  checkedStrategy?: 'all' | 'parent' | 'child';
+  defaultExpandSelected?: boolean | undefined;
+  defaultExpandChecked?: boolean | undefined;
+  multiple?: boolean | undefined;
+  checkStrictly?: boolean | undefined;
+  onlyCheckLeaf?: boolean | undefined;
+  checkedStrategy?: 'all' | 'parent' | 'child' | undefined;
   animateExpand?: boolean;
-  loadMore?(node: T): Promise<void>;
-  onLoadError?(error: unknown): void;
+  loadMore?: ((node: T) => Promise<void>) | undefined;
+  onLoadError?: ((error: unknown) => void) | undefined;
   events?: Partial<TreeAdapter<T, TreeModelNode<T>, E>['events']>;
 }
 

@@ -8,6 +8,6 @@ import type { TagProps } from '../tag/index.js';
 
 export interface CascaderContextValue extends Partial<CascaderOptionContext<TagProps>> {
   ellipsis?: boolean | 'performant-ellipsis';
-  renderOption?(option: CascaderOptionInfo<TagProps>): ReactNode;
+  renderOption?: ((option: CascaderOptionInfo<TagProps>) => ReactNode) | undefined;
 }
 export const CascaderContext = createContext<CascaderContextValue>({});

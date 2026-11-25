@@ -42,7 +42,7 @@ export interface JsonFormItemProps {
   hideAsterisk?: boolean;
   showColon?: boolean;
   onValueChange(model: JsonFormModel): void;
-  slots?: Record<string, (props: JsonFormItemSlotProps) => ReactNode>;
+  slots?: Record<string, (props: JsonFormItemSlotProps) => ReactNode> | undefined;
 }
 
 export function JsonFormItem(props: JsonFormItemProps) {

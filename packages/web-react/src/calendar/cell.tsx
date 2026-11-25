@@ -37,16 +37,15 @@ export interface CalendarCellViewProps
   calendar: CalendarCellViewHost;
   className?: string;
   style?: CSSProperties;
-  renderCell?: (cell: CellInfo) => ReactNode;
-  renderCellDate?: (params: CalendarCellRenderParams) => ReactNode;
-  renderCellContent?: (params: CalendarCellRenderParams) => ReactNode;
-  renderCellEvents?: (params: CalendarCellRenderParams) => ReactNode;
-  renderSpecialHoursLabel?: (params: {
-    range: PositionedSpecialHour;
-    schedule?: Schedule;
-  }) => ReactNode;
-  renderEventCount?: (events: CalendarEvent[]) => ReactNode;
-  renderNowLine?: (params: { now: Date; timeFormatted: string }) => ReactNode;
+  renderCell?: ((cell: CellInfo) => ReactNode) | undefined;
+  renderCellDate?: ((params: CalendarCellRenderParams) => ReactNode) | undefined;
+  renderCellContent?: ((params: CalendarCellRenderParams) => ReactNode) | undefined;
+  renderCellEvents?: ((params: CalendarCellRenderParams) => ReactNode) | undefined;
+  renderSpecialHoursLabel?:
+    | ((params: { range: PositionedSpecialHour; schedule?: Schedule | undefined }) => ReactNode)
+    | undefined;
+  renderEventCount?: ((events: CalendarEvent[]) => ReactNode) | undefined;
+  renderNowLine?: ((params: { now: Date; timeFormatted: string }) => ReactNode) | undefined;
 }
 
 export function CalendarCellView(props: CalendarCellViewProps) {

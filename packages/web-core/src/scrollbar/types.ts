@@ -95,11 +95,11 @@ export interface ScrollbarProps<Style = unknown> {
   outerStyle?: Style;
   paddingAbsolute?: OverlayScrollbarPartialOptions['paddingAbsolute'];
   showNativeOverlaidScrollbars?: OverlayScrollbarPartialOptions['showNativeOverlaidScrollbars'];
-  updateOptions?: ScrollbarUpdateOptions;
-  overflow?: ScrollbarOverflowOptions;
-  scrollbars?: ScrollbarScrollbarsOptions;
-  overlayOptions?: ScrollbarOptions;
-  events?: EventListeners;
+  updateOptions?: ScrollbarUpdateOptions | undefined;
+  overflow?: ScrollbarOverflowOptions | undefined;
+  scrollbars?: ScrollbarScrollbarsOptions | undefined;
+  overlayOptions?: ScrollbarOptions | undefined;
+  events?: EventListeners | undefined;
 }
 
 export interface ScrollbarExpose {

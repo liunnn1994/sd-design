@@ -9,8 +9,8 @@ import { useReducer, useRef, useState } from 'react';
 
 export interface TablePaginationOptions {
   pagination?: boolean | LegacyPaginationOptions;
-  onPageChange?(page: number): void;
-  onPageSizeChange?(pageSize: number): void;
+  onPageChange?: ((page: number) => void) | undefined;
+  onPageSizeChange?: ((pageSize: number) => void) | undefined;
 }
 export function useTablePagination(props: TablePaginationOptions) {
   const current = useRef(props);

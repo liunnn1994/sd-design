@@ -9,7 +9,7 @@ export const useFormItem = ({
   error,
   uninject,
 }: {
-  size?: Ref<Size | undefined>;
+  size?: Ref<Size | undefined> | undefined;
   disabled?: Ref<boolean>;
   error?: Ref<boolean>;
   // private

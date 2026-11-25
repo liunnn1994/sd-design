@@ -2,5 +2,5 @@
 // 必须定义在模块级保持标识稳定，否则每次渲染都识别为新组件导致整树重挂载。
 import type { VNode } from 'vue';
 
-export const CustomEmptyRenderer = (props: { vnode?: VNode | VNode[] }) => props.vnode;
+export const CustomEmptyRenderer = (props: { vnode?: VNode | VNode[] | undefined }) => props.vnode;
 CustomEmptyRenderer.props = ['vnode'];

@@ -15,7 +15,7 @@ export interface CascaderSearchPanelProps extends ScrollbarProps {
   options: CascaderOptionInfo<TagProps>[];
   loading?: boolean;
   spinProps?: SpinProps;
-  activeKey?: string;
+  activeKey?: string | undefined;
   multiple?: boolean;
   checkStrictly?: boolean;
   pathLabel?: boolean;

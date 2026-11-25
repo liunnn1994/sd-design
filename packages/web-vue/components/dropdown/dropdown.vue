@@ -91,10 +91,10 @@
      * @en Mount container for popup
      */
     popupContainer: {
-      type: [String, Object] as PropType<string | HTMLElement>,
+      type: [String, Object] as PropType<string | HTMLElement | undefined>,
     },
     floatingOptions: {
-      type: Object as PropType<FloatingOptions>,
+      type: Object as PropType<FloatingOptions | undefined>,
     },
     /**
      * @zh 弹出框最大高度

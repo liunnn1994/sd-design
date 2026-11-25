@@ -56,13 +56,13 @@
   } = defineProps<{
     modalProps?: BasicCrudTableModalProps;
     modalFormProps?: BasicCrudTableModalFormProps;
-    createApi?: (data: UnknownRecord) => MaybePromise<unknown>;
-    updateApi?: (data: UnknownRecord) => MaybePromise<unknown>;
-    detailApi?: (row: TableData) => MaybePromise<UnknownRecord>;
-    valueTransformer?: (data: UnknownRecord) => UnknownRecord;
-    beforeSubmit?: (
-      context: BasicCrudTableModalSubmitContext<TableData>,
-    ) => MaybePromise<boolean | void>;
+    createApi?: ((data: UnknownRecord) => MaybePromise<unknown>) | undefined;
+    updateApi?: ((data: UnknownRecord) => MaybePromise<unknown>) | undefined;
+    detailApi?: ((row: TableData) => MaybePromise<UnknownRecord>) | undefined;
+    valueTransformer?: ((data: UnknownRecord) => UnknownRecord) | undefined;
+    beforeSubmit?:
+      | ((context: BasicCrudTableModalSubmitContext<TableData>) => MaybePromise<boolean | void>)
+      | undefined;
   }>();
 
   const emit = defineEmits<{

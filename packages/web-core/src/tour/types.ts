@@ -15,7 +15,37 @@ import type {
 export type TourAlignment = Alignment;
 export type TourAllowedButton = AllowedButtons;
 export type TourConfig = Config;
-export type TourProps = Config;
+interface TourInheritedDefaults {
+  animate?: Config['animate'];
+  smoothScroll?: Config['smoothScroll'];
+  scrollIntoView?: Config['scrollIntoView'];
+  allowClose?: Config['allowClose'];
+  allowScroll?: Config['allowScroll'];
+  allowPageInteraction?: Config['allowPageInteraction'];
+  disableActiveInteraction?: Config['disableActiveInteraction'];
+  advanceOn?: Config['advanceOn'];
+  advanceOnClick?: Config['advanceOnClick'];
+  skipMissingElement?: Config['skipMissingElement'];
+  allowKeyboardControl?: Config['allowKeyboardControl'];
+  showProgress?: Config['showProgress'];
+}
+// The Vue SFC compiler needs literal keys when extracting runtime props from Omit.
+export type TourProps = Omit<
+  Config,
+  | 'animate'
+  | 'smoothScroll'
+  | 'scrollIntoView'
+  | 'allowClose'
+  | 'allowScroll'
+  | 'allowPageInteraction'
+  | 'disableActiveInteraction'
+  | 'advanceOn'
+  | 'advanceOnClick'
+  | 'skipMissingElement'
+  | 'allowKeyboardControl'
+  | 'showProgress'
+> &
+  TourInheritedDefaults;
 export type TourController = Driver;
 export type TourExpose = Driver;
 export type TourStepHook = DriverHook;

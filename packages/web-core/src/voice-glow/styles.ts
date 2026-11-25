@@ -301,12 +301,12 @@ export interface GenerateVoiceStylesOptions {
   innerShadow: string;
   colorVariant: VoiceGlowColorVariant;
   /** Lobe colours overriding the variant palette (any CSS hex / rgb). */
-  colors?: string[];
+  colors?: string[] | undefined;
   brightness: number;
   saturation: number;
   theme: 'dark' | 'light';
   /** The theme's resting hue shift in degrees (the `--voice-hue-base` fallback). */
-  hueBase?: number;
+  hueBase?: number | undefined;
   glowSize?: number;
   /** Multiplies every lobe's width / height, all layers. */
   glowWidth?: number;

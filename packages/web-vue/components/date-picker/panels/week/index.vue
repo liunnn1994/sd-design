@@ -36,7 +36,7 @@
       required: true,
     },
     headerOperations: {
-      type: Object as PropType<HeaderOperations>,
+      type: Object as PropType<HeaderOperations | undefined>,
       default: () => ({}),
     },
     headerIcons: {

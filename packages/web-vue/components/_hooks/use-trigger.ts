@@ -13,10 +13,10 @@ export const useTrigger = ({
   defaultShow,
   emit,
 }: {
-  popupVisible?: Ref<boolean | undefined>;
-  defaultPopupVisible?: Ref<boolean | undefined>;
-  show?: Ref<boolean | undefined>;
-  defaultShow?: Ref<boolean | undefined>;
+  popupVisible?: Ref<boolean | undefined> | undefined;
+  defaultPopupVisible?: Ref<boolean | undefined> | undefined;
+  show?: Ref<boolean | undefined> | undefined;
+  defaultShow?: Ref<boolean | undefined> | undefined;
   emit: (
     event: 'update:popupVisible' | 'popupVisibleChange' | 'update:show' | 'showChange',
     visible: boolean,

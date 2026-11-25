@@ -54,10 +54,10 @@ export interface CollapseItemProps extends ComponentPropsWithRef<'div'> {
 const CollapseContext = createContext<
   | {
       keys: CollapseKey[];
-      showExpandIcon?: boolean;
+      showExpandIcon?: boolean | undefined;
       expandIconPosition: 'left' | 'right';
       destroyOnHide: boolean;
-      expandIcon?: ExpandIcon;
+      expandIcon?: ExpandIcon | undefined;
       click(key: CollapseKey, event: Event): void;
     }
   | undefined

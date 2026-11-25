@@ -441,7 +441,7 @@ export function SenderView(props: SenderProps) {
                   placeholder: `${prefix}-input-slot-placeholder`,
                   component: `${prefix}-slot`,
                 }}
-                styles={{ root: styles.input }}
+                styles={styles.input === undefined ? {} : { root: styles.input }}
                 ariaLabel={t('sender.messageInput')}
                 onReady={foundation.handleSlotEditorReady}
                 onChange={foundation.handleSlotEditorChange}

@@ -21,10 +21,10 @@ export interface CascaderOptionProps extends ComponentPropsWithoutRef<'li'> {
   option: CascaderOptionInfo<TagProps>;
   active?: boolean;
   expanded?: boolean;
-  multiple?: boolean;
-  checkStrictly?: boolean;
+  multiple?: boolean | undefined;
+  checkStrictly?: boolean | undefined;
   searchOption?: boolean;
-  pathLabel?: boolean;
+  pathLabel?: boolean | undefined;
 }
 export function CascaderOptionView({
   option,

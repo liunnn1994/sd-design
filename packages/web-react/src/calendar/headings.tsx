@@ -19,17 +19,21 @@ export interface CalendarHeadingsProps extends Pick<
 > {
   calendar: CalendarHeadingsHost;
   getRoot(): HTMLElement | null;
-  renderWeekdayHeading?: (params: {
-    label: string;
-    id: string;
-    date: Date;
-    view: CalendarHeadingsHost['view'];
-  }) => ReactNode;
-  renderScheduleHeading?: (params: {
-    schedule: CalendarSchedule & { id: CalendarId };
-    view: CalendarHeadingsHost['view'];
-    cell: ReturnType<ReturnType<typeof createCalendarSurfaceRules>['headingCell']>;
-  }) => ReactNode;
+  renderWeekdayHeading?:
+    | ((params: {
+        label: string;
+        id: string;
+        date: Date;
+        view: CalendarHeadingsHost['view'];
+      }) => ReactNode)
+    | undefined;
+  renderScheduleHeading?:
+    | ((params: {
+        schedule: CalendarSchedule & { id: CalendarId };
+        view: CalendarHeadingsHost['view'];
+        cell: ReturnType<ReturnType<typeof createCalendarSurfaceRules>['headingCell']>;
+      }) => ReactNode)
+    | undefined;
 }
 
 export function CalendarHeadings({

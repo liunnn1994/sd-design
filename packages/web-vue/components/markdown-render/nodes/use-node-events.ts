@@ -1,5 +1,7 @@
 import { computed, useAttrs } from 'vue';
 
+import { definedProps } from '@sdata/web-core/_utils/defined-props';
+
 import type { MarkdownRenderEmits } from '../types';
 
 type ClickHandler = (...args: MarkdownRenderEmits['click']) => void;
@@ -21,9 +23,11 @@ type MouseHandler = (...args: MarkdownRenderEmits['mouseover']) => void;
  */
 export function useNodeEvents() {
   const attrs = useAttrs();
-  return computed(() => ({
-    onClick: attrs.onClick as ClickHandler | undefined,
-    onMouseover: attrs.onMouseover as MouseHandler | undefined,
-    onMouseout: attrs.onMouseout as MouseHandler | undefined,
-  }));
+  return computed(() =>
+    definedProps({
+      onClick: attrs.onClick as ClickHandler | undefined,
+      onMouseover: attrs.onMouseover as MouseHandler | undefined,
+      onMouseout: attrs.onMouseout as MouseHandler | undefined,
+    }),
+  );
 }

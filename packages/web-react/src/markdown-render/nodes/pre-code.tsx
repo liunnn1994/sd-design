@@ -263,7 +263,7 @@ export function MarkdownPreCodeBlock(props: { node: Node }) {
           anchorEl={anchor.element}
           content={anchor.label}
           placement="top"
-          isDark={context?.isDark}
+          {...(context?.isDark === undefined ? {} : { isDark: context.isDark })}
         />
       )}
     </div>

@@ -150,7 +150,7 @@
   defineOptions({ name: 'InputNumber' });
 
   const props = defineProps({
-    modelValue: [String, Number] as PropType<string | number>,
+    modelValue: [String, Number] as PropType<string | number | undefined>,
     defaultValue: [String, Number] as PropType<string | number>,
     mode: {
       type: String as PropType<'embed' | 'button'>,
@@ -158,7 +158,7 @@
     },
     precision: Number,
     step: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: 1,
     },
     disabled: {
@@ -170,11 +170,11 @@
       default: false,
     },
     max: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: Infinity,
     },
     min: {
-      type: Number,
+      type: Number as PropType<number | undefined>,
       default: -Infinity,
     },
     formatter: Function as PropType<InputNumberFormatter>,
@@ -200,7 +200,7 @@
       type: Boolean,
       default: false,
     },
-    size: String as PropType<Size>,
+    size: String as PropType<Size | undefined>,
     allowClear: {
       type: Boolean,
       default: false,

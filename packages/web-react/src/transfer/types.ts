@@ -60,7 +60,7 @@ export interface TransferViewProps {
   title?: string;
   showSearch: boolean;
   showSelectAll: boolean;
-  inputSearchProps?: InputSearchProps;
+  inputSearchProps?: InputSearchProps | undefined;
   renderItem?: TransferProps['renderItem'];
   renderContent?: TransferProps['renderSource'];
   renderTitle?: TransferProps['renderSourceTitle'];

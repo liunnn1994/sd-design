@@ -65,12 +65,12 @@ export type ModelSelectorProvider = LiteralUnion<ModelSelectorKnownProvider, str
 export interface ModelSelectorItemData {
   disabled: boolean;
   domId: string;
-  element?: HTMLElement;
-  groupId?: symbol;
+  element?: HTMLElement | undefined;
+  groupId?: symbol | undefined;
   id: symbol;
   keywords: string[];
   label: string;
   select: (event: Event) => void;
-  shortcut?: string;
+  shortcut?: string | undefined;
   value: string;
 }

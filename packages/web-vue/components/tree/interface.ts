@@ -135,10 +135,10 @@ export interface Node extends TreeNodeProps {
   key: TreeNodeKey;
   treeNodeProps: TreeNodeProps;
   treeNodeData: TreeNodeData;
-  parent?: Node;
-  parentKey?: TreeNodeKey;
+  parent?: Node | undefined;
+  parentKey?: TreeNodeKey | undefined;
   pathParentKeys: TreeNodeKey[];
-  children?: Node[];
+  children?: Node[] | undefined;
 }
 
 export type FilterTreeNode = (node: TreeNodeData) => boolean;
@@ -186,9 +186,9 @@ export interface TreeProps {
    */
   checkedStrategy: CheckedStrategy;
   defaultSelectedKeys?: TreeNodeKey[];
-  selectedKeys?: TreeNodeKey[];
+  selectedKeys?: TreeNodeKey[] | undefined;
   defaultCheckedKeys?: TreeNodeKey[];
-  checkedKeys?: TreeNodeKey[];
+  checkedKeys?: TreeNodeKey[] | undefined;
   halfCheckedKeys: TreeNodeKey[] | undefined;
   defaultExpandedKeys?: TreeNodeKey[];
   expandedKeys?: TreeNodeKey[];
@@ -197,7 +197,7 @@ export interface TreeProps {
    * @zh 数据结构字段映射
    * @en Field mapping of the node data source
    */
-  fieldNames?: TreeFieldNames;
+  fieldNames?: TreeFieldNames | undefined;
   /**
    * @zh 虚拟列表的属性，用于大数据量渲染
    * @en Props forwarded to the virtual list, used for large data sets
@@ -212,7 +212,7 @@ export interface TreeProps {
    * @zh 异步加载子节点数据的方法
    * @en Function that loads children asynchronously
    */
-  loadMore?: LoadMore;
+  loadMore?: LoadMore | undefined;
   /**
    * @zh 搜索关键字
    * @en Keyword used to search the tree
@@ -252,7 +252,7 @@ export interface TreeProps {
    * @zh 点击节点时执行的动作
    * @en Action performed when a node is clicked
    */
-  actionOnNodeClick?: 'expand';
+  actionOnNodeClick?: 'expand' | undefined;
   /**
    * @zh 禁用选中动作，节点只能用于展开等其它操作
    * @en Disable the select action so nodes can only be used for expansion and similar actions
@@ -290,10 +290,10 @@ export interface TreeProps {
   onSelect?: (
     selectedKeys: TreeNodeKey[],
     event: {
-      selected?: boolean;
+      selected?: boolean | undefined;
       selectedNodes: TreeNodeData[];
-      node?: TreeNodeData;
-      e?: Event;
+      node?: TreeNodeData | undefined;
+      e?: Event | undefined;
     },
   ) => void;
   /**
@@ -303,12 +303,12 @@ export interface TreeProps {
   onCheck?: (
     checkedKeys: TreeNodeKey[],
     event: {
-      checked?: boolean;
+      checked?: boolean | undefined;
       checkedNodes: TreeNodeData[];
-      node?: TreeNodeData;
+      node?: TreeNodeData | undefined;
       halfCheckedKeys: TreeNodeKey[];
       halfCheckedNodes: TreeNodeData[];
-      e?: Event;
+      e?: Event | undefined;
     },
   ) => void;
   /**
@@ -321,7 +321,7 @@ export interface TreeProps {
       expanded: boolean;
       expandedNodes: TreeNodeData[];
       node: TreeNodeData;
-      e?: Event;
+      e?: Event | undefined;
     },
   ) => void;
   /**
@@ -503,7 +503,7 @@ export interface TreeProps {
    * @zh 搜索时用于过滤节点的函数
    * @en Function used to filter nodes while searching
    */
-  filterTreeNode?: (node: TreeNodeData) => boolean;
+  filterTreeNode?: ((node: TreeNodeData) => boolean) | undefined;
 }
 
 export type Key2TreeNode = Map<TreeNodeKey, Node>;

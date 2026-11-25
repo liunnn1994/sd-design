@@ -119,14 +119,14 @@
      * @defaultValue 'secondary'
      */
     type: {
-      type: String as PropType<ButtonTypes>,
+      type: String as PropType<ButtonTypes | undefined>,
     },
     /**
      * @zh 按钮的形状
      * @en Button shape
      */
     shape: {
-      type: String as PropType<BorderShape>,
+      type: String as PropType<BorderShape | undefined>,
     },
     /**
      * @zh 按钮的状态
@@ -135,7 +135,7 @@
      * @defaultValue 'normal'
      */
     status: {
-      type: String as PropType<Status>,
+      type: String as PropType<Status | undefined>,
     },
     /**
      * @zh 按钮的尺寸
@@ -144,7 +144,7 @@
      * @defaultValue 'medium'
      */
     size: {
-      type: String as PropType<Size>,
+      type: String as PropType<Size | undefined>,
     },
     /**
      * @zh 按钮的宽度是否随容器自适应。
@@ -159,7 +159,7 @@
      * @en Whether the button is in the loading state
      */
     loading: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
       default: false,
     },
     /**
@@ -176,7 +176,7 @@
      * @defaultValue false
      */
     disabled: {
-      type: Boolean,
+      type: Boolean as PropType<boolean | undefined>,
     },
     /**
      * @zh 设置 `button` 的原生 `type` 属性，可选值参考 [HTML标准](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type "_blank")
@@ -203,7 +203,7 @@
      * @zh 是否开启默认内容省略
      * @en Whether to enable ellipsis for the default slot content
      */
-    ellipsis: { type: Boolean, default: true },
+    ellipsis: { type: Boolean as PropType<boolean | undefined>, default: true },
     /**
      * @zh 默认内容省略的最大显示行数
      * @en Maximum number of displayed lines for ellipsis content
@@ -219,7 +219,7 @@
      * @en Whether to show a tooltip when ellipsis is active. Tooltip props are supported.
      */
     ellipsisTooltip: {
-      type: [Boolean, Object] as PropType<boolean | EllipsisTooltipProps>,
+      type: [Boolean, Object] as PropType<boolean | EllipsisTooltipProps | undefined>,
       default: true,
     },
     /**
@@ -227,7 +227,7 @@
      * @en Tooltip configuration for the button. A string is used as the tooltip content; an object inherits all Tooltip props.
      */
     tooltip: {
-      type: [String, Object] as PropType<string | TooltipProps>,
+      type: [String, Object] as PropType<string | TooltipProps | undefined>,
     },
   });
 
@@ -296,7 +296,7 @@
   const groupContext = inject(buttonGroupInjectionKey, undefined);
   const autoInsertSpaceInButton = computed(() => Boolean(configContext?.autoInsertSpaceInButton));
   const _size = computed(() => size!.value ?? groupContext?.size);
-  const _disabled = computed(() => Boolean(disabled.value || groupContext?.disabled));
+  const _disabled = computed(() => Boolean(disabled?.value || groupContext?.disabled));
   const { mergedSize: _mergedSize, mergedDisabled } = useFormItem({
     size: _size,
     disabled: _disabled,
