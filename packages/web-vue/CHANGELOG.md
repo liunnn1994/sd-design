@@ -1,3 +1,11 @@
+## [7.16.2](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.16.1...web-vue-v7.16.2) (2026-11-25)
+
+
+### Bug Fixes
+
+* enforce published Core versions in adapter releases ([5784bd6](https://github.com/liunnn1994/sd-design/commit/5784bd67700b5a9a5c80fd01269f855abfe01b69))
+* verify npm tarballs before continuing dependent releases ([d8820cb](https://github.com/liunnn1994/sd-design/commit/d8820cb98bcd226d14aba9a4632fcbb46923b585))
+
 ## [7.16.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.16.0...web-vue-v7.16.1) (2026-11-25)
 
 
