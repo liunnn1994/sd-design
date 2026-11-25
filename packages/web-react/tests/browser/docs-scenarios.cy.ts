@@ -66,14 +66,15 @@ describe('all shared documentation scenarios', () => {
         cy.get('.demo-block').should('have.length', page.demos.length);
         for (const id of page.demos) {
           const selector = `.demo-block[data-example="${id}"]`;
-          cy.get(selector).scrollIntoView({ duration: 0 });
-          cy.get(`${selector} .demo-block__preview-content > astro-island`, { timeout: 60000 })
-            .should(($island) =>
-              expect($island[0].hasAttribute('ssr'), `${id} hydrated`).to.equal(false),
-            )
-            .should(($island) =>
-              expect($island[0].childNodes.length, `${id} rendered DOM`).to.be.greaterThan(0),
-            );
+          cy.get(`${selector} .demo-block__preview`, { timeout: 60000 }).should(($preview) => {
+            const preview = $preview[0];
+            const island = preview.querySelector('.demo-block__preview-content > astro-island');
+            // Earlier demos can change height while this preview is approaching the viewport.
+            if (!island) preview.scrollIntoView({ block: 'center', behavior: 'instant' });
+            expect(island, `${id} mounted`).not.to.equal(null);
+            expect(island?.hasAttribute('ssr'), `${id} hydrated`).to.equal(false);
+            expect(island?.childNodes.length, `${id} rendered DOM`).to.be.greaterThan(0);
+          });
           cy.get(selector).should('not.have.attr', 'data-deferred');
           cy.get(`${selector} .demo-editor__button`).should('exist');
           const interact = interactions[id];

@@ -407,6 +407,7 @@ describe('React ColorPicker formats and controlled boundaries', () => {
     ['CMYK', ['100%', '100%', '0%', '0%']],
     ['CSS', ['rgb(0, 0, 255)']],
   ];
+  const formatInputs = () => cy.get('.sd-color-picker-format-input input', { timeout: 15000 });
   for (const [format, values] of cases) {
     it(`updates ${format} fields after external changes without emitting change`, () => {
       cy.visit(`/color-picker-controls.html?formats&format=${format}`);
@@ -427,19 +428,22 @@ describe('React ColorPicker formats and controlled boundaries', () => {
   }
   it('submits a format field with Enter exactly once', () => {
     cy.visit('/color-picker-controls.html?formats&format=RGB');
-    cy.get('.sd-color-picker-format-input input').first().clear().type('128{enter}');
+    formatInputs().first().should('have.value', '255');
+    formatInputs().first().clear().type('128{enter}');
     cy.get('[data-testid="value"]').should('have.text', 'rgb(128, 0, 0)');
     cy.get('[data-testid="changes"]').should('have.text', '1');
   });
   it('applies a separate HEX8 alpha field', () => {
     cy.visit('/color-picker-controls.html?formats&format=HEX8&alpha');
-    cy.get('.sd-color-picker-format-input input').eq(1).clear().type('50%{enter}');
+    formatInputs().eq(1).should('have.value', '100%');
+    formatInputs().eq(1).clear().type('50%{enter}');
     cy.get('[data-testid="value"]').should('have.text', '#FF000080');
     cy.get('.sd-color-picker-format-input input').first().should('have.value', 'FF000080');
   });
   it('uses embedded alpha when editing HEX8', () => {
     cy.visit('/color-picker-controls.html?formats&format=HEX8&alpha');
-    cy.get('.sd-color-picker-format-input input').first().clear().type('0000FF80{enter}');
+    formatInputs().first().should('have.value', 'FF0000FF');
+    formatInputs().first().clear().type('0000FF80{enter}');
     cy.get('[data-testid="value"]').should('have.text', '#0000FF80');
     cy.get('.sd-color-picker-format-input input').eq(1).should('have.value', '50%');
   });
