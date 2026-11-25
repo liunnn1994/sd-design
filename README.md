@@ -37,7 +37,7 @@ SkeletonReveal 的轮廓测量、播放与中断规则由 Core Foundation 共享
 
 根目录统一调度 Core、Vue 适配层及文档消费层。Core 不依赖 Vue；Vue 保留响应式、生命周期、VNode/插槽和框架专属库接线，不通过 Web Components 包装共享规则。
 
-Core、Vue、React 独立管理版本、tag 和 CHANGELOG，由同一发布流程按 Core→Vue→React 顺序判断发布。Core 变更联动两个适配包，Vue/React 变更仅发布自身；提交按实际文件路径及共享依赖变更影响过滤。Vue 的 `workspace:^` 与 React 的 `workspace:*` 在打包时转换为本次 Core 的版本范围或精确版本。
+Core、Vue、React 独立管理版本、tag 和 CHANGELOG，由同一发布流程按 Core→Vue→React 顺序判断发布。Core 变更联动两个适配包，Vue/React 变更仅发布自身；提交按实际文件路径及共享依赖变更影响过滤。Vue 和 React 都以 `workspace:^` 依赖 Core，打包时以同一发布流程确认可下载的 Core 版本为下限，允许同一主版本内的兼容升级。
 
 Tour 基于 driver.js 封装，直接沿用原生配置与实例方法，并通过组件库 token 适配浮层和按钮样式；浮层内容与业务按钮支持 Vue 作用域插槽。
 

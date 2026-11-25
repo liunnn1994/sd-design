@@ -504,7 +504,7 @@ Core、Vue、React 使用独立版本协议：`release.yml` 由 `main` 的每次
 
 正式运行在安装依赖前由 `verify-npm-publishing.ts` 请求 GitHub OIDC 身份，并逐包调用 npm 官方 token exchange；认证不通过时在构建、提交和打 tag 之前失败。手动 dry-run 跳过该检查；凭据仅保存在内存中，不写入文件或日志。新连接需在两天内完成首次 OIDC 发布，否则必须重建。由于 semantic-release 在 npm 发布前创建 tag，已有 tag 但 npm 缺失的版本需要从对应 tag 补发，或显式发布后续修复版本，不能依赖直接重跑恢复。
 
-首次迁移由 `bootstrap-core-release.ts` 在最新可达的 Vue 联合发布提交上校验 Core 清单版本，并创建对应 Core 基线 tag；已有 Core tag 时不重复迁移。React 尚无正式发布 tag，首版遵循 semantic-release 的 `1.0.0` 规则。发布准备脚本只修改当前包，Core 先发布并写回版本后，pnpm 将 Vue 的 `workspace:^` / React 的 `workspace:*` 转换为该 Core 的版本范围 / 精确版本。同步 main 在安装、检查和构建前完成，避免构建后引入未经验证的源码；每次发布只提交当前包的清单和 CHANGELOG。发布测试在本地临时 Git 远端执行真实 dry-run，验证版本隔离、依赖传播、历史迁移和无发布副作用；GitHub 鉴权及 npm OIDC 发布仍由 CI 验证。
+首次迁移由 `bootstrap-core-release.ts` 在最新可达的 Vue 联合发布提交上校验 Core 清单版本，并创建对应 Core 基线 tag；已有 Core tag 时不重复迁移。发布准备脚本只修改当前包。确认 Core 已可下载后，pnpm 将 Vue 和 React 的 `workspace:^` 转换为以该 Core 版本为下限的兼容范围。同步 main 在安装、检查和构建前完成，避免构建后引入未经验证的源码；每次发布只提交当前包的清单和 CHANGELOG。发布测试在本地临时 Git 远端执行真实 dry-run，验证版本隔离、依赖传播、历史迁移和无发布副作用；GitHub 鉴权及 npm OIDC 发布仍由 CI 验证。
 
 Clamp 的四个 Foundation 还管理测量内核之外的完整流程：Inline 持有宽度/字形提示历史、测量失效与取消；Line 持有行拟合缓存、原生/测量选择和提交；RichLine 持有可见/探测游标、克隆安全回退、密度提示和探测树同步；Wrap 持有宽度历史、分块物化与增长/收缩验证及最终计数收敛。控制器只读取结构化 value cell、属性 getter 和调度端口，不导入 Vue；Vue 保留 ref/computed、VNode/slot、post-flush 队列、nextTick 实现和生命周期接线。Wrap 的 itemKey 函数/字段/索引回退也由 Core 共享，原回调 receiver、继承字段和假值 key 语义保持。`TextClampLayoutInput.simpleLineFit` 显式接纳 undefined，以匹配已有调用与严格 optional 类型消费。
 

@@ -11,10 +11,9 @@ const url = new URL(`../../${name}/package.json`, import.meta.url);
 const manifest: PackageJson = JSON.parse(await readFile(url, 'utf8'));
 if (
   manifest.name !== `@sdata/${name}` ||
-  (name !== 'web-core' &&
-    !['workspace:^', 'workspace:*'].includes(manifest.dependencies?.['@sdata/web-core'] ?? ''))
+  (name !== 'web-core' && manifest.dependencies?.['@sdata/web-core'] !== 'workspace:^')
 ) {
-  throw new Error('Unexpected package name or missing Core workspace dependency.');
+  throw new Error('Unexpected package name or Core dependency other than workspace:^.');
 }
 
 manifest.version = nextVersion;

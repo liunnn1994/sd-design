@@ -209,7 +209,7 @@ pnpm --filter @sdata/web-vue run test:model-selector:production
 - `mise exec -- pnpm run typecheck`：工作区类型检查（含 core）。
 - `mise exec -- pnpm run test:component`：核心测试与 Vue 浏览器组件测试。
 
-消费者安装和使用 `@sdata/web-vue` 或 `@sdata/web-react`；打包时 `workspace:^` / `workspace:*` 分别转换为对应 Core 的版本范围 / 精确版本。Core、Vue、React 无需保持相同版本。
+消费者安装和使用 `@sdata/web-vue` 或 `@sdata/web-react`。两个包的 `workspace:^` 在打包时都会转换为以对应 Core 版本为下限的兼容范围。Core、Vue、React 无需保持相同版本。
 
 `release.yml` 由 `main` 的每次推送触发，从仓库根目录依次加载各自的 semantic-release 配置，串行判断 Core→Vue→React。各包使用独立 tag、清单版本和 CHANGELOG；仅修改共享 catalog 或锁文件时，按引用及锁定依赖识别受影响包；Core 的发布级别向两个适配包传播，Vue/React 的修改不会反向影响 Core 或另一个适配包。首次迁移将已发布的 Core/Vue 联合 tag 映射为同一提交上的 Core tag；React 没有正式 tag 时从 `1.0.0` 开始。Actions 手动运行默认开启 `dry_run`，只预览版本和发布说明。维护发布脚本后运行 `mise exec -- node --test packages/web-vue/scripts/release-packages.test.ts`；测试在临时仓库运行真实 semantic-release dry-run（跳过 GitHub 鉴权）以及本地准备、提交和 tag 流程，不发布 npm 包，也不推送到项目远端。
 

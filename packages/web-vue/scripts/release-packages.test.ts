@@ -52,7 +52,7 @@ async function fixture(t: TestContext) {
           ? { dependencies: { 'es-toolkit': 'catalog:' } }
           : {
               dependencies: {
-                '@sdata/web-core': name === 'web-vue' ? 'workspace:^' : 'workspace:*',
+                '@sdata/web-core': 'workspace:^',
                 ...(name === 'web-vue' ? { vue: 'catalog:' } : { react: 'catalog:react' }),
               },
             }),
@@ -216,7 +216,7 @@ for (const scenario of [
   });
 }
 
-test('prepare changes only the selected package and preserves both Core dependency protocols', async (t) => {
+test('prepare changes only the selected package and preserves the Core caret range', async (t) => {
   const { root, script, manifest } = await fixture(t);
   for (const name of releasePackages) {
     const before = await Promise.all(releasePackages.map(manifest));
@@ -235,8 +235,11 @@ test('invalid package or Core dependency fails without rewriting manifests', asy
   const vue = await manifest('web-vue');
   vue.dependencies['@sdata/web-core'] = '^7.3.2';
   await writeFile(path.join(root, 'packages/web-vue/package.json'), JSON.stringify(vue));
+  const react = await manifest('web-react');
+  react.dependencies['@sdata/web-core'] = 'workspace:*';
+  await writeFile(path.join(root, 'packages/web-react/package.json'), JSON.stringify(react));
   const before = await Promise.all(releasePackages.map(manifest));
-  for (const name of ['web-vue', '../web-core']) {
+  for (const name of ['web-vue', 'web-react', '../web-core']) {
     assert.notEqual(spawnSync(process.execPath, [script, name, '9.2.1'], { cwd: root }).status, 0);
   }
   assert.deepEqual(await Promise.all(releasePackages.map(manifest)), before);
@@ -447,7 +450,7 @@ test('local release prepares and commits Core before adapters, then leaves sibli
   assert.deepEqual(await run(), ['7.3.3', '8.1.1', '2.4.1']);
   assert.equal((await manifest('web-core')).version, '7.3.3');
   assert.equal((await manifest('web-vue')).dependencies['@sdata/web-core'], 'workspace:^');
-  assert.equal((await manifest('web-react')).dependencies['@sdata/web-core'], 'workspace:*');
+  assert.equal((await manifest('web-react')).dependencies['@sdata/web-core'], 'workspace:^');
   await commit('packages/web-vue/change.ts', 'fix: independent Vue update');
   const coreHead = git('rev-parse', 'web-core-v7.3.3');
   const reactHead = git('rev-parse', 'web-react-v2.4.1');
@@ -517,7 +520,7 @@ test('missing npm releases and a stale Core floor trigger successor patches with
           version,
           ...(name !== 'web-core' && {
             dependencies: {
-              '@sdata/web-core': name === 'web-vue' ? `^${coreVersion}` : `${coreVersion}`,
+              '@sdata/web-core': `^${coreVersion}`,
             },
           }),
         });
@@ -529,6 +532,12 @@ test('missing npm releases and a stale Core floor trigger successor patches with
   assert.deepEqual(await run(true), ['7.4.1', '8.1.1', '2.5.1']);
   assert.deepEqual(await run(false), ['7.4.1', '8.1.1', '2.5.1']);
   assert.deepEqual(await run(false), [null, null, null]);
+  registry.set('@sdata/web-react/2.5.1', {
+    name: '@sdata/web-react',
+    version: '2.5.1',
+    dependencies: { '@sdata/web-core': '7.4.1' },
+  });
+  assert.deepEqual(await run(true), [null, null, '2.5.2']);
   await commit('packages/web-core/src/new.ts', 'chore: update a Core build input');
   assert.deepEqual(await run(true), ['7.4.2', '8.1.2', '2.5.2']);
 });

@@ -61,11 +61,10 @@ export function npmReleaseState(name: ReleasePackage, coreVersion?: string): [st
 }
 
 export function coreDependencyRange(manifest: PackageJson, coreVersion?: string) {
-  const protocol = manifest.dependencies?.['@sdata/web-core'];
-  if (!coreVersion || (protocol !== 'workspace:^' && protocol !== 'workspace:*')) {
+  if (!coreVersion || manifest.dependencies?.['@sdata/web-core'] !== 'workspace:^') {
     throw new Error(`Cannot determine the Core dependency for ${manifest.name}`);
   }
-  return protocol === 'workspace:^' ? `^${coreVersion}` : coreVersion;
+  return `^${coreVersion}`;
 }
 
 export async function analyzeCommits(

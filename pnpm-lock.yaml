@@ -540,7 +540,7 @@ importers:
         specifier: ^0.2.3
         version: 0.2.20
       '@sdata/web-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../web-core
       '@terrastruct/d2':
         specifier: '>=0.1.33'

@@ -454,7 +454,7 @@
     "test": "pnpm run build && node --test tests/*.test.ts"
   },
   "dependencies": {
-    "@sdata/web-core": "workspace:*",
+    "@sdata/web-core": "workspace:^",
     "css-tree": "3.2.1",
     "framer-motion": "14.14.0",
     "markstream-react": "2.0.32",
