@@ -1,3 +1,5 @@
+## [7.15.1](https://github.com/liunnn1994/sd-design/compare/web-core-v7.15.0...web-core-v7.15.1) (2026-11-25)
+
 # [7.14.0](https://github.com/liunnn1994/sd-design/compare/web-core-v7.13.0...web-core-v7.14.0) (2026-11-24)
 
 
