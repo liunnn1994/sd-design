@@ -22,7 +22,7 @@ export const createReleaseConfig = (name: ReleasePackage) =>
         plugin('@semantic-release/exec'),
         {
           prepareCmd: `node packages/web-vue/scripts/prepare-release-package.ts ${name} \${nextRelease.version}`,
-          publishCmd: `pnpm --filter @sdata/${name} publish --no-git-checks --access public`,
+          publishCmd: `pnpm --filter @sdata/${name} publish --no-git-checks --access public --publish-wait-timeout 60000`,
         },
       ],
       [

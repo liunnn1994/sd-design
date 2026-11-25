@@ -9,6 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import semanticRelease from 'semantic-release';
 
 import { bootstrapCoreRelease } from './bootstrap-core-release.ts';
+import { npmReleaseState } from './npm-release-state.ts';
 import { createReleaseConfig, releasePackages } from './release-config.ts';
 import { sharedDependenciesChanged } from './release-dependencies.ts';
 
@@ -283,17 +284,15 @@ test('production release entry point loads the custom publishing plugins', async
   const { root, git } = await fixture(t);
   const refsBefore = git('ls-remote', 'origin');
   const runner = fileURLToPath(new URL('./run-release.ts', import.meta.url));
-  for (const name of releasePackages) {
-    const result = spawnSync(process.execPath, [runner, name, '--dry-run'], {
-      cwd: root,
-      encoding: 'utf8',
-      env: { ...process.env, GH_TOKEN: '', GITHUB_TOKEN: '' },
-    });
-    assert.ifError(result.error);
-    assert.match(result.stdout, /Loaded plugin "prepare" from .*semantic-release[\\/]exec/);
-    assert.match(result.stdout, /Loaded plugin "publish" from .*semantic-release[\\/]exec/);
-    assert.doesNotMatch(result.stdout, /Loaded plugin "publish" from "@semantic-release\/npm"/);
-  }
+  const result = spawnSync(process.execPath, [runner, '--dry-run'], {
+    cwd: root,
+    encoding: 'utf8',
+    env: { ...process.env, GH_TOKEN: '', GITHUB_TOKEN: '' },
+  });
+  assert.ifError(result.error);
+  assert.match(result.stdout, /Loaded plugin "prepare" from .*semantic-release[\\/]exec/);
+  assert.match(result.stdout, /Loaded plugin "publish" from .*semantic-release[\\/]exec/);
+  assert.doesNotMatch(result.stdout, /Loaded plugin "publish" from "@semantic-release\/npm"/);
   assert.equal(git('ls-remote', 'origin'), refsBefore);
 });
 
@@ -443,4 +442,79 @@ test('local release prepares and commits Core before adapters, then leaves sibli
   assert.equal((await manifest('web-react')).version, '2.4.1');
   assert.equal(git('rev-parse', 'web-core-v7.3.3'), coreHead);
   assert.equal(git('rev-parse', 'web-react-v2.4.1'), reactHead);
+});
+
+test('missing npm releases and a stale Core floor trigger successor patches without source changes', async (t) => {
+  const { root, git, commit, manifest } = await fixture(t);
+  git('tag', 'web-core-v7.4.0');
+  git('tag', 'web-react-v2.5.0');
+  git('push', '--quiet', 'origin', '--tags');
+  const registry = new Map([
+    ['@sdata/web-core/7.3.2', { name: '@sdata/web-core', version: '7.3.2' }],
+    [
+      '@sdata/web-vue/8.1.0',
+      {
+        name: '@sdata/web-vue',
+        version: '8.1.0',
+        dependencies: { '@sdata/web-core': '^7.3.2' },
+      },
+    ],
+  ]);
+  t.mock.method(globalThis, 'fetch', async (url: URL | string) => {
+    const entry = registry.get(decodeURIComponent(new URL(url).pathname.slice(1)));
+    return entry ? Response.json(entry) : new Response(null, { status: 404 });
+  });
+
+  const run = async (dryRun: boolean) => {
+    const versions = [];
+    let coreVersion: string | undefined;
+    for (const name of releasePackages) {
+      const config = createReleaseConfig(name);
+      const result = await semanticRelease(
+        {
+          ...config,
+          plugins: [
+            ...config.plugins
+              .filter(([entry]) => !/[\\/]github[\\/]index.js$/.test(String(entry)))
+              .map(([entry, options]): [string, object] => [
+                entry,
+                {
+                  ...options,
+                  ...(/[\\/]exec[\\/]index.js$/.test(String(entry))
+                    ? { publishCmd: 'node --version' }
+                    : {}),
+                },
+              ]),
+            npmReleaseState(name, coreVersion),
+          ],
+          repositoryUrl: pathToFileURL(path.join(root, 'remote.git')).href,
+          ci: false,
+          dryRun,
+        },
+        { cwd: root },
+      );
+      const version = (result && result.nextRelease?.version) || null;
+      versions.push(version);
+      if (name === 'web-core') coreVersion = version || (await manifest(name)).version;
+      if (version && !dryRun) {
+        const packageName = `@sdata/${name}`;
+        registry.set(`${packageName}/${version}`, {
+          name: packageName,
+          version,
+          ...(name !== 'web-core' && {
+            dependencies: {
+              '@sdata/web-core': name === 'web-vue' ? `^${coreVersion}` : `${coreVersion}`,
+            },
+          }),
+        });
+      }
+    }
+    return versions;
+  };
+
+  assert.deepEqual(await run(true), ['7.4.1', '8.1.1', '2.5.1']);
+  assert.deepEqual(await run(false), ['7.4.1', '8.1.1', '2.5.1']);
+  assert.deepEqual(await run(false), [null, null, null]);
+  await commit('packages/web-core/src/new.ts', 'chore: update a Core build input');
+  assert.deepEqual(await run(true), ['7.4.2', '8.1.2', '2.5.2']);
 });

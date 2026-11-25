@@ -114,26 +114,9 @@ jobs:
           # （该钩子会跑全量 typecheck，CI 发布时可能因缺少某些构建产物而中断发布）
           SKIP_SIMPLE_GIT_HOOKS: '1'
         run: |
-          check_main_tip() {
-            if [[ "$GITHUB_REF" != refs/heads/main ]]; then return; fi
-            local head remote
-            head=$(git rev-parse HEAD)
-            remote=$(git ls-remote --exit-code origin refs/heads/main)
-            remote=${remote%%$'\t'*}
-            if [[ "$head" != "$remote" ]]; then
-              printf '::error::Release checkout %s is stale. Main is at %s. The latest main needs its own successful release checks.\n' "$head" "$remote"
-              return 1
-            fi
-          }
-
-          check_main_tip
-          node packages/web-vue/scripts/bootstrap-core-release.ts
           args=()
           if [ "$RELEASE_DRY_RUN" = "true" ]; then args+=(--dry-run); fi
-          for package in web-core web-vue web-react; do
-            node packages/web-vue/scripts/run-release.ts "$package" "${args[@]}"
-            check_main_tip
-          done
+          node packages/web-vue/scripts/run-release.ts "${args[@]}"
 
       - name: Show error
         if: failure()
