@@ -1,3 +1,10 @@
+## [7.16.1](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.16.0...web-vue-v7.16.1) (2026-11-25)
+
+
+### Bug Fixes
+
+* 修复版本发布失败的问题 ([8795e69](https://github.com/liunnn1994/sd-design/commit/8795e69313ae8257c7241e5ad6c9b9711619b12b))
+
 # [7.15.0](https://github.com/liunnn1994/sd-design/compare/web-vue-v7.14.0...web-vue-v7.15.0) (2026-11-24)
 
 
