@@ -1,3 +1,5 @@
+## [1.7.2](https://github.com/liunnn1994/sd-design/compare/web-react-v1.7.1...web-react-v1.7.2) (2026-11-25)
+
 ## [1.7.1](https://github.com/liunnn1994/sd-design/compare/web-react-v1.7.0...web-react-v1.7.1) (2026-11-25)
 
 # [1.6.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.5.0...web-react-v1.6.0) (2026-11-24)
