@@ -7,6 +7,7 @@ import {
   npmReleaseState,
   npmReleaseVersion,
   readReleaseManifest,
+  waitForNpmTarball,
 } from './npm-release-state.ts';
 import { releasePackages } from './release-config.ts';
 
@@ -36,19 +37,19 @@ for (const name of releasePackages) {
     plugins: [...config.plugins, npmReleaseState(name, coreVersion)],
     dryRun,
   });
-  checkMainTip();
   const nextVersion = (result && result.nextRelease?.version) || undefined;
   if (name === 'web-core') {
     const manifest = await readReleaseManifest(cwd, name);
     coreVersion = nextVersion || manifest.version;
-    if (
-      !coreVersion ||
-      (!dryRun &&
-        (manifest.version !== coreVersion || !(await npmReleaseVersion(name, coreVersion))))
-    ) {
-      throw new Error(
-        `Core ${coreVersion} must be available on npm before releasing Vue or React.`,
-      );
+    if (!coreVersion) throw new Error('Cannot determine the Core release version.');
+    if (!dryRun) {
+      const published = await npmReleaseVersion(name, coreVersion);
+      if (manifest.version !== coreVersion || !published) {
+        throw new Error(
+          `Core ${coreVersion} must be available on npm before releasing Vue or React.`,
+        );
+      }
+      await waitForNpmTarball(published);
     }
   } else if (!dryRun && nextVersion) {
     const expected = coreDependencyRange(await readReleaseManifest(cwd, name), coreVersion);
@@ -58,5 +59,7 @@ for (const name of releasePackages) {
         `@sdata/${name}@${nextVersion} must be available on npm with Core ${expected}.`,
       );
     }
+    await waitForNpmTarball(published);
   }
+  checkMainTip();
 }

@@ -3,11 +3,14 @@ import type { PackageJson } from 'type-fest';
 import { execFileSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { setTimeout } from 'node:timers/promises';
 import { fileURLToPath } from 'node:url';
 
 import type { ReleasePackage } from './release-config.ts';
 
 import { sharedDependenciesChanged } from './release-dependencies.ts';
+
+type NpmReleaseManifest = PackageJson & { dist?: { tarball?: string } };
 
 export async function readReleaseManifest(cwd: string, name: ReleasePackage): Promise<PackageJson> {
   return JSON.parse(await readFile(join(cwd, 'packages', name, 'package.json'), 'utf8'));
@@ -24,11 +27,33 @@ export async function npmReleaseVersion(name: ReleasePackage, version: string) {
     if (response.status === 404) return undefined;
     throw new Error(`Unable to verify ${packageName}@${version} on npm: HTTP ${response.status}`);
   }
-  const manifest: PackageJson = await response.json();
+  const manifest: NpmReleaseManifest = await response.json();
   if (manifest.name !== packageName || manifest.version !== version) {
     throw new Error(`Unexpected npm metadata for ${packageName}@${version}`);
   }
   return manifest;
+}
+
+export async function waitForNpmTarball(manifest: NpmReleaseManifest, timeout = 300_000) {
+  const tarball = new URL(manifest.dist?.tarball ?? '');
+  if (tarball.origin !== 'https://registry.npmjs.org') {
+    throw new Error(`Unexpected npm tarball URL for ${manifest.name}@${manifest.version}`);
+  }
+  const deadline = Date.now() + timeout;
+  for (;;) {
+    const response = await fetch(tarball, {
+      method: 'HEAD',
+      cache: 'no-cache',
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (response.ok) return;
+    if (response.status !== 404 || Date.now() >= deadline) {
+      throw new Error(
+        `npm tarball for ${manifest.name}@${manifest.version} returned HTTP ${response.status}`,
+      );
+    }
+    await setTimeout(10_000);
+  }
 }
 
 export function npmReleaseState(name: ReleasePackage, coreVersion?: string): [string, object] {

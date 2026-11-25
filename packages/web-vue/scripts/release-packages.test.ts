@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import semanticRelease from 'semantic-release';
 
 import { bootstrapCoreRelease } from './bootstrap-core-release.ts';
-import { npmReleaseState } from './npm-release-state.ts';
+import { npmReleaseState, waitForNpmTarball } from './npm-release-state.ts';
 import { createReleaseConfig, releasePackages } from './release-config.ts';
 import { sharedDependenciesChanged } from './release-dependencies.ts';
 
@@ -294,6 +294,20 @@ test('production release entry point loads the custom publishing plugins', async
   assert.match(result.stdout, /Loaded plugin "publish" from .*semantic-release[\\/]exec/);
   assert.doesNotMatch(result.stdout, /Loaded plugin "publish" from "@semantic-release\/npm"/);
   assert.equal(git('ls-remote', 'origin'), refsBefore);
+});
+
+test('published metadata is insufficient while the npm tarball is unavailable', async (t) => {
+  const tarball = 'https://registry.npmjs.org/@sdata/web-core/-/web-core-7.3.2.tgz';
+  const manifest = { name: '@sdata/web-core', version: '7.3.2', dist: { tarball } };
+  let requests = 0;
+  t.mock.method(globalThis, 'fetch', async (url: URL, options: RequestInit) => {
+    assert.equal(url.href, tarball);
+    assert.equal(options.method, 'HEAD');
+    return new Response(null, { status: ++requests < 3 ? 404 : 200 });
+  });
+  await assert.rejects(waitForNpmTarball(manifest, 0), /HTTP 404/);
+  await waitForNpmTarball(manifest);
+  assert.equal(requests, 3);
 });
 
 for (const scenario of [
