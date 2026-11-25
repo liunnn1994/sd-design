@@ -104,7 +104,7 @@ test('calendar, trigger and upstream props survive extraction without losing typ
   const copy = map.get('components/copy')?.get('sd-copy');
   assert.equal(
     copy?.props.find((prop) => prop.name === 'tooltip-props')?.type,
-    "TooltipInstance['$props']",
+    "TooltipInstance['$props'] | undefined",
   );
 });
 
