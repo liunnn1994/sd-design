@@ -1,10 +1,15 @@
 describe('React Table column resize', () => {
   beforeEach(() => cy.visit('/table-resize.html'));
-  const move = (offset: number) =>
+  const move = (offset: number, buttons = 1, button = -1) =>
     cy.get('.sd-table-th').then(($th) => {
       cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
         handle.dispatchEvent(
-          new PointerEvent('pointermove', { clientX: $th[0]!.getBoundingClientRect().x + offset }),
+          new PointerEvent('pointermove', {
+            pointerType: 'mouse',
+            button,
+            buttons,
+            clientX: $th[0]!.getBoundingClientRect().x + offset,
+          }),
         );
       });
     });
@@ -23,6 +28,24 @@ describe('React Table column resize', () => {
     cy.get('.sd-table-th').should('not.have.class', 'sd-table-th-resizing');
     move(300);
     cy.get('output').should('have.text', '230,40');
+  });
+  it('ends a mouse resize when the left button is released before the middle button', () => {
+    cy.get('.sd-table-column-handle')
+      .as('resizeHandle', { type: 'static' })
+      .trigger('pointerdown', {
+        eventConstructor: 'PointerEvent',
+        isPrimary: true,
+        pointerType: 'mouse',
+        button: 0,
+        buttons: 1,
+      });
+    move(230, 5, 1);
+    cy.get('.sd-table-th').should('have.css', 'width', '230px');
+    move(230, 4, 0);
+    cy.get('.sd-table-th').should('not.have.class', 'sd-table-th-resizing');
+    move(300, 4);
+    cy.get('.sd-table-th').should('have.css', 'width', '230px');
+    cy.get('output').should('have.text', '230');
   });
   it('captures a native mouse pointer after it leaves the resize handle', () => {
     cy.get('.sd-table-column-handle').then(async ([handle]) => {

@@ -88,12 +88,12 @@ test('Calendar event store keeps multiday events available in intersecting range
 
 test('Calendar event store cancels queued notifications on disposal', async () => {
   const original = Object.getOwnPropertyDescriptor(globalThis, 'document');
-  let removed = 0;
+  const removed: string[] = [];
   Object.defineProperty(globalThis, 'document', {
     configurable: true,
     value: {
-      removeEventListener() {
-        removed++;
+      removeEventListener(type: string) {
+        removed.push(type);
       },
     },
   });
@@ -106,7 +106,7 @@ test('Calendar event store cancels queued notifications on disposal', async () =
     store.dispose();
     await tick();
     assert.equal(updates, 0);
-    assert.equal(removed, 5);
+    assert.deepEqual(removed.toSorted(), ['pointercancel', 'pointermove', 'pointerup']);
   } finally {
     if (original) Object.defineProperty(globalThis, 'document', original);
     else Reflect.deleteProperty(globalThis, 'document');

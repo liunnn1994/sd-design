@@ -15,7 +15,13 @@ export function createPointerDrag(move: (event: PointerEvent) => void, end?: () 
   }
 
   function onMove(event: PointerEvent) {
-    if (active && event.pointerId === active.id) move(event);
+    if (!active || event.pointerId !== active.id) return;
+    // A chorded mouse pointer stays active until its last button is released.
+    if (event.pointerType === 'mouse' && (event.buttons & 1) === 0) {
+      onEnd(event);
+      return;
+    }
+    move(event);
   }
 
   function onEnd(event: PointerEvent | MouseEvent) {

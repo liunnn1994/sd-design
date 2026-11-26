@@ -23,11 +23,13 @@ describe('Calendar surface adapters', () => {
         handle().trigger('pointerdown', {
           isPrimary: true,
           ...pointer,
+          buttons: 1,
           clientX: 100,
           clientY: 100,
         });
         handle().trigger('pointermove', {
           ...pointer,
+          buttons: 1,
           clientX: horizontal ? 145 : 100,
           clientY: horizontal ? 100 : 145,
         });

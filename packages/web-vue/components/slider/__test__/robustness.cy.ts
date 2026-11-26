@@ -102,6 +102,42 @@ describe('Slider robustness', () => {
     cy.get('[role="slider"]').should('have.attr', 'aria-valuenow', '20');
   });
 
+  it('ends a mouse drag when the left button is released before the middle button', () => {
+    const change = cy.spy().as('change');
+    cy.mount(Slider, { props: { defaultValue: 20, onChange: change } });
+    cy.get('.sd-slider-track').then(([track]) => {
+      const rect = track.getBoundingClientRect();
+      const pointer = {
+        eventConstructor: 'PointerEvent',
+        isPrimary: true,
+        pointerType: 'mouse',
+        clientY: rect.top,
+      };
+      cy.get('[role="slider"]')
+        .trigger('pointerdown', { ...pointer, button: 0, buttons: 1 })
+        .trigger('pointermove', {
+          ...pointer,
+          button: 1,
+          buttons: 5,
+          clientX: rect.left + rect.width * 0.4,
+        })
+        .trigger('pointermove', {
+          ...pointer,
+          button: 0,
+          buttons: 4,
+          clientX: rect.left + rect.width * 0.4,
+        })
+        .trigger('pointermove', {
+          ...pointer,
+          button: -1,
+          buttons: 4,
+          clientX: rect.left + rect.width * 0.8,
+        });
+    });
+    cy.get('[role="slider"]').should('have.attr', 'aria-valuenow', '40');
+    cy.get('@change').should('have.been.calledOnceWith', 40);
+  });
+
   it('cleans up a cancelled touch gesture', () => {
     const change = cy.spy().as('change');
     cy.mount(Slider, { props: { defaultValue: 20, onChange: change } });
