@@ -52,6 +52,16 @@ $input-prefix-cls: string.unquote('#{theme.$prefix}-input');
     }
   }
 
+  > .#{theme.$prefix}-btn:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > .#{theme.$prefix}-btn:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
   // 针对input边框颜色处理
   > .#{$input-prefix-cls}-wrapper:not(:last-child),
   > .#{$input-prefix-cls}-outer:not(:last-child),

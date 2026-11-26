@@ -5,6 +5,7 @@ import '@sdata/web-core/styles/style/index.scss';
 
 import '../../styles/form.scss';
 import '../../styles/input.scss';
+import '../../styles/select.scss';
 import { InputFixture } from './input-fixture';
 
 flushSync(() =>

@@ -1,6 +1,28 @@
 describe('React Input', () => {
   beforeEach(() => cy.visit('/input.html'));
 
+  it('rounds only the outer corners of buttons in a mixed input group', () => {
+    cy.get('[data-testid="mixed-input-group"] > .sd-btn').should(($buttons) => {
+      expect($buttons).to.have.length(3);
+      const [first, middle, last] = $buttons
+        .toArray()
+        .map((button) => button.ownerDocument.defaultView!.getComputedStyle(button));
+
+      for (const style of [first, middle]) {
+        expect(style.borderTopRightRadius).to.equal('0px');
+        expect(style.borderBottomRightRadius).to.equal('0px');
+      }
+      for (const style of [middle, last]) {
+        expect(style.borderTopLeftRadius).to.equal('0px');
+        expect(style.borderBottomLeftRadius).to.equal('0px');
+      }
+      expect(parseFloat(first.borderTopLeftRadius)).to.be.greaterThan(0);
+      expect(parseFloat(first.borderBottomLeftRadius)).to.be.greaterThan(0);
+      expect(parseFloat(last.borderTopRightRadius)).to.be.greaterThan(0);
+      expect(parseFloat(last.borderBottomRightRadius)).to.be.greaterThan(0);
+    });
+  });
+
   it('publishes Input value/input before commit change and clears through the keyboard', () => {
     cy.get('[data-testid="input-fixture"]').within(() => {
       cy.get('[aria-label="Model input"]').type('a');

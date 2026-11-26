@@ -2,9 +2,11 @@ import { useRef, useState } from 'react';
 
 import type { InputInstance } from '../../src/input';
 
+import { Button } from '../../src/button';
 import { ConfigProvider } from '../../src/config-provider';
 import { Form, FormItem } from '../../src/form';
 import { Input, InputGroup, InputPassword, InputSearch } from '../../src/input';
+import { Select } from '../../src/select';
 
 export function InputFixture() {
   const [value, setValue] = useState('');
@@ -19,6 +21,13 @@ export function InputFixture() {
   const record = (event: string) => setEvents((old) => [...old, event]);
   return (
     <section data-testid="input-fixture">
+      <InputGroup data-testid="mixed-input-group">
+        <Button>First</Button>
+        <Select options={['Option']} />
+        <Button shape="round">Middle</Button>
+        <Input />
+        <Button>Last</Button>
+      </InputGroup>
       <Form model={{ name: value }}>
         <FormItem
           field="name"

@@ -2,8 +2,11 @@ import { h } from 'vue';
 
 import { mount } from 'cypress/vue';
 
+import Button from '../../button';
+import Select from '../../select';
 import Input, { InputGroup, InputPassword, InputSearch } from '../index';
 import '../style';
+import '../../select/style';
 
 describe('Input on-demand styles', () => {
   let disabledSheets: CSSStyleSheet[] = [];
@@ -46,5 +49,39 @@ describe('Input on-demand styles', () => {
       slots: { default: () => [h(Input), h(Input)] },
     });
     cy.get('.sd-input-wrapper').first().should('have.css', 'margin-right', '-1px');
+  });
+
+  it('rounds only the outer corners of buttons in a mixed input group', () => {
+    mount(InputGroup, {
+      slots: {
+        default: () => [
+          h(Button, {}, () => 'First'),
+          h(Select, { options: ['Option'] }),
+          h(Button, { shape: 'round' }, () => 'Middle'),
+          h(Input),
+          h(Button, {}, () => 'Last'),
+        ],
+      },
+    });
+
+    cy.get('.sd-input-group > .sd-btn').should(($buttons) => {
+      expect($buttons).to.have.length(3);
+      const [first, middle, last] = $buttons
+        .toArray()
+        .map((button) => button.ownerDocument.defaultView!.getComputedStyle(button));
+
+      for (const style of [first, middle]) {
+        expect(style.borderTopRightRadius).to.equal('0px');
+        expect(style.borderBottomRightRadius).to.equal('0px');
+      }
+      for (const style of [middle, last]) {
+        expect(style.borderTopLeftRadius).to.equal('0px');
+        expect(style.borderBottomLeftRadius).to.equal('0px');
+      }
+      expect(parseFloat(first.borderTopLeftRadius)).to.be.greaterThan(0);
+      expect(parseFloat(first.borderBottomLeftRadius)).to.be.greaterThan(0);
+      expect(parseFloat(last.borderTopRightRadius)).to.be.greaterThan(0);
+      expect(parseFloat(last.borderBottomRightRadius)).to.be.greaterThan(0);
+    });
   });
 });
