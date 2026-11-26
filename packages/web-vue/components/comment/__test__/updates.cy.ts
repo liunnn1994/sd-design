@@ -26,8 +26,13 @@ describe('Comment updates and interaction', () => {
     });
     cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ align: 'right' }));
     cy.get('.sd-comment-title').should('have.css', 'justify-content', 'space-between');
-    cy.get('.sd-comment-actions').should('have.css', 'justify-content', 'flex-end');
-    cy.contains('button', 'Reply').click();
+    cy.contains('.sd-comment-actions button', 'Reply')
+      .should(($button) => {
+        const buttonRight = $button[0].getBoundingClientRect().right;
+        const actionsRight = $button.parent()[0].getBoundingClientRect().right;
+        expect(buttonRight).to.be.closeTo(actionsRight, 1);
+      })
+      .click();
     cy.get('@reply').should('have.been.calledOnce');
     cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ align: { datetime: 'left' } }));
     cy.get('.sd-comment-title').should('have.class', 'sd-comment-title-align-left');
