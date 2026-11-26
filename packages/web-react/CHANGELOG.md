@@ -1,3 +1,21 @@
+# [2.0.0](https://github.com/liunnn1994/sd-design/compare/web-react-v1.7.2...web-react-v2.0.0) (2026-11-26)
+
+
+### Bug Fixes
+
+* **core:** end pointer drags when the primary mouse button is released ([9413b32](https://github.com/liunnn1994/sd-design/commit/9413b32815a4414e98a765ada0b02b5efceaa763))
+
+
+### Features
+
+* 🆕 优化在 group 中的样式 ([d3b5024](https://github.com/liunnn1994/sd-design/commit/d3b5024eb53dad65eff16adbc8bda49fe0734d5b))
+* 🆕 优化按钮在没有文本的时候 icon 位置偏移的问题 ([22a4792](https://github.com/liunnn1994/sd-design/commit/22a479214f4b372d66b741de3c06bff01f840636))
+
+
+### BREAKING CHANGES
+
+* **core:** Core drag foundations now use Pointer Events. For table column resizing, replace handleThMouseDown with handleThPointerDown and handleThMouseUp with stopResize. Upgrade the Vue and React adapters alongside Core.
+
 ## [1.7.2](https://github.com/liunnn1994/sd-design/compare/web-react-v1.7.1...web-react-v1.7.2) (2026-11-25)
 
 ## [1.7.1](https://github.com/liunnn1994/sd-design/compare/web-react-v1.7.0...web-react-v1.7.1) (2026-11-25)
