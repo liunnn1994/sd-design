@@ -9,6 +9,25 @@ import Button from '../index';
 const text = '这是一段很长的按钮文字，需要在宽度不足时省略并显示完整提示';
 
 describe('Button ellipsis', () => {
+  it('adds icon spacing only when the ellipsis has content', () => {
+    const label = ref('');
+    cy.mount(() => h(Button, {}, { icon: () => h(IconPlus), default: () => label.value }));
+
+    cy.get('.sd-btn-content').should('exist');
+    cy.get('.sd-btn-icon').should('have.css', 'margin-right', '0px');
+    cy.get('.sd-btn').focus();
+    cy.get('[data-ellipsis-measure]').should('exist');
+    cy.get('.sd-btn-icon').should('have.css', 'margin-right', '0px');
+    cy.then(() => {
+      label.value = 'Label';
+    });
+    cy.get('.sd-btn-icon').should('have.css', 'margin-right', '8px');
+    cy.then(() => {
+      label.value = '';
+    });
+    cy.get('.sd-btn-icon').should('have.css', 'margin-right', '0px');
+  });
+
   it('ignores hidden measurement text when updating Chinese spacing', () => {
     const version = ref(0);
     cy.mount(() =>

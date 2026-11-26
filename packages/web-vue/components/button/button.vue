@@ -10,7 +10,7 @@
       @focus="ellipsisRef?.setFocused(true)"
       @blur="ellipsisRef?.setFocused(false)"
     >
-      <span v-if="loading || $slots.icon" :class="`${prefixCls}-icon`">
+      <span v-if="loading || $slots.icon" ref="iconRef" :class="`${prefixCls}-icon`">
         <icon-loading v-if="loading" spin />
         <slot v-else name="icon" />
       </span>
@@ -46,7 +46,7 @@
       @focus="ellipsisRef?.setFocused(true)"
       @blur="ellipsisRef?.setFocused(false)"
     >
-      <span v-if="loading || $slots.icon" :class="`${prefixCls}-icon`">
+      <span v-if="loading || $slots.icon" ref="iconRef" :class="`${prefixCls}-icon`">
         <icon-loading v-if="loading" :spin="true" />
         <slot v-else name="icon" />
       </span>
@@ -88,11 +88,16 @@
     onMounted,
     onUpdated,
     onBeforeUpdate,
+    watchPostEffect,
     watchEffect,
     useSlots,
   } from 'vue';
 
-  import { createButtonTextFoundation, getButtonText } from '@sdata/web-core/button/text';
+  import {
+    createButtonTextFoundation,
+    getButtonText,
+    observeButtonIconSpacing,
+  } from '@sdata/web-core/button/text';
   import { createPressableFoundation } from '@sdata/web-core/interaction/pressable';
 
   import type { EllipsisTooltipProps } from '../ellipsis';
@@ -303,8 +308,20 @@
   });
   const { mergedSize } = useSize(_mergedSize);
   const buttonRef = ref<HTMLAnchorElement | HTMLButtonElement>();
+  const iconRef = ref<HTMLSpanElement>();
   const ellipsisRef = ref<InstanceType<typeof PerformantEllipsis>>();
   const isTwoCNChar = ref(false);
+
+  watchPostEffect((onCleanup) => {
+    if (!iconRef.value || !ellipsisRef.value) return;
+    onCleanup(
+      observeButtonIconSpacing(
+        iconRef.value,
+        `${prefixCls}-content`,
+        getPrefixCls('ellipsis-content'),
+      ),
+    );
+  });
 
   const { updateIsTwoCNChar } = createButtonTextFoundation(
     {

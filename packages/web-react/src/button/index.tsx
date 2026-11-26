@@ -1,7 +1,11 @@
 import type { ComponentRef as ReactComponentRef } from 'react';
 import type { ComponentPropsWithRef, MouseEvent, Ref, ReactElement } from 'react';
 
-import { createButtonTextFoundation, getButtonText } from '@sdata/web-core/button/text';
+import {
+  createButtonTextFoundation,
+  getButtonText,
+  observeButtonIconSpacing,
+} from '@sdata/web-core/button/text';
 import { createPressableFoundation } from '@sdata/web-core/interaction/pressable';
 import {
   createContext,
@@ -46,6 +50,7 @@ export function ButtonGroup({
 
 function ButtonView(props: ButtonProps) {
   const prefix = usePrefix('btn');
+  const ellipsisContentClass = usePrefix('ellipsis-content');
   const config = useConfig();
   const group = useContext(ButtonGroupContext);
   const formItem = useFormItem({
@@ -79,12 +84,20 @@ function ButtonView(props: ButtonProps) {
     ...attributes
   } = props;
   const element = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
+  const iconRef = useRef<HTMLSpanElement>(null);
   const ellipsisRef = useRef<PerformantEllipsisExposed>(null);
+  const hasIcon = loading || icon != null;
+  const hasEllipsis = ellipsis && children != null;
   const hasTooltip = tooltip != null || tooltipContent != null;
   const [twoChineseChars, setTwoChineseChars] = useState(false);
   useImperativeHandle(ref as Ref<HTMLButtonElement | HTMLAnchorElement>, () => element.current!, [
     href,
   ]);
+  useLayoutEffect(() => {
+    if (hasIcon && hasEllipsis && iconRef.current) {
+      return observeButtonIconSpacing(iconRef.current, `${prefix}-content`, ellipsisContentClass);
+    }
+  }, [hasIcon, hasEllipsis, href, hasTooltip, prefix, ellipsisContentClass]);
   useLayoutEffect(() => {
     createButtonTextFoundation(
       {
@@ -122,10 +135,12 @@ function ButtonView(props: ButtonProps) {
     .join(' ');
   const content = (
     <>
-      {(loading || icon != null) && (
-        <span className={`${prefix}-icon`}>{loading ? <LoadingIcon spin /> : icon}</span>
+      {hasIcon && (
+        <span ref={iconRef} className={`${prefix}-icon`}>
+          {loading ? <LoadingIcon spin /> : icon}
+        </span>
       )}
-      {ellipsis && children != null ? (
+      {hasEllipsis ? (
         <PerformantEllipsis
           ref={ellipsisRef}
           className={`${prefix}-content`}

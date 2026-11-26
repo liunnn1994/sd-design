@@ -25,6 +25,18 @@ describe('React button text controls', () => {
 describe('React button', () => {
   beforeEach(() => cy.visit('/button.html'));
 
+  it('adds icon spacing only when the ellipsis has content', () => {
+    const button = 'button[aria-label="Optional label"]';
+    const icon = `${button} .sd-btn-icon`;
+    cy.get(`${button} .sd-btn-content`).should('exist');
+    cy.get(icon).should('have.css', 'margin-right', '0px');
+    cy.get(button).focus();
+    cy.get(`${button} [data-ellipsis-measure]`).should('exist');
+    cy.get(icon).should('have.css', 'margin-right', '0px');
+    cy.contains('button', 'Ready').click();
+    cy.get(icon).should('have.css', 'margin-right', '8px');
+  });
+
   it('supports button tooltips and gives custom tooltip content precedence', () => {
     cy.contains('button', '带提示按钮').focus();
     cy.get('[role="tooltip"]').should('be.visible').and('contain.text', '按钮提示内容');

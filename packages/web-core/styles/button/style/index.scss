@@ -267,6 +267,10 @@ $token-var-aliases: (
 
     &:not(.#{$btn-prefix-cls}-only-icon) .#{$btn-prefix-cls}-icon {
       margin-right: token-var('btn-#{$size-type}-icon-spacing');
+
+      &[data-empty-button-content] {
+        margin-right: 0;
+      }
     }
 
     svg {

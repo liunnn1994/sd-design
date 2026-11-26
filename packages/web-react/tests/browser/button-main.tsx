@@ -24,6 +24,9 @@ function Fixture() {
         Action
       </Button>
       <button onClick={() => setLoading(false)}>Ready</button>
+      <Button icon={<IconPlus />} aria-label="Optional label">
+        {loading ? '' : 'Label'}
+      </Button>
       <form
         onSubmit={(event) => {
           event.preventDefault();
