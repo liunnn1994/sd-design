@@ -25,9 +25,11 @@ describe('Calendar resize rejection', () => {
           const clientX = rect.left + rect.width / 2;
           const clientY = rect.top + rect.height / 2;
           const doc = resizer.ownerDocument;
-          resizer.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX, clientY }));
+          resizer.dispatchEvent(
+            new PointerEvent('pointerdown', { isPrimary: true, bubbles: true, clientX, clientY }),
+          );
           doc.dispatchEvent(
-            new MouseEvent('mousemove', {
+            new PointerEvent('pointermove', {
               bubbles: true,
               cancelable: true,
               clientX,
@@ -36,7 +38,7 @@ describe('Calendar resize rejection', () => {
           );
           release = () =>
             doc.dispatchEvent(
-              new MouseEvent('mouseup', { bubbles: true, clientX, clientY: clientY + 60 }),
+              new PointerEvent('pointerup', { bubbles: true, clientX, clientY: clientY + 60 }),
             );
         });
         cy.then(() => Cypress.Promise.delay(0));

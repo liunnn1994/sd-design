@@ -102,6 +102,7 @@ $table-cls-td: string.unquote('#{$table-prefix-cls}-td');
     width: 8px;
     height: 100%;
     cursor: col-resize;
+    touch-action: none;
 
     &::after {
       position: absolute;

@@ -30,12 +30,14 @@ describe('Calendar pending creation approval', () => {
           const rect = cell.getBoundingClientRect();
           const clientX = rect.left + rect.width / 2;
           const clientY = rect.top + 40;
-          cell.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX, clientY }));
-          cell.ownerDocument.dispatchEvent(
-            new MouseEvent('mousemove', { clientX, clientY: clientY + 80 }),
+          cell.dispatchEvent(
+            new PointerEvent('pointerdown', { isPrimary: true, bubbles: true, clientX, clientY }),
           );
           cell.ownerDocument.dispatchEvent(
-            new MouseEvent('mouseup', { clientX, clientY: clientY + 80 }),
+            new PointerEvent('pointermove', { clientX, clientY: clientY + 80 }),
+          );
+          cell.ownerDocument.dispatchEvent(
+            new PointerEvent('pointerup', { clientX, clientY: clientY + 80 }),
           );
         });
       cy.wrap(onEventCreate).should('have.been.calledOnce');

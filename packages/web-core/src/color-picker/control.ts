@@ -1,3 +1,4 @@
+import { createPointerDrag } from '../_utils/pointer-drag.js';
 import { throttleByRaf } from '../_utils/throttle-by-raf.js';
 
 export function getControlPercent(value: number, max: number) {
@@ -13,7 +14,7 @@ export function createColorControl(adapter: {
 }) {
   const { value, onChange } = adapter;
   const change = throttleByRaf(onChange);
-  function position(event: MouseEvent) {
+  function position(event: PointerEvent) {
     if (!adapter.block) return;
     const rect = adapter.block.getBoundingClientRect();
     const next: [number, number] = [
@@ -22,28 +23,17 @@ export function createColorControl(adapter: {
     ];
     if (next[0] !== value()[0] || next[1] !== value()[1]) change(next);
   }
-  function stop() {
-    adapter.setActive(false);
-    window.removeEventListener('mousemove', move);
-    window.removeEventListener('mouseup', stop);
-    window.removeEventListener('contextmenu', stop);
-  }
-  function move(event: MouseEvent) {
-    event.preventDefault();
-    if (event.buttons > 0) position(event);
-    else stop();
-  }
+  const drag = createPointerDrag(position, () => adapter.setActive(false));
   return {
-    down(event: MouseEvent) {
+    down(event: PointerEvent, handle?: HTMLElement) {
+      if (!drag.start(event, handle)) return;
       event.preventDefault();
       adapter.setActive(true);
       position(event);
-      window.addEventListener('mousemove', move);
-      window.addEventListener('mouseup', stop);
-      window.addEventListener('contextmenu', stop);
     },
     dispose() {
-      stop();
+      drag.stop();
+      adapter.setActive(false);
       change.cancel();
     },
   };

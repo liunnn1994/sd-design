@@ -80,6 +80,7 @@ $calendar-css-prefix: string.unquote('--#{theme.$prefix}-calendar');
   height: 1px;
   background-color: var(#{$calendar-css-prefix}-secondary-color);
   cursor: row-resize;
+  touch-action: none;
 
   &:hover {
     height: 2px;

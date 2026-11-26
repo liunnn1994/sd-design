@@ -165,52 +165,105 @@
       cy.get('.sd-calendar__schedule--heading').should('have.length', 2);
     });
     it('resizes the all-day bar, clamps its minimum and cleans up on release and unmount', () => {
-      cy.get('.sd-calendar__all-day-resizer').trigger('mousedown', { clientX: 20, clientY: 60 });
-      cy.document().trigger('mousemove', { clientX: 20, clientY: 100 });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+        clientX: 20,
+        clientY: 60,
+      });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        clientX: 20,
+        clientY: 100,
+      });
       cy.get('[data-testid="calendar-root"]').should(($el) =>
         expect($el[0].style.getPropertyValue('--sd-calendar-all-day-bar-size')).to.equal('100px'),
       );
-      cy.document().trigger('mousemove', { clientX: 20, clientY: -100 });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        clientX: 20,
+        clientY: -100,
+      });
       cy.get('[data-testid="calendar-root"]').should(($el) =>
         expect($el[0].style.getPropertyValue('--sd-calendar-all-day-bar-size')).to.equal('20px'),
       );
-      cy.document().trigger('mouseup');
-      cy.document().trigger('mousemove', { clientX: 20, clientY: 200 });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointerup', {
+        eventConstructor: 'PointerEvent',
+      });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        clientX: 20,
+        clientY: 200,
+      });
       cy.get('[data-testid="calendar-root"]').should(($el) =>
         expect($el[0].style.getPropertyValue('--sd-calendar-all-day-bar-size')).to.equal('20px'),
       );
-      cy.get('.sd-calendar__all-day-resizer').trigger('mousedown', { clientX: 20, clientY: 20 });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+        clientX: 20,
+        clientY: 20,
+      });
       cy.contains('button', 'Mount headings').then(($button) => $button[0].click());
       cy.get('.sd-calendar__headings').should('not.exist');
-      cy.document().trigger('mousemove', { clientX: 20, clientY: 200 });
       cy.get('[data-testid="calendar-root"]').should(($el) =>
         expect($el[0].style.getPropertyValue('--sd-calendar-all-day-bar-size')).to.equal('20px'),
       );
     });
     it('uses the horizontal resize axis and cancels a gesture when orientation changes', () => {
       cy.contains('button', 'Orientation').click();
-      cy.get('.sd-calendar__all-day-resizer').trigger('mousedown', { clientX: 60, clientY: 20 });
-      cy.document().trigger('mousemove', { clientX: 100, clientY: 200 });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+        clientX: 60,
+        clientY: 20,
+      });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        clientX: 100,
+        clientY: 200,
+      });
       cy.get('[data-testid="calendar-root"]').should(($el) =>
         expect($el[0].style.getPropertyValue('--sd-calendar-all-day-bar-size')).to.equal('100px'),
       );
       cy.contains('button', 'Orientation').then(($button) => $button[0].click());
       cy.get('[data-testid="calendar-root"]').should('not.have.class', 'sd-calendar--horizontal');
-      cy.document().trigger('mousemove', { clientX: 200, clientY: 300 });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        clientX: 200,
+        clientY: 300,
+      });
       cy.get('[data-testid="calendar-root"]').should(($el) =>
         expect($el[0].style.getPropertyValue('--sd-calendar-all-day-bar-size')).to.equal('100px'),
       );
     });
-    it('resizes with touch and stops responding after touchcancel', () => {
-      cy.get('.sd-calendar__all-day-resizer').trigger('touchstart', {
-        touches: [{ clientX: 20, clientY: 60 }],
+    it('resizes with touch and stops responding after pointercancel', () => {
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+        pointerType: 'touch',
+        clientX: 20,
+        clientY: 60,
       });
-      cy.document().trigger('touchmove', { touches: [{ clientX: 20, clientY: 100 }] });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        pointerType: 'touch',
+        clientX: 20,
+        clientY: 100,
+      });
       cy.get('[data-testid="calendar-root"]').should(($el) =>
         expect($el[0].style.getPropertyValue('--sd-calendar-all-day-bar-size')).to.equal('100px'),
       );
-      cy.document().trigger('touchcancel');
-      cy.document().trigger('touchmove', { touches: [{ clientX: 20, clientY: 200 }] });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointercancel', {
+        eventConstructor: 'PointerEvent',
+        pointerType: 'touch',
+      });
+      cy.get('.sd-calendar__all-day-resizer').trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        pointerType: 'touch',
+        clientX: 20,
+        clientY: 200,
+      });
       cy.get('[data-testid="calendar-root"]').should(($el) =>
         expect($el[0].style.getPropertyValue('--sd-calendar-all-day-bar-size')).to.equal('100px'),
       );

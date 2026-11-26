@@ -291,15 +291,15 @@ describe('React Modal and Drawer portals', () => {
 
   it('drags Modal within its wrapper and resets the dragged position after closing', () => {
     cy.contains('button', 'Open modal').click();
-    cy.get('[data-testid="modal-main"] .sd-modal-header').trigger('mousedown', {
-      eventConstructor: 'MouseEvent',
+    cy.get('[data-testid="modal-main"] .sd-modal-header').trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
       clientX: 450,
       clientY: 200,
     });
-    cy.window().then((win) => {
-      win.dispatchEvent(new win.MouseEvent('mousemove', { clientX: 550, clientY: 250 }));
-      win.dispatchEvent(new win.MouseEvent('mouseup'));
-    });
+    cy.get('[data-testid="modal-main"] .sd-modal-header')
+      .trigger('pointermove', { eventConstructor: 'PointerEvent', clientX: 550, clientY: 250 })
+      .trigger('pointerup', { eventConstructor: 'PointerEvent' });
     cy.get('[data-testid="modal-main"] .sd-modal-wrapper').should(
       'have.class',
       'sd-modal-wrapper-moved',
@@ -316,13 +316,15 @@ describe('React Modal and Drawer portals', () => {
     );
   });
 
-  it('unregisters active window drag listeners when the Modal unmounts', () => {
+  it('unregisters active header drag listeners when the Modal unmounts', () => {
     cy.contains('button', 'Open modal').click();
-    cy.window().then((win) => {
-      const add = cy.spy(win, 'addEventListener');
-      const remove = cy.spy(win, 'removeEventListener');
-      cy.get('[data-testid="modal-main"] .sd-modal-header').trigger('mousedown', {
-        eventConstructor: 'MouseEvent',
+    cy.get('[data-testid="modal-main"] .sd-modal-header').then(([header]) => {
+      const win = header.ownerDocument.defaultView!;
+      const add = cy.spy(header, 'addEventListener');
+      const remove = cy.spy(header, 'removeEventListener');
+      cy.get('[data-testid="modal-main"] .sd-modal-header').trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
         clientX: 450,
         clientY: 200,
       });
@@ -332,7 +334,7 @@ describe('React Modal and Drawer portals', () => {
       cy.get('[data-testid="modal-main"]').should('not.exist');
       cy.get('body').should('not.have.css', 'overflow', 'hidden');
       cy.then(() => {
-        for (const type of ['mousemove', 'mouseup', 'contextmenu']) {
+        for (const type of ['pointermove', 'pointerup', 'pointercancel', 'lostpointercapture']) {
           const registration = add.getCalls().find(({ args }) => args[0] === type);
           expect(registration, `${type} registered`).not.to.equal(undefined);
           const removed = remove

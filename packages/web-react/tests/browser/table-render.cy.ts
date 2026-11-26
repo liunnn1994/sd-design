@@ -26,15 +26,23 @@ describe('React Table scoped root renderers', () => {
     cy.visit('/table-render.html');
     cy.get('[data-column="name"]').then(($header) => {
       const x = $header[0]!.getBoundingClientRect().x;
-      cy.get('[data-column="name"] .sd-table-column-handle').trigger('mousedown', {
-        clientX: x + 180,
+      cy.get('[data-column="name"] .sd-table-column-handle')
+        .as('resizeHandle', { type: 'static' })
+        .trigger('pointerdown', {
+          isPrimary: true,
+          eventConstructor: 'PointerEvent',
+          clientX: x + 180,
+        });
+      cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+        handle.dispatchEvent(new PointerEvent('pointermove', { clientX: x + 230 }));
       });
-      cy.window().trigger('mousemove', { clientX: x + 230 });
     });
     cy.get('[data-column="name"]')
       .should('have.class', 'sd-table-th-resizing')
       .and('have.css', 'width', '230px');
-    cy.window().trigger('mouseup');
+    cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+      handle.dispatchEvent(new PointerEvent('pointerup'));
+    });
     cy.get('[data-column="name"]').should('not.have.class', 'sd-table-th-resizing');
   });
   it('preserves a custom callback ref across rerenders and runs its React 19 cleanup when replaced', () => {

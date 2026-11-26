@@ -22,7 +22,7 @@ export interface TableContextValue extends TableSelectionContext<TableDataWithRa
   resizingColumn?: string;
   onSorterChange?(field: string, direction: SortDirection, event: Event): void;
   onFilterChange?(field: string, values: string[], event: Event): void;
-  onThMouseDown?(field: string, event: MouseEvent): void;
+  onThPointerDown?(field: string, event: PointerEvent, handle: HTMLElement): void;
   titleSlots?: Record<string, (data: { column: TableColumnData }) => ReactNode> | undefined;
   filterSlots?: Record<string, (data: TableFilterSlotProps) => ReactNode> | undefined;
   cellSlots?: Record<string, (data: TableCellData) => ReactNode> | undefined;

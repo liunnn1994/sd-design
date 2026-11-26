@@ -28,13 +28,13 @@ export const useColumnResize = (
     },
     emit,
   );
-  const { handleThMouseDown, handleThMouseUp } = foundation;
+  const { handleThPointerDown, stopResize } = foundation;
   onBeforeUnmount(foundation.dispose);
 
   return {
     resizingColumn,
     columnWidth,
-    handleThMouseDown,
-    handleThMouseUp,
+    handleThPointerDown,
+    stopResize,
   };
 };

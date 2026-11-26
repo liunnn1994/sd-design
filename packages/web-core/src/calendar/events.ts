@@ -717,7 +717,7 @@ export const createCalendarEvents = (
     return { newStart, newEnd };
   };
 
-  const RESIZE_SLOP_SQ = 4; // 2px; ignore jitter until pointer moves farther than this from mousedown.
+  const RESIZE_SLOP_SQ = 4; // 2px; ignore jitter until pointer moves farther than this from pointerdown.
 
   const syncResizePointerFromClient = (clientX: number, clientY: number) => {
     if (!resizeState.cellEl) return;
@@ -764,10 +764,14 @@ export const createCalendarEvents = (
     return { newStart, newEnd, internalOk };
   };
 
-  // Document event handlers for event resizing.
-  const onDocumentMousemove = async (e: MouseEvent | TouchEvent) => {
+  // Event and cell nodes can be re-rendered while the time range is being resized.
+  let resizePointerId: number | undefined;
+  let resizeRoot: Element | null = null;
+  const onResizeMove = async (e: PointerEvent) => {
+    if (e.pointerId !== resizePointerId) return;
     const revision = ++resizeRevision;
-    const { clientX, clientY } = 'touches' in e ? e.touches[0] : e; // Handle click or touch event.
+    const { clientX, clientY } = e;
+    updateResizeCell(clientX, clientY);
 
     const adx = clientX - resizeState.resizeAnchorClientX;
     const ady = clientY - resizeState.resizeAnchorClientY;
@@ -824,13 +828,9 @@ export const createCalendarEvents = (
         injectMetaData(resizeState.resizingEvent);
         // Reset last accepted event details if existing and accepting again.
         if (resizeState.resizingLastAcceptedEvent) resizeState.resizingLastAcceptedEvent = null;
-
-        // Prevent scrolling while resizing.
-        // Can only be done when event handler is not passive.
-        e.preventDefault();
       } else {
         // If the event resizing is refused, store the last accepted original event details
-        // so it can be used to revert to this stage on event-resize-end (in `onDocumentMouseup`).
+        // so it can be used to revert to this stage on event-resize-end (in `onResizeEnd`).
         resizeState.resizingLastAcceptedEvent = {
           ...resizeState.resizingEvent!,
           _: { ...resizeState.resizingEvent!._ },
@@ -839,16 +839,17 @@ export const createCalendarEvents = (
     }
   };
 
-  const onDocumentMouseup = async (e: MouseEvent | TouchEvent) => {
+  const onResizeEnd = async (e: PointerEvent) => {
+    if (e.pointerId !== resizePointerId) return;
     const revision = ++resizeRevision;
-    document.removeEventListener('mousemove', onDocumentMousemove);
-    document.removeEventListener('touchmove', onDocumentMousemove);
+    detachResizeListeners();
     if (calendar.touch?.isResizingEvent && resizeState.resizingEvent) {
-      const { clientX, clientY } = 'changedTouches' in e ? e.changedTouches[0] : e;
+      const { clientX, clientY } = e;
       if (!resizeState.resizeSlopExceeded) {
         resizeState.resizingEvent.start = new Date(resizeState.resizeStartDate!);
         resizeState.resizingEvent.end = new Date(resizeState.resizeBaselineEndMs!);
       } else {
+        updateResizeCell(clientX, clientY);
         syncResizePointerFromClient(clientX, clientY);
         const cellStart = new Date(parseInt(resizeState.cellEl!.dataset.start!));
         const { newStart, newEnd, internalOk } = getClampedResizeProposal(
@@ -903,13 +904,29 @@ export const createCalendarEvents = (
     cleanupResize();
   };
 
+  function updateResizeCell(clientX: number, clientY: number) {
+    if (!config.editableEvents.resizeX) return;
+    const cell = document
+      .elementFromPoint(clientX, clientY)
+      ?.closest<HTMLElement>(`.${prefixCls}__cell`);
+    if (cell && cell.closest(`.${prefixCls}`) === resizeRoot) resizeState.cellEl = cell;
+  }
+
+  function detachResizeListeners() {
+    resizePointerId = undefined;
+    document.removeEventListener('pointermove', onResizeMove);
+    document.removeEventListener('pointerup', onResizeEnd);
+    document.removeEventListener('pointercancel', onResizeCancel);
+  }
+
+  function onResizeCancel(event: PointerEvent) {
+    if (event.pointerId === resizePointerId) cleanupResize();
+  }
+
   const cleanupResize = () => {
     resizeRevision++;
-    document.removeEventListener('mousemove', onDocumentMousemove);
-    document.removeEventListener('touchmove', onDocumentMousemove);
-    document.removeEventListener('mouseup', onDocumentMouseup);
-    document.removeEventListener('touchend', onDocumentMouseup);
-    document.removeEventListener('touchcancel', cleanupResize);
+    detachResizeListeners();
+    resizeRoot = null;
 
     // Reset resizing state.
     calendar.touch.isResizingEvent = false;
@@ -942,53 +959,35 @@ export const createCalendarEvents = (
     cleanupResize();
   });
 
-  // Handle mousedown/touchstart on event elements
-  const handleEventResize = (
-    e: MouseEvent | TouchEvent,
-    event: CalendarEvent,
-    eventEl: HTMLElement,
-  ) => {
-    const domEvent = 'touches' in e ? e.touches[0] : e; // Handle click or touch event.
-    // If the event target is the resizer, set the resizing flag.
-    resizeState.fromResizer = !!(domEvent.target as Element).closest(
-      `.${prefixCls}__event-resizer`,
-    );
+  const handleEventResize = (e: PointerEvent, event: CalendarEvent, eventEl: HTMLElement) => {
+    const cell = eventEl.closest<HTMLElement>(`.${prefixCls}__cell`);
+    if (resizePointerId !== undefined || !cell) return;
+    resizePointerId = e.pointerId;
+    resizeRoot = cell.closest(`.${prefixCls}`);
+    resizeState.fromResizer = true;
 
-    if (resizeState.fromResizer) {
-      resizeRevision++;
-      // Set the resizing flag immediately to prevent drag from starting.
-      calendar.touch.isResizingEvent = true;
+    resizeRevision++;
+    // Set the resizing flag immediately to prevent drag from starting.
+    calendar.touch.isResizingEvent = true;
 
-      const rect = eventEl.getBoundingClientRect();
-      resizeState.startX = domEvent.clientX - rect.left; // Handle click or touch event coords.
-      resizeState.startY = domEvent.clientY - rect.top; // Handle click or touch event coords.
-      resizeState.startPercentageX = (resizeState.startX * 100) / rect.width;
-      resizeState.startPercentageY = (resizeState.startY * 100) / rect.height;
-      // Store the cell DOM node for a more efficient resizing calc in mousemove/touchmove.
-      resizeState.cellEl = eventEl.closest(`.${prefixCls}__cell`);
-      // Immutable gesture start (swap logic + cancel if no real drag).
-      resizeState.resizeStartDate = new Date(event.start.getTime());
-      resizeState.resizeBaselineEndMs = event.end.getTime();
-      // Store the event being resized.
-      resizeState.resizingEvent = event;
-      resizeState.resizeAnchorClientX = domEvent.clientX;
-      resizeState.resizeAnchorClientY = domEvent.clientY;
-      resizeState.resizeSlopExceeded = false;
+    const rect = eventEl.getBoundingClientRect();
+    resizeState.startX = e.clientX - rect.left; // Handle click or touch event coords.
+    resizeState.startY = e.clientY - rect.top; // Handle click or touch event coords.
+    resizeState.startPercentageX = (resizeState.startX * 100) / rect.width;
+    resizeState.startPercentageY = (resizeState.startY * 100) / rect.height;
+    resizeState.cellEl = cell;
+    // Immutable gesture start (swap logic + cancel if no real drag).
+    resizeState.resizeStartDate = new Date(event.start.getTime());
+    resizeState.resizeBaselineEndMs = event.end.getTime();
+    // Store the event being resized.
+    resizeState.resizingEvent = event;
+    resizeState.resizeAnchorClientX = e.clientX;
+    resizeState.resizeAnchorClientY = e.clientY;
+    resizeState.resizeSlopExceeded = false;
 
-      // Make the event listener non-passive if resizing so we can prevent default scrolling.
-      document.addEventListener(
-        e.type === 'touchstart' ? 'touchmove' : 'mousemove',
-        onDocumentMousemove,
-        { passive: !resizeState.fromResizer },
-      );
-      document.addEventListener(
-        e.type === 'touchstart' ? 'touchend' : 'mouseup',
-        onDocumentMouseup,
-        { once: true },
-      );
-      if (e.type === 'touchstart')
-        document.addEventListener('touchcancel', cleanupResize, { once: true });
-    }
+    document.addEventListener('pointermove', onResizeMove);
+    document.addEventListener('pointerup', onResizeEnd);
+    document.addEventListener('pointercancel', onResizeCancel);
   };
 
   return {

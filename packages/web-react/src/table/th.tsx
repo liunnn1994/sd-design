@@ -256,8 +256,9 @@ export function Th({
       {resizable && (
         <span
           className={`${prefix}-column-handle`}
-          onMouseDown={(event) => {
-            if (column.dataIndex) context.onThMouseDown?.(column.dataIndex, event.nativeEvent);
+          onPointerDown={(event) => {
+            if (column.dataIndex)
+              context.onThPointerDown?.(column.dataIndex, event.nativeEvent, event.currentTarget);
           }}
         />
       )}

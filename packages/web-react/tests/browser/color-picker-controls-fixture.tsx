@@ -19,14 +19,15 @@ export function ColorPickerControlsFixture() {
     const bar = controls.current!.querySelector<HTMLElement>('.sd-color-picker-control-bar-hue')!;
     const rect = bar.getBoundingClientRect();
     bar.dispatchEvent(
-      new MouseEvent('mousedown', {
+      new PointerEvent('pointerdown', {
+        isPrimary: true,
         bubbles: true,
         buttons: 1,
         clientX: rect.left + rect.width * 0.75,
         clientY: rect.top + rect.height * 0.5,
       }),
     );
-    window.dispatchEvent(new MouseEvent('mouseup'));
+    bar.dispatchEvent(new PointerEvent('pointerup'));
   }, []);
   const color = { hsv, rgb: hsvToRgb(hsv.h, hsv.s, hsv.v), hex: '#804040' };
   return (

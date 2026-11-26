@@ -24,7 +24,7 @@ export function ColorPalette({
       ref={block}
       className={`${prefix}-palette`}
       style={{ backgroundColor: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` }}
-      onMouseDown={(event) => down(event.nativeEvent)}
+      onPointerDown={(event) => down(event.nativeEvent, event.currentTarget)}
     >
       <div
         className={`${prefix}-handler`}
@@ -63,7 +63,7 @@ export function ColorControlBar({
             }
           : undefined
       }
-      onMouseDown={(event) => down(event.nativeEvent)}
+      onPointerDown={(event) => down(event.nativeEvent, event.currentTarget)}
     >
       <div className={`${prefix}-handler`} style={{ left: `${x * 100}%`, color: colorString }} />
     </div>

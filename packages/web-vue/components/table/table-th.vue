@@ -108,7 +108,7 @@
       <ReuseFilter v-if="filterIconAlignLeft" />
     </span>
     <ReuseFilter v-if="!filterIconAlignLeft" />
-    <span v-if="resizable" :class="`${prefixCls}-column-handle`" @mousedown="handleMouseDown" />
+    <span v-if="resizable" :class="`${prefixCls}-column-handle`" @pointerdown="handlePointerDown" />
   </component>
 </template>
 
@@ -295,8 +295,8 @@
     handleRadioFilterChange(value as string);
   }
 
-  function handleMouseDown(event: MouseEvent) {
-    if (props.column.dataIndex) tableCtx.onThMouseDown?.(props.column.dataIndex, event);
+  function handlePointerDown(event: PointerEvent) {
+    if (props.column.dataIndex) tableCtx.onThPointerDown?.(props.column.dataIndex, event);
   }
 
   function handleSorterKeydown(event: KeyboardEvent) {

@@ -222,7 +222,7 @@ export function ModalView(props: ModalProps) {
               className={[`${prefix}-header`, closeButton && `${prefix}-header-with-close`]
                 .filter(Boolean)
                 .join(' ')}
-              onMouseDown={(event) => drag.down(event.nativeEvent)}
+              onPointerDown={(event) => drag.down(event.nativeEvent, event.currentTarget)}
             >
               {!!title && (
                 <div

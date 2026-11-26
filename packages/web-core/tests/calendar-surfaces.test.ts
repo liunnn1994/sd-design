@@ -135,7 +135,7 @@ class FakeElement extends EventTarget {
 const native = (element: FakeElement) => element as unknown as HTMLElement;
 function move(type: string, x = 60, y = 120) {
   const event = new Event(type, { cancelable: true });
-  Object.assign(event, { clientX: x, clientY: y });
+  Object.assign(event, { clientX: x, clientY: y, button: 0, pointerId: 1 });
   if (type.startsWith('touch'))
     Object.defineProperty(event, 'touches', { value: [{ clientX: x, clientY: y }] });
   return event;
@@ -281,15 +281,14 @@ test('calendar config size keeps lazy small-size reads and counts hidden keys', 
   assert.equal(getCalendarHiddenDayCount({ 1: true, 7: true }), 2);
 });
 
-test('body controller avoids DOM work when cursor and horizontal resize tracking are off', () => {
+test('body controller avoids DOM work when cursor tracking is off', () => {
   const { host, cursor } = fixture();
   const element = new FakeElement();
   const controller = createCalendarBodyController(host, cursor, {
     element: native(element),
-    resizeState: { cellEl: null },
   });
   controller.mount();
-  element.dispatchEvent(move('mousemove'));
+  element.dispatchEvent(move('pointermove'));
   assert.equal(element.rectReads, 0);
   controller.dispose();
 });
@@ -300,10 +299,9 @@ test('body controller updates both cursor axes and clears mouse/touch end state'
   const element = new FakeElement();
   const controller = createCalendarBodyController(host, cursor, {
     element: native(element),
-    resizeState: { cellEl: null },
   });
   controller.mount();
-  element.dispatchEvent(move('mousemove'));
+  element.dispatchEvent(move('pointermove'));
   assert.equal(cursor.y, 25);
   host.config.horizontal = true;
   element.dispatchEvent(move('touchmove'));
@@ -311,36 +309,8 @@ test('body controller updates both cursor axes and clears mouse/touch end state'
   element.dispatchEvent(new Event('touchend'));
   assert.deepEqual(cursor, { x: null, y: null });
   controller.dispose();
-  element.dispatchEvent(move('mousemove'));
+  element.dispatchEvent(move('pointermove'));
   assert.deepEqual(cursor, { x: null, y: null });
-});
-
-test('body controller resolves the hovered resize cell once without unnecessary rect work', (t) => {
-  const { host, cursor } = fixture();
-  host.touch.isResizingEvent = true;
-  host.config.editableEvents.resizeX = true;
-  const element = new FakeElement(),
-    hovered = new FakeElement();
-  let selector = '';
-  const fromPoint = t.mock.fn(() => ({
-    closest: (value: string) => {
-      selector = value;
-      return hovered;
-    },
-  }));
-  replaceGlobal(t, 'document', { elementFromPoint: fromPoint });
-  const resizeState = { cellEl: null as HTMLElement | null };
-  const controller = createCalendarBodyController(host, cursor, {
-    element: native(element),
-    resizeState,
-  });
-  controller.mount();
-  element.dispatchEvent(move('mousemove'));
-  assert.equal(resizeState.cellEl, hovered);
-  assert.equal(element.rectReads, 0);
-  assert.deepEqual(fromPoint.mock.calls[0].arguments, [60, 120]);
-  assert.equal(selector, '.test-calendar__cell');
-  controller.dispose();
 });
 
 test('body controller ignores month/year pointer activity and is inert without an element', () => {
@@ -350,15 +320,13 @@ test('body controller ignores month/year pointer activity and is inert without a
   const element = new FakeElement();
   const controller = createCalendarBodyController(host, cursor, {
     element: native(element),
-    resizeState: { cellEl: null },
   });
   controller.mount();
-  element.dispatchEvent(move('mousemove'));
+  element.dispatchEvent(move('pointermove'));
   assert.equal(element.rectReads, 0);
   controller.dispose();
   const missing = createCalendarBodyController(host, cursor, {
     element: null,
-    resizeState: { cellEl: null },
   });
   missing.mount();
   missing.dispose();
@@ -429,60 +397,64 @@ function resizeFixture(t: TestContext, pixels = 40) {
 }
 
 test('all-day resizer measures native CSS units and applies vertical mouse deltas', (t) => {
-  const { controller, document, root, temporaryStyle } = resizeFixture(t);
-  controller.handleMouseDown({ clientX: 100, clientY: 100 } as MouseEvent);
+  const { controller, root, temporaryStyle } = resizeFixture(t);
+  controller.handlePointerDown(move('pointerdown', 100, 100) as PointerEvent, native(root));
   assert.equal(controller.initialHeight, 40);
   assert.equal(temporaryStyle.height, '2rem');
-  document.dispatchEvent(move('mousemove', 100, 145));
+  root.dispatchEvent(move('pointermove', 100, 145));
   assert.equal(root.styleValues.get('--test-calendar-all-day-bar-size'), '85px');
-  document.dispatchEvent(new Event('mouseup'));
+  root.dispatchEvent(move('pointerup'));
   assert.equal(controller.isResizing, false);
-  document.dispatchEvent(move('mousemove', 100, 200));
+  root.dispatchEvent(move('pointermove', 100, 200));
   assert.equal(root.styleValues.get('--test-calendar-all-day-bar-size'), '85px');
 });
 
-test('all-day resizer follows horizontal touch and prevents scrolling', (t) => {
-  const { controller, config, document, root } = resizeFixture(t);
+test('all-day resizer follows a horizontal touch pointer', (t) => {
+  const { controller, config, root } = resizeFixture(t);
   config.horizontal = true;
-  controller.handleTouchStart({
-    touches: [{ clientX: 100, clientY: 10 }],
-  } as unknown as TouchEvent);
-  const event = move('touchmove', 150, 10);
-  document.dispatchEvent(event);
-  assert.equal(event.defaultPrevented, true);
+  controller.handlePointerDown(
+    Object.assign(move('pointerdown', 100, 10), { pointerType: 'touch' }) as PointerEvent,
+    native(root),
+  );
+  const event = move('pointermove', 150, 10);
+  root.dispatchEvent(event);
   assert.equal(root.styleValues.get('--test-calendar-all-day-bar-size'), '90px');
-  document.dispatchEvent(new Event('touchend'));
+  root.dispatchEvent(move('pointerup'));
   assert.equal(controller.isResizing, false);
 });
 
 test('all-day resizer keeps the 20px minimum and original zero-size baseline', (t) => {
-  const { controller, document, root } = resizeFixture(t, 0);
-  controller.startResize(0, 100);
-  document.dispatchEvent(move('mousemove', 0, 105));
+  const { controller, root } = resizeFixture(t, 0);
+  controller.handlePointerDown(move('pointerdown', 0, 100) as PointerEvent, native(root));
+  root.dispatchEvent(move('pointermove', 0, 105));
   assert.equal(root.styleValues.get('--test-calendar-all-day-bar-size'), '20px');
   assert.equal(controller.initialHeight, 0);
   controller.cleanup();
 });
 
 test('all-day touch cancellation stops resizing and releases movement listeners', (t) => {
-  const { controller, document, root } = resizeFixture(t);
-  controller.handleTouchStart({
-    touches: [{ clientX: 100, clientY: 100 }],
-  } as unknown as TouchEvent);
-  document.dispatchEvent(move('touchmove', 100, 145));
+  const { controller, root } = resizeFixture(t);
+  controller.handlePointerDown(
+    Object.assign(move('pointerdown', 100, 100), { pointerType: 'touch' }) as PointerEvent,
+    native(root),
+  );
+  root.dispatchEvent(move('pointermove', 100, 145));
   const size = root.styleValues.get('--test-calendar-all-day-bar-size');
-  document.dispatchEvent(new Event('touchcancel'));
+  root.dispatchEvent(move('pointercancel'));
   assert.equal(controller.isResizing, false);
-  document.dispatchEvent(move('touchmove', 100, 200));
+  root.dispatchEvent(move('pointermove', 100, 200));
   assert.equal(root.styleValues.get('--test-calendar-all-day-bar-size'), size);
 });
 
 test('all-day resizer disposal removes active listeners and its measurement element', (t) => {
   const state = resizeFixture(t);
-  state.controller.startResize(0, 100);
+  state.controller.handlePointerDown(
+    move('pointerdown', 0, 100) as PointerEvent,
+    native(state.root),
+  );
   assert.equal(state.temporaryRemoved, 1);
   state.controller.cleanup();
-  state.document.dispatchEvent(move('mousemove', 0, 200));
+  state.root.dispatchEvent(move('pointermove', 0, 200));
   assert.equal(state.root.styleValues.size, 0);
 });
 
@@ -491,7 +463,6 @@ test('surface native controllers construct and dispose without a browser or elem
   const { host, cursor } = fixture();
   const body = createCalendarBodyController(host, cursor, {
     element: null,
-    resizeState: { cellEl: null },
   });
   body.mount();
   body.dispose();

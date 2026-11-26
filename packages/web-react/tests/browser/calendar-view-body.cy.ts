@@ -2,7 +2,8 @@
   const moveToMiddle = () =>
     cy.get('.sd-calendar__body').then(($el) => {
       const rect = $el[0].getBoundingClientRect();
-      cy.wrap($el).trigger('mousemove', {
+      cy.wrap($el).trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
         clientX: rect.left + rect.width / 2,
         clientY: rect.top + rect.height / 2,
       });
@@ -28,7 +29,7 @@
     it('shows cursor time, keeps its label during exit and removes it when disabled', () => {
       moveToMiddle();
       cy.get('.sd-calendar__time-at-cursor').should('have.text', '11:30');
-      cy.get('.sd-calendar__body').trigger('mouseleave');
+      cy.get('.sd-calendar__body').trigger('pointerleave', { eventConstructor: 'PointerEvent' });
       cy.get('.sd-calendar-shrink-leave-active').should('have.text', '11:30');
       cy.get('.sd-calendar__time-at-cursor').should('not.exist');
       moveToMiddle();
@@ -69,7 +70,9 @@
     it('updates the resize target using the cell under the pointer and commits its date', () => {
       cy.get('.sd-calendar__event-resizer').then(($el) => {
         const rect = $el[0].getBoundingClientRect();
-        cy.wrap($el).trigger('mousedown', {
+        cy.wrap($el).trigger('pointerdown', {
+          isPrimary: true,
+          eventConstructor: 'PointerEvent',
           clientX: rect.left + 15,
           clientY: rect.top + 3,
           button: 0,
@@ -81,12 +84,20 @@
           const rect = $el[0].getBoundingClientRect();
           const clientX = rect.left + rect.width / 2,
             clientY = rect.top + rect.height / 2;
-          cy.get('.sd-calendar__body').trigger('mousemove', { clientX, clientY });
+          cy.get('.sd-calendar__body').trigger('pointermove', {
+            eventConstructor: 'PointerEvent',
+            clientX,
+            clientY,
+          });
           cy.get('[data-testid="resize-cell"]').should(
             'have.text',
             String(new Date(2026, 10, 4).getTime()),
           );
-          cy.document().trigger('mouseup', { clientX, clientY });
+          cy.document().trigger('pointerup', {
+            eventConstructor: 'PointerEvent',
+            clientX,
+            clientY,
+          });
         });
       cy.get('[data-testid="timed-end"]').should('have.text', '2026-11-04|11:30');
     });

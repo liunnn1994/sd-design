@@ -17,9 +17,20 @@ describe('Table column boundaries', () => {
       .first()
       .then(($th) => {
         const right = $th[0].getBoundingClientRect().right;
-        cy.wrap($th).find('.sd-table-column-handle').trigger('mousedown', { clientX: right });
-        cy.window().trigger('mousemove', { clientX: right + 50 });
-        cy.window().trigger('mouseup');
+        cy.wrap($th)
+          .find('.sd-table-column-handle')
+          .as('resizeHandle', { type: 'static' })
+          .trigger('pointerdown', {
+            isPrimary: true,
+            eventConstructor: 'PointerEvent',
+            clientX: right,
+          });
+        cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+          handle.dispatchEvent(new PointerEvent('pointermove', { clientX: right + 50 }));
+        });
+        cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+          handle.dispatchEvent(new PointerEvent('pointerup'));
+        });
       });
     cy.get('.sd-table-element')
       .first()
@@ -36,11 +47,17 @@ describe('Table column boundaries', () => {
         onColumnResize: resize,
       },
     });
-    cy.get('.sd-table-column-handle').trigger('mousedown');
+    cy.get('.sd-table-column-handle')
+      .as('resizeHandle', { type: 'static' })
+      .trigger('pointerdown', { isPrimary: true, eventConstructor: 'PointerEvent' });
     cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ columns: [{ dataIndex: 'age' }] }));
-    cy.window().trigger('mousemove', { clientX: 100 });
+    cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+      handle.dispatchEvent(new PointerEvent('pointermove', { clientX: 100 }));
+    });
     cy.get('@resize').should('not.have.been.called');
-    cy.window().trigger('mouseup');
+    cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+      handle.dispatchEvent(new PointerEvent('pointerup'));
+    });
   });
 
   it('does not use inherited filter values for a constructor column', () => {

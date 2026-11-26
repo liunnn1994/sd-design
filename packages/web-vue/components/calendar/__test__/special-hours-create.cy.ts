@@ -30,11 +30,15 @@ describe('Calendar creation special-hours boundaries', () => {
               clientX: rect.left + rect.width * (horizontal ? (hour - 9) / 8 : 0.5),
               clientY: rect.top + rect.height * (horizontal ? 0.5 : (hour - 9) / 8),
             });
-            cell.dispatchEvent(new MouseEvent('mousedown', point(backwards ? 14 : 10)));
-            cell.ownerDocument.dispatchEvent(
-              new MouseEvent('mousemove', point(backwards ? 10 : 14)),
+            cell.dispatchEvent(
+              new PointerEvent('pointerdown', { ...point(backwards ? 14 : 10), isPrimary: true }),
             );
-            cell.ownerDocument.dispatchEvent(new MouseEvent('mouseup', point(backwards ? 10 : 14)));
+            cell.ownerDocument.dispatchEvent(
+              new PointerEvent('pointermove', point(backwards ? 10 : 14)),
+            );
+            cell.ownerDocument.dispatchEvent(
+              new PointerEvent('pointerup', point(backwards ? 10 : 14)),
+            );
           });
         cy.get('.sd-calendar__event').should('have.length', 1);
         cy.get('.sd-calendar__event-start').should('have.text', backwards ? '13:00' : '10:00');

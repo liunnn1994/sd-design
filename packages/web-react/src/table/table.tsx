@@ -321,7 +321,7 @@ export function Table(props: TableProps) {
   }, [page.page, change]);
   useLayoutEffect(() => {
     if (resize.resizingColumn && (!columnResizable || !columnMap.has(resize.resizingColumn)))
-      resize.handleThMouseUp();
+      resize.stopResize();
   });
   useImperativeHandle(
     ref,
@@ -748,7 +748,7 @@ export function Table(props: TableProps) {
         onSelectAllLeafs: selection.handleSelectAllLeafs,
         onSorterChange: change.sort,
         onFilterChange: change.filter,
-        onThMouseDown: resize.handleThMouseDown,
+        onThPointerDown: resize.handleThPointerDown,
         loadMore,
         addLazyLoadData: model.addLazyLoadData,
         titleSlots,

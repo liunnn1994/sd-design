@@ -18,14 +18,17 @@ describe('React composed Table', () => {
     const start = (title: string, delta: number) =>
       header(title).then(([$header]) => {
         const right = $header.getBoundingClientRect().right;
-        cy.wrap($header).find('.sd-table-column-handle').trigger('mousedown', {
-          eventConstructor: 'MouseEvent',
-          clientX: right,
-          force: true,
-        });
-        cy.window().trigger('mousemove', {
-          eventConstructor: 'MouseEvent',
-          clientX: right + delta,
+        cy.wrap($header)
+          .find('.sd-table-column-handle')
+          .as('resizeHandle', { type: 'static' })
+          .trigger('pointerdown', {
+            isPrimary: true,
+            eventConstructor: 'PointerEvent',
+            clientX: right,
+            force: true,
+          });
+        cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+          handle.dispatchEvent(new PointerEvent('pointermove', { clientX: right + delta }));
         });
       });
     header('Outer').should('have.css', 'right', '0px');
@@ -33,7 +36,9 @@ describe('React composed Table', () => {
     header('Score').should('have.css', 'right', '100px');
     header('Name').should('have.css', 'right', '200px');
     start('Name', 20);
-    cy.window().trigger('mouseup');
+    cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+      handle.dispatchEvent(new PointerEvent('pointerup'));
+    });
     events().should('have.text', '__proto__:170');
     start('Score', 50);
     events().should('have.text', '__proto__:170|score:150');
@@ -44,10 +49,14 @@ describe('React composed Table', () => {
     header('Name').should('have.css', 'right', '100px');
     cy.contains('button', 'Toggle score column').then(([$button]) => $button.click());
     header('Score').should('not.have.class', 'sd-table-th-resizing');
-    cy.window().trigger('mousemove', { eventConstructor: 'MouseEvent', clientX: 400 });
+    cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+      handle.dispatchEvent(new PointerEvent('pointermove', { clientX: 400 }));
+    });
     events().should('have.text', '__proto__:170|score:150');
     start('Score', 10);
-    cy.window().trigger('mouseup');
+    cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+      handle.dispatchEvent(new PointerEvent('pointerup'));
+    });
     events().should('have.text', '__proto__:170|score:150|score:160');
     header('Name').should('have.css', 'right', '260px');
   });

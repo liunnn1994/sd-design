@@ -8,14 +8,15 @@ describe('React ColorPicker shared pointer controls', () => {
       expect(rect.height).to.be.greaterThan(0);
       const win = block.ownerDocument.defaultView!;
       block.dispatchEvent(
-        new win.MouseEvent('mousedown', {
+        new win.PointerEvent('pointerdown', {
+          isPrimary: true,
           bubbles: true,
           buttons: 1,
           clientX: rect.left + rect.width * x,
           clientY: rect.top + rect.height * y,
         }),
       );
-      win.dispatchEvent(new win.MouseEvent('mouseup'));
+      block.dispatchEvent(new win.PointerEvent('pointerup'));
     });
   it('maps palette coordinates to saturation and brightness', () => {
     press('.sd-color-picker-palette', 0.25, 0.75);
@@ -62,7 +63,13 @@ describe('React ColorPicker shared pointer controls', () => {
       const block = $block[0];
       const win = block.ownerDocument.defaultView!;
       block.dispatchEvent(
-        new win.MouseEvent('mousedown', { bubbles: true, buttons: 1, clientX: 10, clientY: 10 }),
+        new win.PointerEvent('pointerdown', {
+          isPrimary: true,
+          bubbles: true,
+          buttons: 1,
+          clientX: 10,
+          clientY: 10,
+        }),
       );
       block.ownerDocument.querySelector('button')!.click();
     });
@@ -72,7 +79,7 @@ describe('React ColorPicker shared pointer controls', () => {
       .then((count) => {
         cy.window().then((win) => {
           win.dispatchEvent(
-            new win.MouseEvent('mousemove', { buttons: 1, clientX: 200, clientY: 150 }),
+            new win.PointerEvent('pointermove', { buttons: 1, clientX: 200, clientY: 150 }),
           );
           return new Cypress.Promise((resolve) =>
             win.requestAnimationFrame(() => win.requestAnimationFrame(resolve)),

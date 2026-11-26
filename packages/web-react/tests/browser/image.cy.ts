@@ -391,25 +391,26 @@ describe('React Image lifecycle', () => {
     openImage();
     const image = () => cy.get<HTMLImageElement>('.sd-image-preview-img');
     image().should('have.prop', 'naturalWidth', 640);
-    image().trigger('mousedown', {
-      eventConstructor: 'MouseEvent',
+    image().trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
       button: 0,
       clientX: 100,
       clientY: 100,
     });
-    cy.window().trigger('mousemove', {
-      eventConstructor: 'MouseEvent',
+    cy.get('.sd-image-preview-img').trigger('pointermove', {
+      eventConstructor: 'PointerEvent',
       clientX: 140,
       clientY: 120,
     });
     image().should('have.class', 'sd-image-preview-img-moving');
     image().should('have.css', 'transform', 'matrix(1, 0, 0, 1, 40, 20)');
-    cy.window().trigger('mouseup');
+    cy.get('.sd-image-preview-img').trigger('pointerup', { eventConstructor: 'PointerEvent' });
     image().should('not.have.class', 'sd-image-preview-img-moving');
     image().should('have.css', 'transform', 'matrix(1, 0, 0, 1, 0, 0)');
   });
 
-  it('drags enlarged images and disconnects window listeners when the source is replaced', () => {
+  it('drags enlarged images and disconnects image listeners when the source is replaced', () => {
     openImage();
     for (let i = 0; i < 4; i++) action('zoom-in');
     cy.get('.sd-image-preview-img-container').should(
@@ -420,28 +421,38 @@ describe('React Image lifecycle', () => {
     cy.get('.sd-image-preview-img').then(($image) => {
       const win = $image[0].ownerDocument.defaultView as Window & typeof globalThis;
       $image[0].dispatchEvent(
-        new win.MouseEvent('mousedown', { button: 0, clientX: 100, clientY: 100, bubbles: true }),
+        new win.PointerEvent('pointerdown', {
+          isPrimary: true,
+          button: 0,
+          clientX: 100,
+          clientY: 100,
+          bubbles: true,
+        }),
       );
     });
-    cy.window().then((win) =>
-      win.dispatchEvent(new win.MouseEvent('mousemove', { clientX: 170, clientY: 135 })),
-    );
+    cy.get('.sd-image-preview-img').trigger('pointermove', {
+      eventConstructor: 'PointerEvent',
+      clientX: 170,
+      clientY: 135,
+    });
     cy.get('.sd-image-preview-img-moving')
       .should('have.attr', 'style')
       .and('include', 'translate(40px, 20px)');
     control('Image replace');
     cy.get('.sd-image-preview-img').should('have.attr', 'src', imageSrc('purple'));
-    cy.window().then((win) =>
-      win.dispatchEvent(new win.MouseEvent('mousemove', { clientX: 300, clientY: 300 })),
-    );
+    cy.get('.sd-image-preview-img').trigger('pointermove', {
+      eventConstructor: 'PointerEvent',
+      clientX: 300,
+      clientY: 300,
+    });
     cy.get('.sd-image-preview-img-moving').should('not.exist');
     cy.get('.sd-image-preview-img')
       .should('have.attr', 'style')
       .and('include', 'translate(0px, 0px)');
     control('Image mount');
     cy.window().then((win) => {
-      win.dispatchEvent(new win.MouseEvent('mousemove', { clientX: 400, clientY: 400 }));
-      win.dispatchEvent(new win.MouseEvent('mouseup'));
+      win.dispatchEvent(new win.PointerEvent('pointermove', { clientX: 400, clientY: 400 }));
+      win.dispatchEvent(new win.PointerEvent('pointerup'));
     });
     preview().should('not.exist');
   });

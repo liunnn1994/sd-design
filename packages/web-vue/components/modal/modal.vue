@@ -45,7 +45,7 @@
               <div
                 v-if="!hideTitle && ($slots.title || title || mergedClosable)"
                 :class="headerCls"
-                @mousedown="handleMoveDown"
+                @pointerdown="handleMoveDown"
               >
                 <div
                   v-if="$slots.title || title"

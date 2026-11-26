@@ -22,11 +22,7 @@ export interface CalendarEventViewProps extends CoreEventProps {
     view: { id: string };
     texts: { deleteEvent: string };
     eventsManager: {
-      handleEventResize(
-        e: MouseEvent | TouchEvent,
-        event: CalendarEvent,
-        element: HTMLElement,
-      ): void;
+      handleEventResize(e: PointerEvent, event: CalendarEvent, element: HTMLElement): void;
     };
     dnd: {
       eventDragStart(e: DragEvent, event: CalendarEvent): void;

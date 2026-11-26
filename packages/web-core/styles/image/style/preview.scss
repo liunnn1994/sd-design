@@ -56,6 +56,7 @@ $preview-prefix-cls: string.unquote('#{$prefix}-image-preview');
       max-height: 100%;
       vertical-align: middle;
       cursor: grab;
+      touch-action: none;
       user-select: none;
 
       &.#{$image-prefix-cls}-preview-img-moving {

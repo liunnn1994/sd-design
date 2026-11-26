@@ -231,7 +231,7 @@ test('disabled panel suppresses updates and recents promote uniquely with an eig
   );
 });
 
-test('control flushes the last frame after mouseup, cancels on disposal and suppresses drag clicks', async (t) => {
+test('control flushes the last frame after pointerup, cancels on disposal and suppresses drag clicks', async (t) => {
   const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'window');
   const frames = new Map<number, FrameRequestCallback>();
   let id = 0;
@@ -261,15 +261,21 @@ test('control flushes the last frame after mouseup, cancels on disposal and supp
     onChange: (value) => changes.push(value),
     setActive: (value) => active.push(value),
   });
-  control.down({ clientX: 60, clientY: 70, preventDefault() {} } as MouseEvent);
-  target.dispatchEvent(new Event('mouseup'));
+  control.down(
+    { clientX: 60, clientY: 70, button: 0, pointerId: 1, preventDefault() {} } as PointerEvent,
+    target as unknown as HTMLElement,
+  );
+  target.dispatchEvent(Object.assign(new Event('pointerup'), { pointerId: 1 }));
   for (const [key, cb] of frames) {
     frames.delete(key);
     cb(0);
   }
   assert.deepEqual(changes, [[0.5, 0.25]]);
   assert.deepEqual(active, [true, false]);
-  control.down({ clientX: 200, clientY: 0, preventDefault() {} } as MouseEvent);
+  control.down(
+    { clientX: 200, clientY: 0, button: 0, pointerId: 1, preventDefault() {} } as PointerEvent,
+    target as unknown as HTMLElement,
+  );
   control.dispose();
   assert.equal(frames.size, 0);
   assert.ok(Number.isNaN(getControlPercent(0, 0)));

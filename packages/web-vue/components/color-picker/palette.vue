@@ -3,7 +3,7 @@
     ref="blockRef"
     :class="`${prefixCls}-palette`"
     :style="{ backgroundColor: hueColor }"
-    @mousedown="onMouseDown"
+    @pointerdown="onPointerDown"
   >
     <div
       ref="handlerRef"
@@ -38,7 +38,7 @@
   const prefixCls = getPrefixCls('color-picker');
   const hsv = computed(() => props.color.hsv);
 
-  const { blockRef, handlerRef, onMouseDown } = useControlBlock({
+  const { blockRef, handlerRef, onPointerDown } = useControlBlock({
     value: () => [hsv.value.s, 1 - hsv.value.v],
     onChange: (value) => props.onChange?.(value[0], 1 - value[1]),
   });

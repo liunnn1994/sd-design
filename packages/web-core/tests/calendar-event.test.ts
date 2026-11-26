@@ -273,12 +273,15 @@ test('double click requests stage-one deletion only without an external handler'
   assert.equal(deletion.mock.callCount(), 1);
 });
 
+const pointer = (type: string, init = {}) =>
+  Object.assign(new Event(type), { pointerId: 1, button: 0 }, init);
+
 test('hold fires once at one second and uses latest listeners after rebinding', (t) => {
   const oldHandler = t.mock.fn(),
     newHandler = t.mock.fn();
   const state = interaction(t, { hold: oldHandler });
-  const e = new Event('mousedown');
-  state.listeners.mousedown(e);
+  const e = pointer('pointerdown');
+  state.listeners.pointerdown(e);
   t.mock.timers.tick(999);
   state.rebind({ hold: newHandler });
   assert.equal(newHandler.mock.callCount(), 0);
@@ -289,29 +292,37 @@ test('hold fires once at one second and uses latest listeners after rebinding', 
   assert.deepEqual(newHandler.mock.calls[0].arguments, [{ e, event: state.event }]);
 });
 
-for (const release of ['mouseup', 'touchend', 'touchcancel']) {
+for (const release of ['pointerup', 'pointercancel', 'touchend', 'touchcancel']) {
   test(`event ${release} cancels hold and delayed touch permission and removes document listeners`, (t) => {
     const handler = t.mock.fn();
     const state = interaction(t, { hold: handler });
-    state.listeners.touchstart(new Event('touchstart'));
+    if (release.startsWith('pointer')) state.listeners.pointerdown(pointer('pointerdown'));
+    else state.listeners.touchstart(new Event('touchstart'));
     t.mock.timers.tick(100);
-    state.document.dispatchEvent(new Event(release));
+    state.document.dispatchEvent(pointer(release));
     t.mock.timers.tick(2000);
     assert.equal(handler.mock.callCount(), 0);
     assert.equal(state.state.canTouchAndDrag, null);
-    assert.equal(state.add.mock.callCount(), 3);
-    assert.equal(state.remove.mock.callCount(), 3);
+    assert.equal(state.add.mock.callCount(), 2);
+    for (const { arguments: args } of state.add.mock.calls) {
+      assert.ok(
+        state.remove.mock.calls.some(
+          (call) => call.arguments[0] === args[0] && call.arguments[1] === args[1],
+        ),
+      );
+    }
   });
 }
 
-test('event touch activates at 500ms and dispatches resize with the original element and event', (t) => {
+test('event touch activates at 500ms and pointerdown dispatches resize', (t) => {
   const state = interaction(t);
-  const e = new Event('touchstart');
+  const e = pointer('pointerdown', { pointerType: 'touch' });
   const target = {
     closest: (selector: string) => (selector === '.sd-calendar__event-resizer' ? {} : null),
   };
-  Object.defineProperty(e, 'touches', { value: [{ target }] });
-  state.listeners.touchstart(e);
+  Object.defineProperty(e, 'target', { value: target });
+  state.listeners.pointerdown(e);
+  state.listeners.touchstart(new Event('touchstart'));
   assert.deepEqual(state.resize.mock.calls[0].arguments, [e, state.event, state.element]);
   t.mock.timers.tick(499);
   assert.equal(state.state.canTouchAndDrag, null);
@@ -323,7 +334,7 @@ test('event disposal cancels pending click and hold and is safe to repeat', (t) 
   const handler = t.mock.fn();
   const state = interaction(t, { 'hold': handler, 'delayed-click': handler });
   state.listeners.click(new Event('click'));
-  state.listeners.mousedown(new Event('mousedown'));
+  state.listeners.pointerdown(pointer('pointerdown'));
   state.controller.dispose();
   state.controller.dispose();
   t.mock.timers.tick(2000);

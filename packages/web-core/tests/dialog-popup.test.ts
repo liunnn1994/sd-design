@@ -438,14 +438,8 @@ test('overflow ownership follows the acquired container and restores styles only
   assert.equal(next.style.overflow, 'scroll');
 });
 
-test('dialog drag clamps coordinates, ends on native contextmenu and removes listeners', (t) => {
+test('dialog drag clamps coordinates, ends on native contextmenu and removes listeners', () => {
   const target = new EventTarget();
-  const oldWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
-  Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
-  t.after(() => {
-    if (oldWindow) Object.defineProperty(globalThis, 'window', oldWindow);
-    else Reflect.deleteProperty(globalThis, 'window');
-  });
   const positions: [number, number][] = [];
   const f = createDialogDrag({
     modal: {
@@ -464,16 +458,16 @@ test('dialog drag clamps coordinates, ends on native contextmenu and removes lis
     },
   });
   const mouse = (type: string, x: number, y: number) =>
-    Object.assign(new Event(type), { x, y }) as MouseEvent;
-  f.down(mouse('mousedown', 10, 10));
-  target.dispatchEvent(mouse('mousemove', -100, -100));
-  target.dispatchEvent(mouse('mousemove', 100, 100));
+    Object.assign(new Event(type), { x, y, button: 0, pointerId: 1 }) as PointerEvent;
+  f.down(mouse('pointerdown', 10, 10), target as unknown as HTMLElement);
+  target.dispatchEvent(mouse('pointermove', -100, -100));
+  target.dispatchEvent(mouse('pointermove', 100, 100));
   assert.deepEqual(positions, [
     [0, -30],
     [40, 10],
   ]);
   target.dispatchEvent(new Event('contextmenu'));
-  target.dispatchEvent(mouse('mousemove', 20, 20));
+  target.dispatchEvent(mouse('pointermove', 20, 20));
   assert.equal(positions.length, 2);
   f.up();
 });

@@ -1,8 +1,14 @@
+import { createPointerDrag } from '../_utils/pointer-drag.js';
+
 export function createCalendarAllDayResizer(
   config: { horizontal: boolean },
   prefixCls: string,
   adapter: { element: HTMLElement | null },
 ) {
+  const drag = createPointerDrag(
+    (event) => allDayResizer.updateSize(event.clientX, event.clientY),
+    () => allDayResizer.cleanup(),
+  );
   const allDayResizer = {
     isResizing: false,
     startY: 0,
@@ -14,17 +20,14 @@ export function createCalendarAllDayResizer(
 
     // Cleanup event listeners.
     cleanup() {
-      if (typeof document !== 'undefined') {
-        document.removeEventListener('mousemove', allDayResizer.handleMouseMove);
-        document.removeEventListener('mouseup', allDayResizer.cleanup);
-        document.removeEventListener('touchmove', allDayResizer.handleTouchMove);
-        document.removeEventListener('touchend', allDayResizer.cleanup);
-        document.removeEventListener('touchcancel', allDayResizer.cleanup);
-      }
+      drag.stop();
       allDayResizer.isResizing = false;
     },
 
-    startResize(clientX: number, clientY: number) {
+    handlePointerDown(event: PointerEvent, handle?: HTMLElement) {
+      if (!adapter.element || !drag.start(event, handle)) return;
+      event.preventDefault();
+      const { clientX, clientY } = event;
       this.isResizing = true;
       const isHzl = config.horizontal;
       this[isHzl ? 'startX' : 'startY'] = isHzl ? clientX : clientY;
@@ -45,16 +48,9 @@ export function createCalendarAllDayResizer(
       if (pixelValue > 0) {
         this[isHzl ? 'initialWidth' : 'initialHeight'] = pixelValue;
       }
-
-      // Add document event listeners.
-      document.addEventListener('mousemove', allDayResizer.handleMouseMove);
-      document.addEventListener('mouseup', allDayResizer.cleanup);
-      document.addEventListener('touchmove', allDayResizer.handleTouchMove, { passive: false });
-      document.addEventListener('touchend', allDayResizer.cleanup);
-      document.addEventListener('touchcancel', allDayResizer.cleanup);
     },
 
-    // Update height/width based on mouse/touch movement.
+    // Update height/width based on pointer movement.
     updateSize(clientX: number, clientY: number) {
       if (!this.isResizing) return;
 
@@ -64,27 +60,6 @@ export function createCalendarAllDayResizer(
       const newSize = Math.max(20, this[isHzl ? 'initialWidth' : 'initialHeight'] + delta);
 
       adapter.element?.style.setProperty(`--${prefixCls}-all-day-bar-size`, `${newSize}px`);
-    },
-
-    // Mouse event handlers.
-    handleMouseDown(e: MouseEvent) {
-      this.startResize(e.clientX, e.clientY);
-    },
-
-    handleMouseMove(e: MouseEvent) {
-      allDayResizer.updateSize(e.clientX, e.clientY);
-    },
-
-    // Touch event handlers.
-    handleTouchStart(e: TouchEvent) {
-      if (e.touches?.[0]) this.startResize(e.touches[0].clientX, e.touches[0].clientY);
-    },
-
-    handleTouchMove(e: TouchEvent) {
-      if (e.touches?.[0]) {
-        allDayResizer.updateSize(e.touches[0].clientX, e.touches[0].clientY);
-        e.preventDefault(); // Prevent scrolling while resizing.
-      }
     },
   };
   return allDayResizer;

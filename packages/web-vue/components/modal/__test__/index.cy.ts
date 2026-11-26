@@ -536,10 +536,19 @@ describe('Modal', () => {
     });
     // Move down-right by (+60, +40): within the drag bounds (default viewport
     // 1000x660, modal width 520), so the offset is applied unclamped.
-    cy.get('.sd-modal-header')
-      .should('have.css', 'cursor', 'grab')
-      .trigger('mousedown', { force: true, clientX: 500, clientY: 300 });
-    cy.get('.sd-modal-header').trigger('mousemove', { force: true, clientX: 560, clientY: 340 });
+    cy.get('.sd-modal-header').should('have.css', 'cursor', 'grab').trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+      force: true,
+      clientX: 500,
+      clientY: 300,
+    });
+    cy.get('.sd-modal-header').trigger('pointermove', {
+      eventConstructor: 'PointerEvent',
+      force: true,
+      clientX: 560,
+      clientY: 340,
+    });
     // 拖拽行为以 moved class 为准（transform 数值受 alignCenter 定位路径影响，不直接断言）
     cy.get('.sd-modal-wrapper').should('have.class', 'sd-modal-wrapper-moved');
     // 从标题栏发起的拖拽不应触发遮罩关闭
@@ -554,18 +563,21 @@ describe('Modal', () => {
       slots: { default: '<div>Modal Body</div>' },
     });
     cy.get('@vue').then(({ wrapper }) => {
-      const element = wrapper.element as HTMLElement;
-      const win = element.ownerDocument.defaultView!;
-      const add = cy.spy(win, 'addEventListener');
-      const remove = cy.spy(win, 'removeEventListener');
       const header = wrapper.find('.sd-modal-header').element as HTMLElement;
+      const add = cy.spy(header, 'addEventListener');
+      const remove = cy.spy(header, 'removeEventListener');
 
       header.dispatchEvent(
-        new MouseEvent('mousedown', { bubbles: true, clientX: 500, clientY: 300 }),
+        new PointerEvent('pointerdown', {
+          isPrimary: true,
+          bubbles: true,
+          clientX: 500,
+          clientY: 300,
+        }),
       );
       wrapper.unmount();
 
-      for (const type of ['mousemove', 'mouseup', 'contextmenu']) {
+      for (const type of ['pointermove', 'pointerup', 'pointercancel', 'lostpointercapture']) {
         const registration = add.getCalls().find((call) => call.args[0] === type);
         expect(registration, `${type} registered`).not.to.equal(undefined);
         expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);

@@ -14,7 +14,6 @@ import { CalendarCellView } from './cell.js';
 
 export type CalendarBodyHost = Omit<CalendarHeadingsHost, 'view'> & {
   view: Omit<CalendarHeadingsHost['view'], 'cellDates'> & { cellDates: readonly CalendarRange[] };
-  eventsManager: { resizeState: { cellEl: HTMLElement | null } };
 };
 export interface CalendarBodyProps extends Omit<
   CalendarCellViewProps,
@@ -78,7 +77,6 @@ export function CalendarBody({ calendar, className, style, ...renderers }: Calen
     const element = root.current;
     const controller = createCalendarBodyController(calendar, cursor, {
       element,
-      resizeState: calendar.eventsManager.resizeState,
     });
     controller.mount();
     return controller.dispose;

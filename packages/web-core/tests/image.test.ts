@@ -409,7 +409,7 @@ test('preview reset and scale label timer retain close/unmount lifetime and even
 test('preview mask focuses before target equality guard; toolbar sorts a copy and disabled actions stay inert', () => {
   const { f, state, calls } = preview();
   const mask = new EventTarget();
-  const event = new MouseEventLike('click');
+  const event = new PointerEventLike('click');
   mask.addEventListener('click', (event) => f.maskClick(event as MouseEvent));
   mask.dispatchEvent(event);
   assert.equal(state.visible, false);
@@ -428,8 +428,9 @@ test('preview mask focuses before target equality guard; toolbar sorts a copy an
   assert.equal(event.defaultPrevented, true);
 });
 
-class MouseEventLike extends Event {
+class PointerEventLike extends Event {
   button = 0;
+  pointerId = 1;
   pageX = 0;
   pageY = 0;
   constructor(type: string) {
@@ -437,14 +438,7 @@ class MouseEventLike extends Event {
   }
 }
 
-test('image drag uses current scale, recenters on release and detaches an interrupted drag', (t) => {
-  const target = new EventTarget();
-  const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'window');
-  Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
-  t.after(() => {
-    if (descriptor) Object.defineProperty(globalThis, 'window', descriptor);
-    else Reflect.deleteProperty(globalThis, 'window');
-  });
+test('image drag uses current scale, recenters on release and detaches an interrupted drag', () => {
   const image = Object.assign(new EventTarget(), {
     getBoundingClientRect: () => ({ width: 40, height: 40 }),
   });
@@ -468,16 +462,16 @@ test('image drag uses current scale, recenters on release and detaches an interr
     },
   });
   const detach = f.connect(image as unknown as HTMLElement);
-  image.dispatchEvent(new MouseEventLike('mousedown'));
-  target.dispatchEvent(Object.assign(new MouseEventLike('mousemove'), { pageX: 40, pageY: 20 }));
+  image.dispatchEvent(new PointerEventLike('pointerdown'));
+  image.dispatchEvent(Object.assign(new PointerEventLike('pointermove'), { pageX: 40, pageY: 20 }));
   assert.deepEqual(state.translate, [20, 10]);
   assert.equal(state.moving, true);
-  target.dispatchEvent(new MouseEventLike('mouseup'));
+  image.dispatchEvent(new PointerEventLike('pointerup'));
   assert.deepEqual(state.translate, [0, 0]);
   assert.equal(state.moving, false);
-  image.dispatchEvent(new MouseEventLike('mousedown'));
+  image.dispatchEvent(new PointerEventLike('pointerdown'));
   detach();
-  target.dispatchEvent(Object.assign(new MouseEventLike('mousemove'), { pageX: 100 }));
+  image.dispatchEvent(Object.assign(new PointerEventLike('pointermove'), { pageX: 100 }));
   assert.deepEqual(state.translate, [0, 0]);
   assert.equal(state.moving, false);
 });

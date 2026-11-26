@@ -60,7 +60,7 @@
   import VueCalCell from './cell.vue';
 
   const calendar = inject(calendarInjectionKey)!;
-  const { view, config, eventsManager } = calendar;
+  const { view, config } = calendar;
   const prefixCls = calendar.prefixCls;
 
   const bodyEl = ref<HTMLElement | null>(null);
@@ -87,7 +87,6 @@
     cursor,
   );
   // Use resizing state from events composable.
-  const { resizeState } = eventsManager;
 
   // These CSS variables must stay at this level and not at the root, because they need to be "dead"
   // and frozen with the animated container when leaving in a vue transition, for a successful smooth
@@ -102,7 +101,6 @@
     get element() {
       return bodyEl.value;
     },
-    resizeState,
   });
   onMounted(controller.mount);
   onBeforeUnmount(controller.dispose);

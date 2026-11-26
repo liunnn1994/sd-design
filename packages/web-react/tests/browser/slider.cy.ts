@@ -56,12 +56,15 @@ describe('React slider', () => {
   });
 
   it('drags Slider with a live tooltip and stops listeners on disable and unmount', () => {
-    cy.get('[data-testid="single-slider"] [role="slider"]').trigger('mousedown');
+    cy.get('[data-testid="single-slider"] [role="slider"]').trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+    });
     cy.get('[data-testid="single-slider"] .sd-slider-track').then(($track) => {
       const rect = $track[0].getBoundingClientRect();
-      cy.window().then((win) =>
-        win.dispatchEvent(
-          new MouseEvent('mousemove', {
+      cy.get('[data-testid="single-slider"] [role="slider"]').then(([handle]) =>
+        handle.dispatchEvent(
+          new PointerEvent('pointermove', {
             clientX: rect.left + rect.width * 0.53,
             clientY: rect.top,
           }),
@@ -77,40 +80,55 @@ describe('React slider', () => {
     );
     cy.contains('button', 'Toggle slider disabled').trigger('click');
     cy.get('[data-testid="single-slider"] [role="slider"]').should('have.attr', 'tabindex', '-1');
-    cy.window().then((win) =>
-      win.dispatchEvent(new MouseEvent('mousemove', { clientX: 9999, clientY: 0 })),
+    cy.get('[data-testid="single-slider"] [role="slider"]').then(([handle]) =>
+      handle.dispatchEvent(new PointerEvent('pointermove', { clientX: 9999, clientY: 0 })),
     );
     cy.get('[data-testid="slider-value"]').should('have.text', '50');
     cy.contains('button', 'Toggle slider disabled').trigger('click');
-    cy.get('[data-testid="single-slider"] [role="slider"]').trigger('mousedown');
-    cy.contains('button', 'Toggle slider mount').trigger('click');
-    cy.window().then((win) =>
-      win.dispatchEvent(new MouseEvent('mousemove', { clientX: 9999, clientY: 0 })),
-    );
+    cy.get('[data-testid="single-slider"] [role="slider"]').trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+    });
+    cy.get('[data-testid="single-slider"] [role="slider"]').then(([handle]) => {
+      cy.contains('button', 'Toggle slider mount').trigger('click');
+      cy.then(() => {
+        handle.dispatchEvent(new PointerEvent('pointermove', { clientX: 9999, clientY: 0 }));
+      });
+    });
     cy.get('[data-testid="slider-events"]').should('have.text', 'single:50');
   });
 
   it('cancels native scrolling for Slider touch drag and cleans up cancelled gestures', () => {
     cy.get('[data-testid="single-slider"] [role="slider"]').then(($handle) => {
-      const event = new Event('touchstart', { bubbles: true, cancelable: true });
+      const event = new PointerEvent('pointerdown', {
+        isPrimary: true,
+        bubbles: true,
+        cancelable: true,
+        pointerType: 'touch',
+      });
+      expect(
+        $handle[0].ownerDocument.defaultView!.getComputedStyle($handle[0]).touchAction,
+      ).to.equal('none');
       $handle[0].dispatchEvent(event);
       expect(event.defaultPrevented).to.equal(true);
     });
     cy.get('[data-testid="single-slider"] .sd-slider-track').then(($track) => {
       const rect = $track[0].getBoundingClientRect();
-      cy.window().then((win) => {
-        const event = new Event('touchmove');
-        Object.defineProperty(event, 'touches', {
-          value: [{ clientX: rect.right, clientY: rect.top }],
-        });
-        win.dispatchEvent(event);
-        win.dispatchEvent(new Event('touchcancel'));
-      });
+      cy.get('[data-testid="single-slider"] [role="slider"]')
+        .trigger('pointermove', {
+          eventConstructor: 'PointerEvent',
+          pointerType: 'touch',
+          clientX: rect.right,
+          clientY: rect.top,
+        })
+        .trigger('pointercancel', { eventConstructor: 'PointerEvent', pointerType: 'touch' });
     });
     cy.get('[data-testid="slider-value"]').should('have.text', '95');
-    cy.window().then((win) =>
-      win.dispatchEvent(new MouseEvent('mousemove', { clientX: 0, clientY: 0 })),
-    );
+    cy.get('[data-testid="single-slider"] [role="slider"]').trigger('pointermove', {
+      eventConstructor: 'PointerEvent',
+      clientX: 0,
+      clientY: 0,
+    });
     cy.get('[data-testid="slider-value"]').should('have.text', '95');
   });
 
@@ -140,8 +158,13 @@ describe('React slider', () => {
       '30',
     );
     cy.get('[data-testid="vertical-slider"] .sd-slider-bar').should('have.css', 'bottom', '0px');
-    cy.get('[data-testid="silent-slider"] [role="slider"]').trigger('mousedown');
+    cy.get('[data-testid="silent-slider"] [role="slider"]').trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+    });
     cy.get('.sd-tooltip-content').should('not.exist');
-    cy.window().then((win) => win.dispatchEvent(new MouseEvent('mouseup')));
+    cy.get('[data-testid="silent-slider"] [role="slider"]').trigger('pointerup', {
+      eventConstructor: 'PointerEvent',
+    });
   });
 });

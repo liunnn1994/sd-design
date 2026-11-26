@@ -71,7 +71,6 @@ function SliderHandle(props: {
   const [dragging, setDragging] = useState(false);
   const [drag] = useState(() =>
     createSliderDragFoundation({
-      getTarget: () => element.current?.ownerDocument.defaultView ?? window,
       isDisabled: () => current.current.disabled,
       setDragging,
       onStart: () => current.current.onStart(),
@@ -79,15 +78,7 @@ function SliderHandle(props: {
       onEnd: () => {},
     }),
   );
-  useLayoutEffect(() => {
-    const node = element.current;
-    // React delegates touchstart passively; this gesture must cancel native scrolling.
-    node?.addEventListener('touchstart', drag.start, { passive: false });
-    return () => {
-      node?.removeEventListener('touchstart', drag.start);
-      drag.cleanup();
-    };
-  }, [drag]);
+  useLayoutEffect(() => drag.cleanup, [drag]);
   useLayoutEffect(() => {
     if (props.disabled) drag.cleanup();
   }, [props.disabled, drag]);
@@ -109,7 +100,7 @@ function SliderHandle(props: {
         aria-valuemax={props.max}
         aria-valuenow={props.value}
         aria-valuetext={content}
-        onMouseDown={(event) => drag.start(event.nativeEvent)}
+        onPointerDown={(event) => drag.start(event.nativeEvent, event.currentTarget)}
         onContextMenu={(event) => event.preventDefault()}
         onClick={(event) => event.stopPropagation()}
         onKeyDown={(event) => {

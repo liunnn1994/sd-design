@@ -2,58 +2,44 @@ import type { CalendarSurfaceHost, CalendarBodyCursor } from './surfaces.js';
 
 import { pxToPercentage } from './utils/conversions.js';
 export function createCalendarBodyController(
-  calendar: Pick<CalendarSurfaceHost, 'config' | 'view' | 'touch' | 'prefixCls'>,
+  calendar: Pick<CalendarSurfaceHost, 'config' | 'view'>,
   cursor: CalendarBodyCursor,
-  adapter: { element: HTMLElement | null; resizeState: { cellEl: HTMLElement | null } },
+  adapter: { element: HTMLElement | null },
 ) {
-  const { config, view, touch: globalTouchState, prefixCls } = calendar;
-  const { resizeState } = adapter;
-  const onBodyMousemove = (e: MouseEvent | TouchEvent) => {
-    if (view.isMonth || view.isYear || view.isYears) return;
-
-    // When resizing an event horizontally, update the current hovered cell from the body element,
-    // so there is only one event listener and no need for cell coordinates calculation.
-    const needsResizeCellUpdate = globalTouchState.isResizingEvent && config.editableEvents.resizeX;
-
-    // Skip all DOM work when nothing needs updating (common case when timeAtCursor is off).
-    if (!config.timeAtCursor && !needsResizeCellUpdate) return;
+  const { config, view } = calendar;
+  const onBodyMove = (e: PointerEvent | TouchEvent) => {
+    if (view.isMonth || view.isYear || view.isYears || !config.timeAtCursor) return;
+    if ('pointerType' in e && e.pointerType === 'touch') return;
 
     const domEvent = (e as TouchEvent).touches?.[0] || e; // Handle click or touch event.
     const { clientX, clientY } = domEvent;
 
-    if (needsResizeCellUpdate)
-      resizeState.cellEl = getCellUnderMouse(clientX, clientY) as HTMLElement | null;
-
-    if (config.timeAtCursor && adapter.element) {
+    if (adapter.element) {
       const { top, left } = adapter.element.getBoundingClientRect();
       if (config.horizontal) cursor.x = ((clientX - left) * 100) / adapter.element.clientWidth;
       else cursor.y = pxToPercentage(clientY - top, adapter.element);
     }
   };
-  const onBodyMouseleave = () => {
+  const clearCursor = () => {
     cursor.x = null;
     cursor.y = null;
   };
-  const getCellUnderMouse = (mouseX: number, mouseY: number) => {
-    // Use elementFromPoint for better performance as it's optimized by the browser.
-    const element = document.elementFromPoint(mouseX, mouseY);
-    // Check if the element or its parent is a cell.
-    return element?.closest(`.${prefixCls}__cell`) || null;
-  };
   const mount = () => {
     if (adapter.element) {
-      adapter.element.addEventListener('mousemove', onBodyMousemove);
-      adapter.element.addEventListener('touchmove', onBodyMousemove);
-      adapter.element.addEventListener('mouseleave', onBodyMouseleave);
-      adapter.element.addEventListener('touchend', onBodyMouseleave);
+      adapter.element.addEventListener('pointermove', onBodyMove);
+      adapter.element.addEventListener('touchmove', onBodyMove);
+      adapter.element.addEventListener('pointerleave', clearCursor);
+      adapter.element.addEventListener('touchend', clearCursor);
+      adapter.element.addEventListener('touchcancel', clearCursor);
     }
   };
   const dispose = () => {
     if (adapter.element) {
-      adapter.element.removeEventListener('mousemove', onBodyMousemove);
-      adapter.element.removeEventListener('touchmove', onBodyMousemove);
-      adapter.element.removeEventListener('mouseleave', onBodyMouseleave);
-      adapter.element.removeEventListener('touchend', onBodyMouseleave);
+      adapter.element.removeEventListener('pointermove', onBodyMove);
+      adapter.element.removeEventListener('touchmove', onBodyMove);
+      adapter.element.removeEventListener('pointerleave', clearCursor);
+      adapter.element.removeEventListener('touchend', clearCursor);
+      adapter.element.removeEventListener('touchcancel', clearCursor);
     }
   };
   return { mount, dispose };

@@ -1,3 +1,5 @@
+import { createPointerDrag } from '../_utils/pointer-drag.js';
+
 export function createDialogDrag(adapter: {
   readonly modal: HTMLElement | undefined;
   readonly wrapper: HTMLElement | undefined;
@@ -5,7 +7,6 @@ export function createDialogDrag(adapter: {
   readonly alignCenter: boolean;
   setPosition(value: [number, number]): void;
 }) {
-  let dragging = false;
   let startMouse = [0, 0];
   let initialPosition = [0, 0];
   let minPosition = [0, 0];
@@ -27,33 +28,28 @@ export function createDialogDrag(adapter: {
       if (offsetTop) minPosition = [0, -offsetTop];
     }
   }
-  function move(event: MouseEvent) {
-    if (dragging) {
-      let x = initialPosition[0] + (event.x - startMouse[0]);
-      let y = initialPosition[1] + (event.y - startMouse[1]);
-      if (x < minPosition[0]) x = minPosition[0];
-      if (x > maxPosition[0]) x = maxPosition[0];
-      if (y < minPosition[1]) y = minPosition[1];
-      if (y > maxPosition[1]) y = maxPosition[1];
-      adapter.setPosition([x, y]);
-    }
+  function move(event: PointerEvent) {
+    let x = initialPosition[0] + (event.x - startMouse[0]);
+    let y = initialPosition[1] + (event.y - startMouse[1]);
+    if (x < minPosition[0]) x = minPosition[0];
+    if (x > maxPosition[0]) x = maxPosition[0];
+    if (y < minPosition[1]) y = minPosition[1];
+    if (y > maxPosition[1]) y = maxPosition[1];
+    adapter.setPosition([x, y]);
   }
-  function up() {
-    dragging = false;
-    window.removeEventListener('mousemove', move);
-    window.removeEventListener('mouseup', up);
-    window.removeEventListener('contextmenu', up);
+  const drag = createPointerDrag(move);
+  function down(event: PointerEvent, handle?: HTMLElement) {
+    if (
+      !adapter.draggable ||
+      (event.target as Element | null)?.closest?.(
+        'button, input, select, textarea, a, [role="button"], [contenteditable]',
+      )
+    )
+      return;
+    if (!drag.start(event, handle)) return;
+    event.preventDefault();
+    measure();
+    startMouse = [event.x, event.y];
   }
-  function down(event: MouseEvent) {
-    if (adapter.draggable) {
-      event.preventDefault();
-      dragging = true;
-      measure();
-      startMouse = [event.x, event.y];
-      window.addEventListener('mousemove', move);
-      window.addEventListener('mouseup', up);
-      window.addEventListener('contextmenu', up);
-    }
-  }
-  return { down, up };
+  return { down, up: drag.stop };
 }

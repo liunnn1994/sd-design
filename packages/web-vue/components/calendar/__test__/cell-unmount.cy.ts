@@ -57,11 +57,17 @@ describe('Calendar cell gesture lifecycle', () => {
       cy.spy(doc, 'addEventListener').as('cellAdded');
       cy.spy(doc, 'removeEventListener').as('cellRemoved');
     });
-    cy.get('.sd-calendar__cell').trigger('mousedown', { clientX: 100, clientY: 100 });
+    cy.get('.sd-calendar__cell').trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+      clientX: 100,
+      clientY: 100,
+    });
+    cy.get('.sd-calendar__cell').trigger('mousedown', { eventConstructor: 'MouseEvent' });
     cy.wrap(onCellMousedown).should('have.been.calledOnce');
     cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
     cy.get('@cellAdded').then((added: ReturnType<typeof cy.spy>) => {
-      for (const type of ['mousemove', 'mouseup']) {
+      for (const type of ['pointermove', 'pointerup', 'pointercancel']) {
         const registrations = added.getCalls().filter((call) => call.args[0] === type);
         expect(registrations.length, `${type} registered`).to.be.greaterThan(0);
         for (const registration of registrations) {
@@ -70,7 +76,7 @@ describe('Calendar cell gesture lifecycle', () => {
       }
     });
     cy.document().then((doc) => {
-      doc.dispatchEvent(new MouseEvent('mousemove', { clientX: 100, clientY: 150 }));
+      doc.dispatchEvent(new PointerEvent('pointermove', { clientX: 100, clientY: 150 }));
     });
     cy.tick(1100);
     cy.wrap(onCellDrag).should('not.have.been.called');

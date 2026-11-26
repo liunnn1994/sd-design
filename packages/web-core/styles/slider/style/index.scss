@@ -138,6 +138,7 @@ $slider-prefix: string.unquote('#{theme.$prefix}-slider');
     width: $slider-size-button-width;
     height: $slider-size-button-width;
     transform: translateX(-50%);
+    touch-action: none;
 
     &::after {
       position: absolute;

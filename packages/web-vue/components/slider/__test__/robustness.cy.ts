@@ -82,13 +82,19 @@ describe('Slider robustness', () => {
   it('stops an active drag when disabled', () => {
     const change = cy.spy().as('change');
     cy.mount(Slider, { props: { defaultValue: 20, onChange: change } });
-    cy.get('[role="slider"]').trigger('mousedown');
+    cy.get('[role="slider"]').trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+    });
     cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ disabled: true }));
     cy.get('.sd-slider-track').then(($track) => {
       const rect = $track[0].getBoundingClientRect();
-      cy.window().then((win) =>
-        win.dispatchEvent(
-          new MouseEvent('mousemove', { clientX: rect.left + rect.width * 0.8, clientY: rect.top }),
+      cy.get('[role="slider"]').then(([handle]) =>
+        handle.dispatchEvent(
+          new PointerEvent('pointermove', {
+            clientX: rect.left + rect.width * 0.8,
+            clientY: rect.top,
+          }),
         ),
       );
     });
@@ -99,13 +105,21 @@ describe('Slider robustness', () => {
   it('cleans up a cancelled touch gesture', () => {
     const change = cy.spy().as('change');
     cy.mount(Slider, { props: { defaultValue: 20, onChange: change } });
-    cy.get('[role="slider"]').trigger('touchstart');
-    cy.window().then((win) => win.dispatchEvent(new Event('touchcancel')));
+    cy.get('[role="slider"]')
+      .trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+        pointerType: 'touch',
+      })
+      .trigger('pointercancel', { eventConstructor: 'PointerEvent', pointerType: 'touch' });
     cy.get('.sd-slider-track').then(($track) => {
       const rect = $track[0].getBoundingClientRect();
-      cy.window().then((win) =>
-        win.dispatchEvent(
-          new MouseEvent('mousemove', { clientX: rect.left + rect.width * 0.8, clientY: rect.top }),
+      cy.get('[role="slider"]').then(([handle]) =>
+        handle.dispatchEvent(
+          new PointerEvent('pointermove', {
+            clientX: rect.left + rect.width * 0.8,
+            clientY: rect.top,
+          }),
         ),
       );
     });

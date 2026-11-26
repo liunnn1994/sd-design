@@ -12,7 +12,7 @@ export interface CalendarEventsHost {
     timeTo: number;
     horizontal: boolean;
     specialHoursDisallowed?: DisallowedHours | undefined;
-    editableEvents: { delete: boolean };
+    editableEvents: { delete: boolean; resizeX?: boolean };
     allDayEvents: boolean;
     eventListeners?: { event: Record<string, CalendarListener> } | undefined;
   };

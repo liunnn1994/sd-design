@@ -23,5 +23,5 @@ export const useControlBlock = ({ value, onChange }: ControlBlockParams) => {
     },
   });
   onBeforeUnmount(control.dispose);
-  return { active, blockRef, handlerRef, onMouseDown: control.down };
+  return { active, blockRef, handlerRef, onPointerDown: control.down };
 };

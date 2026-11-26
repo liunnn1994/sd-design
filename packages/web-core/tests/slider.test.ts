@@ -224,48 +224,57 @@ test('Slider range publication preserves fresh arrays and re-reads local values 
   assert.notEqual(state.events[0][1], state.events[1][1]);
 });
 
-test('Slider drag listens for mouse/touch input and cleans up on cancellation, disable and disposal', () => {
-  const target = new EventTarget();
+test('Slider drag listens for pointer input and cleans up on cancellation, disable and disposal', () => {
+  const ownerDocument = new EventTarget();
+  const target = Object.assign(new EventTarget(), { ownerDocument, isConnected: true });
   let disabled = false;
   const events: unknown[][] = [];
   const drag = createSliderDragFoundation({
-    getTarget: () => target,
     isDisabled: () => disabled,
     setDragging: (value) => events.push(['drag', value]),
     onStart: () => events.push(['start']),
     onMove: (x, y) => events.push(['move', x, y]),
     onEnd: () => events.push(['end']),
   });
-  const mouse = Object.assign(new Event('mousemove'), { clientX: 10, clientY: 20 });
-  drag.start({ preventDefault: () => events.push(['prevent']) });
+  const handle = target as unknown as HTMLElement;
+  const pointer = (type: string, init = {}) =>
+    Object.assign(
+      new Event(type, { cancelable: true }),
+      { button: 0, pointerId: 1 },
+      init,
+    ) as PointerEvent;
+  const mouse = pointer('pointermove', { clientX: 10, clientY: 20 });
+  const down = pointer('pointerdown');
+  drag.start(down, handle);
+  assert.equal(down.defaultPrevented, true);
+  const other = { pointerId: 2 };
+  drag.start(pointer('pointerdown', other), handle);
+  target.dispatchEvent(pointer('pointermove', { ...other, clientX: 50 }));
+  target.dispatchEvent(pointer('pointerup', other));
   target.dispatchEvent(mouse);
-  target.dispatchEvent(new Event('mouseup'));
+  target.dispatchEvent(pointer('pointerup'));
   target.dispatchEvent(mouse);
-  assert.deepEqual(events, [
-    ['prevent'],
-    ['drag', true],
-    ['start'],
-    ['move', 10, 20],
-    ['drag', false],
-    ['end'],
-  ]);
+  assert.deepEqual(events, [['drag', true], ['start'], ['move', 10, 20], ['drag', false], ['end']]);
   events.length = 0;
-  drag.start({ preventDefault() {} });
-  target.dispatchEvent(
-    Object.assign(new Event('touchmove'), { touches: [{ clientX: 30, clientY: 40 }] }),
-  );
-  target.dispatchEvent(new Event('touchcancel'));
+  drag.start(pointer('pointerdown'), handle);
+  target.dispatchEvent(pointer('pointermove', { clientX: 30, clientY: 40, pointerType: 'touch' }));
+  target.dispatchEvent(pointer('pointercancel'));
   target.dispatchEvent(mouse);
   assert.deepEqual(events, [['drag', true], ['start'], ['move', 30, 40], ['drag', false], ['end']]);
   events.length = 0;
-  drag.start({ preventDefault() {} });
+  drag.start(pointer('pointerdown'), handle);
+  target.isConnected = false;
+  ownerDocument.dispatchEvent(pointer('lostpointercapture'));
+  target.dispatchEvent(mouse);
+  assert.deepEqual(events, [['drag', true], ['start'], ['drag', false], ['end']]);
+  events.length = 0;
+  target.isConnected = true;
+  drag.start(pointer('pointerdown'), handle);
   drag.cleanup();
   target.dispatchEvent(mouse);
   disabled = true;
-  drag.start({
-    preventDefault() {
-      throw new Error('disabled start');
-    },
-  });
+  const disabledDown = pointer('pointerdown');
+  drag.start(disabledDown, handle);
+  assert.equal(disabledDown.defaultPrevented, false);
   assert.deepEqual(events, [['drag', true], ['start'], ['drag', false]]);
 });

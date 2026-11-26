@@ -50,10 +50,16 @@ describe('Table scroll and element rendering', () => {
         onColumnResize: resize,
       },
     });
-    cy.get('.sd-table-column-handle').trigger('mousedown');
+    cy.get('.sd-table-column-handle')
+      .as('resizeHandle', { type: 'static' })
+      .trigger('pointerdown', { isPrimary: true, eventConstructor: 'PointerEvent' });
     cy.get('@vue').then(({ wrapper }) => wrapper.setProps({ columnResizable: false }));
-    cy.window().trigger('mousemove', { clientX: 100 });
+    cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+      handle.dispatchEvent(new PointerEvent('pointermove', { clientX: 100 }));
+    });
     cy.get('@resize').should('not.have.been.called');
-    cy.window().trigger('mouseup');
+    cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+      handle.dispatchEvent(new PointerEvent('pointerup'));
+    });
   });
 });

@@ -1,4 +1,4 @@
-import { off, on } from '../_utils/dom.js';
+import { createPointerDrag } from '../_utils/pointer-drag.js';
 export interface ColumnResizeState {
   readonly thElements: Record<string, HTMLElement>;
   resizingColumn: string;
@@ -8,27 +8,22 @@ export function createColumnResizeFoundation(
   state: ColumnResizeState,
   emit: (name: 'columnResize', field: string, width: number) => unknown,
 ) {
-  const handleThMouseDown = (dataIndex: string, ev: MouseEvent) => {
-    ev.preventDefault();
-
-    state.resizingColumn = dataIndex;
-    on(window, 'mousemove', handleThMouseMoving);
-    on(window, 'mouseup', handleThMouseUp);
-    on(window, 'contextmenu', handleThMouseUp);
-  };
-
-  const handleThMouseUp = () => {
+  const drag = createPointerDrag(move, () => {
     state.resizingColumn = '';
-    off(window, 'mousemove', handleThMouseMoving);
-    off(window, 'mouseup', handleThMouseUp);
-    off(window, 'contextmenu', handleThMouseUp);
+  });
+
+  const handleThPointerDown = (dataIndex: string, ev: PointerEvent, handle?: HTMLElement) => {
+    if (!drag.start(ev, handle)) return;
+    ev.preventDefault();
+    state.resizingColumn = dataIndex;
   };
 
-  const dispose = () => {
-    if (state.resizingColumn) handleThMouseUp();
+  const stopResize = () => {
+    drag.stop();
+    state.resizingColumn = '';
   };
 
-  const handleThMouseMoving = (ev: MouseEvent) => {
+  function move(ev: PointerEvent) {
     const element = state.thElements[state.resizingColumn];
     if (element) {
       const { clientX } = ev;
@@ -40,7 +35,7 @@ export function createColumnResizeFoundation(
       state.columnWidth[state.resizingColumn] = width;
       emit('columnResize', state.resizingColumn, width);
     }
-  };
+  }
 
-  return { handleThMouseDown, handleThMouseUp, dispose };
+  return { handleThPointerDown, stopResize, dispose: stopResize };
 }

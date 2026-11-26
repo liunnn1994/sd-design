@@ -102,12 +102,12 @@ export const createCalendarCellTouch = (): CalendarCellTouch => ({
   thresholdPassed: false, // If the drag threshold has been passed.
   canTouchAndDrag: null, // Wait for 500ms before allowing an event to be dragged after touchstart.
   touchAndDragTimer: null, // Timer for canTouchAndDrag.
-  startX: 0, // The x position at the start of the drag (mousedown or touchstart).
-  startY: 0, // The y position at the start of the drag (mousedown or touchstart).
+  startX: 0, // The x position at the start of the drag (pointerdown or touchstart).
+  startY: 0, // The y position at the start of the drag (pointerdown or touchstart).
   moveX: 0,
   moveY: 0,
-  startPercentageX: 0, // The x position in percentage at the start of the drag (mousedown or touchstart).
-  startPercentageY: 0, // The y position in percentage at the start of the drag (mousedown or touchstart).
+  startPercentageX: 0, // The x position in percentage at the start of the drag (pointerdown or touchstart).
+  startPercentageY: 0, // The y position in percentage at the start of the drag (pointerdown or touchstart).
   movePercentageX: 0,
   movePercentageY: 0,
   schedule: null,

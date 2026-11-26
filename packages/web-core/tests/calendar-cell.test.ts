@@ -213,6 +213,7 @@ function gesture(t: TestContext) {
 function pointer(type: string, x = 30, y = 120, target?: object) {
   const e = new Event(type, { cancelable: true });
   Object.assign(e, { clientX: x, clientY: y });
+  if (type.startsWith('pointer')) Object.assign(e, { button: 0, pointerId: 1 });
   if (target) Object.defineProperty(e, 'target', { value: target });
   if (type.startsWith('touch'))
     Object.defineProperty(e, 'touches', { value: [{ clientX: x, clientY: y, target }] });
@@ -407,11 +408,11 @@ test('cell disabled listeners are empty and descendant event callbacks are suppr
 
 test('cell mouse drag creates a real normalized event and resets gesture state', async (t) => {
   const state = gesture(t);
-  state.listeners.mousedown(pointer('mousedown'));
-  state.document.dispatchEvent(pointer('mousemove', 30, 220));
+  state.listeners.pointerdown(pointer('pointerdown'));
+  state.document.dispatchEvent(pointer('pointermove', 30, 220));
   assert.equal(state.host.touch.isDraggingCell, true);
   assert.equal(state.rules.isCreatingEvent(), true);
-  state.document.dispatchEvent(pointer('mouseup', 30, 220));
+  state.document.dispatchEvent(pointer('pointerup', 30, 220));
   await settle();
   assert.equal(state.config.events.length, 1);
   assert.equal(state.config.events[0].start.getHours(), 9);
@@ -427,13 +428,16 @@ test('cell horizontal drag matches a numeric schedule zero from dataset', async 
   const state = gesture(t);
   state.config.horizontal = true;
   state.config.schedules = [{ id: 0 }];
-  state.listeners.mousedown(
-    pointer('mousedown', 60, 30, { closest: () => ({ dataset: { schedule: '0' } }) }),
+  state.listeners.pointerdown(
+    pointer('pointerdown', 60, 30, {
+      closest: (selector: string) =>
+        selector === '[data-schedule]' ? { dataset: { schedule: '0' } } : null,
+    }),
   );
-  state.document.dispatchEvent(pointer('mousemove', 110, 30));
+  state.document.dispatchEvent(pointer('pointermove', 110, 30));
   assert.equal(state.touch.schedule, 0);
   assert.equal(state.rules.eventPlaceholder().startMinutes, 570);
-  state.document.dispatchEvent(pointer('mouseup', 110, 30));
+  state.document.dispatchEvent(pointer('pointerup', 110, 30));
   await settle();
   assert.equal(state.config.events[0].schedule, 0);
 });
@@ -509,9 +513,9 @@ for (const accepted of [true, false]) {
     state.config.eventListeners.event.create = (payload: { resolve(value: boolean): void }) => {
       resolve = payload.resolve;
     };
-    state.listeners.mousedown(pointer('mousedown'));
-    state.document.dispatchEvent(pointer('mousemove', 30, 220));
-    state.document.dispatchEvent(pointer('mouseup', 30, 220));
+    state.listeners.pointerdown(pointer('pointerdown'));
+    state.document.dispatchEvent(pointer('pointermove', 30, 220));
+    state.document.dispatchEvent(pointer('pointerup', 30, 220));
     assert.equal(state.state.awaitingEventCreation, true);
     assert.equal(state.config.events.length, 0);
     resolve(accepted);
@@ -531,7 +535,7 @@ test('cell delayed click keeps old handler while hold reads a rebound handler', 
   state.config.eventListeners.cell = { 'delayed-click': oldClick, 'hold': oldHold };
   state.rebind();
   state.listeners.click(pointer('click'));
-  state.listeners.mousedown(pointer('mousedown'));
+  state.listeners.pointerdown(pointer('pointerdown'));
   state.config.eventListeners.cell = { 'delayed-click': newClick, 'hold': newHold };
   state.rebind();
   t.mock.timers.tick(1000);
@@ -561,11 +565,11 @@ test('cell disposal removes gesture listeners and timers and releases shared dra
   state.config.eventListeners.cell = { hold, drag, 'delayed-click': hold };
   state.rebind();
   state.listeners.click(pointer('click'));
-  state.listeners.mousedown(pointer('mousedown'));
-  state.document.dispatchEvent(pointer('mousemove', 30, 220));
+  state.listeners.pointerdown(pointer('pointerdown'));
+  state.document.dispatchEvent(pointer('pointermove', 30, 220));
   assert.equal(drag.mock.callCount(), 1);
   state.controller.dispose();
-  state.document.dispatchEvent(pointer('mousemove', 30, 240));
+  state.document.dispatchEvent(pointer('pointermove', 30, 240));
   t.mock.timers.tick(1200);
   assert.equal(drag.mock.callCount(), 1);
   assert.equal(hold.mock.callCount(), 0);
@@ -623,11 +627,11 @@ test('cell multi-row days and extra-small year labels retain format selection', 
 
 test('cell native drag threshold is strictly greater than the configured distance', async (t) => {
   const state = gesture(t);
-  state.listeners.mousedown(pointer('mousedown'));
-  state.document.dispatchEvent(pointer('mousemove', 30, 135));
+  state.listeners.pointerdown(pointer('pointerdown'));
+  state.document.dispatchEvent(pointer('pointermove', 30, 135));
   assert.equal(state.touch.thresholdPassed, false);
   assert.equal(state.rules.isCreatingEvent(), false);
-  state.document.dispatchEvent(pointer('mouseup', 30, 135));
+  state.document.dispatchEvent(pointer('pointerup', 30, 135));
   await settle();
   assert.equal(state.config.events.length, 0);
 });
@@ -643,9 +647,9 @@ test('cell asynchronous editor can replace the proposal while original dates rem
     approve = payload.resolve;
     proposal = payload.event;
   };
-  state.listeners.mousedown(pointer('mousedown'));
-  state.document.dispatchEvent(pointer('mousemove', 30, 220));
-  state.document.dispatchEvent(pointer('mouseup', 30, 220));
+  state.listeners.pointerdown(pointer('pointerdown'));
+  state.document.dispatchEvent(pointer('pointermove', 30, 220));
+  state.document.dispatchEvent(pointer('pointerup', 30, 220));
   const original = proposal.start;
   state.props.start = new Date('2026-10-20T00:00:00');
   approve({ ...proposal, title: 'Edited before approval' });

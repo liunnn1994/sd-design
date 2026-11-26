@@ -47,26 +47,33 @@
       cy.get('[data-testid="event-log"]').should('contain.text', 'event-delete');
       cy.get('.sd-calendar__event').should('not.exist');
     });
-    for (const release of ['mouseup', 'touchend', 'touchcancel']) {
+    for (const release of ['pointerup', 'touchend', 'touchcancel']) {
       it(`does not forward a hold after ${release}`, () => {
         cy.clock(Date.now(), ['setTimeout', 'clearTimeout']);
         cy.get('.sd-calendar__event').then(($event) => {
-          cy.wrap($event).trigger(release === 'mouseup' ? 'mousedown' : 'touchstart', {
+          cy.wrap($event).trigger(release === 'pointerup' ? 'pointerdown' : 'touchstart', {
+            isPrimary: true,
+            eventConstructor: release === 'pointerup' ? 'PointerEvent' : 'Event',
             touches: [{ target: $event[0], clientX: 0, clientY: 0 }],
           });
         });
         cy.tick(100);
-        cy.document().trigger(release);
+        cy.document().trigger(release, {
+          eventConstructor: release === 'pointerup' ? 'PointerEvent' : 'Event',
+        });
         cy.tick(1000);
         cy.get('[data-testid="event-log"]').should('not.contain.text', 'hold');
       });
     }
     it('forwards exactly one hold until the pointer is released', () => {
       cy.clock(Date.now(), ['setTimeout', 'clearTimeout']);
-      cy.get('.sd-calendar__event').trigger('mousedown');
+      cy.get('.sd-calendar__event').trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+      });
       cy.tick(1000);
       cy.get('[data-testid="event-log"]').should('have.text', 'hold');
-      cy.document().trigger('mouseup');
+      cy.document().trigger('pointerup', { eventConstructor: 'PointerEvent' });
       cy.tick(1000);
       cy.get('[data-testid="event-log"]').should('have.text', 'hold');
     });
@@ -75,14 +82,33 @@
         const rect = $el[0].getBoundingClientRect();
         const clientX = rect.left + 20,
           clientY = rect.top + 4;
-        cy.wrap($el).trigger('mousedown', { clientX, clientY, button: 0 });
-        cy.document().trigger('mousemove', { clientX, clientY: clientY + 60 });
-        cy.document().trigger('mouseup', { clientX, clientY: clientY + 60 });
+        cy.wrap($el).trigger('pointerdown', {
+          isPrimary: true,
+          eventConstructor: 'PointerEvent',
+          clientX,
+          clientY,
+          button: 0,
+        });
+        cy.document().trigger('pointermove', {
+          eventConstructor: 'PointerEvent',
+          clientX,
+          clientY: clientY + 60,
+        });
+        cy.document().trigger('pointerup', {
+          eventConstructor: 'PointerEvent',
+          clientX,
+          clientY: clientY + 60,
+        });
       });
       cy.get('[data-testid="event-end"]').should('have.text', '12:00');
       cy.clock();
       cy.contains('button', 'Clear log').click();
-      cy.get('.sd-calendar__event').trigger('mousedown', { clientX: 30, clientY: 100 });
+      cy.get('.sd-calendar__event').trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+        clientX: 30,
+        clientY: 100,
+      });
       cy.contains('button', 'Mount event').then(($button) => $button[0].click());
       cy.tick(1500);
       cy.get('[data-testid="event-log"]').should('not.contain.text', 'hold');

@@ -30,9 +30,9 @@ describe('Calendar resize special-hours boundaries', () => {
             clientX: rect.left + rect.width * (horizontal ? (hour - 9) / 8 : 0.5),
             clientY: rect.top + rect.height * (horizontal ? 0.5 : (hour - 9) / 8),
           });
-          resizer.dispatchEvent(new MouseEvent('mousedown', point(11)));
-          resizer.ownerDocument.dispatchEvent(new MouseEvent('mousemove', point(13.5)));
-          resizer.ownerDocument.dispatchEvent(new MouseEvent('mouseup', point(13.5)));
+          resizer.dispatchEvent(new PointerEvent('pointerdown', { ...point(11), isPrimary: true }));
+          resizer.ownerDocument.dispatchEvent(new PointerEvent('pointermove', point(13.5)));
+          resizer.ownerDocument.dispatchEvent(new PointerEvent('pointerup', point(13.5)));
         });
       cy.get('.sd-calendar__event-start').should('have.text', '10:00');
       cy.get('.sd-calendar__event-end').should('contain.text', '12:00');

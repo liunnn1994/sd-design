@@ -1,4 +1,4 @@
-import { onBeforeUnmount, Ref, ref } from 'vue';
+import { onBeforeUnmount, Ref, ref, watch } from 'vue';
 
 import { createDialogDrag } from '@sdata/web-core/dialog/drag';
 
@@ -30,6 +30,9 @@ export const useDraggable = ({
     setPosition(value) {
       position.value = value;
     },
+  });
+  watch([draggable, modalRef], ([enabled, modal]) => {
+    if (!enabled || !modal) drag.up();
   });
   onBeforeUnmount(drag.up);
   return { position, handleMoveDown: drag.down };

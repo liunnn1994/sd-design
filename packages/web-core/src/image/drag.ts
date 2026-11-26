@@ -1,3 +1,4 @@
+import { createPointerDrag } from '../_utils/pointer-drag.js';
 import getFixTranslate from './utils/get-fix-translate.js';
 
 export function createImageDrag(adapter: {
@@ -24,32 +25,22 @@ export function createImageDrag(adapter: {
     );
     if (x !== adapter.translate[0] || y !== adapter.translate[1]) adapter.setTranslate([x, y]);
   }
-  function move(event: MouseEvent) {
-    if (event.preventDefault) event.preventDefault();
+  function move(event: PointerEvent) {
     const x = startTranslate[0] + (event.pageX - startPageX) / adapter.scale;
     const y = startTranslate[1] + (event.pageY - startPageY) / adapter.scale;
     adapter.setTranslate([x, y]);
   }
-  function offEvents() {
-    if (typeof window === 'undefined') return;
-    window.removeEventListener('mousemove', move, false);
-    window.removeEventListener('mouseup', end, false);
-  }
-  function end(event: MouseEvent) {
-    if (event.preventDefault) event.preventDefault();
+  const drag = createPointerDrag(move, () => {
     adapter.setMoving(false);
     fix();
-    offEvents();
-  }
-  function start(event: MouseEvent) {
-    if (event.target !== event.currentTarget || event.button !== 0) return;
-    if (event.preventDefault) event.preventDefault();
+  });
+  function start(event: PointerEvent) {
+    if (event.target !== event.currentTarget || !drag.start(event)) return;
+    event.preventDefault();
     adapter.setMoving(true);
     startPageX = event.pageX;
     startPageY = event.pageY;
     startTranslate = [...adapter.translate];
-    window.addEventListener('mousemove', move, false);
-    window.addEventListener('mouseup', end, false);
   }
   return {
     fix,
@@ -57,10 +48,10 @@ export function createImageDrag(adapter: {
       adapter.setTranslate([0, 0]);
     },
     connect(image: HTMLElement | undefined) {
-      image?.addEventListener('mousedown', start);
+      image?.addEventListener('pointerdown', start);
       return () => {
-        image?.removeEventListener('mousedown', start);
-        offEvents();
+        image?.removeEventListener('pointerdown', start);
+        drag.stop();
         adapter.setMoving(false);
       };
     },

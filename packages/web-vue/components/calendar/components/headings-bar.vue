@@ -62,8 +62,7 @@
         </template>
       </cell>
       <div
-        @mousedown="allDayResizer.handleMouseDown"
-        @touchstart="allDayResizer.handleTouchStart"
+        @pointerdown="allDayResizer.handlePointerDown($event)"
         :class="`${prefixCls}__all-day-resizer`"
       ></div>
     </div>

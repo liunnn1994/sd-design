@@ -160,7 +160,7 @@ export function createCalendarEventInteraction(
     event: CalendarEvent;
     element: () => HTMLElement;
     listeners: () => Record<string, CalendarListener>;
-    resize: (e: MouseEvent | TouchEvent, event: CalendarEvent, element: HTMLElement) => void;
+    resize: (e: PointerEvent, event: CalendarEvent, element: HTMLElement) => void;
   },
   touch: { canTouchAndDrag: boolean | null },
 ) {
@@ -174,19 +174,28 @@ export function createCalendarEventInteraction(
     holdTimer = null;
     touchAndDragTimer = null;
 
-    document.removeEventListener('mouseup', clearHold);
+    document.removeEventListener('pointerup', onPointerRelease);
+    document.removeEventListener('pointercancel', onPointerRelease);
     document.removeEventListener('touchend', clearHold);
     document.removeEventListener('touchcancel', clearHold);
   };
-  const onMousedown = (e: MouseEvent | TouchEvent) => {
-    const domEvent = (e as TouchEvent).touches?.[0] || e;
-    const eventTarget = domEvent.target as Element | null;
-    const fromResizer = !!eventTarget?.closest(`.${prefixCls}__event-resizer`);
-    if (fromResizer) handleEventResize(e, event, adapter.element());
-    if (holdTimer) clearTimeout(holdTimer);
-    document.addEventListener('mouseup', clearHold);
-    document.addEventListener('touchend', clearHold);
-    document.addEventListener('touchcancel', clearHold);
+  let holdPointerId: number | undefined;
+  const onPointerRelease = (e: PointerEvent) => {
+    if (e.pointerId === holdPointerId) clearHold();
+  };
+  const startHold = (e: PointerEvent | TouchEvent) => {
+    clearHold();
+    if ('pointerId' in e) {
+      holdPointerId = e.pointerId;
+      document.addEventListener('pointerup', onPointerRelease);
+      document.addEventListener('pointercancel', onPointerRelease);
+    } else {
+      touchAndDragTimer = setTimeout(() => {
+        touch.canTouchAndDrag = true;
+      }, 500);
+      document.addEventListener('touchend', clearHold);
+      document.addEventListener('touchcancel', clearHold);
+    }
     holdTimer = setTimeout(() => {
       adapter.listeners().hold?.({ e, event });
     }, 1000);
@@ -199,15 +208,9 @@ export function createCalendarEventInteraction(
       string,
       CalendarListener,
     ][]) {
-      // The events manager handles `event-resize-end` after document mouseup.
+      // The events manager handles `event-resize-end` on pointer release.
       if (!['resize-end'].includes(eventListener)) {
         listeners[eventListener] = (e: Event | { e: Event }) => {
-          // SHOULD NOT PREVENT BUBBLING UP TO THE CELL WHEN INTERACTING WITH THE EVENT:
-          // if we stop bubbling, we will not receive the onMouseup listened from document if
-          // releasing on the event. Instead, in the cell don't call the mouseup handler if
-          // releasing on the event.
-          // e.stopPropagation()
-
           // Check if e.type to not rewrap the DOM event in an object if already done.
           // `event-drop` is handled in the drag-and-drop composable.
           if (!('type' in e) || e.type !== 'drop') handler('type' in e ? { e, event } : e);
@@ -219,20 +222,24 @@ export function createCalendarEventInteraction(
     // click, touchstart, mousedown.
     const externalHandlers: Record<string, CalendarListener> = { ...listeners };
 
-    listeners.touchstart = (e: MouseEvent | TouchEvent) => {
+    listeners.touchstart = (e: TouchEvent) => {
       e.stopPropagation();
-      touchAndDragTimer = setTimeout(() => {
-        touch.canTouchAndDrag = true;
-      }, 500);
-      onMousedown(e);
-
+      startHold(e);
       externalHandlers.touchstart?.({ e, event });
     };
-    listeners.mousedown = (e: MouseEvent | TouchEvent) => {
+    listeners.mousedown = (e: MouseEvent) => {
       e.stopPropagation();
-      onMousedown(e);
-
       externalHandlers.mousedown?.({ e, event });
+    };
+    listeners.pointerdown = (e: PointerEvent) => {
+      if (e.button === 0 && e.isPrimary !== false) {
+        const target = e.target as Element | null;
+        if (target?.closest?.(`.${prefixCls}__event-resizer`)) {
+          handleEventResize(e, event, adapter.element());
+        }
+        if (e.pointerType !== 'touch') startHold(e);
+      }
+      externalHandlers.pointerdown?.({ e, event });
     };
 
     // `event-delayed-click` is only fired after 400ms if there was no dblclick.

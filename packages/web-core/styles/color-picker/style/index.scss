@@ -197,6 +197,7 @@ $token-vars: map.merge(meta.module-variables('inputToken'), meta.module-variable
     border-right: 1px solid $color-panel-border-color;
     border-left: 1px solid $color-panel-border-color;
     cursor: pointer;
+    touch-action: none;
 
     .#{$color-picker-prefix-cls}-handler {
       position: absolute;
@@ -359,6 +360,7 @@ $token-vars: map.merge(meta.module-variables('inputToken'), meta.module-variable
     corner-shape: round;
     border-radius: $color-control-bar-border-radius;
     cursor: pointer;
+    touch-action: none;
 
     .#{$color-picker-prefix-cls}-handler {
       position: absolute;

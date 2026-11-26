@@ -143,8 +143,9 @@ export function CalendarHeadings({
           ))}
           <div
             className={`${prefix}__all-day-resizer`}
-            onMouseDown={(event) => resizer.handleMouseDown(event.nativeEvent)}
-            onTouchStart={(event) => resizer.handleTouchStart(event.nativeEvent)}
+            onPointerDown={(event) =>
+              resizer.handlePointerDown(event.nativeEvent, event.currentTarget)
+            }
           />
         </div>
       )}

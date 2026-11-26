@@ -14,7 +14,7 @@ function Header({ onResize }: { onResize(width: number): void }) {
   const resize = useTableColumnResize(elements.current, (_, width) => onResize(width));
   return (
     <TableContext.Provider
-      value={{ resizingColumn: resize.resizingColumn, onThMouseDown: resize.handleThMouseDown }}
+      value={{ resizingColumn: resize.resizingColumn, onThPointerDown: resize.handleThPointerDown }}
     >
       <div
         className="sd-table sd-table-size-large"

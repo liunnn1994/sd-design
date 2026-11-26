@@ -195,9 +195,19 @@ describe('Table features', () => {
         const right = $th[0].getBoundingClientRect().right;
         cy.wrap($th)
           .find('.sd-table-column-handle')
-          .trigger('mousedown', { clientX: right, force: true });
-        cy.window().trigger('mousemove', { clientX: right + 50 });
-        cy.window().trigger('mouseup');
+          .as('resizeHandle', { type: 'static' })
+          .trigger('pointerdown', {
+            isPrimary: true,
+            eventConstructor: 'PointerEvent',
+            clientX: right,
+            force: true,
+          });
+        cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+          handle.dispatchEvent(new PointerEvent('pointermove', { clientX: right + 50 }));
+        });
+        cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+          handle.dispatchEvent(new PointerEvent('pointerup'));
+        });
       });
     cy.get('.sd-table-th').first().should('have.css', 'right', '250px');
     cy.get('.sd-table-tbody .sd-table-td').first().should('have.css', 'right', '250px');
@@ -219,9 +229,20 @@ describe('Table features', () => {
       .first()
       .then(($th) => {
         const right = $th[0].getBoundingClientRect().right;
-        cy.wrap($th).find('.sd-table-column-handle').trigger('mousedown', { clientX: right });
-        cy.window().trigger('mousemove', { clientX: right + 80 });
-        cy.window().trigger('mouseup');
+        cy.wrap($th)
+          .find('.sd-table-column-handle')
+          .as('resizeHandle', { type: 'static' })
+          .trigger('pointerdown', {
+            isPrimary: true,
+            eventConstructor: 'PointerEvent',
+            clientX: right,
+          });
+        cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+          handle.dispatchEvent(new PointerEvent('pointermove', { clientX: right + 80 }));
+        });
+        cy.get<JQuery<HTMLElement>>('@resizeHandle').then(([handle]) => {
+          handle.dispatchEvent(new PointerEvent('pointerup'));
+        });
       });
     cy.get('.sd-table-element')
       .first()
@@ -382,14 +403,13 @@ describe('Table features', () => {
       },
     });
     cy.get('@vue').then(({ wrapper }) => {
-      const win = wrapper.element.ownerDocument.defaultView!;
-      const add = cy.spy(win, 'addEventListener');
-      const remove = cy.spy(win, 'removeEventListener');
-      wrapper
-        .find('.sd-table-column-handle')
-        .element.dispatchEvent(new win.MouseEvent('mousedown', { bubbles: true }));
+      const handle = wrapper.find('.sd-table-column-handle').element;
+      const win = handle.ownerDocument.defaultView!;
+      const add = cy.spy(handle, 'addEventListener');
+      const remove = cy.spy(handle, 'removeEventListener');
+      handle.dispatchEvent(new win.PointerEvent('pointerdown', { isPrimary: true, bubbles: true }));
       wrapper.unmount();
-      for (const type of ['mousemove', 'mouseup', 'contextmenu']) {
+      for (const type of ['pointermove', 'pointerup', 'pointercancel', 'lostpointercapture']) {
         const registration = add.getCalls().find((call) => call.args[0] === type);
         expect(registration, `${type} registered`).not.to.equal(undefined);
         expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);

@@ -17,7 +17,7 @@
       :style="{
         background: `linear-gradient(to right, rgba(0, 0, 0, 0), rgb(${rgb.r}, ${rgb.g}, ${rgb.b}))`,
       }"
-      @mousedown="onMouseDown"
+      @pointerdown="onPointerDown"
     >
       <ReuseHandler />
     </div>
@@ -27,7 +27,7 @@
     ref="blockRef"
     :class="[`${prefixCls}-control-bar`, `${prefixCls}-control-bar-hue`]"
     v-bind="$attrs"
-    @mousedown="onMouseDown"
+    @pointerdown="onPointerDown"
   >
     <ReuseHandler />
   </div>
@@ -66,7 +66,7 @@
   const rgb = computed(() => props.color.rgb);
   const [DefineHandler, ReuseHandler] = createReusableTemplate();
 
-  const { blockRef, handlerRef, onMouseDown } = useControlBlock({
+  const { blockRef, handlerRef, onPointerDown } = useControlBlock({
     value: () => [props.x, 0],
     onChange: (pos) => props.onChange?.(pos[0]),
   });

@@ -14,8 +14,7 @@
       :aria-valuenow="value"
       :aria-valuetext="tooltipContent"
       :class="cls"
-      @mousedown="handleMouseDown"
-      @touchstart="handleMouseDown"
+      @pointerdown="handlePointerDown"
       @contextmenu.prevent
       @click.stop
       @keydown="onKeydown"
@@ -83,7 +82,6 @@
   };
 
   const drag = createSliderDragFoundation({
-    getTarget: () => window,
     isDisabled: () => props.disabled,
     setDragging: (value) => {
       isDragging.value = value;
@@ -92,7 +90,7 @@
     onMove: (x, y) => emit('moving', x, y),
     onEnd: () => emit('moveend'),
   });
-  const handleMouseDown = drag.start;
+  const handlePointerDown = drag.start;
   const cleanupDragging = drag.cleanup;
 
   watch(

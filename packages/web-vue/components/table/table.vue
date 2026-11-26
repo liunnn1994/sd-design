@@ -806,14 +806,14 @@
   const dataColumnMap = new Map<string, TableColumnData>();
   const dataColumns = ref<TableColumnData[]>([]);
   const groupColumns = ref<TableColumnData[][]>([]);
-  const { resizingColumn, columnWidth, handleThMouseDown, handleThMouseUp } = useColumnResize(
+  const { resizingColumn, columnWidth, handleThPointerDown, stopResize } = useColumnResize(
     thRefs,
     emit,
   );
   watch(
     () => props.columnResizable,
     (resizable) => {
-      if (!resizable) handleThMouseUp();
+      if (!resizable) stopResize();
     },
   );
   watch(
@@ -822,7 +822,7 @@
       const result = getGroupColumns(slotColumns ?? columns ?? [], dataColumnMap, columnWidth);
       dataColumns.value = result.dataColumns;
       groupColumns.value = result.groupColumns;
-      if (resizingColumn.value && !dataColumnMap.has(resizingColumn.value)) handleThMouseUp();
+      if (resizingColumn.value && !dataColumnMap.has(resizingColumn.value)) stopResize();
     },
     {
       immediate: true,
@@ -1217,7 +1217,7 @@
       onSelectAllLeafs: handleSelectAllLeafs,
       onSorterChange: handleSorterChange,
       onFilterChange: handleFilterChange,
-      onThMouseDown: handleThMouseDown,
+      onThPointerDown: handleThPointerDown,
     }),
   );
   const cls = computed(() => [

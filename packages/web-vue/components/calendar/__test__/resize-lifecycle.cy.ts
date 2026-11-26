@@ -25,12 +25,27 @@ describe('Calendar resize lifecycle', () => {
       const element = $resizer[0];
       const rect = element.getBoundingClientRect();
       const point = { target: element, clientX: rect.left + rect.width / 2, clientY: rect.top };
-      cy.wrap($resizer).trigger('touchstart', { force: true, touches: [point] });
-      cy.document().trigger('touchmove', { touches: [{ ...point, clientY: rect.top + 60 }] });
+      cy.wrap($resizer).trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+        force: true,
+        clientX: point.clientX,
+        clientY: point.clientY,
+        pointerType: 'touch',
+      });
+      cy.document().trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        clientX: point.clientX,
+        clientY: rect.top + 60,
+        pointerType: 'touch',
+      });
     });
     cy.wrap(approveResize).should('have.been.calledOnce');
     cy.get('.sd-calendar').should('have.class', 'sd-calendar--resizing-event');
-    cy.document().trigger('touchcancel');
+    cy.document().trigger('pointercancel', {
+      eventConstructor: 'PointerEvent',
+      pointerType: 'touch',
+    });
     cy.get('.sd-calendar').should('not.have.class', 'sd-calendar--resizing-event');
     cy.then(() => {
       resolveResize(true);
@@ -70,10 +85,12 @@ describe('Calendar resize lifecycle', () => {
         const rect = resizer.closest('.sd-calendar__cell')!.getBoundingClientRect();
         const clientX = rect.left + rect.width / 2;
         const clientY = rect.top + rect.height * 0.4;
-        resizer.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX, clientY }));
+        resizer.dispatchEvent(
+          new PointerEvent('pointerdown', { isPrimary: true, bubbles: true, clientX, clientY }),
+        );
         for (const offset of [rect.height * 0.2, rect.height * 0.4]) {
           resizer.ownerDocument.dispatchEvent(
-            new MouseEvent('mousemove', {
+            new PointerEvent('pointermove', {
               bubbles: true,
               cancelable: true,
               clientX,
@@ -127,10 +144,12 @@ describe('Calendar resize lifecycle', () => {
       const rect = resizer.getBoundingClientRect();
       const clientX = rect.left + rect.width / 2;
       const clientY = rect.top + rect.height / 2;
-      resizer.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX, clientY }));
+      resizer.dispatchEvent(
+        new PointerEvent('pointerdown', { isPrimary: true, bubbles: true, clientX, clientY }),
+      );
       const doc = resizer.ownerDocument;
       doc.dispatchEvent(
-        new MouseEvent('mousemove', {
+        new PointerEvent('pointermove', {
           bubbles: true,
           cancelable: true,
           clientX,
@@ -138,7 +157,7 @@ describe('Calendar resize lifecycle', () => {
         }),
       );
       doc.dispatchEvent(
-        new MouseEvent('mouseup', { bubbles: true, clientX, clientY: clientY + 90 }),
+        new PointerEvent('pointerup', { bubbles: true, clientX, clientY: clientY + 90 }),
       );
     });
     cy.wrap(approveResize).should('have.been.calledOnce');
@@ -175,10 +194,12 @@ describe('Calendar resize lifecycle', () => {
         const rect = resizer.getBoundingClientRect();
         const clientX = rect.left + rect.width / 2;
         const clientY = rect.top + rect.height / 2;
-        resizer.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX, clientY }));
+        resizer.dispatchEvent(
+          new PointerEvent('pointerdown', { isPrimary: true, bubbles: true, clientX, clientY }),
+        );
         const doc = resizer.ownerDocument;
         doc.dispatchEvent(
-          new MouseEvent('mousemove', {
+          new PointerEvent('pointermove', {
             bubbles: true,
             cancelable: true,
             clientX,
@@ -187,7 +208,7 @@ describe('Calendar resize lifecycle', () => {
         );
         if (callback === 'onEventResizeEnd') {
           doc.dispatchEvent(
-            new MouseEvent('mouseup', { bubbles: true, clientX, clientY: clientY + 60 }),
+            new PointerEvent('pointerup', { bubbles: true, clientX, clientY: clientY + 60 }),
           );
         }
       });
@@ -214,10 +235,15 @@ describe('Calendar resize lifecycle', () => {
       cy.spy(doc, 'addEventListener').as('addListener');
       cy.spy(doc, 'removeEventListener').as('removeListener');
     });
-    cy.get('.sd-calendar__event-resizer').trigger('mousedown', { clientY: 200, force: true });
+    cy.get('.sd-calendar__event-resizer').trigger('pointerdown', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+      clientY: 200,
+      force: true,
+    });
     cy.get('@vue').then(({ wrapper }) => wrapper.unmount());
     cy.get('@addListener').then((addListener: ReturnType<typeof cy.spy>) => {
-      for (const type of ['mousemove', 'mouseup']) {
+      for (const type of ['pointermove', 'pointerup']) {
         const registrations = addListener
           .getCalls()
           .filter(

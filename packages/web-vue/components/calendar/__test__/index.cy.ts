@@ -389,7 +389,7 @@ describe('Calendar', () => {
         },
         attrs: { style: 'height: 600px' },
       });
-      // Drag with real DOM events: mousedown on the cell, mousemove/mouseup on the document
+      // Drag with real DOM events: pointerdown on the cell, pointermove/pointerup on the document
       // (the cell listens on the cell, the drag lifecycle listens on document).
       cy.document().then((doc) => {
         const cell = doc.querySelector<HTMLElement>('.sd-calendar__cell--wed');
@@ -401,20 +401,26 @@ describe('Calendar', () => {
         const dayMinutes = (offsetPx: number) => Math.floor((offsetPx / rect.height) * (24 * 60));
         dragTimes.startMinutes = dayMinutes(20);
         dragTimes.endMinutes = dayMinutes(80);
-        const mouseEvent = (target: EventTarget, type: string, clientY: number) =>
+        const pointerEvent = (target: EventTarget, type: string, clientY: number) =>
           target.dispatchEvent(
-            new MouseEvent(type, { bubbles: true, cancelable: true, clientX: x, clientY }),
+            new PointerEvent(type, {
+              isPrimary: true,
+              bubbles: true,
+              cancelable: true,
+              clientX: x,
+              clientY,
+            }),
           );
-        mouseEvent(cell, 'mousedown', y0);
-        mouseEvent(doc, 'mousemove', y1);
+        pointerEvent(cell, 'pointerdown', y0);
+        pointerEvent(doc, 'pointermove', y1);
       });
-      // The placeholder renders while dragging (before mouseup).
+      // The placeholder renders while dragging (before pointerup).
       cy.get('.sd-calendar__event-placeholder').should('exist');
       cy.document().then((doc) => {
         const cell = doc.querySelector<HTMLElement>('.sd-calendar__cell--wed');
         const rect = cell.getBoundingClientRect();
         doc.dispatchEvent(
-          new MouseEvent('mouseup', {
+          new PointerEvent('pointerup', {
             bubbles: true,
             cancelable: true,
             clientX: rect.left + rect.width / 2,
@@ -595,7 +601,7 @@ describe('Calendar', () => {
         expect(body, 'calendar body exists').to.not.equal(null);
         const rect = body.getBoundingClientRect();
         body.dispatchEvent(
-          new MouseEvent('mousemove', {
+          new PointerEvent('pointermove', {
             bubbles: true,
             cancelable: true,
             clientX: rect.left + rect.width / 2,
@@ -610,8 +616,8 @@ describe('Calendar', () => {
       cy.document().then((doc) => {
         const body = doc.querySelector<HTMLElement>('.sd-calendar__body');
         expect(body, 'calendar body exists').to.not.equal(null);
-        // mouseleave is non-bubbling; the listener sits on the body element itself.
-        body.dispatchEvent(new MouseEvent('mouseleave'));
+        // pointerleave is non-bubbling; the listener sits on the body element itself.
+        body.dispatchEvent(new PointerEvent('pointerleave'));
       });
       cy.get('.sd-calendar__time-at-cursor').should('not.exist');
     });

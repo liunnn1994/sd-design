@@ -26,6 +26,7 @@ export function createCalendarCellInteraction(
   adapter: CalendarCellAdapter,
 ) {
   const { config, view, dnd, touch: globalTouchState, prefixCls, eventsManager } = host;
+  let pointerId: number | undefined;
   let clickTimeout: ReturnType<typeof setTimeout> | null = null;
   const getTimeAtCursor = (e: MouseEvent | TouchEvent) => {
     const isHzl = config.horizontal;
@@ -53,7 +54,12 @@ export function createCalendarCellInteraction(
     }
     view.updateViewDate(props.start);
   };
-  const onMousedown = (e: MouseEvent | TouchEvent) => {
+  const startDrag = (e: PointerEvent | TouchEvent) => {
+    if (!adapter.element || pointerId !== undefined || touch.holdTimer || touch.dragging) return;
+    if ('pointerId' in e) {
+      if (e.button !== 0 || e.isPrimary === false || e.pointerType === 'touch') return;
+      pointerId = e.pointerId;
+    }
     const isTouchEvent = e.type === 'touchstart';
 
     // On touch devices, wait for 500ms then trigger event creation.
@@ -76,7 +82,6 @@ export function createCalendarCellInteraction(
       const match = config.schedules.find((s) => String(s.id) === String(rawSchedule));
       touch.schedule = match ? match.id : rawSchedule;
     } else touch.schedule = null;
-    if (!adapter.element) return;
     const rect = adapter.element.getBoundingClientRect();
     touch.startX = ((e as TouchEvent).touches?.[0] || e).clientX - rect.left; // Handle click or touch event coords.
     touch.startY = ((e as TouchEvent).touches?.[0] || e).clientY - rect.top; // Handle click or touch event coords.
@@ -84,11 +89,11 @@ export function createCalendarCellInteraction(
     touch.startPercentageY = (touch.startY * 100) / rect.height;
     touch.thresholdPassed = false;
 
-    document.addEventListener(isTouchEvent ? 'touchmove' : 'mousemove', onDocMousemove, {
+    document.addEventListener(isTouchEvent ? 'touchmove' : 'pointermove', moveDrag, {
       passive: !isTouchEvent,
     });
-    document.addEventListener(isTouchEvent ? 'touchend' : 'mouseup', onDocMouseup, { once: true });
-    if (isTouchEvent) document.addEventListener('touchcancel', onDocMouseup, { once: true });
+    document.addEventListener(isTouchEvent ? 'touchend' : 'pointerup', endDrag);
+    document.addEventListener(isTouchEvent ? 'touchcancel' : 'pointercancel', endDrag);
 
     touch.holdTimer = setTimeout(() => {
       touch.holding = true;
@@ -96,7 +101,8 @@ export function createCalendarCellInteraction(
       adapter.listeners.hold?.({ e, cell: adapter.info, cursor: adapter.cursor, view });
     }, 1000);
   };
-  const onDocMousemove = (e: MouseEvent | TouchEvent) => {
+  const moveDrag = (e: PointerEvent | TouchEvent) => {
+    if ('pointerId' in e && e.pointerId !== pointerId) return;
     const isTouchEvent = e.type === 'touchmove';
     const isHzl = config.horizontal;
 
@@ -109,7 +115,7 @@ export function createCalendarCellInteraction(
       }
       // Don't prevent default - allow natural scrolling.
       // Clean up and exit early.
-      onDocMouseup(e);
+      void endDrag(e);
       return;
     }
 
@@ -155,14 +161,9 @@ export function createCalendarCellInteraction(
     // If there's a @cell-drag external listener, call it.
     adapter.listeners.drag?.({ e, cell: adapter.info, cursor: adapter.cursor, view });
   };
-  const onDocMouseup = async (e: MouseEvent | TouchEvent) => {
-    const isTouchEvent = e.type.startsWith('touch');
-    document.removeEventListener(
-      isTouchEvent ? 'touchmove' : 'mousemove',
-      onDocMousemove as EventListener,
-    );
-    document.removeEventListener(isTouchEvent ? 'touchend' : 'mouseup', onDocMouseup);
-    if (isTouchEvent) document.removeEventListener('touchcancel', onDocMouseup);
+  const endDrag = async (e: PointerEvent | TouchEvent) => {
+    if ('pointerId' in e && e.pointerId !== pointerId) return;
+    removeDragListeners();
 
     // Clean up touch and drag timer
     if (touch.touchAndDragTimer) {
@@ -180,7 +181,11 @@ export function createCalendarCellInteraction(
       });
       globalTouchState.isDraggingCell = false; // Add a CSS class on wrapper while dragging.
 
-      if (config.editableEvents.create && touch.canTouchAndDrag && e.type !== 'touchcancel') {
+      if (
+        config.editableEvents.create &&
+        touch.canTouchAndDrag &&
+        (e.type === 'pointerup' || e.type === 'touchend')
+      ) {
         adapter.awaitingEventCreation = true;
         await createEventIfAllowed(e);
         adapter.awaitingEventCreation = false;
@@ -256,7 +261,7 @@ export function createCalendarCellInteraction(
       listeners[eventListener] = (e: Event | { e: Event }) => {
         // When interacting with an event, skip calling the cell DOM event handler.
         // The DOM event bubbles up to the cell from the event but we don't stop it on purpose so
-        // we can receive the on mouseup from the document and stop event drag&drop.
+        // the document can receive the release and finish the gesture.
         if (
           (('e' in e ? e.e?.target : e.target) as Element | null)?.closest?.(`.${prefixCls}__event`)
         )
@@ -289,8 +294,9 @@ export function createCalendarCellInteraction(
     };
 
     if ((config.time && view.isDay) || view.isDays || view.isWeek) {
-      listeners.touchstart = (e: MouseEvent | TouchEvent) => {
-        onMousedown(e);
+      // Touch Events keep scrolling available until the long press is activated.
+      listeners.touchstart = (e: TouchEvent) => {
+        startDrag(e);
         externalHandlers.touchstart?.({
           e,
           cell: adapter.info,
@@ -298,10 +304,9 @@ export function createCalendarCellInteraction(
           view,
         });
       };
-      listeners.mousedown = (e: MouseEvent | TouchEvent) => {
-        onMousedown(e);
-
-        externalHandlers.mousedown?.({ e, cell: adapter.info, cursor: adapter.cursor, view });
+      listeners.pointerdown = (e: PointerEvent) => {
+        if (!(e.target as Element | null)?.closest?.(`.${prefixCls}__event`)) startDrag(e);
+        externalHandlers.pointerdown?.(e);
       };
     }
 
@@ -333,17 +338,23 @@ export function createCalendarCellInteraction(
 
     return listeners;
   };
+  function removeDragListeners() {
+    pointerId = undefined;
+    document.removeEventListener('pointermove', moveDrag);
+    document.removeEventListener('pointerup', endDrag);
+    document.removeEventListener('pointercancel', endDrag);
+    document.removeEventListener('touchmove', moveDrag);
+    document.removeEventListener('touchend', endDrag);
+    document.removeEventListener('touchcancel', endDrag);
+  }
+
   const dispose = () => {
     // Removing the calendar events will trigger a rerender of all the cells in the view because the array
     // of events is a reactive object. So only remove them from the source of truth when the cell is unmounted.
     for (const eventId of adapter.deletedIds) eventsManager.deleteEvent(eventId, 3);
 
     removeEventListeners(); // Prevent potential memory leaks.
-    document.removeEventListener('mousemove', onDocMousemove);
-    document.removeEventListener('touchmove', onDocMousemove);
-    document.removeEventListener('mouseup', onDocMouseup);
-    document.removeEventListener('touchend', onDocMouseup);
-    document.removeEventListener('touchcancel', onDocMouseup);
+    removeDragListeners();
     if (touch.holdTimer) clearTimeout(touch.holdTimer);
     if (touch.touchAndDragTimer) clearTimeout(touch.touchAndDragTimer);
     if (touch.dragging) globalTouchState.isDraggingCell = false;

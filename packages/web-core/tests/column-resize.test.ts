@@ -31,12 +31,14 @@ function fixture(t: TestContext) {
     events.push([name, field, width]);
   });
   const start = (field = 'name') => {
-    const event = new Event('mousedown', { cancelable: true });
-    controller.handleThMouseDown(field, event as MouseEvent);
-    assert.equal(event.defaultPrevented, true);
+    const event = Object.assign(new Event('pointerdown', { cancelable: true }), {
+      button: 0,
+      pointerId: 1,
+    });
+    controller.handleThPointerDown(field, event as PointerEvent, target as unknown as HTMLElement);
   };
   const move = (clientX: number) => {
-    const event = new Event('mousemove');
+    const event = Object.assign(new Event('pointermove'), { pointerId: 1 });
     Object.defineProperty(event, 'clientX', { value: clientX });
     target.dispatchEvent(event);
   };
@@ -55,13 +57,13 @@ test('native movement rounds upward, clamps 40px and publishes after committing 
   ]);
   controller.dispose();
 });
-test('mouseup and contextmenu both stop native movement and clear active field', (t) => {
+test('pointerup and contextmenu both stop native movement and clear active field', (t) => {
   const { state, target, controller, start, move, events } = fixture(t);
-  for (const end of ['mouseup', 'contextmenu']) {
+  for (const end of ['pointerup', 'contextmenu', 'pointercancel', 'lostpointercapture']) {
     events.length = 0;
     start();
     move(100);
-    target.dispatchEvent(new Event(end));
+    target.dispatchEvent(Object.assign(new Event(end), { pointerId: 1 }));
     assert.equal(state.resizingColumn, '');
     move(200);
     assert.equal(events.length, 1);
@@ -115,7 +117,7 @@ test('repeated drags keep one listener per event and retain previously assigned 
   start();
   move(100);
   assert.equal(events.length, 1);
-  controller.handleThMouseUp();
+  controller.stopResize();
   start();
   move(120);
   assert.equal(events.length, 2);

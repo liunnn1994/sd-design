@@ -177,16 +177,19 @@ describe('ColorPicker', () => {
     cy.mount(ColorPicker, { props: { hideTrigger: true, defaultValue: '#165DFF' } });
     cy.get('.sd-color-picker-palette').then(($palette) => {
       const rect = $palette[0].getBoundingClientRect();
-      cy.get('.sd-color-picker-palette').trigger('mousedown', 'left');
-      cy.window().then((win) => {
-        win.dispatchEvent(
-          new MouseEvent('mousemove', {
+      cy.get('.sd-color-picker-palette').trigger('pointerdown', 'left', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+      });
+      cy.get('.sd-color-picker-palette').then(([palette]) => {
+        palette.dispatchEvent(
+          new PointerEvent('pointermove', {
             clientX: rect.right,
             clientY: rect.bottom,
             buttons: 1,
           }),
         );
-        win.dispatchEvent(new MouseEvent('mouseup'));
+        palette.dispatchEvent(new PointerEvent('pointerup'));
       });
     });
     cy.get('@vue').should(({ wrapper }) => {
@@ -200,8 +203,13 @@ describe('ColorPicker', () => {
 
   it('emits palette-bar-change when the hue bar changes', () => {
     cy.mount(ColorPicker, { props: { hideTrigger: true, defaultValue: '#165DFF' } });
-    cy.get('.sd-color-picker-control-bar-hue').trigger('mousedown', 'right');
-    cy.window().then((win) => win.dispatchEvent(new MouseEvent('mouseup')));
+    cy.get('.sd-color-picker-control-bar-hue').trigger('pointerdown', 'right', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+    });
+    cy.get('.sd-color-picker-control-bar-hue').trigger('pointerup', {
+      eventConstructor: 'PointerEvent',
+    });
     cy.get('@vue').should(({ wrapper }) => {
       const change = wrapper.emitted('change') as Array<[string, { trigger: string }]> | undefined;
       expect(change?.at(-1)?.[1]?.trigger).to.equal('palette-hue-bar');
@@ -220,8 +228,13 @@ describe('ColorPicker', () => {
     cy.get('.sd-color-picker-control-bar-alpha').should('not.exist');
     cy.get('@vue').then(({ wrapper }) => cy.wrap(wrapper.setProps({ enableAlpha: true })));
     cy.get('.sd-color-picker-control-bar-alpha').should('exist');
-    cy.get('.sd-color-picker-control-bar-alpha').trigger('mousedown', 'left');
-    cy.window().then((win) => win.dispatchEvent(new MouseEvent('mouseup')));
+    cy.get('.sd-color-picker-control-bar-alpha').trigger('pointerdown', 'left', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+    });
+    cy.get('.sd-color-picker-control-bar-alpha').trigger('pointerup', {
+      eventConstructor: 'PointerEvent',
+    });
     cy.get('@vue').should(({ wrapper }) => {
       const change = wrapper.emitted('change') as Array<[string, { trigger: string }]> | undefined;
       expect(change?.at(-1)?.[0]).to.equal('rgba(22, 93, 255, 0)');
@@ -283,10 +296,16 @@ describe('ColorPicker', () => {
     cy.get('.sd-color-picker-palette')
       .then(($palette) => {
         const rect = $palette[0].getBoundingClientRect();
-        cy.wrap($palette).trigger('mousedown', rect.width, 0, { force: true });
+        cy.wrap($palette).trigger('pointerdown', rect.width, 0, {
+          isPrimary: true,
+          force: true,
+          eventConstructor: 'PointerEvent',
+        });
       })
       .then(() => {
-        cy.window().then((win) => win.dispatchEvent(new MouseEvent('mouseup')));
+        cy.get('.sd-color-picker-palette').trigger('pointerup', {
+          eventConstructor: 'PointerEvent',
+        });
       });
     cy.get('@onChange').should('have.been.calledOnce');
     cy.get('@onChange').should('have.been.calledWith', 1, 1);
@@ -407,8 +426,11 @@ describe('ColorPicker', () => {
   it('does not emit change from panel interaction when disabled', () => {
     cy.mount(ColorPicker, { props: { hideTrigger: true, disabled: true } });
     cy.get('.sd-color-picker-panel-disabled').should('exist');
-    cy.get('.sd-color-picker-palette').trigger('mousedown', 'left');
-    cy.window().then((win) => win.dispatchEvent(new MouseEvent('mouseup')));
+    cy.get('.sd-color-picker-palette').trigger('pointerdown', 'left', {
+      isPrimary: true,
+      eventConstructor: 'PointerEvent',
+    });
+    cy.get('.sd-color-picker-palette').trigger('pointerup', { eventConstructor: 'PointerEvent' });
     cy.get('@vue').should(({ wrapper }) => {
       expect(wrapper.emitted('change')).to.equal(undefined);
     });

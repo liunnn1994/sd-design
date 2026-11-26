@@ -9,12 +9,14 @@ describe('Calendar complete root approval lifecycle', () => {
         const win = element.ownerDocument.defaultView!;
         const clientX = rect.left + rect.width / 2,
           clientY = rect.top + 40;
-        element.dispatchEvent(new win.MouseEvent('mousedown', { bubbles: true, clientX, clientY }));
-        element.ownerDocument.dispatchEvent(
-          new win.MouseEvent('mousemove', { clientX, clientY: clientY + 80 }),
+        element.dispatchEvent(
+          new win.PointerEvent('pointerdown', { isPrimary: true, bubbles: true, clientX, clientY }),
         );
         element.ownerDocument.dispatchEvent(
-          new win.MouseEvent('mouseup', { clientX, clientY: clientY + 80 }),
+          new win.PointerEvent('pointermove', { clientX, clientY: clientY + 80 }),
+        );
+        element.ownerDocument.dispatchEvent(
+          new win.PointerEvent('pointerup', { clientX, clientY: clientY + 80 }),
         );
       });
     cy.get('[data-testid="pending"]').should('have.text', 'pending');
@@ -135,7 +137,8 @@ describe('Calendar complete root resize lifecycle', () => {
         win = element.ownerDocument.defaultView!;
       const clientX = rect.left + rect.width / 2;
       element.dispatchEvent(
-        new win.MouseEvent('mousedown', {
+        new win.PointerEvent('pointerdown', {
+          isPrimary: true,
           bubbles: true,
           clientX,
           clientY: rect.top + rect.height * 0.4,
@@ -143,7 +146,7 @@ describe('Calendar complete root resize lifecycle', () => {
       );
       for (const fraction of fractions)
         element.ownerDocument.dispatchEvent(
-          new win.MouseEvent('mousemove', {
+          new win.PointerEvent('pointermove', {
             bubbles: true,
             cancelable: true,
             clientX,
@@ -152,7 +155,7 @@ describe('Calendar complete root resize lifecycle', () => {
         );
       if (release)
         element.ownerDocument.dispatchEvent(
-          new win.MouseEvent('mouseup', {
+          new win.PointerEvent('pointerup', {
             bubbles: true,
             clientX,
             clientY: rect.top + rect.height * release,
@@ -168,7 +171,7 @@ describe('Calendar complete root resize lifecycle', () => {
     cy.contains('button', 'Read event').then(($button) => $button[0].click());
     cy.get('[data-testid="snapshot"]').should('have.text', '13:0:13:00');
   });
-  it('ignores pending move approval after mouseup finalizes another position', () => {
+  it('ignores pending move approval after pointerup finalizes another position', () => {
     move([0.6], 0.8);
     cy.get('[data-testid="requests"]').should('have.text', '1');
     cy.get('.sd-calendar').should('not.have.class', 'sd-calendar--resizing-event');
@@ -186,11 +189,26 @@ describe('Calendar complete root resize lifecycle', () => {
       const element = $resizer[0],
         rect = element.getBoundingClientRect();
       const point = { target: element, clientX: rect.left + rect.width / 2, clientY: rect.top };
-      cy.wrap($resizer).trigger('touchstart', { force: true, touches: [point] });
-      cy.document().trigger('touchmove', { touches: [{ ...point, clientY: rect.top + 60 }] });
+      cy.wrap($resizer).trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+        force: true,
+        clientX: point.clientX,
+        clientY: point.clientY,
+        pointerType: 'touch',
+      });
+      cy.document().trigger('pointermove', {
+        eventConstructor: 'PointerEvent',
+        clientX: point.clientX,
+        clientY: rect.top + 60,
+        pointerType: 'touch',
+      });
     });
     cy.get('[data-testid="requests"]').should('have.text', '1');
-    cy.document().trigger('touchcancel');
+    cy.document().trigger('pointercancel', {
+      eventConstructor: 'PointerEvent',
+      pointerType: 'touch',
+    });
     cy.get('.sd-calendar').should('not.have.class', 'sd-calendar--resizing-event');
     cy.contains('button', 'Approve first').then(($button) => $button[0].click());
     cy.contains('button', 'Read event').then(($button) => $button[0].click());
@@ -237,13 +255,16 @@ describe('Calendar root special-hours boundaries', () => {
             const win = cell.ownerDocument.defaultView!;
             expect(horizontal ? rect.width : rect.height).to.be.greaterThan(100);
             cell.dispatchEvent(
-              new win.MouseEvent('mousedown', point(rect, horizontal, backwards ? 14 : 10)),
+              new win.PointerEvent('pointerdown', {
+                ...point(rect, horizontal, backwards ? 14 : 10),
+                isPrimary: true,
+              }),
             );
             cell.ownerDocument.dispatchEvent(
-              new win.MouseEvent('mousemove', point(rect, horizontal, backwards ? 10 : 14)),
+              new win.PointerEvent('pointermove', point(rect, horizontal, backwards ? 10 : 14)),
             );
             cell.ownerDocument.dispatchEvent(
-              new win.MouseEvent('mouseup', point(rect, horizontal, backwards ? 10 : 14)),
+              new win.PointerEvent('pointerup', point(rect, horizontal, backwards ? 10 : 14)),
             );
           });
         cy.get('.sd-calendar__event').should('have.length', 1);
@@ -286,12 +307,17 @@ describe('Calendar root special-hours boundaries', () => {
           const rect = resizer.closest('.sd-calendar__cell')!.getBoundingClientRect();
           const win = resizer.ownerDocument.defaultView!;
           expect(horizontal ? rect.width : rect.height).to.be.greaterThan(100);
-          resizer.dispatchEvent(new win.MouseEvent('mousedown', point(rect, horizontal, 11)));
-          resizer.ownerDocument.dispatchEvent(
-            new win.MouseEvent('mousemove', point(rect, horizontal, 13.5)),
+          resizer.dispatchEvent(
+            new win.PointerEvent('pointerdown', {
+              ...point(rect, horizontal, 11),
+              isPrimary: true,
+            }),
           );
           resizer.ownerDocument.dispatchEvent(
-            new win.MouseEvent('mouseup', point(rect, horizontal, 13.5)),
+            new win.PointerEvent('pointermove', point(rect, horizontal, 13.5)),
+          );
+          resizer.ownerDocument.dispatchEvent(
+            new win.PointerEvent('pointerup', point(rect, horizontal, 13.5)),
           );
         });
       cy.get('.sd-calendar__event-start').should('have.text', '10:00');

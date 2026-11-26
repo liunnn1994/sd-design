@@ -31,18 +31,20 @@ describe('Slider', () => {
   it('removes active drag listeners when unmounted', () => {
     cy.mount(Slider);
     cy.get('@vue').then(({ wrapper }) => {
-      const win = wrapper.element.ownerDocument.defaultView!;
-      const add = cy.spy(win, 'addEventListener');
-      const remove = cy.spy(win, 'removeEventListener');
-
-      wrapper
-        .find('.sd-slider-btn')
-        .element.dispatchEvent(
-          new MouseEvent('mousedown', { bubbles: true, clientX: 20, clientY: 0 }),
-        );
+      const handle = wrapper.find('.sd-slider-btn').element;
+      const add = cy.spy(handle, 'addEventListener');
+      const remove = cy.spy(handle, 'removeEventListener');
+      handle.dispatchEvent(
+        new PointerEvent('pointerdown', {
+          isPrimary: true,
+          bubbles: true,
+          clientX: 20,
+          clientY: 0,
+        }),
+      );
       wrapper.unmount();
 
-      for (const type of ['mousemove', 'touchmove', 'mouseup', 'contextmenu', 'touchend']) {
+      for (const type of ['pointermove', 'pointerup', 'pointercancel', 'lostpointercapture']) {
         const registration = add.getCalls().find((call) => call.args[0] === type);
         expect(registration, `${type} registered`).not.to.equal(undefined);
         expect(remove.calledWith(type, registration!.args[1]), `${type} removed`).to.equal(true);
@@ -58,11 +60,14 @@ describe('Slider', () => {
 
     cy.get('.sd-slider-track').then(($track) => {
       const trackRect = $track[0].getBoundingClientRect();
-      cy.get('.sd-slider-btn').trigger('mousedown');
+      cy.get('.sd-slider-btn').trigger('pointerdown', {
+        isPrimary: true,
+        eventConstructor: 'PointerEvent',
+      });
       cy.get('.sd-slider-btn').should('have.attr', 'aria-describedby');
-      cy.window().then((win) => {
-        win.dispatchEvent(
-          new MouseEvent('mousemove', {
+      cy.get('.sd-slider-btn').then(([handle]) => {
+        handle.dispatchEvent(
+          new PointerEvent('pointermove', {
             clientX: trackRect.left + trackRect.width * 0.8,
             clientY: trackRect.top + trackRect.height / 2,
           }),
